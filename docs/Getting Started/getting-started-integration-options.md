@@ -28,33 +28,39 @@ Essa modularidade permite que cada empresa escolha o modelo que melhor se adapta
 
 ### Modelos de integração disponíveis
 
-[block:parameters]
-{
-  "data": {
-    "h-0": "Modelo",
-    "h-1": "Como funciona",
-    "h-2": "Recomendado para...",
-    "h-3": "Principais benefícios",
-    "0-0": "**Portal do vendedor (No-code)**",
-    "0-1": "Operação 100% via painel web — sem necessidade de desenvolvimento.",
-    "0-2": "Times que querem começar rapidamente ou não têm estrutura técnica dedicada.",
-    "0-3": "- Go-live imediato <br> - Sem esforço técnico",
-    "1-0": "**Integração completa**",
-    "1-1": "Toda a jornada — da criação do pedido à conciliação — integrada ao sistema da empresa.",
-    "1-2": "Empresas com maior maturidade técnica e volume de vendas relevante.",
-    "1-3": "- Jornada fluida e embutida <br> - Escalabilidade <br> - Redução de atividades manuais",
-    "2-0": "**Integração parcial**",
-    "2-1": "Uso de alguns módulos da API (ex: criação de pedido e envio de NF) combinados com o painel.",
-    "2-2": "Empresas que querem acelerar o go-live e evoluir a integração ao longo do tempo.",
-    "2-3": "- Integração rápida e incremental <br> - Maior controle <br> - Flexibilidade de evolução"
-  },
-  "cols": 4,
-  "rows": 3,
-  "align": [
-    null,
-    null,
-    null,
-    null
-  ]
-}
-[/block]
+<Table>
+  <thead>
+    <tr>
+      <th>Modelo</th>
+      <th>Como funciona</th>
+      <th>Recomendado para...</th>
+      <th>Principais benefícios</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Portal do vendedor (No-code)**</td>
+      <td>Operação 100% via painel web — sem necessidade de desenvolvimento.</td>
+      <td>Times que querem começar rapidamente ou não têm estrutura técnica dedicada.</td>
+      <td>
+        * Go-live imediato <br /> - Sem esforço técnico
+      </td>
+    </tr>
+    <tr>
+      <td>**Integração completa**</td>
+      <td>Toda a jornada — da criação do pedido à conciliação — integrada ao sistema da empresa.</td>
+      <td>Empresas com maior maturidade técnica e volume de vendas relevante.</td>
+      <td>
+        * Jornada fluida e embutida <br /> - Escalabilidade <br /> - Redução de atividades manuais
+      </td>
+    </tr>
+    <tr>
+      <td>**Integração parcial**</td>
+      <td>Uso de alguns módulos da API (ex: criação de pedido e envio de NF) combinados com o painel.</td>
+      <td>Empresas que querem acelerar o go-live e evoluir a integração ao longo do tempo.</td>
+      <td>
+        * Integração rápida e incremental <br /> - Maior controle <br /> - Flexibilidade de evolução
+      </td>
+    </tr>
+  </tbody>
+</Table>
