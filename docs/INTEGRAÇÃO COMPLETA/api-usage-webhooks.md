@@ -16,10 +16,10 @@ Os webhooks permitem que sua aplicação receba notificações em tempo real sob
 
 ## Como funcionam?
 
-- **Formato**: Cada webhook é uma requisição `POST` enviada para o seu endpoint configurado.
-- **Resposta esperada**: Responda com um código HTTP `2xx` em até 15 segundos para confirmar o recebimento.
-- **Segurança**: Verifique a assinatura (signature) e o timestamp do payload para garantir a autenticidade.
-- **CSRF**: Desative a proteção CSRF para esse endpoint, se estiver habilitada no seu framework.
+* **Formato**: Cada webhook é uma requisição `POST` enviada para o seu endpoint configurado.
+* **Resposta esperada**: Responda com um código HTTP `2xx` em até 15 segundos para confirmar o recebimento.
+* **Segurança**: Verifique a assinatura (signature) e o timestamp do payload para garantir a autenticidade.
+* **CSRF**: Desative a proteção CSRF para esse endpoint, se estiver habilitada no seu framework.
 
 ***
 
