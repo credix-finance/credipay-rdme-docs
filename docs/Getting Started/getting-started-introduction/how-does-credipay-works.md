@@ -22,22 +22,7 @@ next:
 
 Antes de integrar, é importante entender a jornada completa de uma transação na CrediPay — da avaliação de crédito até a conciliação dos repasses. Esse fluxo serve como referência para todos os modelos de integração, e ajuda seu time técnico a identificar onde e como a solução se conecta com seus sistemas.
 
-[block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/4e14b618110bc6d49c13391c3e9187a5b72d19ed3ae16c805cd176ab5d87bed0-Order_life_cycle.svg",
-        "",
-        ""
-      ],
-      "align": "center",
-      "sizing": "500px"
-    }
-  ]
-}
-[/block]
-
+<Image align="center" width="500px" src="https://files.readme.io/4e14b618110bc6d49c13391c3e9187a5b72d19ed3ae16c805cd176ab5d87bed0-Order_life_cycle.svg" />
 
 ### Etapas do ciclo de vida de um pedido
 
