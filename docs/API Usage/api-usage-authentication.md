@@ -13,7 +13,7 @@ next:
 CrediPay's API uses API keys to authenticate requests. You can request an API key by contacting us at [suporte-credipay@credix.finance](suporte-credipay@credix.finance)
 
 > 🚧 Don't share your API key in publicly accessible areas
-> 
+>
 > API keys carry many privileges, so be sure to keep them secure!
 
 ## Authenticating an API request
