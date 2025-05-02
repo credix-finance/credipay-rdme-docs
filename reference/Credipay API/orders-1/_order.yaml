@@ -2,3 +2,4 @@
 - list-orders
 - post-handle-order-notification
 - get-order
+- post-cancel-order
