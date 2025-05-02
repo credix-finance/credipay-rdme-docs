@@ -25,8 +25,8 @@ Use this endpoint after a customer places an order on your website so that Credi
 
 For an order to be successfully created, two conditions need to be met:
 
-- The order's payment terms cannot exceed CrediPay's approved payment terms for this customer.  
-- The order's total (subtotalAmountCents + taxAmountCents + shippingCostCents) amount cannot exceed CrediPay's approved credit limit for this customer.
+* The order's payment terms cannot exceed CrediPay's approved payment terms for this customer.  
+* The order's total (subtotalAmountCents + taxAmountCents + shippingCostCents) amount cannot exceed CrediPay's approved credit limit for this customer.
 
 The values for the above conditions can be fetched from`/buyers/{buyer_CNPJ}?sellerTaxId={seller_CNPJ}`
 
