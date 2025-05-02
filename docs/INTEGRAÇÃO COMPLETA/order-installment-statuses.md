@@ -12,8 +12,8 @@ next:
 ---
 O funcionamento do CrediPay é baseado em dois conceitos principais: **Pedidos (Orders)** e **Parcelas (Repayments)**.
 
-- **Orders** representam a reserva de uma parte do limite de crédito do comprador, que posteriormente é formalizada quando há o aceite do comprador e o envio da Nota Fiscal (NF).
-- **Repayments** são geradas automaticamente após o envio da NF. Cada parcela corresponde a um valor com uma data de vencimento definida.
+* **Orders** representam a reserva de uma parte do limite de crédito do comprador, que posteriormente é formalizada quando há o aceite do comprador e o envio da Nota Fiscal (NF).
+* **Repayments** são geradas automaticamente após o envio da NF. Cada parcela corresponde a um valor com uma data de vencimento definida.
 
 ***
 
