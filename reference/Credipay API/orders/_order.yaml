@@ -3,3 +3,4 @@
 - post-handle-order-notification
 - get-order
 - post-cancel-order
+- get-order-documents
