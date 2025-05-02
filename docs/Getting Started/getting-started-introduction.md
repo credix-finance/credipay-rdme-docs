@@ -18,7 +18,7 @@ next:
 ---
 ## What is CrediPay?
 
-CrediPay introduces a Buy Now, Pay Later (BNPL) solution tailored for the B2B market. It solves the challenges of traditional B2B transactions—cash flow optimization for buyers and sellers and the platform's need for an embedded financial solution to offer net payment terms without impacting its core operations.
+CrediPay introduces a Buy Now, Pay Later (BNPL) solution tailored for the B2B market. It solves the challenges of traditional B2B transactions—cash flow optimization for buyers and sellers and the platform's need for an embedded financial solution to offer net payment terms without impacting its core operations.\
 CrediPay allows platforms to offer their buyers flexible payment options while enhancing working capital by advancing their receivables
 
 ## Who is CrediPay for?
