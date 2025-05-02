@@ -6,3 +6,4 @@
 - get-order-documents
 - post-order-simulation
 - post-order-refund
+- post-order-extend-payment-terms
