@@ -39,8 +39,8 @@ Somente para vendedores que trabalham com televendas, temos uma etapa anterior a
 
 ## Envio da NF
 
-A formalização de um pedido se dá quando um XML de Nota Fiscal é enviado para nós através do endpoint **POST v2/order/{orderId}/capture**, que funciona de forma assíncrona. Desta forma, o webhook **order.captured** será enviado em seguida, assim como os webhooks **repayment.created**, que trarão os dados dos boletos. Quando isso acontece, significa que nós validamos a Nota Fiscal, e já estamos realizando todos os processos para operacionalizar o crédito.  
-_\*vendedores que trabalham via e-commerce podem ir direto para esta etapa_
+A formalização de um pedido se dá quando um XML de Nota Fiscal é enviado para nós através do endpoint **POST v2/order/\{orderId}/capture**, que funciona de forma assíncrona. Desta forma, o webhook **order.captured** será enviado em seguida, assim como os webhooks **repayment.created**, que trarão os dados dos boletos. Quando isso acontece, significa que nós validamos a Nota Fiscal, e já estamos realizando todos os processos para operacionalizar o crédito.\
+*\*vendedores que trabalham via e-commerce podem ir direto para esta etapa*
 
 # 3. Pagamento de pedido
 
@@ -50,8 +50,8 @@ Assim que o boleto for pago pelo comprador, enviaremos um webhook **repayment.pr
 
 ## Antes do envio da NF
 
-Caso um pedido seja cancelado antes do envio da NF, o vendedor deverá chamar o endpoint **POST v2/order/{orderId}/cancel**, que de forma síncrona irá cancelar o pedido e liberar o limite de crédito do cliente.
+Caso um pedido seja cancelado antes do envio da NF, o vendedor deverá chamar o endpoint **POST v2/order/\{orderId}/cancel**, que de forma síncrona irá cancelar o pedido e liberar o limite de crédito do cliente.
 
 ## Após o envio da NF
 
-Caso um pedido seja cancelado (total ou parcialmente) após o envio da NF, este evento deverá ser tratado como um reembolso, dado que os valores já terão sido pagos ao vendedor. Sendo assim, o endpoint **POST v2/order/{orderId}/refund** deve ser chamado. O mesmo funciona de forma assíncrona, portanto quando o processo de reembolso for concluído, serão enviados os webhooks **repayment.cancelled** e, caso ainda haja algo a ser cobrado, também **repayment.cancelled** com os dados dos novos boletos
+Caso um pedido seja cancelado (total ou parcialmente) após o envio da NF, este evento deverá ser tratado como um reembolso, dado que os valores já terão sido pagos ao vendedor. Sendo assim, o endpoint **POST v2/order/\{orderId}/refund** deve ser chamado. O mesmo funciona de forma assíncrona, portanto quando o processo de reembolso for concluído, serão enviados os webhooks **repayment.cancelled** e, caso ainda haja algo a ser cobrado, também **repayment.cancelled** com os dados dos novos boletos
