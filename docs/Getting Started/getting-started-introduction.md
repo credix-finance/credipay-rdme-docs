@@ -42,5 +42,5 @@ Se sua empresa busca uma forma simples e segura de oferecer crédito B2B aos seu
 
 Entre em contato com nosso time para entender como integrar o CrediPay ao seu processo de vendas ou testar o fluxo direto pela nossa plataforma:
 
-📩 [suporte-credipay@credix.finance](mailto:suporte-credipay@credix.finance)  
+📩 [suporte-credipay@credix.finance](mailto:suporte-credipay@credix.finance)\
 🌐 credipay.credix.finance
