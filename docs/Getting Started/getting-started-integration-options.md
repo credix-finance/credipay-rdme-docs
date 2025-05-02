@@ -24,8 +24,8 @@ CrediPay's API integration solution enables platforms to integrate with the Cred
 
 ### Where to start?
 
-- Read the [Authentication](doc:api-usage-authentication) page to understand how you can get access to CrediPay
+* Read the [Authentication](doc:api-usage-authentication) page to understand how you can get access to CrediPay
 
-- Read the [Quickstart guide](doc:getting-started-end-to-end-api-flow) for a quick guide on how to integrate CrediPay's API into your platform.
+* Read the [Quickstart guide](doc:getting-started-end-to-end-api-flow) for a quick guide on how to integrate CrediPay's API into your platform.
 
-- Read the [API Reference](ref:post-create-order) to learn the different endpoints and methods available.
+* Read the [API Reference](ref:post-create-order) to learn the different endpoints and methods available.
