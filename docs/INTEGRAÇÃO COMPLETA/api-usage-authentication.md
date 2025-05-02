@@ -15,14 +15,14 @@ next:
 A API da CrediPay utiliza **chaves de API** para autenticar as requisições. Você pode solicitar sua chave de staging entrando em contato com nosso time pelo e-mail: [suporte-credipay@credix.finance](mailto:suporte-credipay@credix.finance) ou diretamente com o seu **gerente de contas**
 
 > 💡 **Importante**
-> 
+>
 > Nunca compartilhe sua chave de API em locais públicos ou acessíveis por terceiros.
 
 ## Como autenticar uma requisição à API
 
 Para autenticar uma requisição, inclua sua chave de API no cabeçalho `X-CREDIPAY-API-KEY`.
 
-A sua chave de API staging funcionará **somente** para chamadas com o URL <https://api.pre.credix.finance> (feito para testes). Este ambiente não gera nenhum tipo de impacto financeiro.
+A sua chave de API staging funcionará **somente** para chamadas com o URL [https://api.pre.credix.finance](https://api.pre.credix.finance) (feito para testes). Este ambiente não gera nenhum tipo de impacto financeiro.
 
 ### Exemplo de requisição
 
@@ -62,4 +62,4 @@ curl --request GET \
 
 Antes de criar sua chave de API de produção, a equipe da CrediPay irá realizar alguns testes de integração para validar se está funcionalmente correta. Estes testes são customizados para cada integrador, e serão compartilhados ao longo do processo de desenvolvimento. 
 
-Com a chave de API de produção, você poderá realizar chamadas para a URL <https://api.credix.finance>. Neste ambiente, os dados transacionados terão impacto financeiro
+Com a chave de API de produção, você poderá realizar chamadas para a URL [https://api.credix.finance](https://api.credix.finance). Neste ambiente, os dados transacionados terão impacto financeiro
