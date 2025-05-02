@@ -18,25 +18,10 @@ next:
 
 Para começar a usar a CrediPay, siga os passos abaixo:
 
-1. Acesse o link: <https://app.credipay.credix.finance/>
+1. Acesse o link: [https://app.credipay.credix.finance/](https://app.credipay.credix.finance/)
 2. Clique em **"Sign up"** no canto inferior da tela de login (veja a imagem abaixo).
 
-[block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/15226587f743c0d071f9410ebfb0ae3ef67dff4bc4266a5e68efb213a40ad0ac-image.png",
-        null,
-        ""
-      ],
-      "align": "center",
-      "sizing": "300px"
-    }
-  ]
-}
-[/block]
-
+<Image align="center" width="300px" src="https://files.readme.io/15226587f743c0d071f9410ebfb0ae3ef67dff4bc4266a5e68efb213a40ad0ac-image.png" />
 
 <br />
 
