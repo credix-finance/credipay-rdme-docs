@@ -14,8 +14,8 @@ next:
 
 The following are the possible statuses for an order:
 
-| Status | Description |
-|:-------|:------------|
-| `created` | The order was created by the seller |
-| `captured` | The seller has uploaded the NFe |
+| Status      | Description                           |
+| :---------- | :------------------------------------ |
+| `created`   | The order was created by the seller   |
+| `captured`  | The seller has uploaded the NFe       |
 | `cancelled` | The order was cancelled by the seller |
