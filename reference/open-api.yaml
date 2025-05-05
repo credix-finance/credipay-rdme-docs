@@ -1,0 +1,682 @@
+openapi: 3.0.0
+paths:
+  /v2/buyers:
+    get:
+      description: Gets all associated with a seller.
+      operationId: api-v2-get-buyers
+      parameters:
+        - name: taxId
+          required: false
+          in: query
+          description: Buyer's tax ID (CNPJ).
+          schema:
+            example: '56596567000127'
+            type: string
+        - name: page
+          required: false
+          in: query
+          description: Which page to return from the list of buyers. Starts at 1.
+          schema:
+            minimum: 1
+            default: 1
+            type: number
+        - name: take
+          required: false
+          in: query
+          description: Limit of buyers to return.
+          schema:
+            minimum: 1
+            maximum: 100
+            default: 20
+            type: number
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBuyersResponseDto'
+      summary: Get buyers
+      tags:
+        - Buyers
+  /v2/orders/{id}:
+    get:
+      description: Gets an order by CrediPay's internal order ID.
+      operationId: api-v2-get-order-by-id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: CrediPay's internal order ID. UUID v4 format.
+          schema:
+            format: uuid
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrderResponseDto'
+        '404':
+          description: Order was not found.
+      summary: Get an order
+      tags:
+        - Orders
+  /v2/orders:
+    post:
+      description: Create an order by submitting a json payload.
+      operationId: api-v2-post-order
+      parameters: []
+      requestBody:
+        required: true
+        description: Order data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderDto'
+      responses:
+        '201':
+          description: Successful operation, order created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrderResponseDto'
+      summary: Create an order
+      tags:
+        - Orders
+  /v2/orders/invoices:
+    post:
+      description: >-
+        Allows you to submit a Nota Fiscal XML file. If orderId is not provided,
+        a new order is created. If orderId is provided, the invoice is linked to
+        the specified order. For an invoice to be accepted, it needs to be
+        within the buyer's available credit limit and maximum payment terms.
+      operationId: api-v2-post-order-invoice-xml
+      parameters: []
+      requestBody:
+        required: true
+        description: >-
+          Nota Fiscal XML file. Needs to have been processed and approved by
+          SEFAZ (draft XMLs are not allowed).
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                invoice:
+                  type: string
+                  format: binary
+              required:
+                - invoice
+      responses:
+        '400':
+          description: Could not process the invoice XML due to a format error.
+      summary: Submit Invoice XML
+      tags:
+        - Orders
+        - Invoices
+  /v2/orders/{id}/capture:
+    post:
+      description: >-
+        This is an async endpoint that allows you to submit a Nota Fiscal XML
+        file for an order. Once the xml file is submitted, a job will be
+        triggered to perform validations and capture the order.
+      operationId: api-v2-post-capture-order
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: CrediPay's internal order ID. UUID v4 format.
+          schema:
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+            type: string
+      requestBody:
+        required: true
+        description: >-
+          Nota Fiscal XML file. Needs to have been processed and approved by
+          SEFAZ (draft XMLs are not allowed).
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                invoice:
+                  type: string
+                  format: binary
+              required:
+                - invoice
+      responses:
+        '400':
+          description: >-
+            Could not transition the order to the validating state due to an
+            error.
+      summary: Capture Order
+      tags:
+        - Orders
+  /v2/orders/{id}/refund:
+    post:
+      description: >-
+        This is an async endpoint that allows you to request a refund on an
+        existing order.
+      operationId: api-v2-post-refund-order
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: CrediPay's internal order ID. UUID v4 format.
+          schema:
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+            type: string
+      requestBody:
+        required: true
+        description: Refund request data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundOrderDto'
+      responses:
+        '400':
+          description: >-
+            Could not transition the order to the validating state due to an
+            error.
+      summary: Refund Order
+      tags:
+        - Orders
+  /v2/orders/{id}/cancel:
+    post:
+      description: >-
+        Moves an order to cancelled state and increases the buyer's available
+        credit limit by that order's total amount. If the order already has an
+        invoice linked to it, it will be fully refunded.
+      operationId: api-v2-post-cancel-order
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: CrediPay's internal order ID. UUID v4 format.
+          schema:
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+            type: string
+      responses:
+        '204':
+          description: Successful operation, order cancelled.
+        '404':
+          description: Order was not found.
+        '409':
+          description: >-
+            Could not cancel order. Order could be already cancelled OR is not
+            in any of the following states [created, accepted, finalized,
+            rejected].
+      summary: Cancel Order
+      tags:
+        - Orders
+info:
+  title: Credipay API
+  description: ''
+  version: '2.0'
+  contact: {}
+tags: []
+servers:
+  - url: https://api.credix.finance
+    description: Production
+  - url: https://api.pre.credix.finance
+    description: Sandbox
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-CREDIPAY-API-KEY
+  schemas:
+    BuyerResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Buyers's ID. (UUID)
+          example: a0eebc4b-1f3d-4b2a-8c5f-7e6d5f8e9b2f
+        taxId:
+          type: string
+          description: Buyers's tax ID (CNPJ).
+          example: '56596567000127'
+        availableCreditLimitAmountCents:
+          type: number
+          description: Buyers's available credit limit in cents.
+          example: 100000
+        creditLimitAmountCents:
+          type: number
+          description: Buyers's credit limit in cents.
+          example: 100000
+        eligible:
+          type: boolean
+          description: Whether or not the buyer is eligible for credit.
+          example: true
+        maxPaymentTermDays:
+          type: number
+          description: The maximum payment term days.
+        name:
+          type: string
+          description: Buyer's company name.
+          example: Comprador Inexistente LTDA
+        onboarded:
+          type: boolean
+          description: Whether or not the buyer has completed the onboarding process.
+          example: true
+      required:
+        - id
+        - taxId
+        - availableCreditLimitAmountCents
+        - creditLimitAmountCents
+        - eligible
+        - maxPaymentTermDays
+        - name
+        - onboarded
+    GetBuyersResponseDto:
+      type: object
+      properties:
+        data:
+          description: Buyers list.
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerResponseDto'
+        page:
+          type: number
+          description: Page number.
+          example: 1
+        items:
+          type: number
+          description: Number of items on current page.
+          example: 20
+        total:
+          type: number
+          description: Total number of items across all pages.
+          example: 100
+      required:
+        - data
+        - page
+        - items
+        - total
+    InvoiceResponseDto:
+      type: object
+      properties:
+        id:
+          type: object
+          description: Invoice unique ID in CrediPay's system.
+          example: abc123-invoice
+        invoiceNumber:
+          type: object
+          description: Invoice number string.
+          example: FAT-1234
+        issuanceDate:
+          type: object
+          description: Date & time invoice was issued (ISO).
+          example: '2023-10-02T15:30:00Z'
+        totalAmountCents:
+          type: object
+          description: Total amount of the invoice in cents.
+          example: 150000
+      required:
+        - id
+        - invoiceNumber
+        - issuanceDate
+        - totalAmountCents
+    OrderBuyerDto:
+      type: object
+      properties:
+        id:
+          type: object
+          description: Buyer's ID.
+          example: a0eebc4b-1f3d-4b2a-8c5f-7e6d5f8e9b2f
+        taxId:
+          type: object
+          description: Buyer's tax ID (CNPJ).
+          example: '56596567000127'
+        name:
+          type: object
+          description: Buyer's name.
+          example: Comprador Inexistente LTDA
+      required:
+        - id
+        - taxId
+        - name
+    OrderSellerDto:
+      type: object
+      properties:
+        id:
+          type: object
+          description: Seller's ID.
+          example: a0eebc4b-1f3d-4b2a-8c5f-7e6d5f8e9b2f
+        taxId:
+          type: object
+          description: Seller's tax ID (CNPJ).
+          example: '56596567000127'
+        name:
+          type: object
+          description: Seller's name.
+          example: Nome Fictício Distribuidora LTDA
+      required:
+        - id
+        - taxId
+        - name
+    RepaymentResponseDto:
+      type: object
+      properties:
+        id:
+          type: object
+          description: Repayment unique ID.
+          example: e912ba21-d530-4982-aa92-a06d7518afa0
+        pdfUrl:
+          type: object
+          description: URL to the PDF file of the repayment (boleto).
+          example: >-
+            https://api.starkbank.com/v2/invoice/fb1553149ff34c8db238f36dc64a8232.pdf
+        status:
+          type: string
+          description: Repayment status.
+          example: Open
+          enum:
+            - Open
+            - ProcessingPayment
+            - Paid
+            - Canceled
+            - Expired
+            - Unknown
+            - Failed
+        totalAmountCents:
+          type: object
+          description: Total amount to be paid in cents.
+          example: 100000
+        createdAt:
+          type: object
+          description: Timestamp when the repayment was created.
+          example: '2023-10-01T12:00:00Z'
+        dueDate:
+          type: object
+          description: Due date for the repayment.
+          example: '2023-10-15T12:00:00Z'
+        paymentDate:
+          type: object
+          description: Actual date when the repayment was made.
+          example: '2023-10-10T12:00:00Z'
+          nullable: true
+        paidAmountCents:
+          type: object
+          description: Amount actually paid in cents.
+          example: 50000
+        parentId:
+          type: object
+          description: "Parent repayment ID if applicable (e.g., linked to another repayment). \t\t\tWhen an order is refunded, or a repayment is renegotiated/extended the parent repayment \t\t\twill be canceled and a new one will be created."
+          example: 3b27b131-7ab7-4a67-b88e-424c1d30b247
+          nullable: true
+      required:
+        - id
+        - pdfUrl
+        - status
+        - totalAmountCents
+        - createdAt
+        - dueDate
+        - paymentDate
+        - paidAmountCents
+        - parentId
+    OrderErrorDto:
+      type: object
+      properties:
+        code:
+          type: object
+          description: Error code.
+          example: INVALID_TAX_ID
+        message:
+          type: object
+          description: Error message.
+          example: Invalid tax ID format.
+      required:
+        - code
+        - message
+    OrderRefundDto:
+      type: object
+      properties:
+        amountCents:
+          type: object
+          description: Refund amount in cents.
+          example: 50000
+        status:
+          type: string
+          description: Refund status.
+          example: Accepted
+          enum:
+            - Accepted
+            - Rejected
+        createdAt:
+          type: object
+          description: Timestamp when the refund was created.
+          example: '2023-10-01T12:00:00Z'
+      required:
+        - amountCents
+        - status
+        - createdAt
+    GetOrderResponseDto:
+      type: object
+      properties:
+        id:
+          type: object
+          description: CrediPay's internal order3 ID. UUID v4 format.
+          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+        createdAt:
+          type: object
+          description: The order's created date.
+          example: '2023-10-01T12:00:00Z'
+        updatedAt:
+          type: object
+          description: The order's updated date.
+          example: '2023-10-01T12:00:00Z'
+        externalId:
+          type: object
+          description: The order's external ID, if any.
+          example: '123456789'
+        status:
+          type: string
+          description: The order's status.
+          example: Accepted
+          enum:
+            - New
+            - Created
+            - Accepted
+            - Cancelled
+            - WaitingForInvoice
+            - Captured
+            - Expired
+            - Validating
+            - ValidationFailed
+            - PartiallyRefunded
+            - FullyRefunded
+        invoice:
+          description: The order's invoice.
+          allOf:
+            - $ref: '#/components/schemas/InvoiceResponseDto'
+        buyer:
+          description: Buyer of the order.
+          allOf:
+            - $ref: '#/components/schemas/OrderBuyerDto'
+        seller:
+          description: Seller of the order.
+          allOf:
+            - $ref: '#/components/schemas/OrderSellerDto'
+        repayments:
+          description: The order's repayment information.
+          type: array
+          items:
+            $ref: '#/components/schemas/RepaymentResponseDto'
+        errors:
+          description: "Any kind of error that can occur in an order's lifetime. \t\t\tBoth refund and invoice validation errors are included here. \t\t\tPrevious validation errors are not included after a successfull invoice upload retry."
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderErrorDto'
+        refunds:
+          description: Refunds of the order.
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRefundDto'
+        metadata:
+          type: object
+          description: Metadata passed by the seller on order creation.
+          additionalProperties: {}
+      required:
+        - id
+        - createdAt
+        - updatedAt
+        - externalId
+        - status
+        - invoice
+        - buyer
+        - seller
+        - repayments
+        - errors
+        - refunds
+        - metadata
+    InstallmentsDto:
+      type: object
+      properties:
+        maturityDate:
+          type: string
+          description: The maturity Date.
+          example: '2024-02-10T00:00:00Z'
+        faceValueCents:
+          type: number
+          description: Face value of the installment in cents.
+          example: 1020000
+      required:
+        - maturityDate
+        - faceValueCents
+    OrderItemsDto:
+      type: object
+      properties:
+        productId:
+          type: string
+          description: Unique product identifier.
+          default: '7891910000197'
+        productName:
+          type: string
+          description: Name.
+          default: Cerveja Skol 350ml
+        quantity:
+          type: number
+          description: Quantity.
+          default: 15
+        unitPriceCents:
+          type: number
+          description: Unit price in cents.
+          default: 1020
+      required:
+        - productId
+        - productName
+        - quantity
+        - unitPriceCents
+    ContactInformationDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Contact's email.
+          example: joaodasilva@example.com
+        phone:
+          type: string
+          description: Contact's phone number.
+          example: '+551243974164'
+        name:
+          type: string
+          description: Contact's name.
+          example: Joao
+        lastName:
+          type: string
+          description: Contact's last name.
+          default: Da Silva
+      required:
+        - email
+        - phone
+        - name
+        - lastName
+    ShippingLocationDto:
+      type: object
+      properties:
+        address1:
+          type: string
+          description: Street address 1.
+          example: Rua da Consolação, 930
+        address2:
+          type: string
+          description: Street address 2.
+          example: Apto 101
+        city:
+          type: string
+          description: City.
+          example: São Paulo
+        region:
+          type: string
+          description: Region.
+          example: São Paulo
+        postalCode:
+          type: string
+          description: Postal code.
+          example: '01302000'
+        country:
+          type: string
+          description: Country.
+          example: Brazil
+      required:
+        - address1
+        - city
+        - region
+        - postalCode
+        - country
+    CreateOrderDto:
+      type: object
+      properties:
+        buyerTaxId:
+          type: object
+          description: The tax ID of the buyer.
+          example: 65.413.430/0000-08
+        sellerTaxId:
+          type: object
+          description: The tax ID of the seller.
+          example: 44.876.674/0000-49
+        metadata:
+          type: object
+          description: Any metadata you want to attach to the order.
+        externalId:
+          type: string
+          description: Seller's internal order ID.
+          default: REF-10230456
+        installments:
+          description: Installments
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallmentsDto'
+        items:
+          description: Items
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemsDto'
+        contactInformation:
+          description: Contact Information
+          allOf:
+            - $ref: '#/components/schemas/ContactInformationDto'
+        shippingLocation:
+          description: Shipping Location
+          allOf:
+            - $ref: '#/components/schemas/ShippingLocationDto'
+      required:
+        - buyerTaxId
+        - sellerTaxId
+        - installments
+        - items
+        - contactInformation
+    RefundOrderDto:
+      type: object
+      properties:
+        refundAmountCents:
+          type: number
+          description: The desired refund amount in cents.
+      required:
+        - refundAmountCents
