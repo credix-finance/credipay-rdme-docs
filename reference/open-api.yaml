@@ -219,10 +219,10 @@ info:
   contact: {}
 tags: []
 servers:
-  - url: https://api.credix.finance
-    description: Production
   - url: https://api.pre.credix.finance
     description: Sandbox
+  - url: https://api.credix.finance
+    description: Production
 components:
   securitySchemes:
     api_key:
