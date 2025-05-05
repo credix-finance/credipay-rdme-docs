@@ -710,7 +710,7 @@ info:
 tags: []
 servers:
   - url: https://api.dev.credix.finance
-    description: Credipay server
+    description: Development
 components:
   securitySchemes:
     api_key:
