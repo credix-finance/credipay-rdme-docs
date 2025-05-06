@@ -443,18 +443,25 @@ components:
         status:
           type: string
           description: Refund status.
-          example: Accepted
+          example: Pending
           enum:
-            - Accepted
-            - Rejected
+            - Pending
+            - Completed
+            - Failed
         createdAt:
           type: object
           description: Timestamp when the refund was created.
           example: '2023-10-01T12:00:00Z'
+        error:
+          type: object
+          description: The error that occurred during the refund.
+          example: Invalid tax ID format.
+          nullable: true
       required:
         - amountCents
         - status
         - createdAt
+        - error
     GetOrderResponseDto:
       type: object
       properties:
