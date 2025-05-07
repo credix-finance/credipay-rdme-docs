@@ -178,6 +178,12 @@ paths:
             schema:
               $ref: '#/components/schemas/RefundOrderDto'
       responses:
+        '200':
+          description: Successful operation, refund request created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundOrderResponseDto'
         '400':
           description: >-
             Could not transition the order to the validating state due to an
@@ -436,6 +442,10 @@ components:
     OrderRefundDto:
       type: object
       properties:
+        id:
+          type: object
+          description: Refund unique ID.
+          example: e912ba21-d530-4982-aa92-a06d7518afa0
         amountCents:
           type: object
           description: Refund amount in cents.
@@ -458,6 +468,7 @@ components:
           example: Invalid tax ID format.
           nullable: true
       required:
+        - id
         - amountCents
         - status
         - createdAt
@@ -686,3 +697,12 @@ components:
           description: The desired refund amount in cents.
       required:
         - refundAmountCents
+    RefundOrderResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the refund.
+          example: e912ba21-d530-4982-aa92-a06d7518afa0
+      required:
+        - id
