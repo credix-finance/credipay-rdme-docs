@@ -1,6 +1,6 @@
-- api-v2-get-order-by-id
-- api-v2-post-order
-- api-v2-post-order-invoice-xml
-- api-v2-post-capture-order
-- api-v2-post-refund-order
-- api-v2-post-cancel-order
+- orderscontroller_getorderbyid
+- orderscontroller_postorder
+- orderscontroller_postinvoicexml
+- orderscontroller_captureorder
+- orderscontroller_refundorder
+- orderscontroller_cancelorder

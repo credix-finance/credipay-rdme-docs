@@ -7,6 +7,6 @@ excerpt: >-
   be within the buyer's available credit limit and maximum payment terms.
 api:
   file: open-api.yaml
-  operationId: api-v2-post-order-invoice-xml
+  operationId: OrdersController_postInvoiceXml
 hidden: false
 ---

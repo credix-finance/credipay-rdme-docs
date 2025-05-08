@@ -6,6 +6,6 @@ excerpt: >-
   validations and capture the order.
 api:
   file: open-api.yaml
-  operationId: api-v2-post-capture-order
+  operationId: OrdersController_captureOrder
 hidden: false
 ---
