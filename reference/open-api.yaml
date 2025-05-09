@@ -691,6 +691,7 @@ components:
         - installments
         - items
         - contactInformation
+        - shippingLocation
     RefundOrderDto:
       type: object
       properties:
