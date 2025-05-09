@@ -5,6 +5,6 @@ excerpt: >-
   order.
 api:
   file: open-api.yaml
-  operationId: api-v2-post-refund-order
+  operationId: OrdersController_refundOrder
 hidden: false
 ---

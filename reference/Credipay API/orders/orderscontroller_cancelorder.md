@@ -6,6 +6,6 @@ excerpt: >-
   to it, it will be fully refunded.
 api:
   file: open-api.yaml
-  operationId: api-v2-post-cancel-order
+  operationId: OrdersController_cancelOrder
 hidden: false
 ---

@@ -3,7 +3,7 @@ paths:
   /v2/buyers:
     get:
       description: Gets all associated with a seller.
-      operationId: api-v2-get-buyers
+      operationId: BuyersController_getBuyers
       parameters:
         - name: taxId
           required: false
@@ -42,7 +42,7 @@ paths:
   /v2/orders/{id}:
     get:
       description: Gets an order by CrediPay's internal order ID.
-      operationId: api-v2-get-order-by-id
+      operationId: OrdersController_getOrderById
       parameters:
         - name: id
           required: true
@@ -67,7 +67,7 @@ paths:
   /v2/orders:
     post:
       description: Create an order by submitting a json payload.
-      operationId: api-v2-post-order
+      operationId: OrdersController_postOrder
       parameters: []
       requestBody:
         required: true
@@ -94,7 +94,7 @@ paths:
         the invoice is linked to the specified order. For an invoice to be
         accepted, it needs to be within the buyer's available credit limit and
         maximum payment terms.
-      operationId: api-v2-post-order-invoice-xml
+      operationId: OrdersController_postInvoiceXml
       parameters: []
       requestBody:
         required: true
@@ -124,7 +124,7 @@ paths:
         This is an async endpoint that allows you to submit a Nota Fiscal XML
         file for an order. Once the xml file is submitted, a job will be
         triggered to perform validations and capture the order.
-      operationId: api-v2-post-capture-order
+      operationId: OrdersController_captureOrder
       parameters:
         - name: id
           required: true
@@ -161,7 +161,7 @@ paths:
       description: >-
         This is an async endpoint that allows you to request a refund on an
         existing order.
-      operationId: api-v2-post-refund-order
+      operationId: OrdersController_refundOrder
       parameters:
         - name: id
           required: true
@@ -197,7 +197,7 @@ paths:
         Moves an order to cancelled state and increases the buyer's available
         credit limit by that order's total amount. If the order already has an
         invoice linked to it, it will be fully refunded.
-      operationId: api-v2-post-cancel-order
+      operationId: OrdersController_cancelOrder
       parameters:
         - name: id
           required: true
