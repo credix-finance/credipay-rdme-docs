@@ -1,5 +1,5 @@
 ---
-title: 3.1. Recebimento de boletos
+title: 2.1. Recebimento de boletos
 excerpt: >-
   Dependências: Módulo 1. Checar e reservar limites de crédito e Módulo 2.
   Receber confirmações e enviar Notas Fiscais
