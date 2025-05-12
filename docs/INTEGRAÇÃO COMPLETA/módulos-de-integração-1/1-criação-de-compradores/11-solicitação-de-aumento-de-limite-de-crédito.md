@@ -1,7 +1,7 @@
 ---
 title: 1.1 Solicitação de Aumento de Limite de Crédito
 deprecated: false
-hidden: false
+hidden: true
 metadata:
   robots: index
 ---
