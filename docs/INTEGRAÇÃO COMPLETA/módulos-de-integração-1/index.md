@@ -27,11 +27,19 @@ next:
 
 Para cada uma das etapas descritas no [Ciclo de vida de um pedido](/project/credix-credipay/v2.1/docs/módulos-de-integração), temos uma etapa de integração, a ser descrita nas páginas a seguir - que também incluem a parte de reembolsos e cancelamentos. Nossa recomendação é que sejam implementadas de forma sequencial, dando que existe uma interdependência entra elas. Veja abaixo um breve descritivo de cada uma, e navegue para sua respectiva página para mais detalhes
 
-# 1. Criação de pedido
+# 1. Criação de compradores
+
+Para incorporar novos compradores ao ecossistema CrediPay existem dois caminhos complementares:
+
+Envio de lista ao nosso time de Onboarding: indicado para o carregamento inicial da sua base, pois nos permite analisar dados transacionais mais ricos e, consequentemente, atribuir limites de crédito potencialmente mais altos. Para utilizá‑lo, basta entrar em contato com o(a) gerente de conta.
+
+Endpoint de criação de comprador (`POST v2/buyers`): pensado para a automação diária, logo após o primeiro carregamento em massa. Ele insere compradores individualmente, em tempo real, mantendo o processo fluido e sem dependências operacionais.
+
+# 2. Criação de pedido
 
 Nesta etapa, utilizaremos o endpoint **GET v2/buyers** para buscar as condições de pagamento de um comprador, e usaremos esses dados para decidir se ele está apto a transacionar com CrediPay ou não. Em caso afirmativo, chamaremos o endpoint **POST v2/orders** para criar o pedido, assim garantindo a reserva do limite de crédito, mas ainda não a oficialização - que acontecerá na próxima etapa.
 
-# 2. Formalização de pedido
+# 3. Formalização de pedido
 
 ## Confirmação de pedido
 
@@ -42,11 +50,11 @@ Somente para vendedores que trabalham com televendas, temos uma etapa anterior a
 A formalização de um pedido se dá quando um XML de Nota Fiscal é enviado para nós através do endpoint **POST v2/order/\{orderId}/capture**, que funciona de forma assíncrona. Desta forma, o webhook **order.captured** será enviado em seguida, assim como os webhooks **repayment.created**, que trarão os dados dos boletos. Quando isso acontece, significa que nós validamos a Nota Fiscal, e já estamos realizando todos os processos para operacionalizar o crédito.\
 *\*vendedores que trabalham via e-commerce podem ir direto para esta etapa*
 
-# 3. Pagamento de pedido
+# 4. Pagamento de pedido
 
 Assim que o boleto for pago pelo comprador, enviaremos um webhook **repayment.processing**, sinalizando que está em processamento bancário. Neste momento, o limite de crédito do comprador já será liberado, o possibilitando de realizar novas compras. Depois, enviaremos o webhook **repayment.settled**, onde confirmamos que os valores foram compensados em nossa conta bancária.
 
-# 4. Reembolsos e cancelamentos
+# 5. Reembolsos e cancelamentos
 
 ## Antes do envio da NF
 
