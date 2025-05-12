@@ -1,5 +1,5 @@
 ---
-title: 3. Formalização de pedido
+title: 2. Formalização de pedido
 excerpt: 'Dependência: Módulo 1. Checar e reservar limites de crédito'
 deprecated: false
 hidden: false
