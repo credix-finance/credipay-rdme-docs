@@ -2,7 +2,7 @@ openapi: 3.0.0
 paths:
   /v2/buyers:
     get:
-      description: Gets all associated with a seller.
+      description: Gets all buyers associated with a seller.
       operationId: BuyersController_getBuyers
       parameters:
         - name: taxId
@@ -62,6 +62,27 @@ paths:
         '404':
           description: Order was not found.
       summary: Get an order
+      tags:
+        - Orders
+  /v2/orders/search:
+    post:
+      description: Searches for orders by various criteria.
+      operationId: OrdersController_searchOrders
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchOrdersRequestDto'
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchOrdersResponseDto'
+      summary: Search orders
       tags:
         - Orders
   /v2/orders:
@@ -554,6 +575,62 @@ components:
         - errors
         - refunds
         - metadata
+    SearchOrdersRequestDto:
+      type: object
+      properties:
+        query:
+          type: string
+          description: The query to search for.
+        status:
+          type: string
+          description: The status of the orders to search for.
+          example: Created
+        createdAfter:
+          format: date-time
+          type: string
+          description: Consider only orders created at or after this date.
+        createdBefore:
+          format: date-time
+          type: string
+          description: Consider only orders created before or at this date.
+        page:
+          type: number
+          description: Which page to return from the list of orders. Starts at 1.
+          default: 1
+          minimum: 1
+        take:
+          type: number
+          description: Limit of orders to return.
+          default: 20
+          minimum: 1
+          maximum: 100
+      required:
+        - query
+    SearchOrdersResponseDto:
+      type: object
+      properties:
+        data:
+          description: Orders list.
+          type: array
+          items:
+            $ref: '#/components/schemas/GetOrderResponseDto'
+        page:
+          type: number
+          description: Page number.
+          example: 1
+        items:
+          type: number
+          description: Number of items on current page.
+          example: 20
+        total:
+          type: number
+          description: Total number of items across all pages.
+          example: 100
+      required:
+        - data
+        - page
+        - items
+        - total
     InstallmentsDto:
       type: object
       properties:
