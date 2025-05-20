@@ -2094,6 +2094,9 @@ components:
     CreditLimitUnderwriteFinishedWebhookBody:
       type: object
       properties: {}
+    CreditLimitAdminUnderwriteFinishedWebhookBody:
+      type: object
+      properties: {}
     WebhooksResendRequestDto:
       type: object
       properties:
