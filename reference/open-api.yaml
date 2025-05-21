@@ -2093,6 +2093,12 @@ components:
         - totalAmountCents
         - refundStatus
         - paymentMethod
+    CreditLimitUnderwriteFinishedWebhookBody:
+      type: object
+      properties: {}
+    CreditLimitAdminUnderwriteFinishedWebhookBody:
+      type: object
+      properties: {}
     WebhooksResendRequestDto:
       type: object
       properties:
