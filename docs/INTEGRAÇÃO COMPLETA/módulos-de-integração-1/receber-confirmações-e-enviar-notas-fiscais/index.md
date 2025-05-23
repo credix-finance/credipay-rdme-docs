@@ -67,5 +67,3 @@ flowchart TD
     style s1 stroke:#000000,stroke-width:2px
 
 ```
-
-<Image align="center" className="border" border={true} width="300px" src="https://files.readme.io/37c0da471f3ed0ef38ac9063ed2b2f7d41122e2cd676471451111942d2549087-Editor___Mermaid_Chart-2025-04-25-194833.png" />
