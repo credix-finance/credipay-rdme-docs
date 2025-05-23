@@ -32,35 +32,36 @@ IMPORTANTE: **Todas** as cobranças da CrediPay são feitas via BolePix, ou seja
 
 ```mermaid
 flowchart TD
-    n4["Vendedor recebe pedido de reembolso ou cancelamento"] --> n5{"Pedido já tem NF?"}
-    n5 -- Sim --> n6["Emite NF Devolucao"]
-    n5 -- Nao --> n7["Solicita cancelamento com a CrediPay"]
-    n6 --> n10["Informa a CrediPay do reembolso"]
-    n7 -- POST v2/orders/{orderId}/cancel --> n8["Credipay recebe cancelamento"]
-    n8 --> n9["Cancela pedido e libera o limite de crédito"]
-    n10 -- POST v2/orders/{orderId}/refund --> n11["Credipay recebe pedido de reembolso"]
-    n11 --> n12["Cancela os boletos anteriores e libera o limite de crédito"]
-    n12 --> n13["Envia webhooks repayment.cancelled"]
-    n13 --> n14["Gera novos boletos"]
-    n13 -- "repayment.cancelled" --> n15["Recebe webhooks repayment.cancelled"]
-    n15 --> n17["Confirma cancelamento ou reembolso do pedido"]
+    n4["CrediPay recebe a notificação do pagamento do pedido"] --> n5{"Pago via boleto ou pix?"}
+    n5 -- Boleto --> n6["Recebe notificacao de pagamento em processamento"]
+    n5 -- Pix --> n9["Valor compensado na conta bancária"]
+    n6 --> n7["Envia webhook repayment.processing"]
+    n7 -- "repayment.processing" --> n12["Vendedor recebe webhook repayment.processing"]
+    n7 --> n8["Libera limite de crédito"]
+    n8 --> n9
+    n9 -- Pix --> n11["Libera limite de crédito"]
+    n10["Envia webhook repayment.settled"] -- "repayment.settled" --> n13["Vendedor recebe webhook repayment.settled"]
+    n9 --> n10
+    n12 --> n14@{ label: "Marca como 'em processamento'" }
+    n13 --> n15@{ label: "Marca como 'pago'" }
 
-    n4:::vendedor
-    n5:::vendedor
-    n6:::vendedor
-    n7:::vendedor
-    n10:::vendedor
-    n8:::credipay
+    n14@{ shape: rect }
+    n15@{ shape: rect }
+
+    n4:::credipay
+    n5:::credipay
+    n6:::credipay
     n9:::credipay
+    n7:::credipay
+    n12:::vendedor
+    n8:::credipay
     n11:::credipay
-    n12:::credipay
-    n13:::credipay
-    n14:::credipay
+    n10:::credipay
+    n13:::vendedor
+    n14:::vendedor
     n15:::vendedor
-    n17:::vendedor
 
     classDef vendedor fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
-    classDef comprador fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
     classDef credipay fill:#FFD8A8,stroke:#333,stroke-width:1px,color:#000;
 
 ```
