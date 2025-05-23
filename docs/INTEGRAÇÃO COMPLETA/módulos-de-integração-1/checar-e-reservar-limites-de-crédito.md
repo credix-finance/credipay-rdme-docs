@@ -51,28 +51,27 @@ flowchart TD
     n7 --> n8
     n5 --> n6
 
-     n4:::vendedor
-     n5:::comprador
-     n6:::credipay
-     n7:::credipay
-     n8:::comprador
-     n9:::comprador
-     n10:::vendedor
-     n18:::vendedor
-     n19:::vendedor
-     n11:::comprador
-     n20:::vendedor
-     n12:::credipay
-     n13:::credipay
-     n14:::comprador
-     n15:::credipay
-     n16:::credipay
-     n17:::comprador
-    classDef vendedor fill:#AEDFF7,stroke:#333,stroke-width:1px
-    classDef comprador fill:#C6F7D0,stroke:#333,stroke-width:1px
-    classDef credipay fill:#FFD8A8,stroke:#333,stroke-width:1px
+    n4:::vendedor
+    n5:::comprador
+    n6:::credipay
+    n7:::credipay
+    n8:::comprador
+    n9:::comprador
+    n10:::vendedor
+    n18:::vendedor
+    n19:::vendedor
+    n11:::comprador
+    n20:::vendedor
+    n12:::credipay
+    n13:::credipay
+    n14:::comprador
+    n15:::credipay
+    n16:::credipay
+    n17:::comprador
 
-
+    classDef vendedor fill:#AEDFF7,stroke:#333,stroke-width:1px,color:#000;
+    classDef comprador fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
+    classDef credipay fill:#FFD8A8,stroke:#333,stroke-width:1px,color:#000;
 
 ```
 
