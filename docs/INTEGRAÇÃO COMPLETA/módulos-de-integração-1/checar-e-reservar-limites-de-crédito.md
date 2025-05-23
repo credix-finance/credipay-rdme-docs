@@ -30,8 +30,6 @@ Caso uma venda seja concretizada, o integrador pode realizar a reserva do limite
 
 ## E-commerce
 
-<br />
-
 ```mermaid
 flowchart TD
     n4["Comprador entra na página de checkout"] --> n5["Vendedor chama API da CrediPay<br>GET v2/buyers?taxId={CNPJ}<br>"]
@@ -75,8 +73,48 @@ flowchart TD
 
 ```
 
-<Image align="center" src="https://files.readme.io/b93bf3cdc6cd771924a19ad9c7dafa2ad1d5489adb31438789332676fa8d4756-Untitled_diagram-2025-04-25-192911.png" />
-
 ## Televendas
 
-<Image align="center" src="https://files.readme.io/70df0be34088968a0897d0e5f513daee3549a735241a7f2e79a6ebe39f44302f-Editor___Mermaid_Chart-2025-04-25-202223.png" />
+```mermaid
+flowchart TD
+    n4["Força de vendas fechou um pedido e quer checar as condições do crédito"] --> n5["Sistema interno chama API da CrediPay<br>GET v2/buyers?taxId={CNPJ}<br>"]
+    n6["Credipay recebe chamada"] --> n7["Retorna dados do comprador (limite de crédito, eligibilidade, prazo de pagamento, status de cadastro)"]
+    n8["Sistema recebe e exibe dados do comprador"] --> n9{"Pedido está dentro das condições de pagamento?"}
+    n9 -- Não --> n10["Não será possível transacionar com CrediPay"]
+    n9 -- Sim --> n18["Será possível transacionar com CrediPay, se desejar"]
+    n18 --> n19{"Escolheu CrediPay como forma de pagamento?"}
+    n19 -- Sim --> n11["Vendedor criar o pedido e o sistema envia para a CrediPay"]
+    n19 -- Não --> n20["Pedido não será enviado para CrediPay"]
+    n11 -- POST v2/orders --> n12["CrediPay recebe pedido"]
+    n12 --> n13{"Pedido aceito?"}
+    n13 -- Não – Retorno 4XX --> n14["Sistema interno recebe o retorno e não deve criar pedido"]
+    n13 -- Sim --> n15["Reserva limite de crédito"]
+    n15 --> n16["Retorna pedido"] & n21["Envia e-mail de confirmação para o comprador"]
+    n16 -- Sim – Retorno 200 --> n17["Sistema salva pedido com o orderId da CrediPay"]
+    n7 --> n8
+    n5 --> n6
+
+    n4:::comprador
+    n5:::comprador
+    n6:::credipay
+    n7:::credipay
+    n8:::comprador
+    n9:::comprador
+    n10:::comprador
+    n18:::comprador
+    n19:::comprador
+    n11:::comprador
+    n20:::comprador
+    n12:::credipay
+    n13:::credipay
+    n14:::comprador
+    n15:::credipay
+    n16:::credipay
+    n21:::credipay
+    n17:::comprador
+
+    classDef vendedor fill:#AEDFF7,stroke:#333,stroke-width:1px,color:#000;
+    classDef comprador fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
+    classDef credipay fill:#FFD8A8,stroke:#333,stroke-width:1px,color:#000;
+
+```
