@@ -31,7 +31,7 @@ Antes de integrar, é importante entender a jornada completa de uma transação 
 | **1. Análise de crédito**       | Avaliação automática do comprador com base no CNPJ, score interno e limites de exposição. | Executada pela CrediPay previamente.                                     |
 | **2. Criação do pedido**        | Envio das informações do pedido: valor, itens, prazos, dados do comprador.                | Pode ser feito via API (`POST /v2/orders`) ou diretamente no painel web. |
 | **3. Confirmação da operação**  | A proposta de crédito é validada.                                                         | Confirmação automática (e-commerce) ou via link (televendas).            |
-| **4. Envio da nota fiscal**     | Emissão e envio do XML da NF-e.                                                           | Realizado via API (`POST /v2/orders/{id}/captured`) ou painel web.       |
+| **4. Envio da nota fiscal**     | Emissão e envio do XML da NF-e.                                                           | Realizado via API (`POST /v2/orders/{id}/capture`) ou painel web.        |
 | **5. Validação do XML**         | Verificação automática de consistência fiscal.                                            | Pedido entra em pendência se houver erros no XML.                        |
 | **6. Liquidação ao vendedor**   | Repasse dos valores líquidos.                                                             | Realizado após validação do XML. Prazo padrão: D+1.                      |
 | **7. Cobrança ao comprador**    | Início do ciclo de pagamento.                                                             | A CrediPay assume a cobrança conforme o calendário de parcelas.          |
