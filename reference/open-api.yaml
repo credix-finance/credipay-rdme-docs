@@ -240,6 +240,34 @@ paths:
       summary: Cancel Order
       tags:
         - Orders
+  /v2/admin/contact-informations/{id}/notes:
+    post:
+      description: >-
+        This is an async endpoint that allows you to submit a Nota Fiscal XML
+        file for an order. Once the xml file is submitted, a job will be
+        triggered to perform validations and capture the order.
+      operationId: ContactInformationsAdminController_createContactInformationNote
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: CrediPay's internal contact information ID. UUID v4 format.
+          schema:
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+            type: string
+      requestBody:
+        required: true
+        description: The content of the note.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContactInformationNoteDto'
+      responses:
+        '201':
+          description: Successful operation, note created.
+      summary: Create Contact Information Note
+      tags:
+        - Admin
 info:
   title: Credipay API
   description: ''
@@ -281,6 +309,10 @@ components:
           type: boolean
           description: Whether or not the buyer is eligible for credit.
           example: true
+        inactive:
+          type: boolean
+          description: Whether the buyer is marked as inactive.
+          example: false
         maxPaymentTermDays:
           type: number
           description: The maximum payment term days.
@@ -298,6 +330,7 @@ components:
         - availableCreditLimitAmountCents
         - creditLimitAmountCents
         - eligible
+        - inactive
         - maxPaymentTermDays
         - name
         - onboarded
@@ -330,19 +363,21 @@ components:
       type: object
       properties:
         id:
-          type: object
+          type: string
           description: Invoice unique ID in CrediPay's system.
-          example: abc123-invoice
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
         invoiceNumber:
-          type: object
+          type: string
           description: Invoice number string.
-          example: FAT-1234
+          example: NFe00000000000000000000000001642012886703226971
         issuanceDate:
-          type: object
+          type: string
           description: Date & time invoice was issued (ISO).
           example: '2023-10-02T15:30:00Z'
+          format: date-time
         totalAmountCents:
-          type: object
+          type: number
           description: Total amount of the invoice in cents.
           example: 150000
       required:
@@ -354,15 +389,16 @@ components:
       type: object
       properties:
         id:
-          type: object
+          type: string
           description: Buyer's ID.
           example: a0eebc4b-1f3d-4b2a-8c5f-7e6d5f8e9b2f
+          format: uuid
         taxId:
-          type: object
+          type: string
           description: Buyer's tax ID (CNPJ).
           example: '56596567000127'
         name:
-          type: object
+          type: string
           description: Buyer's name.
           example: Comprador Inexistente LTDA
       required:
@@ -373,15 +409,16 @@ components:
       type: object
       properties:
         id:
-          type: object
+          type: string
           description: Seller's ID.
           example: a0eebc4b-1f3d-4b2a-8c5f-7e6d5f8e9b2f
+          format: uuid
         taxId:
-          type: object
+          type: string
           description: Seller's tax ID (CNPJ).
           example: '56596567000127'
         name:
-          type: object
+          type: string
           description: Seller's name.
           example: Nome Fictício Distribuidora LTDA
       required:
@@ -392,11 +429,12 @@ components:
       type: object
       properties:
         id:
-          type: object
+          type: string
           description: Repayment unique ID.
           example: e912ba21-d530-4982-aa92-a06d7518afa0
+          format: uuid
         pdfUrl:
-          type: object
+          type: string
           description: URL to the PDF file of the repayment (boleto).
           example: >-
             https://api.starkbank.com/v2/invoice/fb1553149ff34c8db238f36dc64a8232.pdf
@@ -413,30 +451,34 @@ components:
             - Unknown
             - Failed
         totalAmountCents:
-          type: object
+          type: number
           description: Total amount to be paid in cents.
           example: 100000
         createdAt:
-          type: object
+          type: string
           description: Timestamp when the repayment was created.
           example: '2023-10-01T12:00:00Z'
+          format: date-time
         dueDate:
-          type: object
+          type: string
           description: Due date for the repayment.
           example: '2023-10-15T12:00:00Z'
+          format: date-time
         paymentDate:
-          type: object
+          type: string
           description: Actual date when the repayment was made.
           example: '2023-10-10T12:00:00Z'
+          format: date-time
           nullable: true
         paidAmountCents:
-          type: object
+          type: number
           description: Amount actually paid in cents.
           example: 50000
         parentId:
-          type: object
+          type: string
           description: "Parent repayment ID if applicable (e.g., linked to another repayment). \t\t\tWhen an order is refunded, or a repayment is renegotiated/extended the parent repayment \t\t\twill be canceled and a new one will be created."
           example: 3b27b131-7ab7-4a67-b88e-424c1d30b247
+          format: uuid
           nullable: true
       required:
         - id
@@ -452,11 +494,11 @@ components:
       type: object
       properties:
         code:
-          type: object
+          type: string
           description: Error code.
           example: INVALID_TAX_ID
         message:
-          type: object
+          type: string
           description: Error message.
           example: Invalid tax ID format.
       required:
@@ -466,11 +508,12 @@ components:
       type: object
       properties:
         id:
-          type: object
+          type: string
           description: Refund unique ID.
           example: e912ba21-d530-4982-aa92-a06d7518afa0
+          format: uuid
         amountCents:
-          type: object
+          type: number
           description: Refund amount in cents.
           example: 50000
         status:
@@ -482,11 +525,12 @@ components:
             - Completed
             - Failed
         createdAt:
-          type: object
+          type: string
           description: Timestamp when the refund was created.
           example: '2023-10-01T12:00:00Z'
+          format: date-time
         error:
-          type: object
+          type: string
           description: The error that occurred during the refund.
           example: Invalid tax ID format.
           nullable: true
@@ -500,19 +544,27 @@ components:
       type: object
       properties:
         id:
-          type: object
+          type: string
           description: CrediPay's internal order3 ID. UUID v4 format.
           example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+          format: uuid
         createdAt:
-          type: object
+          type: string
           description: The order's created date.
           example: '2023-10-01T12:00:00Z'
+          format: date-time
         updatedAt:
-          type: object
+          type: string
           description: The order's updated date.
           example: '2023-10-01T12:00:00Z'
+          format: date-time
+        disbursedAt:
+          type: string
+          description: The date when the order was disbursed to the seller.
+          example: '2023-10-01T12:00:00Z'
+          format: date-time
         externalId:
-          type: object
+          type: string
           description: The order's external ID, if any.
           example: '123456789'
         status:
@@ -561,7 +613,9 @@ components:
         metadata:
           type: object
           description: Metadata passed by the seller on order creation.
-          additionalProperties: {}
+          additionalProperties: true
+          example:
+            yourCustomFieldName: yourCustomFieldValue
       required:
         - id
         - createdAt
@@ -582,17 +636,22 @@ components:
           type: string
           description: The query to search for.
         status:
-          type: string
-          description: The status of the orders to search for.
-          example: Created
+          description: Consider only orders with these statuses.
+          example:
+            - Created
+          type: array
+          items:
+            type: array
         createdAfter:
           format: date-time
           type: string
           description: Consider only orders created at or after this date.
+          example: '2021-01-01T00:00:00.000Z'
         createdBefore:
           format: date-time
           type: string
           description: Consider only orders created before or at this date.
+          example: '2021-01-02T00:00:00.000Z'
         page:
           type: number
           description: Which page to return from the list of orders. Starts at 1.
@@ -606,6 +665,76 @@ components:
           maximum: 100
       required:
         - query
+    SearchOrdersResponseItemDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Order status.
+          example: Created
+          enum:
+            - New
+            - Created
+            - Accepted
+            - Cancelled
+            - WaitingForInvoice
+            - Captured
+            - Expired
+            - Validating
+            - ValidationFailed
+            - PartiallyRefunded
+            - FullyRefunded
+        id:
+          type: string
+          description: Order ID.
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+        externalId:
+          type: string
+          description: External order ID.
+          example: NF-123456
+        createdAt:
+          type: string
+          description: Order creation date.
+          example: '2021-01-01T00:00:00.000Z'
+          format: date-time
+        updatedAt:
+          type: string
+          description: Order last update date.
+          example: '2021-01-01T00:00:00.000Z'
+          format: date-time
+        disbursedAt:
+          type: string
+          description: Date when the order was disbursed to the seller.
+          example: '2021-01-01T00:00:00.000Z'
+          format: date-time
+        totalAmountCents:
+          type: number
+          description: Order total amount in cents.
+          example: 10000
+        invoice:
+          description: Order invoice information.
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/InvoiceResponseDto'
+        buyer:
+          description: Order buyer information.
+          allOf:
+            - $ref: '#/components/schemas/OrderBuyerDto'
+        seller:
+          description: Order seller information.
+          allOf:
+            - $ref: '#/components/schemas/OrderSellerDto'
+      required:
+        - status
+        - id
+        - externalId
+        - createdAt
+        - updatedAt
+        - totalAmountCents
+        - invoice
+        - buyer
+        - seller
     SearchOrdersResponseDto:
       type: object
       properties:
@@ -613,7 +742,7 @@ components:
           description: Orders list.
           type: array
           items:
-            $ref: '#/components/schemas/GetOrderResponseDto'
+            $ref: '#/components/schemas/SearchOrdersResponseItemDto'
         page:
           type: number
           description: Page number.
@@ -730,16 +859,19 @@ components:
       type: object
       properties:
         buyerTaxId:
-          type: object
+          type: string
           description: The tax ID of the buyer.
           example: 65.413.430/0000-08
         sellerTaxId:
-          type: object
+          type: string
           description: The tax ID of the seller.
           example: 44.876.674/0000-49
         metadata:
           type: object
           description: Any metadata you want to attach to the order.
+          additionalProperties: true
+          example:
+            yourCustomFieldName: yourCustomFieldValue
         externalId:
           type: string
           description: Seller's internal order ID.
@@ -765,6 +897,7 @@ components:
       required:
         - buyerTaxId
         - sellerTaxId
+        - metadata
         - installments
         - items
         - contactInformation
@@ -786,5 +919,14 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
+    CreateContactInformationNoteDto:
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the note.
+          example: This is a test note
+      required:
+        - content
 security:
   - api_key: []
