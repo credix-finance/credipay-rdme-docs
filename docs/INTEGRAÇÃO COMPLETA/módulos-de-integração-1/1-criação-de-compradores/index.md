@@ -5,7 +5,7 @@ excerpt: >-
   importação em massa via lista, garantindo limites mais altos logo no primeiro
   uso.
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
