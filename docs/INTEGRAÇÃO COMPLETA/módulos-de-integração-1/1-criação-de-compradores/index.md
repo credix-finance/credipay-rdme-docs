@@ -1,5 +1,5 @@
 ---
-title: 1. Criação de compradores
+title: 0. Criação de compradores
 excerpt: >-
   Embora o endpoint ofereça praticidade, recomendamos sempre iniciar pela
   importação em massa via lista, garantindo limites mais altos logo no primeiro
