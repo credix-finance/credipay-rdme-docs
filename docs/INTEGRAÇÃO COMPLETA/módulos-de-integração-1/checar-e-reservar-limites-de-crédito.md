@@ -12,7 +12,7 @@ next:
 ---
 # Introdução
 
-A primeira etapa da integração é o de checagem e reserva de limites de crédito. Com ele, um integrador pode consultar as condições de pagamento de um comprador (`GET v2/buyers?taxId={CNPJ}`) com a CrediPay, e assim saber como ofertá-las a seus clientes.
+A primeira etapa da integração no fluxo de pedidos é o de checagem e reserva de limites de crédito. Com ele, um integrador pode consultar as condições de pagamento de um comprador (`GET v2/buyers?taxId={CNPJ}`) com a CrediPay, e assim saber como ofertá-las a seus clientes.
 
 Caso uma venda seja concretizada, o integrador pode realizar a reserva do limite de crédito ao criar um pedido (`POST v2/orders`). Um retorno de sucesso neste endpoint significa que a CrediPay aceitou o pedido, reservou o limite, e enviou o email de confirmação para o comprador.
 
