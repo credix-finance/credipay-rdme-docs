@@ -448,6 +448,7 @@ components:
             - Expired
             - Unknown
             - Failed
+            - CancellationFailed
         totalAmountCents:
           type: number
           description: Total amount to be paid in cents.
