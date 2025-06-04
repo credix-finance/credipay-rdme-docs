@@ -2091,9 +2091,47 @@ components:
         - totalAmountCents
         - refundStatus
         - paymentMethod
-    CreditLimitUnderwriteFinishedWebhookBody:
+    CreditLimitUnderwriteFinishedEventWebhookBody:
       type: object
-      properties: {}
+      properties:
+        id:
+          type: object
+          description: The ID of the credit limit underwrite request.
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        sellerTaxId:
+          type: object
+          description: The tax ID of the seller.
+          example: '12345678000196'
+        status:
+          type: string
+          description: The status of the credit limit underwrite request.
+          enum:
+            - Pending
+            - Failed
+            - Rejected
+            - Finished
+          example: Finished
+        reason:
+          type: object
+          description: The reason for the 'Failed' or 'Rejected' states.
+          example: Insufficient credit history
+          nullable: true
+        retryAfter:
+          type: object
+          description: >-
+            A datetime from which it is allowed to retry. Can be null if retry
+            is not allowed
+          example: '2024-03-20T10:00:00Z'
+          nullable: true
+        buyerTaxId:
+          type: object
+          description: The tax ID of the buyer.
+          example: '12345678000196'
+      required:
+        - id
+        - sellerTaxId
+        - status
+        - buyerTaxId
     CreditLimitAdminUnderwriteFinishedWebhookBody:
       type: object
       properties: {}
