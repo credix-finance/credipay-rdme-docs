@@ -7,5 +7,5 @@ excerpt: >-
 api:
   file: open-api.yaml
   operationId: ContactInformationsAdminController_createContactInformationNote
-hidden: false
+hidden: true
 ---
