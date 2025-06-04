@@ -2134,7 +2134,77 @@ components:
         - buyerTaxId
     CreditLimitAdminUnderwriteFinishedWebhookBody:
       type: object
-      properties: {}
+      properties:
+        id:
+          type: object
+          description: >-
+            The same ID the sellers get from the POST endpoint - important to
+            enable reconciliation on their end
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        taxId:
+          type: object
+          description: The tax ID of the buyer
+          example: '12345678000196'
+        sellerTaxId:
+          type: object
+          description: The tax ID of the seller
+          example: '12345678000196'
+        eligibility:
+          type: object
+          description: Whether the buyer is eligible for credit
+          example: true
+        creditRating:
+          type: object
+          description: The credit rating of the buyer
+          example: A+
+          nullable: true
+        creditLimitCents:
+          type: object
+          description: The credit limit in cents
+          example: 1000000
+          nullable: true
+        ineligibilityReason:
+          type: object
+          description: The reason for ineligibility if applicable
+          example: Insufficient credit history
+          nullable: true
+        errorReason:
+          type: object
+          description: The error reason if applicable
+          example: Failed to fetch credit report
+          nullable: true
+        paymentTerms:
+          type: object
+          description: The payment terms in days
+          example: 30
+          nullable: true
+        segmentId:
+          type: object
+          description: The segment ID
+          example: segment-123
+          nullable: true
+        createdAt:
+          type: object
+          description: The creation date of the underwrite request
+          example: '2024-03-20T10:00:00Z'
+        underwriting:
+          type: object
+          description: Underwriting flow details
+        onboarding:
+          type: object
+          description: Onboarding flow details
+        seller:
+          type: object
+          description: Seller status details
+      required:
+        - id
+        - taxId
+        - sellerTaxId
+        - eligibility
+        - createdAt
+        - underwriting
+        - onboarding
+        - seller
     WebhooksResendRequestDto:
       type: object
       properties:
