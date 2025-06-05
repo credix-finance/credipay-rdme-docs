@@ -449,6 +449,7 @@ components:
             - Unknown
             - Failed
             - CancellationFailed
+            - Reversed
         totalAmountCents:
           type: number
           description: Total amount to be paid in cents.
@@ -615,6 +616,10 @@ components:
           additionalProperties: true
           example:
             yourCustomFieldName: yourCustomFieldValue
+        totalAmountCents:
+          type: number
+          description: "Total amount of the order in cents. \t\t \tIf the order has an invoice, this is taken from the invoice;\n\t\t\totherwise, it is taken from the order itself."
+          example: 12345
       required:
         - id
         - createdAt
@@ -628,6 +633,7 @@ components:
         - errors
         - refunds
         - metadata
+        - totalAmountCents
     SearchOrdersRequestDto:
       type: object
       properties:
