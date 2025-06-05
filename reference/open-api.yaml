@@ -240,34 +240,6 @@ paths:
       summary: Cancel Order
       tags:
         - Orders
-  /v2/admin/contact-informations/{id}/notes:
-    post:
-      description: >-
-        This is an async endpoint that allows you to submit a Nota Fiscal XML
-        file for an order. Once the xml file is submitted, a job will be
-        triggered to perform validations and capture the order.
-      operationId: ContactInformationsAdminController_createContactInformationNote
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: CrediPay's internal contact information ID. UUID v4 format.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      requestBody:
-        required: true
-        description: The content of the note.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateContactInformationNoteDto'
-      responses:
-        '201':
-          description: Successful operation, note created.
-      summary: Create Contact Information Note
-      tags:
-        - Admin
 info:
   title: Credipay API
   description: ''
@@ -924,14 +896,5 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
-    CreateContactInformationNoteDto:
-      type: object
-      properties:
-        content:
-          type: string
-          description: The content of the note.
-          example: This is a test note
-      required:
-        - content
 security:
   - api_key: []
