@@ -2091,12 +2091,182 @@ components:
         - totalAmountCents
         - refundStatus
         - paymentMethod
-    CreditLimitUnderwriteFinishedWebhookBody:
+    CreditLimitUnderwriteFinishedEventWebhookBody:
       type: object
-      properties: {}
+      properties:
+        id:
+          type: string
+          description: The ID of the credit limit underwrite request.
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        sellerTaxId:
+          type: string
+          description: The tax ID of the seller.
+          example: '12345678000196'
+        status:
+          type: string
+          description: The status of the credit limit underwrite request.
+          enum:
+            - Pending
+            - Failed
+            - Rejected
+            - Finished
+          example: Finished
+        reason:
+          type: string
+          description: The reason for the 'Failed' or 'Rejected' states.
+          example: Insufficient credit history
+          nullable: true
+        retryAfter:
+          format: date-time
+          type: string
+          description: >-
+            A datetime from which it is allowed to retry. Can be null if retry
+            is not allowed
+          example: '2024-03-20T10:00:00Z'
+          nullable: true
+        buyerTaxId:
+          type: string
+          description: The tax ID of the buyer.
+          example: '12345678000196'
+      required:
+        - id
+        - sellerTaxId
+        - status
+        - buyerTaxId
+    UnderwritingDetailsDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the underwriting flow
+          example: completed
+        details:
+          type: string
+          description: Details of the underwriting flow
+          example: Underwriting completed successfully
+          nullable: true
+        decisionUrl:
+          type: string
+          description: URL of the Taktile run of the underwriting flow
+          example: https://taktile.io/runs/123
+          nullable: true
+      required:
+        - status
+    OnboardingDetailsDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the onboarding flow
+          example: completed
+        decisionUrl:
+          type: string
+          description: URL of the Taktile run of the onboarding flow
+          example: https://taktile.io/runs/456
+          nullable: true
+      required:
+        - status
+    SellerStatusDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: >-
+            The status that is actually being displayed to the seller via the
+            non-admin endpoint
+          example: approved
+        reason:
+          type: string
+          description: The reason for the failure or buyer rejection, if applicable
+          example: Buyer rejected the offer
+          nullable: true
+        retryAfter:
+          format: date-time
+          type: string
+          description: >-
+            A datetime from which the seller is allowed to retry. Can be null if
+            retry is not allowed
+          example: '2024-03-20T10:00:00Z'
+          nullable: true
+      required:
+        - status
     CreditLimitAdminUnderwriteFinishedWebhookBody:
       type: object
-      properties: {}
+      properties:
+        id:
+          type: string
+          description: >-
+            The same ID the sellers get from the POST endpoint - important to
+            enable reconciliation on their end
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        taxId:
+          type: string
+          description: The tax ID of the buyer
+          example: '12345678000196'
+        sellerTaxId:
+          type: string
+          description: The tax ID of the seller
+          example: '12345678000196'
+        eligibility:
+          type: boolean
+          description: Whether the buyer is eligible for credit
+          example: true
+        creditRating:
+          type: string
+          description: The credit rating of the buyer
+          example: A+
+          nullable: true
+        creditLimitCents:
+          type: number
+          description: The credit limit in cents
+          example: 1000000
+          nullable: true
+        ineligibilityReason:
+          type: string
+          description: The reason for ineligibility if applicable
+          example: Insufficient credit history
+          nullable: true
+        errorReason:
+          type: string
+          description: The error reason if applicable
+          example: Failed to fetch credit report
+          nullable: true
+        paymentTerms:
+          type: number
+          description: The payment terms in days
+          example: 30
+          nullable: true
+        segmentId:
+          type: string
+          description: The segment ID
+          example: segment-123
+          nullable: true
+        createdAt:
+          format: date-time
+          type: string
+          description: The creation date of the underwrite request
+          example: '2024-03-20T10:00:00Z'
+        underwriting:
+          description: Underwriting flow details
+          allOf:
+            - $ref: '#/components/schemas/UnderwritingDetailsDto'
+        onboarding:
+          description: Onboarding flow details
+          allOf:
+            - $ref: '#/components/schemas/OnboardingDetailsDto'
+        seller:
+          description: Seller status details
+          allOf:
+            - $ref: '#/components/schemas/SellerStatusDto'
+      required:
+        - id
+        - taxId
+        - sellerTaxId
+        - eligibility
+        - createdAt
+        - underwriting
+        - onboarding
+        - seller
     WebhooksResendRequestDto:
       type: object
       properties:
