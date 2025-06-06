@@ -106,3 +106,7 @@ E como resultado, a partir da agora não conseguiremos mais optar por transacion
 ![](https://files.readme.io/9460a6a621d3e6cd8383a5e7f3ae7c22333492917ff3f02c203b0d91f1523292-image.png)
 
 ### Enviando o pedido para a CrediPay
+
+Agora, precisamos nos assegurar que, assim que o usuário submeter o pedido, ele será enviado à CrediPay para que seja realizada a reserva de limite de crédito. Além disso, devemos nos assegurar de que o pedido não será criado internamente caso não seja aceito pela CrediPay - nesse caso, o usuário também deve ser informado da recusa.
+
+Para isso, o primeiro passo é integrar o endpoint de criação de pedidos:
