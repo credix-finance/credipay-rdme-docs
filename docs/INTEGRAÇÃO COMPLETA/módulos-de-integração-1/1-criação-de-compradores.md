@@ -51,7 +51,7 @@ Assim que a análise for finalizada, enviaremos este webhook.
 
 **Exemplo de Webhook**
 
-```
+```json json
 {
     "notificationType": "credit-limit.underwrite.finished",
     "notificationData": {
