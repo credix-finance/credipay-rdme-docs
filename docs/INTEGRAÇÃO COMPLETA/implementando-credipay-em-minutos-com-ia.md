@@ -114,3 +114,17 @@ Para isso, o primeiro passo é integrar o endpoint de criação de pedidos:
 <Accordion title="Prompt 2.4: Implementando o endpoint de pedidos" icon="fa-info-circle">
   Na nossa integracao com a credipay @credipay.ts , implemente agora o endpoint de criacao de pedidos @[https://docs.credipay.credix.finance/reference/orderscontroller\_postorder.md](https://docs.credipay.credix.finance/reference/orderscontroller_postorder.md) . Certifique-se de autenticar corretamente @[https://docs.credipay.credix.finance/docs/api-usage-authentication.md](https://docs.credipay.credix.finance/docs/api-usage-authentication.md) .
 </Accordion>
+
+Em seguida aplicar ao nosso fluxo:
+
+<Accordion title="Prompt 2.5: Integrando endpoint de pedidos no fluxo" icon="fa-info-circle">
+  Usando o que acabamos de construir, ajuste a criação de pedidos @handleCreateOrder() para primeiro tentar criar o pedido na CrediPay. Se houver um erro, mostrar ao usuário na @NewOrderPage() . Se bem sucedido, criar um pedido na base de dados, já com o order id da CrediPay - nao devemos criar um pedido na base de dados caso nao seja criado na CrediPay
+</Accordion>
+
+<Accordion title="Prompt 2.6: Exibindo o id do pedido no frontend" icon="fa-info-circle">
+  Exiba o order id da credipay na pagina do pedido @OrderDetailPage()
+</Accordion>
+
+E pronto! De agora em diante, o pedido será criado automaticamente na CrediPay, e veremos o id CrediPay em nosso frontend:
+
+![](https://files.readme.io/f814530768b0ae8e5d656605e995ceaaa38bcb7e2c35802ff813d7a10a337dca-image.png)
