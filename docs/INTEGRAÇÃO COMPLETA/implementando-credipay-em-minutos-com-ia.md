@@ -8,6 +8,8 @@ metadata:
 ---
 # Introdução
 
+***
+
 A inteligência artificial está rapidamente se tornando uma parceira essencial no desenvolvimento de software, não apenas nos códigos que escrevemos, mas também na maneira como consumimos e mantemos a documentação técnica. Este guia foi criado para mostrar, passo a passo, como aproveitar os recursos de Ask AI e do arquivo llms.txt para turbinar o seu fluxo de trabalho com as APIs da CrediPay. Aqui você encontrará boas práticas, prompts prontos para uso e um caso prático completo que ilustra como integrar compradores, pedidos e faturamento em um ERP sem escrever linha de código. Use-o como ponto de partida, adapte-o às necessidades do seu projeto e descubra como a IA pode transformar tarefas repetitivas em processos rápidos, precisos e colaborativos.
 
 # IA na documentação
@@ -159,6 +161,8 @@ Com isso, o fluxo se torna completamente integrado, e toda vez que tivermos um n
 A partir daqui, não há mais nenhuma ação mandatória por parte do vendedor, ou seja, a integração está completa!
 
 # Conclusão
+
+***
 
 A funcionalidade Ask AI e o arquivo llms.txt transformam a maneira como você consome a documentação da CrediPay: a primeira cria um canal direto com os principais modelos de linguagem para tirar dúvidas e gerar código sob demanda; o segundo leva todo o conteúdo (ou apenas as páginas relevantes) para dentro da sua IDE, oferecendo contexto instantâneo aos seus prompts. Com isso, o processo de leitura, compreensão e aplicação da documentação fica muito mais rápido e preciso, reduzindo retrabalho e acelerando o ciclo de desenvolvimento.
 
