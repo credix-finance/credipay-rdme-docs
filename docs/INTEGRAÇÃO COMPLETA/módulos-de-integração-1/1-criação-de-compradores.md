@@ -43,6 +43,33 @@ Inicia a análise de crédito em tempo real e realiza automaticamente o onboardi
 
 ## Consultar Análise de Crédito
 
+Para buscar o resultado da análise, é possível usar o webhook `credit-limit.underwrite.finished` ou o endpoint GET `/v2/credit-limit/request/:requestId`. Veja mais detalhes abaixo.
+
+**Webhook** `credit-limit.underwrite.finished`
+
+Assim que a análise for finalizada, enviaremos este webhook.
+
+**Exemplo de Webhook**
+
+```
+{
+    "notificationType": "credit-limit.underwrite.finished",
+    "notificationData": {
+        "organization": {
+            "id": "seller-org-id"
+        },
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "status": "Finished",
+        "reason": null,
+        "retryAfter": "2024-03-20T10:30:00Z",
+        "buyerTaxId": "12345678901234",
+        "sellerTaxId": "98765432109876"
+    }
+}
+```
+
+<br />
+
 **GET** `/v2/credit-limit/request/:requestId`
 
 Retorna o status de uma solicitação de análise de crédito previamente enviada, para fins de visualização pelo vendedor e uso em polling.
