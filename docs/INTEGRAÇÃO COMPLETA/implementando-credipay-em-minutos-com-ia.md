@@ -110,3 +110,7 @@ E como resultado, a partir da agora não conseguiremos mais optar por transacion
 Agora, precisamos nos assegurar que, assim que o usuário submeter o pedido, ele será enviado à CrediPay para que seja realizada a reserva de limite de crédito. Além disso, devemos nos assegurar de que o pedido não será criado internamente caso não seja aceito pela CrediPay - nesse caso, o usuário também deve ser informado da recusa.
 
 Para isso, o primeiro passo é integrar o endpoint de criação de pedidos:
+
+<Accordion title="Prompt 2.4: Implementando o endpoint de pedidos" icon="fa-info-circle">
+  Na nossa integracao com a credipay @credipay.ts , implemente agora o endpoint de criacao de pedidos @[https://docs.credipay.credix.finance/reference/orderscontroller\_postorder.md](https://docs.credipay.credix.finance/reference/orderscontroller_postorder.md) . Certifique-se de autenticar corretamente @[https://docs.credipay.credix.finance/docs/api-usage-authentication.md](https://docs.credipay.credix.finance/docs/api-usage-authentication.md) .
+</Accordion>
