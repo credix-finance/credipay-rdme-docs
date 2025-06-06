@@ -83,7 +83,7 @@ Como resultado, agora podemos escolher a forma de pagamento CrediPay
 
 ![](https://files.readme.io/e82b15e6364bbfd83db4e64db8830652db35001938adbfe4800122abc1ba119d-image.png)
 
-### Exibindo o limite de crédito disponível
+### Exibindo e checando o limite de crédito disponível
 
 É importante que o limite de crédito disponível do comprador também seja exibido na tela de criação de pedidos, para que o usuário saiba o quanto pode inserir nesse pedido.
 
@@ -94,3 +94,15 @@ Como resultado, agora podemos escolher a forma de pagamento CrediPay
 Com isso, agora conseguimos checar o limite de crédito quando selecionamos um comprador.
 
 ![](https://files.readme.io/a962b9315524bbe48c352d3565c7aa54e6722a30a72bbb2ab5d2103508de1bf2-image.png)
+
+Também é importante assegurar que a opção de pagar com CrediPay não possa ser seleciona caso não haja limite suficiente. Para isso, podemos rodar o prompt:
+
+<Accordion title="Prompt 2.3: Bloqueando CrediPay caso não haja limite" icon="fa-info-circle">
+  Ajuste o formulário de criação de pedido @OrderForm.tsx para que o usuário só possa selecionar a opção CrediPay caso o valor total do pedido seja menor ou igual ao limite de crédito disponível com a CrediPay
+</Accordion>
+
+E como resultado, a partir da agora não conseguiremos mais optar por transacionar com CrediPay caso não haja limite:
+
+![](https://files.readme.io/9460a6a621d3e6cd8383a5e7f3ae7c22333492917ff3f02c203b0d91f1523292-image.png)
+
+### Enviando o pedido para a CrediPay
