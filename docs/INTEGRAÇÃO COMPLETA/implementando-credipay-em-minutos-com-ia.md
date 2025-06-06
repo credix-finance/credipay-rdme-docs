@@ -32,7 +32,7 @@ Para inserir a documentação como um todo em seu ambiente de desenvolvimento, v
 
 Nesta seção, compartilharemos alguns prompts úteis para realizar uma implementação básica das APIs da CrediPay em um ERP. O objetivo é integrar os módulos de compradores, pedidos e faturamento do ERP às APIs do CrediPay sem usar código.
 
-Neste projeto, usaremos o Cursor, porém as técnicas utilizadas aqui podem ser facilmente replicadas em outras ferramentas.
+Neste projeto, usaremos o Cursor, porém as técnicas utilizadas aqui podem ser facilmente replicadas em outras ferramentas. Vale ressaltar que os prompts utilizados neste processo não devem ser estritamente copiados em seu ambiente, mas podem servir como referência para os seus próprios prompts.
 
 ## Passo 0: Configurar variáveis de ambiente
 
