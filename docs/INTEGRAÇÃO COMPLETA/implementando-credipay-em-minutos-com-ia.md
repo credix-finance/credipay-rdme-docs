@@ -58,3 +58,35 @@ O que queremos aqui é puxar o limite de crédito da CrediPay e disponibilizá-l
 Com estes dois prompts, nossa IA já foi capaz de realizar os ajustes necessários e trazer os dados da CrediPay para o frontend do nosso ERP!
 
 ![](https://files.readme.io/d9fab4f01680057c4df2f77731c7ab9dac9121f8d5c5d7ee238be5131c1c2046-image.png)
+
+<br />
+
+## Passo 2: Pedidos
+
+Nosso ERP possui também uma tela para criação de pedidos. Nela, podemos escolher o comprador, inserir o endereço de entrega, forma de pagamento, etc. Nosso objetivo agora é permitir que o usuário crie um pedido utilizando o limite de crédito CrediPay.
+
+![](https://files.readme.io/bc40f61fa26e38e038c402f3e3942e60a481fa21339ad56e8fb10b21ba6da2b8-image.png)
+
+### Forma de pagamento
+
+O primeira passo é habilitar o sistema a oferecer a forma de pagamento CrediPay. Para isso, podemos enviar os seguinte prompt:
+
+<Accordion title="Prompt 2.1: Nova forma de pagamento" icon="fa-info-circle">
+  Atualize minha lista de formas de pagamento e inclua a forma CrediPay. Ela deve permitir que o usuário escolha opções de pagamento em 1, 2 ou 3 vezes. Reflita esta mudança também na página de criação de pedidos ( @page.tsx )
+</Accordion>
+
+Como resultado, agora podemos escolher a forma de pagamento CrediPay
+
+![](https://files.readme.io/e82b15e6364bbfd83db4e64db8830652db35001938adbfe4800122abc1ba119d-image.png)
+
+### Exibindo o limite de crédito disponível
+
+É importante que o limite de crédito disponível do comprador também seja exibido na tela de criação de pedidos, para que o usuário saiba o quanto pode inserir nesse pedido.
+
+<Accordion title="Prompt 2.2: Limite de crédito na página de pedidos" icon="fa-info-circle">
+  Na página de criação de pedidos  @NewOrderPage() use nosso serviço @credipay.ts  para exibir o limite de crédito disponível da CrediPay após o usuário selecionar um comprador. Se o comprador nao for encontrado na CrediPay, exiba 0
+</Accordion>
+
+Com isso, agora conseguimos checar o limite de crédito quando selecionamos um comprador.
+
+![](https://files.readme.io/a962b9315524bbe48c352d3565c7aa54e6722a30a72bbb2ab5d2103508de1bf2-image.png)
