@@ -45,4 +45,8 @@ Como ponto de partida, temos uma página de compradores, onde o usuário pode se
 
 ![](https://files.readme.io/f73142ee1172f6c5ff22e8d9e1fdb914833889632c19bed8d53ef65a8f22b563-image.png)
 
-O que queremos aqui é puxar
+O que queremos aqui é puxar o limite de crédito da CrediPay e disponibilizá-lo para o usuário no frontend. Para isso, enviaremos o prompt:
+
+<Accordion title="Prompt 1.1: Criando o serviço" icon="fa-info-circle">
+  Vamos começar a construir uma integração com a API da CrediPay. O primeiro passo que devemos construir é uma chamada do nosso server para a API GET v2/buyers da CrediPay (@[https://docs.credipay.credix.finance/reference/buyerscontroller\_getbuyers.md](https://docs.credipay.credix.finance/reference/buyerscontroller_getbuyers.md) ). Certifique-se de autenticar corretamente (@[https://docs.credipay.credix.finance/docs/api-usage-authentication.md](https://docs.credipay.credix.finance/docs/api-usage-authentication.md) ). A Chave de API (CREDIPAY\_API\_KEY) e o URL base (CREDIPAY\_API\_URL)  já estao configuradas como variáveis de ambiente.
+</Accordion>
