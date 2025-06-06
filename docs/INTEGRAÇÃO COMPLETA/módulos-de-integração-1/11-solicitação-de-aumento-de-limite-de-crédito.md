@@ -39,6 +39,34 @@ Envie uma solicitação para aumentar o limite de crédito de um comprador. A so
 
 ## Consultar Solicitação
 
+Para buscar o resultado da análise, é possível usar o webhook `credit-limit.increase.finished` ou o endpoint GET `/v2/credit-limit/increase/{cl_increase_request_id}`. Veja mais detalhes abaixo.
+
+**Webhook** `credit-limit.increase.finished`
+
+Assim que a análise for finalizada, enviaremos este webhook.
+
+**Exemplo de Webhook**
+
+```json json
+{
+    "notificationType": "credit-limit.increase.finished",
+    "notificationData": {
+        "organization": {
+            "id": "seller-org-id"
+        },
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "status": "Finished",
+        "reason": null,
+        "buyerTaxId": "12345678901234",
+        "sellerTaxId": "98765432109876"
+        "credit_limit_requested_cents": 1000
+        "credit_limit_approved_cents": 10000
+    }
+}
+```
+
+<br />
+
 **GET** `/v2/credit-limit/increase/{cl_increase_request_id}`
 
 **Exemplo de Resposta**
