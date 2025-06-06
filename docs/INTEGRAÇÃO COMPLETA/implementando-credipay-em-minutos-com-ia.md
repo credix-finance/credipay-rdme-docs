@@ -10,6 +10,8 @@ metadata:
 
 # IA na documentação
 
+***
+
 ## Ask AI
 
 ![](https://files.readme.io/788aa15c6c3df26b2d6a524445f7dd8562ed246114e3497882877c424a0fbaa6-image.png)
@@ -25,6 +27,8 @@ Para inserir a documentação como um todo em seu ambiente de desenvolvimento, v
 <br />
 
 # Caso prático
+
+***
 
 Nesta seção, compartilharemos alguns prompts úteis para realizar uma implementação básica das APIs da CrediPay em um ERP. O objetivo é integrar os módulos de compradores, pedidos e faturamento do ERP às APIs do CrediPay sem usar código.
 
