@@ -128,3 +128,28 @@ Em seguida aplicar ao nosso fluxo:
 E pronto! De agora em diante, o pedido será criado automaticamente na CrediPay, e veremos o id CrediPay em nosso frontend:
 
 ![](https://files.readme.io/f814530768b0ae8e5d656605e995ceaaa38bcb7e2c35802ff813d7a10a337dca-image.png)
+
+<br />
+
+## Passo 3: Faturamento
+
+A última etapa a ser integrada é a de faturamento. Como nosso ERP demonstrativo não tem a capacidade de emitir uma NF real, nós vamos realizar uma simulação por meio de um upload de XML, e assim enviar o XML para a CrediPay.
+
+Como de costume, vamos começar integrando o endpoint para captura do XML:
+
+<Accordion title="Prompt 3.1: Implementando endpoint de captura de XML" icon="fa-info-circle">
+  Na nossa integracao com a credipay @credipay.ts , implemente agora o endpoint de captura de xmls @[https://docs.credipay.credix.finance/reference/orderscontroller\_captureorder.md](https://docs.credipay.credix.finance/reference/orderscontroller_captureorder.md) . Certifique-se de autenticar corretamente (@[https://docs.credipay.credix.finance/docs/api-usage-authentication.md](https://docs.credipay.credix.finance/docs/api-usage-authentication.md)   )
+  Tenha em mente que:
+
+  * O id do pedido enviado no URL é o ID do pedido na CrediPay
+  * Content Type deve ser multipart form data
+</Accordion>
+
+Em seguida aplicar ao nosso fluxo
+
+<Accordion title="Prompt 3.2: Integrando endpoint de captura de XML ao nosso fluxo" icon="fa-info-circle">
+  Usando o que acabamos de construir, ajuste a criação de notas fiscais @handleUpload()  para primeiro tentar criar o pedido na CrediPay. Certifique-se de passar o order id da CrediPay e nao o order id interno do sistema.
+  Se houver um erro, mostrar ao usuário na @UploadInvoicePage()  . Se bem sucedido, atualizar o pedido na base de dados,  com os dados do arquivo - nao devemos atualizar o pedido na base de dados caso o xml nao seja aceito pela CrediPay.
+</Accordion>
+
+# Conclusão
