@@ -28,6 +28,8 @@ Para inserir a documentação como um todo em seu ambiente de desenvolvimento, v
 
 Nesta seção, compartilharemos alguns prompts úteis para realizar uma implementação básica das APIs da CrediPay em um ERP. O objetivo é integrar os módulos de compradores, pedidos e faturamento do ERP às APIs do CrediPay sem usar código.
 
+Neste projeto, usaremos o Cursor, porém as técnicas utilizadas aqui podem ser facilmente replicadas em outras ferramentas.
+
 ## Passo 0: Configurar variáveis de ambiente
 
 Ante de começar, é necessário configurar as variáveis de ambiente. Para o desenvolvimento em questão, precisaremos de:
@@ -40,3 +42,7 @@ Para mais informações, leia [Autenticação e ambientes](https://docs.credipay
 ## Passo 1: Compradores
 
 Como ponto de partida, temos uma página de compradores, onde o usuário pode selecionar um CNPJ e visualizar algumas informações básicas
+
+![](https://files.readme.io/f73142ee1172f6c5ff22e8d9e1fdb914833889632c19bed8d53ef65a8f22b563-image.png)
+
+O que queremos aqui é puxar
