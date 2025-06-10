@@ -1,4 +1,4 @@
 ---
 title: Admin
-hidden: false
+hidden: true
 ---
