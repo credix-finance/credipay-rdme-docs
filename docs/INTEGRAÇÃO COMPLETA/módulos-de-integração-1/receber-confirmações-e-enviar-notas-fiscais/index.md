@@ -14,7 +14,7 @@ next:
 
 Ao criar um pedido (e reservar o limite de crédito), a CrediPay enviará automaticamente um email de confirmação para o comprador. Quando o comprador acessar o email e confirmar o pedido, nós enviaremos um webhook order.confirmed e mudaremos o status do pedido.
 
-Sendo feito isso, a Nota Fiscal deve ser emitida e enviada em seguida (não é possível enviar uma NF antes que o pedido seja confirmado). A CrediPay somente formalizará e se comprometerá com a transação uma vez que a NF seja aceita. Para mais informações sobre os critérios de aceite, acesse \[link para POST v2/orders/`{orderId}`/capture]\[link para POST v2/orders/`{orderId}`/capture].
+Sendo feito isso, a Nota Fiscal deve ser emitida e enviada em seguida (não é possível enviar uma NF antes que o pedido seja confirmado). A CrediPay somente formalizará e se comprometerá com a transação uma vez que a NF seja aceita. Para mais informações sobre os critérios de aceite, acesse [POST v2/orders/`{orderId}`.](https://docs.credipay.credix.finance/reference/orderscontroller_captureorder#/)
 
 Quando o XML de uma NF for aceito, os boletos serão emitidos automaticamente e enviados ao comprador. Para o integrador, pode ser interessante receber esses arquivos também. Para isso, cheque [Recebimento de boletos](doc:api-usage-receber-boletos)
 
