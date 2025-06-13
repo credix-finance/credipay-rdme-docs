@@ -10,7 +10,7 @@ metadata:
 
 ***
 
-A inteligência artificial está rapidamente se tornando uma parceira essencial no desenvolvimento de software, não apenas nos códigos que escrevemos, mas também na maneira como consumimos e mantemos a documentação técnica. Este guia foi criado para mostrar, passo a passo, como aproveitar os recursos de Ask AI e do arquivo llms.txt para turbinar o seu fluxo de trabalho com as APIs da CrediPay. Aqui você encontrará boas práticas, prompts prontos para uso e um caso prático completo que ilustra como integrar compradores, pedidos e faturamento em um ERP sem escrever linha de código. Use-o como ponto de partida, adapte-o às necessidades do seu projeto e descubra como a IA pode transformar tarefas repetitivas em processos rápidos, precisos e colaborativos.
+A inteligência artificial está rapidamente se tornando uma parceira essencial no desenvolvimento de software, não apenas nos códigos que escrevemos, mas também na maneira como consumimos e mantemos a documentação técnica. Este guia foi criado para mostrar, passo a passo, como aproveitar os recursos de Ask AI e do arquivo llms.txt para turbinar o seu fluxo de trabalho com as APIs da CrediPay. Aqui você encontrará boas práticas, prompts prontos para uso e um caso prático completo que ilustra como integrar compradores, pedidos e faturamento em um ERP sem escrever uma linha de código. Use-o como ponto de partida, adapte-o às necessidades do seu projeto e descubra como a IA pode transformar tarefas repetitivas em processos rápidos, precisos e colaborativos.
 
 # IA na documentação
 
@@ -22,11 +22,11 @@ A inteligência artificial está rapidamente se tornando uma parceira essencial 
 
 <br />
 
-Em todas as páginas da nossa documentação agora é possível usar a funcionalidade de 'Ask AI'. Através dela, você consegue abrir uma conversa com os principais LLMs do mercado, por onde você pode tirar dúvidas e pedir trechos de códigos. Ademais, é possível também acessar o markdown da página, o que é especialmente útil para ser inserido em IDE's como Cursor e Windsurf.
+Em todas as páginas da nossa documentação agora é possível usar a funcionalidade de 'Ask AI'. Através dela, você consegue abrir uma conversa com os principais LLMs do mercado, através dos quais você pode tirar dúvidas e pedir trechos de códigos. Ademais, é possível também acessar o markdown da página, o que é especialmente útil para inserção em IDE's como Cursor e Windsurf.
 
 ## llms.txt
 
-Para inserir a documentação como um todo em seu ambiente de desenvolvimento, você deve acessar [https://docs.credipay.credix.finance/llms.txt](https://docs.credipay.credix.finance/llms.txt) , copiar e colar o texto. Vale ressaltar que também é possível (e recomendado) que sejam coladas **apenas** o conteúdo das páginas que se apliquem à parte que você esteja desenvolvendo no momento, visando deixar o contexto do seu modelo mais assertivo.
+Para inserir a documentação como um todo em seu ambiente de desenvolvimento, você deve acessar [https://docs.credipay.credix.finance/llms.txt](https://docs.credipay.credix.finance/llms.txt) , copiar e colar o texto. Vale ressaltar que também é possível (e recomendado) que seja colado **apenas** o conteúdo das páginas que se apliquem à parte que você esteja desenvolvendo no momento, visando deixar o contexto do seu modelo mais assertivo.
 
 <br />
 
