@@ -2170,8 +2170,11 @@ components:
           example: 2000000
         creditLimitApprovedCents:
           type: number
-          description: The approved credit limit in cents.
+          description: >-
+            The approved credit limit in cents. Can be null if the credit limit
+            increase was not approved.
           example: 1500000
+          nullable: true
       required:
         - id
         - status
