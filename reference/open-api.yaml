@@ -742,14 +742,22 @@ components:
       properties:
         maturityDate:
           type: string
-          description: The maturity Date.
+          description: >-
+            The maturity Date. Either this or termDays must be provided, but not
+            both.
           example: '2024-02-10T00:00:00Z'
+          deprecated: true
+        termDays:
+          type: number
+          description: >-
+            Number of days until maturity. Either this or maturityDate must be
+            provided, but not both.
+          example: 30
         faceValueCents:
           type: number
           description: Face value of the installment in cents.
           example: 1020000
       required:
-        - maturityDate
         - faceValueCents
     OrderItemsDto:
       type: object
