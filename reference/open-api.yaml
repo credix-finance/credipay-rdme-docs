@@ -2135,6 +2135,55 @@ components:
         - sellerTaxId
         - status
         - buyerTaxId
+    CreditLimitIncreaseFinishedWebhookBody:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the credit limit increase request.
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        status:
+          type: string
+          description: The status of the credit limit increase request.
+          enum:
+            - Created
+            - Pending
+            - Approved
+            - Partially Approved
+            - Rejected
+            - Failed
+          example: Approved
+        reason:
+          type: string
+          description: The reason for credit limit increase request states.
+          example: Insufficient credit history
+          nullable: true
+        buyerTaxId:
+          type: string
+          description: The tax ID of the buyer.
+          example: '12345678000196'
+        sellerTaxId:
+          type: string
+          description: The tax ID of the seller.
+          example: '12345678000196'
+        creditLimitRequestedCents:
+          type: number
+          description: The requested credit limit in cents.
+          example: 2000000
+        creditLimitApprovedCents:
+          type: number
+          description: >-
+            The approved credit limit in cents. Can be null if the credit limit
+            increase was not approved.
+          example: 1500000
+          nullable: true
+      required:
+        - id
+        - status
+        - buyerTaxId
+        - sellerTaxId
+        - creditLimitRequestedCents
+        - creditLimitApprovedCents
     UnderwritingDetailsDto:
       type: object
       properties:
