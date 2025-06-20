@@ -7,4 +7,9 @@ api:
   file: open-api.yaml
   operationId: OrdersController_captureOrder
 hidden: false
+next:
+  pages:
+    - slug: orderscontroller_captureorder
+      title: Capturar pedido
+      type: endpoint
 ---
