@@ -1,4 +1,4 @@
 ---
-title: Credit Limit
+title: Limite de Crédito
 hidden: false
 ---
