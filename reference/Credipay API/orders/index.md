@@ -1,4 +1,4 @@
 ---
-title: Orders
+title: Pedidos
 hidden: false
 ---
