@@ -1,8 +1,8 @@
 ---
-title: Request a credit limit
+title: Solicitar limite de crédito
 excerpt: >-
-  Request a credit limit for a specific buyer for the first time. If additional
-  credit limit is needed, use the Request a credit limit increase endpoint.
+  Solicita o primeiro limite de crédito para um comprador. Para casos de aumento
+  de um limite já existente, utilize o endpoint de aumento de limite.
 api:
   file: risk-open-api.json
   operationId: credit_underwrite_request_risk_engine_credit_underwrite_request_post
