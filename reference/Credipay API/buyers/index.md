@@ -1,4 +1,4 @@
 ---
-title: Buyers
+title: Compradores
 hidden: false
 ---
