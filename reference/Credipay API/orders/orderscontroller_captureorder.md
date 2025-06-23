@@ -1,9 +1,9 @@
 ---
-title: Capturar pedido
+title: Capture Order
 excerpt: >-
-  Endpoint assíncrono que permite o envio de um XML de NF-e para um pedido
-  previamente criado. Quando concluído, o webhook order.captured será enviado
-  (para mais informações, veja a página referenciada abaixo).
+  This is an async endpoint that allows you to submit a Nota Fiscal XML file for
+  an order. Once the xml file is submitted, a job will be triggered to perform
+  validations and capture the order.
 api:
   file: open-api.yaml
   operationId: OrdersController_captureOrder

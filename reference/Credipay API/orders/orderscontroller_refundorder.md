@@ -1,9 +1,8 @@
 ---
-title: Reembolsar pedido
+title: Refund Order
 excerpt: >-
-  Este endpoint assíncrono permite que um pedido que já foi capturado seja
-  reembolsado. Ao ser concluído, envia o webhook repayment.cancelled (para mais
-  informações, veja a página referenciada abaixo).
+  This is an async endpoint that allows you to request a refund on an existing
+  order.
 api:
   file: open-api.yaml
   operationId: OrdersController_refundOrder
