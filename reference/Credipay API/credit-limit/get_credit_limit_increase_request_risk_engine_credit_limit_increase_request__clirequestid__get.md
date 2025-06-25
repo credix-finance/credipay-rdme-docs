@@ -1,6 +1,6 @@
 ---
-title: Buscar solicitação de aumento de limite
-excerpt: Busca solicitação de aumento de limite baseado no Id
+title: Get a credit limit increase request
+excerpt: Get a credit limit increase request by ID (UUID)
 api:
   file: risk-open-api.json
   operationId: >-

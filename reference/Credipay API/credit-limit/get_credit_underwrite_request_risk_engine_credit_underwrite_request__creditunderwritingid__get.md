@@ -1,6 +1,6 @@
 ---
-title: Buscar solicitação de limite
-excerpt: Busca solicitação de limite baseado no Id
+title: Get a credit limit request
+excerpt: Get a credit limit request by ID (UUID)
 api:
   file: risk-open-api.json
   operationId: >-
