@@ -43,6 +43,8 @@ Cada evento possui um payload em JSON com informações específicas. Para ver o
 
 👉 [Catálogo de Eventos](https://app.credipay.credix.finance/webhooks/)
 
+Não possui acesso? Siga o passo a passo descrito [aqui](https://docs.credipay.credix.finance/docs/setting-up-the-platform).
+
 ***
 
 ## Como adicionar um endpoint
