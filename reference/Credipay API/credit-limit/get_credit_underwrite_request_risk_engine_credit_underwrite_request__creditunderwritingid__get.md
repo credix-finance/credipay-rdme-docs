@@ -1,6 +1,6 @@
 ---
-title: Obter uma solicitação de limite de crédito.
-excerpt: Obter uma solicitação de limite de crédito pelo ID (UUID).
+title: Get a credit limit request
+excerpt: Get a credit limit request by ID (UUID)
 api:
   file: risk-open-api.json
   operationId: >-
