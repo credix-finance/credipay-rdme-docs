@@ -1,9 +1,9 @@
 ---
-title: Cancelar pedido
+title: Cancel Order
 excerpt: >-
-  Move um pedido para o estado de cancelado e aumenta o limite de crédito
-  disponível do comprador pelo valor total do pedido. Se o pedido já tiver uma
-  nota fiscal vinculada, ele será totalmente reembolsado.
+  Moves an order to cancelled state and increases the buyer's available credit
+  limit by that order's total amount. If the order already has an invoice linked
+  to it, it will be fully refunded.
 api:
   file: open-api.yaml
   operationId: OrdersController_cancelOrder

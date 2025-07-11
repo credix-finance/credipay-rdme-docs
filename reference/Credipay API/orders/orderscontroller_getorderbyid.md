@@ -1,6 +1,6 @@
 ---
 title: Get an order
-excerpt: Recupera um pedido baseado no id interno da CrediPay
+excerpt: Gets an order by CrediPay's internal order ID.
 api:
   file: open-api.yaml
   operationId: OrdersController_getOrderById

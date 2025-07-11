@@ -1,6 +1,6 @@
 ---
 title: Create an order
-excerpt: Cria um pedido através de um payload JSON
+excerpt: Create an order by submitting a json payload.
 api:
   file: open-api.yaml
   operationId: OrdersController_postOrder

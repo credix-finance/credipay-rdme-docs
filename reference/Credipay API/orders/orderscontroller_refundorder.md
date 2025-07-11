@@ -1,8 +1,8 @@
 ---
-title: Reembolsar pedido
+title: Refund Order
 excerpt: >-
-  Este é um endpoint assíncrono que permite solicitar um reembolso de um pedido
-  existente.
+  This is an async endpoint that allows you to request a refund on an existing
+  order.
 api:
   file: open-api.yaml
   operationId: OrdersController_refundOrder
