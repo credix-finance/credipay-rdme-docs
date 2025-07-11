@@ -2096,6 +2096,14 @@ components:
     CreditLimitUnderwriteFinishedEventWebhookBody:
       type: object
       properties:
+        eventType:
+          type: string
+          description: Event type.
+          enum:
+            - credit-limit.underwrite.finished
+            - credit-limit.increase.finished
+            - credit-limit.admin.underwrite.finished
+          example: credit-limit.underwrite.finished
         id:
           type: string
           description: The ID of the credit limit underwrite request.
@@ -2131,6 +2139,7 @@ components:
           description: The tax ID of the buyer.
           example: '12345678000196'
       required:
+        - eventType
         - id
         - sellerTaxId
         - status
@@ -2138,6 +2147,14 @@ components:
     CreditLimitIncreaseFinishedWebhookBody:
       type: object
       properties:
+        eventType:
+          type: string
+          description: Event type.
+          enum:
+            - credit-limit.underwrite.finished
+            - credit-limit.increase.finished
+            - credit-limit.admin.underwrite.finished
+          example: credit-limit.increase.finished
         id:
           type: string
           description: The ID of the credit limit increase request.
@@ -2178,6 +2195,7 @@ components:
           example: 1500000
           nullable: true
       required:
+        - eventType
         - id
         - status
         - buyerTaxId
@@ -2244,6 +2262,14 @@ components:
     CreditLimitAdminUnderwriteFinishedWebhookBody:
       type: object
       properties:
+        eventType:
+          type: string
+          description: Event type.
+          enum:
+            - credit-limit.underwrite.finished
+            - credit-limit.increase.finished
+            - credit-limit.admin.underwrite.finished
+          example: credit-limit.admin.underwrite.finished
         id:
           type: string
           description: >-
@@ -2310,6 +2336,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/SellerStatusDto'
       required:
+        - eventType
         - id
         - taxId
         - sellerTaxId
