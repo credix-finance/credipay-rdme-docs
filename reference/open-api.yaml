@@ -1551,6 +1551,7 @@ components:
             - StarkbankBoleto
             - BtgBoleto
             - BtgBolePix
+            - BtgEverestBoleto
       required:
         - taxId
         - name
@@ -2070,6 +2071,7 @@ components:
             - StarkbankBoleto
             - BtgBoleto
             - BtgBolePix
+            - BtgEverestBoleto
           example: BtgBolePix
         repaymentCreationEvent:
           type: string
