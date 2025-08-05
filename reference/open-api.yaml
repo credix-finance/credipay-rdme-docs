@@ -240,6 +240,28 @@ paths:
       summary: Cancel Order
       tags:
         - Orders
+  /v2/repayments/webhooks/btg-empresas/fidc-payment-updates:
+    post:
+      description: Receives and processes a webhook payment updates event from BTG FIDC.
+      operationId: webhook-btg-fidc-payment-updates
+      parameters: []
+      requestBody:
+        required: true
+        description: BTG FIDC payment updates event data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BtgFidcPaymentWebhook'
+      responses:
+        '200':
+          description: Webhook event received successfully.
+        '404':
+          description: Repayment not found.
+        '500':
+          description: Internal Server Error.
+      summary: Process payment updates event
+      tags:
+        - Repayments
 info:
   title: Credipay API
   description: ''
@@ -937,5 +959,219 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
+    BtgFidcPaymentDates:
+      type: object
+      properties:
+        maturityDate:
+          type: string
+          description: Data de vencimento da parcela
+          example: '2025-02-28T00:00:00'
+        referenceDate:
+          type: string
+          description: Data referência do recurso financeiro
+          example: '2025-02-28T00:00:00'
+      required:
+        - maturityDate
+        - referenceDate
+    BtgFidcPaymentSettlementIdentificators:
+      type: object
+      properties:
+        ourNumber:
+          type: string
+          description: identificador do "Nosso Número"
+          example: '4777'
+        ourNumberDigit:
+          type: string
+          description: Digito do "Nosso Número"
+          example: '9'
+        barcodeNumber:
+          type: string
+          description: Código de barras do boleto
+          example: '20890001091000000047077050224904698970000014700'
+        iban:
+          type: string
+          description: Código IBAN referente a conta bancária
+          example: BR1800360305000010009795493C1
+      required:
+        - ourNumber
+        - ourNumberDigit
+        - barcodeNumber
+        - iban
+    BtgFidcPaymentValues:
+      type: object
+      properties:
+        penalty:
+          type: number
+          description: Multa
+          example: 10.2
+        interestArrears:
+          type: number
+          description: Mora
+          example: 10.2
+        latePaymentInterest:
+          type: number
+          description: Juros por Atraso
+          example: 10.2
+        grossUp:
+          type: number
+          description: Gross Up
+          example: 10.2
+        commission:
+          type: number
+          description: Comissão
+          example: 10.2
+        fixedInterest:
+          type: number
+          description: Juros Pré
+          example: 10.2
+        floatInterest:
+          type: number
+          description: Juros Pós
+          example: 10.2
+        principal:
+          type: number
+          description: Principal
+          example: 10.2
+        maturityValue:
+          type: number
+          description: Valor no Vencimento
+          example: 10.2
+        iof:
+          type: number
+          description: IOF
+          example: 10.2
+        disbursement:
+          type: number
+          description: Desembolso
+          example: 10.2
+        cost:
+          type: number
+          description: Custo
+          example: 10.2
+        collection:
+          type: number
+          description: Outras Despesas
+          example: 10.2
+      required:
+        - penalty
+        - interestArrears
+        - latePaymentInterest
+        - grossUp
+        - commission
+        - fixedInterest
+        - floatInterest
+        - principal
+        - maturityValue
+        - iof
+        - disbursement
+        - cost
+        - collection
+    BtgFidcPaymentUpdateDto:
+      type: object
+      properties:
+        agreementId:
+          type: string
+          description: Identificador único do acordo (GUID)
+          example: 123e4567-e89b-12d3-a456-426614174000
+        status:
+          type: string
+          description: Status do pagamento
+          example: Processed
+          enum:
+            - Processed
+            - Cancelled
+        method:
+          type: string
+          description: Tipo de liquidação
+          example: Pix
+          enum:
+            - BankSlip
+            - Pix
+            - DirectDebit
+            - Internal
+            - ExternalAccount
+        contractNumber:
+          type: string
+          description: Número do contrato
+          example: CONTRACT-0001
+        installmentNumber:
+          type: number
+          description: Número da parcela
+          example: 1
+        dates:
+          description: Datas relacionadas a toda esteira de pagamento
+          allOf:
+            - $ref: '#/components/schemas/BtgFidcPaymentDates'
+        settlementIdentificators:
+          description: informações relacionadas a identificadores de pagamento
+          allOf:
+            - $ref: '#/components/schemas/BtgFidcPaymentSettlementIdentificators'
+        type:
+          type: string
+          description: Informa o tipo do pagamento
+          example: PrePayment
+          enum:
+            - Ordinary
+            - PrePayment
+            - RenegotiationAdhesion
+        subtype:
+          type: string
+          description: Informa se o pagamento é Pré, Pós ou na Data do vencimento
+          example: OnDate
+          enum:
+            - Pre
+            - OnDate
+            - Post
+        value:
+          type: number
+          description: Valor total do pagamento
+          example: 132.6
+        payedValues:
+          description: Racional dos valores pagos
+          allOf:
+            - $ref: '#/components/schemas/BtgFidcPaymentValues'
+        discountValues:
+          description: Racional dos valores de desconto
+          allOf:
+            - $ref: '#/components/schemas/BtgFidcPaymentValues'
+        revenueValues:
+          description: Racional dos valores de receita
+          allOf:
+            - $ref: '#/components/schemas/BtgFidcPaymentValues'
+      required:
+        - agreementId
+        - status
+        - method
+        - contractNumber
+        - installmentNumber
+        - dates
+        - settlementIdentificators
+        - type
+        - subtype
+        - value
+        - payedValues
+        - discountValues
+        - revenueValues
+    BtgFidcPaymentWebhook:
+      type: object
+      properties:
+        webhookId:
+          type: string
+          description: Webhook Id.
+        event:
+          type: string
+          description: Event
+        data:
+          description: Event data
+          allOf:
+            - $ref: '#/components/schemas/BtgFidcPaymentUpdateDto'
+        tags:
+          type: object
+          description: Tags
+      required:
+        - webhookId
+        - event
+        - data
+        - tags
 security:
   - api_key: []
