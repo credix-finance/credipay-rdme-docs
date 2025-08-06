@@ -1710,50 +1710,6 @@ components:
         - refundStatus
         - latestRefundDate
         - maturityDate
-    RepaymentDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Repayment ID.
-          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
-        status:
-          type: string
-          description: repayment status.
-          enum:
-            - open
-            - paid
-            - restructured
-            - renegotiated
-          example: open
-        amount:
-          type: number
-          description: Amount value cents.
-          example: 10000
-        dueDate:
-          type: string
-          description: >-
-            Invoice due date in ISO 8601 format. In the case of multiple
-            installments, this is the due date of the last installment.
-          example: '2024-02-29T00:00:00.000Z'
-        repaymentDate:
-          type: object
-          description: >-
-            Repayment date in ISO 8601 format. Defaults to null if the repayment
-            has yet to be made.
-          example: '2024-02-20T00:00:00.000Z'
-        pdfURL:
-          type: object
-          description: Repayment PDF URL
-          example: https://pdfurl.com
-          default: https://pdfurl.com
-      required:
-        - id
-        - status
-        - amount
-        - dueDate
-        - repaymentDate
-        - pdfURL
     CreateInvoiceResponseDto:
       type: object
       properties:
@@ -1815,11 +1771,6 @@ components:
             - PartialRefund
             - FullRefund
           example: NoRefund
-        repayments:
-          description: Invoice repayments.
-          type: array
-          items:
-            $ref: '#/components/schemas/RepaymentDto'
         faceValueCents:
           type: object
           description: Invoice face value cents.
@@ -1838,8 +1789,51 @@ components:
         - issuanceDate
         - refundAmountCents
         - refundStatus
-        - repayments
         - faceValueCents
+    RepaymentDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Repayment ID.
+          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
+        status:
+          type: string
+          description: repayment status.
+          enum:
+            - open
+            - paid
+            - restructured
+            - renegotiated
+          example: open
+        amount:
+          type: number
+          description: Amount value cents.
+          example: 10000
+        dueDate:
+          type: string
+          description: >-
+            Invoice due date in ISO 8601 format. In the case of multiple
+            installments, this is the due date of the last installment.
+          example: '2024-02-29T00:00:00.000Z'
+        repaymentDate:
+          type: object
+          description: >-
+            Repayment date in ISO 8601 format. Defaults to null if the repayment
+            has yet to be made.
+          example: '2024-02-20T00:00:00.000Z'
+        pdfURL:
+          type: object
+          description: Repayment PDF URL
+          example: https://pdfurl.com
+          default: https://pdfurl.com
+      required:
+        - id
+        - status
+        - amount
+        - dueDate
+        - repaymentDate
+        - pdfURL
     InvoiceResponseDto:
       type: object
       properties:
