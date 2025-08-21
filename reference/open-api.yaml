@@ -30,17 +30,10 @@ paths:
         '500':
           description: Internal Server Error.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Create an order
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
     get:
       description: Lists all orders associated with the sellers linked to the application.
       operationId: list-orders
@@ -69,17 +62,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/GetMarketplaceOrderResponseDto'
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: List orders
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/orders/notification:
     post:
       description: Send order notification(s) to relevant parties.
@@ -120,17 +106,10 @@ paths:
         '404':
           description: Order was not found.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Get an order
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/orders/{orderId}/cancel:
     post:
       description: >-
@@ -163,17 +142,10 @@ paths:
         '500':
           description: Internal Server Error.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Cancel an order
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/orders/{orderId}/documents:
     get:
       description: Gets all documents linked to an order.
@@ -196,17 +168,10 @@ paths:
         '404':
           description: Order was not found.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Get order documents
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/order-simulation:
     post:
       description: Gets the invoice amounts and the total fees for the possible order.
@@ -235,17 +200,10 @@ paths:
         '500':
           description: Internal Server Error.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Returns order simulation.
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/orders/{orderId}/refund:
     post:
       description: >-
@@ -277,17 +235,10 @@ paths:
         '400':
           description: Bad Request.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Refund an order
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/orders/{orderId}/extension:
     post:
       description: Extends payment terms for an order for the given asset
@@ -313,17 +264,10 @@ paths:
         '400':
           description: Bad Request.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Extends payment terms for an order
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/assets:
     get:
       deprecated: true
@@ -393,18 +337,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/GetAssetResponseDto'
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: List installments
       tags:
         - Installments
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - auth0_jwt
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/installments:
     get:
       deprecated: false
@@ -472,18 +408,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/GetAssetResponseDto'
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: List installments
       tags:
         - Installments
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - auth0_jwt
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/buyers:
     get:
       description: >-
@@ -538,18 +466,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/GetBuyerDto'
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Get buyers
       tags:
         - Buyers
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - auth0_jwt
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/buyers/{taxId}:
     get:
       description: >-
@@ -589,18 +509,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetBuyerDto'
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Get buyer
       tags:
         - Buyers
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - auth0_jwt
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/invoices:
     post:
       description: >-
@@ -644,18 +556,10 @@ paths:
         '400':
           description: Could not process the invoice XML due to a format error.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Submit Invoice XML
       tags:
         - Invoices
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - auth0_jwt
-          - api_key
-        keyNames:
-          - x-credipay-api-key
     get:
       description: Get all the invoices linked to the application.
       operationId: get-invoices
@@ -698,18 +602,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/InvoiceResponseDto'
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Gets all the invoices
       tags:
         - Invoices
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - auth0_jwt
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/invoices/{invoiceId}:
     get:
       description: Get information of an specific invoice.
@@ -735,18 +631,10 @@ paths:
         '500':
           description: Internal Server Error.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Get Invoice
       tags:
         - Invoices
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - auth0_jwt
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/orders/{orderId}/finalize:
     post:
       description: >-
@@ -779,17 +667,10 @@ paths:
         '500':
           description: Internal Server Error.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Finalize an order
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/webhook-events/endpoints/{endpointId}/resend:
     post:
       description: >-
@@ -817,17 +698,10 @@ paths:
         '500':
           description: Internal Server Error.
       security:
-        - auth0_jwt: []
         - api_key: []
       summary: Resend failed webhooks.
       tags:
         - Webhooks
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
 info:
   title: Credipay API
   description: ''
