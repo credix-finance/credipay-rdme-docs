@@ -240,54 +240,6 @@ paths:
       summary: Cancel Order
       tags:
         - Orders
-  /v2/orders/{id}/otp-verification:
-    patch:
-      description: Resends the OTP verification for an order.
-      operationId: OrdersController_resendOtpVerification
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: CrediPay's internal order ID. UUID v4 format.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      responses:
-        '202':
-          description: Successful operation, OTP verification resent.
-        '400':
-          description: >-
-            Could not resend the OTP verification. OTP verification already
-            completed.
-        '404':
-          description: Order was not found.
-      summary: Resend OTP Verification
-      tags:
-        - Orders
-  /v2/orders/{id}/otp-verification/complete:
-    post:
-      description: Completes the OTP verification for an order.
-      operationId: OrdersController_completeOtpVerification
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: CrediPay's internal order ID. UUID v4 format.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CompleteOrderOtpVerificationDto'
-      responses:
-        '202':
-          description: ''
-      summary: Complete OTP Verification
-      tags:
-        - Orders
   /v2/repayments/webhooks/btg-empresas/fidc-payment-updates:
     post:
       description: Receives and processes a webhook payment updates event from BTG FIDC.
@@ -1314,15 +1266,6 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
-    CompleteOrderOtpVerificationDto:
-      type: object
-      properties:
-        otp:
-          type: string
-          description: The OTP code to complete the verification
-          example: '123456'
-      required:
-        - otp
     BtgFidcPaymentDates:
       type: object
       properties:
