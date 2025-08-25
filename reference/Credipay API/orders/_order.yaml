@@ -5,3 +5,5 @@
 - orderscontroller_refundorder
 - orderscontroller_cancelorder
 - orderscontroller_searchorders
+- orderscontroller_resendotpverification
+- orderscontroller_completeotpverification
