@@ -24,22 +24,22 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
       "disbursedAt": "2025-08-27T10:30:00.000Z",
       "payee": {
         "bankAccount": {
-          "bank_identification_code": "341",
-          "branch_number": "0001",
-          "branch_digit": null,
-          "account_number": "123456",
-          "account_digit": "7"
+          "bankIdentificationCode": "341",
+          "branchNumber": "0001",
+          "branchDigit": null,
+          "accountNumber": "123456",
+          "accountDigit": "7"
         }
       },
       "payer": {
         "name": "CrediPay Fundo de Investimento em Direitos Creditórios Comerciaos de Responsabilidade Limitada",
         "taxId": "58211468000105",
         "bankAccount": {
-          "bank_identification_code": "208",
-          "branch_number": "1234",
-          "branch_digit": "5",
-          "account_number": "123456",
-          "account_digit": "7"
+          "bankIdentificationCode": "208",
+          "branchNumber": "1234",
+          "branchDigit": "5",
+          "accountNumber": "123456",
+          "accountDigit": "7"
         }
       },
       "transactions": [
@@ -50,7 +50,7 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
           "invoiceNumber": "123456",
           "maturityDate": "2025-09-15",
           "duplicata": 1,
-          "order_external_Id": "PEDIDO-A456"
+          "orderExternalId": "PEDIDO-A456"
         },
         {
           "type": "AdvanceDiscount",
@@ -59,7 +59,7 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
           "invoiceNumber": "123456",
           "maturityDate": "2025-09-15",
           "duplicata": 1,
-          "order_external_Id": "PEDIDO-A456"
+          "orderExternalId": "PEDIDO-A456"
         },
         {
           "type": "TxFee",
@@ -68,7 +68,7 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
           "invoiceNumber": "123456",
           "maturityDate": "2025-09-15",
           "duplicata": 1,
-          "order_external_Id": "PEDIDO-A456"
+          "orderExternalId": "PEDIDO-A456"
         }
       ]
     }
@@ -81,9 +81,18 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
 
 ## Detalhamento dos campos
 
-<br />
+Abaixo, um descritivo dos campos presentes no objeto da resposta:
 
-| Campo     | Tipo | Descrição |
-| :-------- | :--- | :-------- |
-| reference |      |           |
-|           |      |           |
+* reference
+* totalAmountCents
+* disbursedAt
+* payee
+* payer
+* transactions
+* type
+* amountCents
+* invoiceKey
+* invoiceNumber
+* maturityDate
+* duplicata
+* orderExternalId
