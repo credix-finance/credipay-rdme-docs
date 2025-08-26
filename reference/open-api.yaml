@@ -240,28 +240,6 @@ paths:
       summary: Cancel Order
       tags:
         - Orders
-  /v2/repayments/webhooks/btg-empresas/fidc-payment-updates:
-    post:
-      description: Receives and processes a webhook payment updates event from BTG FIDC.
-      operationId: webhook-btg-fidc-payment-updates
-      parameters: []
-      requestBody:
-        required: true
-        description: BTG FIDC payment updates event data.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BtgFidcPaymentWebhook'
-      responses:
-        '200':
-          description: Webhook event received successfully.
-        '404':
-          description: Repayment not found.
-        '500':
-          description: Internal Server Error.
-      summary: Process payment updates event
-      tags:
-        - Repayments
 info:
   title: Credipay API
   description: ''
@@ -589,6 +567,7 @@ components:
             - ValidationFailed
             - PartiallyRefunded
             - FullyRefunded
+            - WaitingForOtp
         invoice:
           description: Nota fiscal do pedido.
           allOf:
@@ -695,6 +674,7 @@ components:
             - ValidationFailed
             - PartiallyRefunded
             - FullyRefunded
+            - WaitingForOtp
         id:
           type: string
           description: ID do pedido.
@@ -895,54 +875,14 @@ components:
           type: string
           description: Operating system
           example: Windows
-        eid:
-          type: string
-          description: Device identifier
-          example: '89033023312170000000005421143542'
-        aaid:
-          type: string
-          description: Android Advertising ID
-          example: 6DD386F9-5B70-495C-B466-B3AF85534511
-        adid:
-          type: string
-          description: Apple Advertising ID
-          example: 6DD386F9-5B70-495C-B466-B3AF85534511
-        imei:
-          type: string
-          description: International Mobile Equipment Identity
-          example: '490154203237518'
-        imsi:
-          type: string
-          description: International Mobile Subscriber Identity
-          example: '313460000000001'
-        name:
-          type: string
-          description: Device name
-          example: 94ba328da6c11c99bf5fa1862224bbb7
-        seid:
-          type: string
-          description: Session identifier
-          example: 57656C636F6D6520746F2046594963656E7465722E636F6D
-        udid:
-          type: string
-          description: Unique Device Identifier
-          example: A51E1FFC-9C09-43AF-9477-9276A011E3CE
-        iccid:
-          type: string
-          description: Integrated Circuit Card Identifier
-          example: 891004234814455936F
-        memory:
-          type: number
-          description: Device memory in bytes
-          example: 1048576000
-        ringer:
-          type: string
-          description: Ringer mode
-          example: vibrate
         trueIp:
           type: string
           description: True IP address
           example: 112.196.3.212
+        memory:
+          type: number
+          description: Device memory in bytes
+          example: 1048576000
         gpuName:
           type: string
           description: GPU name
@@ -951,50 +891,18 @@ components:
           type: string
           description: Device language
           example: en_US
-        latitude:
-          type: string
-          description: Device latitude
-          example: '123.54'
         cpuCores:
           type: number
           description: CPU cores count
           example: 4
-        cpuModel:
-          type: string
-          description: CPU model
-          example: x86
         isMobile:
           type: boolean
           description: Whether device is mobile
           example: true
-        isPencil:
-          type: boolean
-          description: Whether device supports pencil
-          example: true
-        isRooted:
-          type: boolean
-          description: Whether device is rooted
-          example: true
-        longitude:
-          type: string
-          description: Device longitude
-          example: '122.54'
-        wifiSsid:
-          type: string
-          description: WiFi SSID
-          example: BandwidthRain
         gpuVendor:
           type: string
           description: GPU vendor
           example: Apple Inc
-        identifier:
-          type: string
-          description: Device identifier
-          example: 8547c5c2466aa0a3
-        isDsCard:
-          type: boolean
-          description: Whether device has DS card
-          example: true
         osVersion:
           type: string
           description: Operating system version
@@ -1007,30 +915,14 @@ components:
           type: number
           description: Screen PPI
           example: 24
-        wifiBssid:
-          type: string
-          description: WiFi BSSID
-          example: 44-55-4d-4d-59-2d
-        accessories:
-          type: number
-          description: Number of accessories
-          example: 2
-        isEmulator:
-          type: boolean
-          description: Whether device is emulator
-          example: true
-        unlockType:
-          type: string
-          description: Device unlock type
-          example: password
-        isCssImage:
-          type: boolean
-          description: Whether CSS image is supported
-          example: true
         screenWidth:
           type: number
           description: Screen width in pixels
           example: 1920
+        screenHeight:
+          type: number
+          description: Screen height in pixels
+          example: 1200
         storageFree:
           type: number
           description: Free storage in bytes
@@ -1039,81 +931,25 @@ components:
           type: number
           description: Battery level percentage
           example: 60
-        screenHeight:
-          type: number
-          description: Screen height in pixels
-          example: 1200
-        wifiSecurity:
-          type: string
-          description: WiFi security type
-          example: ESS
-        isNfcEnabled:
-          type: boolean
-          description: Whether NFC is enabled
-          example: true
-        isVirtualEnv:
-          type: boolean
-          description: Whether device is virtual environment
-          example: true
         localLanguage:
           type: string
           description: Local language
           example: en-IN
-        isDisplayZoom:
-          type: boolean
-          description: Whether display zoom is enabled
-          example: true
         isScreenTouch:
           type: boolean
           description: Whether screen is touch enabled
-          example: true
-        cameraMegapixel:
-          type: number
-          description: Camera megapixels
-          example: 16
-        isGuidedAccess:
-          type: boolean
-          description: Whether guided access is enabled
           example: true
         storageCapacity:
           type: number
           description: Storage capacity in bytes
           example: 255881465856
-        wifiMacAddress:
-          type: string
-          description: WiFi MAC address
-          example: 00:00:5e:00:53:af
-        isLowPowerMode:
-          type: boolean
-          description: Whether low power mode is enabled
-          example: true
-        screenBrightness:
-          type: string
-          description: Screen brightness level
-          example: '0.42'
         screenResolution:
           type: string
           description: Screen resolution
           example: 'null'
-        totalApplications:
-          type: number
-          description: Total number of applications
-          example: 16
         isBatteryCharging:
           type: boolean
           description: Whether battery is charging
-          example: true
-        icloudUbiqutiToken:
-          type: string
-          description: iCloud ubiquiti token
-          example: 9928f58d e1ab9d3c 63707e75 e240e45f 4b0b9c8b
-        bluetoothMacAddress:
-          type: string
-          description: Bluetooth MAC address
-          example: 00:11:22:33:FF:EE
-        isDeveloperSettings:
-          type: boolean
-          description: Whether developer settings are enabled
           example: true
     BrowserInfoDto:
       type: object
@@ -1142,26 +978,10 @@ components:
           type: string
           description: User agent string
           example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/
-        historyUrls:
-          type: number
-          description: Number of URLs in browser history
-          example: 16
-        isJsEnabled:
-          type: boolean
-          description: Whether JavaScript is enabled
-          example: true
         acceptLanguage:
           type: string
           description: Accept-Language header value
           example: en-us, de
-        timezoneOffset:
-          type: number
-          description: Timezone offset in minutes
-          example: -120
-        isIncognitoMode:
-          type: boolean
-          description: Whether browser is in incognito/private mode
-          example: false
         isCookiesEnabled:
           type: boolean
           description: Whether cookies are enabled
@@ -1170,9 +990,13 @@ components:
           type: string
           description: User's preferred language
           example: en-us
-    RequestContext:
+    RequestContextDto:
       type: object
       properties:
+        channel:
+          type: string
+          description: Channel of the request
+          example: Vtex
         deviceInfo:
           description: Device information for fraud detection
           allOf:
@@ -1235,7 +1059,7 @@ components:
         requestContext:
           description: Optional fraud detection data for order validation
           allOf:
-            - $ref: '#/components/schemas/RequestContext'
+            - $ref: '#/components/schemas/RequestContextDto'
       required:
         - buyerTaxId
         - sellerTaxId
@@ -1262,219 +1086,5 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
-    BtgFidcPaymentDates:
-      type: object
-      properties:
-        maturityDate:
-          type: string
-          description: Data de vencimento da parcela
-          example: '2025-02-28T00:00:00'
-        referenceDate:
-          type: string
-          description: Data referência do recurso financeiro
-          example: '2025-02-28T00:00:00'
-      required:
-        - maturityDate
-        - referenceDate
-    BtgFidcPaymentSettlementIdentificators:
-      type: object
-      properties:
-        ourNumber:
-          type: string
-          description: identificador do "Nosso Número"
-          example: '4777'
-        ourNumberDigit:
-          type: string
-          description: Digito do "Nosso Número"
-          example: '9'
-        barcodeNumber:
-          type: string
-          description: Código de barras do boleto
-          example: '20890001091000000047077050224904698970000014700'
-        iban:
-          type: string
-          description: Código IBAN referente a conta bancária
-          example: BR1800360305000010009795493C1
-      required:
-        - ourNumber
-        - ourNumberDigit
-        - barcodeNumber
-        - iban
-    BtgFidcPaymentValues:
-      type: object
-      properties:
-        penalty:
-          type: number
-          description: Multa
-          example: 10.2
-        interestArrears:
-          type: number
-          description: Mora
-          example: 10.2
-        latePaymentInterest:
-          type: number
-          description: Juros por Atraso
-          example: 10.2
-        grossUp:
-          type: number
-          description: Gross Up
-          example: 10.2
-        commission:
-          type: number
-          description: Comissão
-          example: 10.2
-        fixedInterest:
-          type: number
-          description: Juros Pré
-          example: 10.2
-        floatInterest:
-          type: number
-          description: Juros Pós
-          example: 10.2
-        principal:
-          type: number
-          description: Principal
-          example: 10.2
-        maturityValue:
-          type: number
-          description: Valor no Vencimento
-          example: 10.2
-        iof:
-          type: number
-          description: IOF
-          example: 10.2
-        disbursement:
-          type: number
-          description: Desembolso
-          example: 10.2
-        cost:
-          type: number
-          description: Custo
-          example: 10.2
-        collection:
-          type: number
-          description: Outras Despesas
-          example: 10.2
-      required:
-        - penalty
-        - interestArrears
-        - latePaymentInterest
-        - grossUp
-        - commission
-        - fixedInterest
-        - floatInterest
-        - principal
-        - maturityValue
-        - iof
-        - disbursement
-        - cost
-        - collection
-    BtgFidcPaymentUpdateDto:
-      type: object
-      properties:
-        agreementId:
-          type: string
-          description: Identificador único do acordo (GUID)
-          example: 123e4567-e89b-12d3-a456-426614174000
-        status:
-          type: string
-          description: Status do pagamento
-          example: Processed
-          enum:
-            - Processed
-            - Cancelled
-        method:
-          type: string
-          description: Tipo de liquidação
-          example: Pix
-          enum:
-            - BankSlip
-            - Pix
-            - DirectDebit
-            - Internal
-            - ExternalAccount
-        contractNumber:
-          type: string
-          description: Número do contrato
-          example: CONTRACT-0001
-        installmentNumber:
-          type: number
-          description: Número da parcela
-          example: 1
-        dates:
-          description: Datas relacionadas a toda esteira de pagamento
-          allOf:
-            - $ref: '#/components/schemas/BtgFidcPaymentDates'
-        settlementIdentificators:
-          description: informações relacionadas a identificadores de pagamento
-          allOf:
-            - $ref: '#/components/schemas/BtgFidcPaymentSettlementIdentificators'
-        type:
-          type: string
-          description: Informa o tipo do pagamento
-          example: PrePayment
-          enum:
-            - Ordinary
-            - PrePayment
-            - RenegotiationAdhesion
-        subtype:
-          type: string
-          description: Informa se o pagamento é Pré, Pós ou na Data do vencimento
-          example: OnDate
-          enum:
-            - Pre
-            - OnDate
-            - Post
-        value:
-          type: number
-          description: Valor total do pagamento
-          example: 132.6
-        payedValues:
-          description: Racional dos valores pagos
-          allOf:
-            - $ref: '#/components/schemas/BtgFidcPaymentValues'
-        discountValues:
-          description: Racional dos valores de desconto
-          allOf:
-            - $ref: '#/components/schemas/BtgFidcPaymentValues'
-        revenueValues:
-          description: Racional dos valores de receita
-          allOf:
-            - $ref: '#/components/schemas/BtgFidcPaymentValues'
-      required:
-        - agreementId
-        - status
-        - method
-        - contractNumber
-        - installmentNumber
-        - dates
-        - settlementIdentificators
-        - type
-        - subtype
-        - value
-        - payedValues
-        - discountValues
-        - revenueValues
-    BtgFidcPaymentWebhook:
-      type: object
-      properties:
-        webhookId:
-          type: string
-          description: Webhook Id.
-        event:
-          type: string
-          description: Event
-        data:
-          description: Event data
-          allOf:
-            - $ref: '#/components/schemas/BtgFidcPaymentUpdateDto'
-        tags:
-          type: object
-          description: Tags
-      required:
-        - webhookId
-        - event
-        - data
-        - tags
 security:
   - api_key: []
