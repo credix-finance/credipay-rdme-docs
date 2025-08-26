@@ -943,6 +943,7 @@ components:
             - validation_failed
             - partially_refunded
             - fully_refunded
+            - waiting_for_otp
           example: finalized
         estimatedDeliveryDate:
           type: object
@@ -1070,6 +1071,7 @@ components:
             - validation_failed
             - partially_refunded
             - fully_refunded
+            - waiting_for_otp
           example: cancelled
         estimatedDeliveryDate:
           type: object
@@ -1608,6 +1610,7 @@ components:
             - validation_failed
             - partially_refunded
             - fully_refunded
+            - waiting_for_otp
           example: created
         contactInformation:
           description: Contact information.
