@@ -32,7 +32,7 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
         }
       },
       "payer": {
-        "name": "CrediPay Fundo de Investimento em Direitos Creditórios Comerciaos de Responsabilidade Limitada",
+        "name": "CrediPay Fundo de Investimento em Direitos Creditórios Comerciais de Responsabilidade Limitada",
         "taxId": "58211468000105",
         "bankAccount": {
           "bankIdentificationCode": "208",
