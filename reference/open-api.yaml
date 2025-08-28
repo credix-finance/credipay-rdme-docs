@@ -1339,6 +1339,7 @@ components:
           type: number
           description: Refund value in cents.
           example: 1020000
+          minimum: 1
         value:
           type: number
           description: >-
@@ -1346,6 +1347,7 @@ components:
             refundValueCents in body instead
           example: 1020000
           deprecated: true
+          minimum: 1
       required:
         - refundValueCents
         - value
