@@ -60,15 +60,6 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
           "maturityDate": "2025-09-15",
           "duplicata": 1,
           "orderExternalId": "PEDIDO-A456"
-        },
-        {
-          "type": "TxFee",
-          "amountCents": -5000,
-          "invoiceKey": "41250812345678000199550010001234561000000015",
-          "invoiceNumber": "123456",
-          "maturityDate": "2025-09-15",
-          "duplicata": 1,
-          "orderExternalId": "PEDIDO-A456"
         }
       ]
     }
