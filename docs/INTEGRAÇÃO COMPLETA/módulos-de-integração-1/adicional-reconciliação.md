@@ -22,7 +22,7 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
       "reference": "DESEMBOLSO-CONTRATO-XYZ123",
       "totalAmountCents": 985000,
       "disbursedAt": "2025-08-27T10:30:00.000Z",
-      "payee": {
+      "seller": {
         "bankAccount": {
           "bankIdentificationCode": "341",
           "branchNumber": "0001",
@@ -83,16 +83,20 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
 
 Abaixo, um descritivo dos campos presentes no objeto da resposta:
 
-* reference
-* totalAmountCents
-* disbursedAt
-* payee
-* payer
-* transactions
-* type
-* amountCents
-* invoiceKey
-* invoiceNumber
-* maturityDate
-* duplicata
-* orderExternalId
+* **reference:** Identificador da transferência bancária
+* **totalAmountCents:** Valor total da transferência, em centavos
+* **disbursedAt:** Data da transferência
+* **seller:** Dados do vendedor (destinatário da transferência)
+* **payer:** Dados do pagador (originário da transferência)
+* **transactions:** Transações que estão sendo pagas ou cobradas dentro desta transferência
+* **type:** Tipo da transação. Os principais tipos são:
+  * AdvanceFaceValue: O valor total do recebível, sobre o qual será aplicada a taxa de desconto.
+  * AdvanceDiscount: O percentual deduzido no momento do desembolso, proporcional ao prazo de pagamento do recebível.
+  * Refund: Se houver um pedido de reembolso por parte do comprador, a CrediPay ajustará os boletos já pagos e descontará esse valor do próximo desembolso.
+  * RefundDiscountAdjustment: Correção no valor do reembolso com base no tempo decorrido desde o pagamento original.
+* **amountCents:** Valor da transação (o somatório dos valores das transações compõe o valor da transferência)
+* **invoiceKey:** Chave de 44 dígitos da Nota Fiscal
+* **invoiceNumber:** Número da Nota Fiscal
+* **maturityDate:** Vencimento da parcela (duplicata)
+* **duplicata:** Número da parcela (duplicata)
+* **orderExternalId:** Identificador externo do pedido
