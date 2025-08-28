@@ -85,7 +85,7 @@ Abaixo, um descritivo dos campos presentes no objeto da resposta:
   * AdvanceDiscount: O percentual deduzido no momento do desembolso, proporcional ao prazo de pagamento do recebível.
   * Refund: Se houver um pedido de reembolso por parte do comprador, a CrediPay ajustará os boletos já pagos e descontará esse valor do próximo desembolso.
   * RefundDiscountAdjustment: Correção no valor do reembolso com base no tempo decorrido desde o pagamento original.
-* **amountCents:** Valor da transação (o somatório dos valores das transações compõe o valor da transferência)
+* **amountCents:** Valor da transação (o somatório dos valores das transações compõe o valor da transferência). Valores positivos são os pagos ao vendedor, e negativos os cobrados.
 * **invoiceKey:** Chave de 44 dígitos da Nota Fiscal
 * **invoiceNumber:** Número da Nota Fiscal
 * **maturityDate:** Vencimento da parcela (duplicata)
