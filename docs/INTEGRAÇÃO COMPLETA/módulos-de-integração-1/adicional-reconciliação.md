@@ -20,7 +20,7 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
   "data": [
     {
       "reference": "DESEMBOLSO-CONTRATO-XYZ123",
-      "totalAmountCents": 985000,
+      "totalAmountCents": 990000,
       "disbursedAt": "2025-08-27T10:30:00.000Z",
       "seller": {
         "bankAccount": {
