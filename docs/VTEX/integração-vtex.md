@@ -51,6 +51,7 @@ Tendo limite de crédito, o comprador conseguirá abrir a tela de confirmação 
   <Column>
     <Image align="center" src="https://files.readme.io/cf6cebfc0ac9c8fb5a71181b03676e90b51ee6a8a4a443611ca18d3b1f489c1a-image.png" />
   </Column>
+
   <Column>
     <Image align="center" src="https://files.readme.io/904ab304a0c414c7e7304121438606c9801ab6d17901d498ccd2c0071f42e603-image2.png" />
   </Column>
@@ -67,7 +68,9 @@ Medidas de segurança nesta etapa
 
 ## Faturamento
 
-[https://www.loom.com/share/e872a0d9bf154a2b80edd54969b8acb9](https://www.loom.com/share/e872a0d9bf154a2b80edd54969b8acb9)
+<HTMLBlock>{`
+<div style="position: relative; padding-bottom: 64.74820143884892%; height: 0;"><iframe src="https://www.loom.com/embed/e872a0d9bf154a2b80edd54969b8acb9?sid=6a18171d-9be0-45fa-892b-bc297606c676" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+`}</HTMLBlock>
 
 Com o meio de pagamento instalado no ambiente VTEX, a CrediPay consegue monitorar quando os pedidos criados recebem uma NF. Com isso, assim que a VTEX recebe um arquivo de XML de NF, ele automaticamente é transmitido à CrediPay.
 
