@@ -2,6 +2,8 @@
 title: Integração VTEX
 deprecated: false
 hidden: true
+link:
+  new_tab: false
 metadata:
   robots: index
 ---
@@ -21,7 +23,7 @@ Nosso objetivo é permitir que vendedores ofereçam crédito de forma automatiza
 
 <HTMLBlock>{`
 <div style="position: relative; padding-bottom: 58.82352941176471%; height: 0;">
-  <iframe src="https://www.loom.com/embed/5add326975d24371bbf54d9a467eb8cc?sid=c1b336d8-fd9d-40e1-a326-14860ad50ca6" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" />
+  <iframe src="https://www.loom.com/embed/5add326975d24371bbf54d9a467eb8cc?sid=c1b336d8-fd9d-40e1-a326-14860ad50ca6" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
 </div>
 `}</HTMLBlock>
 
@@ -45,9 +47,14 @@ Medidas de segurança nesta etapa
 
 Tendo limite de crédito, o comprador conseguirá abrir a tela de confirmação de pedido, onde verá um resumo de sua compra, e com um clique consegue finalizar a compra sem sair do ambiente VTEX. Ao fazer isso, o pedido é enviado à CrediPay, e o valor da compra é subtraído limite de crédito disponível do cliente.
 
-<Image align="center" src="https://files.readme.io/cf6cebfc0ac9c8fb5a71181b03676e90b51ee6a8a4a443611ca18d3b1f489c1a-image.png" />
-
-<Image align="center" src="https://files.readme.io/904ab304a0c414c7e7304121438606c9801ab6d17901d498ccd2c0071f42e603-image2.png" />
+<Columns layout="auto">
+  <Column>
+    <Image align="center" src="https://files.readme.io/cf6cebfc0ac9c8fb5a71181b03676e90b51ee6a8a4a443611ca18d3b1f489c1a-image.png" />
+  </Column>
+  <Column>
+    <Image align="center" src="https://files.readme.io/904ab304a0c414c7e7304121438606c9801ab6d17901d498ccd2c0071f42e603-image2.png" />
+  </Column>
+</Columns>
 
 No nosso checkout, o comprador começa o processo escolhendo o número de parcelas com que deseja pagar. Depois, abre o modal, que exibirá as datas de vencimento dos boletos do pedido.
 
