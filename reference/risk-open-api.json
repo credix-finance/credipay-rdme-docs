@@ -195,6 +195,152 @@
   },
   "components": {
     "schemas": {
+      "AccountCheck": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active"
+          },
+          "created": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created"
+          },
+          "ipLast": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iplast"
+          },
+          "ipCreated": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ipcreated"
+          },
+          "ipHistory": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iphistory"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AddressCheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "email",
+          "phone"
+        ],
+        "title": "AccountCheck"
+      },
+      "AddressCheck": {
+        "properties": {
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "house": {
+            "type": "string",
+            "title": "House"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "street": {
+            "type": "string",
+            "title": "Street"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "zipCode": {
+            "type": "string",
+            "title": "Zipcode"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "city",
+          "house",
+          "state",
+          "street",
+          "country",
+          "zipCode"
+        ],
+        "title": "AddressCheck"
+      },
       "AdminCreditUnderwritingBatchRequestDTO": {
         "properties": {
           "buyerTaxIds": {
@@ -645,6 +791,112 @@
         ],
         "title": "AdminCreditUnderwritingResponseDTO"
       },
+      "BrowserCheck": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "canvas": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Canvas"
+          },
+          "device": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device"
+          },
+          "charset": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Charset"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "userAgent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Useragent"
+          },
+          "acceptLanguage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Acceptlanguage"
+          },
+          "isCookiesEnabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iscookiesenabled"
+          },
+          "preferredLanguage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preferredlanguage"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "BrowserCheck"
+      },
       "CreditLimitIncreaseRequestDTO": {
         "properties": {
           "buyerTaxId": {
@@ -923,6 +1175,249 @@
         ],
         "title": "DataLoggingProvidersEnum"
       },
+      "DeviceCheck": {
+        "properties": {
+          "ip": {
+            "type": "string",
+            "title": "Ip"
+          },
+          "os": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Os"
+          },
+          "trueIp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trueip"
+          },
+          "memory": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Memory"
+          },
+          "gpuName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gpuname"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language"
+          },
+          "cpuCores": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpucores"
+          },
+          "isMobile": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ismobile"
+          },
+          "gpuVendor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gpuvendor"
+          },
+          "osVersion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Osversion"
+          },
+          "screenDpi": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screendpi"
+          },
+          "screenPpi": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screenppi"
+          },
+          "screenWidth": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screenwidth"
+          },
+          "screenHeight": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screenheight"
+          },
+          "storageFree": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storagefree"
+          },
+          "batteryLevel": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Batterylevel"
+          },
+          "localLanguage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Locallanguage"
+          },
+          "isScreenTouch": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Isscreentouch"
+          },
+          "storageCapacity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storagecapacity"
+          },
+          "screenResolution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screenresolution"
+          },
+          "isBatteryCharging": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Isbatterycharging"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "ip"
+        ],
+        "title": "DeviceCheck"
+      },
+      "FraudAnalysisDecisionsEnum": {
+        "type": "string",
+        "enum": [
+          "Approved",
+          "Rejected",
+          "ActionRequired"
+        ],
+        "title": "FraudAnalysisDecisionsEnum"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -970,6 +1465,152 @@
           "status"
         ],
         "title": "OnboardingFieldsDTO"
+      },
+      "OrderChannelEnum": {
+        "type": "string",
+        "enum": [
+          "Vtex",
+          "SellerPlatform",
+          "CredipayApi"
+        ],
+        "title": "OrderChannelEnum"
+      },
+      "OrderCheck": {
+        "properties": {
+          "amountInCents": {
+            "type": "integer",
+            "title": "Amountincents"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "numberOfItems": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Numberofitems"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "amountInCents",
+          "createdAt"
+        ],
+        "title": "OrderCheck"
+      },
+      "OrderFraudAnalysisAction": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "OrderFraudAnalysisAction"
+      },
+      "OrderFraudAnalysisDecisionResponseDTO": {
+        "properties": {
+          "decision": {
+            "$ref": "#/components/schemas/FraudAnalysisDecisionsEnum"
+          },
+          "actions": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/OrderFraudAnalysisAction"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "decision"
+        ],
+        "title": "OrderFraudAnalysisDecisionResponseDTO"
+      },
+      "OrderFraudAnalysisRequestDTO": {
+        "properties": {
+          "channel": {
+            "$ref": "#/components/schemas/OrderChannelEnum"
+          },
+          "sellerSegmentId": {
+            "type": "string",
+            "title": "Sellersegmentid"
+          },
+          "buyerTaxId": {
+            "type": "string",
+            "title": "Buyertaxid"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountCheck"
+          },
+          "shippingAddress": {
+            "$ref": "#/components/schemas/AddressCheck"
+          },
+          "order": {
+            "$ref": "#/components/schemas/OrderCheck"
+          },
+          "browser": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BrowserCheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "device": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DeviceCheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "channel",
+          "sellerSegmentId",
+          "buyerTaxId",
+          "account",
+          "shippingAddress",
+          "order"
+        ],
+        "title": "OrderFraudAnalysisRequestDTO"
       },
       "PostCreditUnderwritingDto": {
         "properties": {
@@ -1311,6 +1952,10 @@
           },
           "entity_id": {
             "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
               {
                 "type": "string"
               },
