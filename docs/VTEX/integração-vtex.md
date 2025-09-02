@@ -7,7 +7,7 @@ link:
 metadata:
   robots: index
 ---
-# Introdução)
+# Introdução
 
 ***
 
@@ -35,7 +35,7 @@ Quando um comprador chega ao checkout e deseja transacionar utilizando crédito,
 
 A integração da CrediPay automaticamente identifica compradores nos cenários 2 e 3, e realiza uma análise de crédito em tempo real usando apenas o CNPJ. Assim, conseguimos atribuir um novo limite em minutos (dependendo da análise de crédito) e permitir que este cliente finalize a compra.
 
-Medidas de segurança nesta etapa
+**Medidas de segurança nesta etapa**
 
 * Analisamos centenas de dados do CNPJ a fim de avaliar não só o risco de crédito, mas também de fraude. Alguns exemplos são se o CNPJ foi criado ou adquirido recentemente, se possui processos, entre outros.
 * Analisamos também o histórico dos sócios, para garantir que não estejam envolvidos em outras atividades potencialmente fraudulentas.
@@ -61,7 +61,7 @@ No nosso checkout, o comprador começa o processo escolhendo o número de parcel
 
 **Nota:** Como a VTEX permite configurar o número de parcelas mas não as datas, assumimos 30 dias entre cada parcela. Portanto, um pedido de 3 parcelas por exemplo será 30-60-90
 
-Medidas de segurança nesta etapa
+**Medidas de segurança nesta etapa**
 
 * O servidor da CrediPay recebe dados diretamente do servidor da VTEX, impossibilitando ataques via manipulação do cliente
 * Serão aceitos pedidos com endereço de entrega apenas para o endereço do cartão CNPJ
@@ -76,11 +76,7 @@ Com o meio de pagamento instalado no ambiente VTEX, a CrediPay consegue monitora
 
 Tendo recebido a NF, a CrediPay irá realizar o provisionamento do montante a ser pago, que será desembolsado em até 24h úteis na conta do vendedor. Para mais detalhes sobre reconciliação, veja [Relatórios](https://www.notion.so/Relat-rios-231917cac58d808d9d0ef099bdaf2f1b?pvs=21).
 
-Como isso se integra ao ERP?
-
-Com a integração ERP-VTEX configurada, não é necessário nenhum ajuste adicional, e as NFs fluirão automaticamente para a VTEX, e em seguida para a CrediPay. O ERP deve utilizar as datas de vencimento calculadas na criação do pedido como as datas de vencimento das duplicatas.
-
-Medidas de segurança nesta etapa
+**Medidas de segurança nesta etapa**
 
 * Checamos novamente o endereço de entrega, para garantir que é o mesmo do cartão CNPJ
 * Ao receber uma NF, realizamos automaticamente os trâmites legais de aquisição do recebível (duplicata) junto à CERC, uma registradora de ativos de crédito, que por sua vez realizada validações diretamente com a Secretaria da Fazenda e com outras registradoras
@@ -89,13 +85,13 @@ Medidas de segurança nesta etapa
 
 Similarmente ao tópico anterior, a CrediPay receberá de forma automática os reembolsos e cancelamentos da VTEX, que por sua vez deve receber do ERP. Quando isto acontecer, os boletos serão ajustados automaticamente, para garantir uma cobrança coerente ao comprador. Além disso, o valor reembolsado será somado ao limite de crédito disponível do cliente, permitindo-o usar esse saldo para novas compras.
 
-Buscando otimizar o processo, nós não requisitamos que o vendedor faça uma transferência para nos estornar os valores reembolsados, mas descontamos do adiantamento seguinte. Esse detalhamento pode ser encontrado na parte de [Relatórios](https://www.notion.so/Relat-rios-231917cac58d808d9d0ef099bdaf2f1b?pvs=21)
+Buscando otimizar o processo, nós não requisitamos que o vendedor faça uma transferência para nos estornar os valores reembolsados, mas descontamos do adiantamento seguinte. Esse detalhamento pode ser encontrado na parte de [Relatórios](https://docs.credipay.credix.finance/docs/integra%C3%A7%C3%A3o-vtex#relatórios)
 
-Como isso se integra ao ERP?
+**Como isso se integra ao ERP?**
 
 Com a integração ERP-VTEX configurada, não é necessário nenhum ajuste adicional, e os reembolsos e cancelamentos fluirão automaticamente para a VTEX, e em seguida para a CrediPay.
 
-Medidas de segurança nesta etapa
+**Medidas de segurança nesta etapa**
 
 * Nunca acataremos uma solicitação de reembolso ou cancelamento vinda diretamente do comprador. Nestes casos, o vendedor é quem nos deve informar o pedido e o valor a ser reembolsado.
 
@@ -105,33 +101,33 @@ Em conjunto com a integração VTEX-CrediPay, entregamos também um dashboard po
 
 *_certos dados foram ocultos para assegurar a privacidade de nossos usuários_
 
-Reconciliação
+**Reconciliação**
 
 Nesta aba, é possível visualizar, na maior granularidade possível, tudo o que está sendo pago e cobrado na relação entre CrediPay e vendedor.
 
-![reconc.png](%5BEXT%5D%20CrediPay%20-%20Integra%C3%A7%C3%A3o%20VTEX%20231917cac58d80199df4e83907426f7e/reconc.png)
+<Image align="center" src="https://files.readme.io/b702a8482bdb5286157d2a277824e81529c0d124c5ba3d2ac107ff36993b32d7-reconc.png" />
 
-Limites de crédito
+**Limites de crédito**
 
 Nesta aba, é possível obter uma visão geral de todos os limites de crédito aprovados pela CrediPay, o quanto foram consumidos, e o quanto ainda está disponível
 
-![download.png](%5BEXT%5D%20CrediPay%20-%20Integra%C3%A7%C3%A3o%20VTEX%20231917cac58d80199df4e83907426f7e/download.png)
+<Image align="center" src="https://files.readme.io/5748ae1e26a2c75686c02bc4f88bd1567b143a1dd01be2bd5d4be56f9831a1a2-lc.png" />
 
-Acompanhamento de pedidos e XML’s
+**Acompanhamento de pedidos e XML’s**
 
 Aqui, é possível acompanhar quais pedidos ainda não receberam um XML de Nota Fiscal, portanto estão ocupando limite de crédito do cliente sem que o vendedor tenha sido pago.
 
-![download (1).png](%5BEXT%5D%20CrediPay%20-%20Integra%C3%A7%C3%A3o%20VTEX%20231917cac58d80199df4e83907426f7e/download_\(1\).png)
+<Image align="center" src="https://files.readme.io/9d0201dd1b90744dc046d11cc0ef96b16b8ce48ce765119a4c0be80ce886614c-pedsxmls.png" />
 
-Cobrança
+**Cobrança**
 
 Na seção de cobrança, damos visibilidade dos casos em que ainda não conseguimos receber pelo pedido, e um detalhamento dos valores em aberto por comprador.
 
-![download (2).png](%5BEXT%5D%20CrediPay%20-%20Integra%C3%A7%C3%A3o%20VTEX%20231917cac58d80199df4e83907426f7e/download_\(2\).png)
+<Image align="center" src="https://files.readme.io/d5f8a80d7a885b91d728390ede8b09b8ebc138461f5bd1914b9e1f5e9fafedbc-cobranca.png" />
 
 ## Funcionalidades adicionais (API)
 
-Caso seja necessário estender a integração com a CrediPay além dos tópicos mencionados acima, nós oferecemos também um conjunto de APIs, que pode ser encontrado aqui: [https://docs.credipay.credix.finance/](https://docs.credipay.credix.finance/reference/buyerscontroller_getbuyers#/)
+Caso seja necessário estender a integração com a CrediPay além dos tópicos mencionados acima, nós oferecemos também um conjunto de APIs, que está explicado nas demais páginas desta documentação.
 
 # Integração com ERP
 
