@@ -37,11 +37,9 @@ Medidas de segurança nesta etapa
 
 * Analisamos centenas de dados do CNPJ a fim de avaliar não só o risco de crédito, mas também de fraude. Alguns exemplos são se o CNPJ foi criado ou adquirido recentemente, se possui processos, entre outros.
 * Analisamos também o histórico dos sócios, para garantir que não estejam envolvidos em outras atividades potencialmente fraudulentas.
-* Além de nosso próprio modelo, o CNPJ é analisado também pelo BTG Pactual, que possui suas próprias regras de prevenção à fraude, envolvendo bases de dados interbancárias de fraude, blacklists, entre outros.
+* Além de nosso próprio modelo, o CNPJ é analisado também por nossos parceiros, que possuem suas próprias regras de prevenção à fraude, envolvendo bases de dados interbancárias de fraude, blacklists, entre outros.
 
-_Mais detalhes (conteúdo em inglês):_
-
-[Fraud_Overview_June_2025.pdf](%5BEXT%5D%20CrediPay%20-%20Integra%C3%A7%C3%A3o%20VTEX%20231917cac58d80199df4e83907426f7e/Fraud_Overview_June_2025.pdf)
+<br />
 
 ## Criação de pedidos
 
