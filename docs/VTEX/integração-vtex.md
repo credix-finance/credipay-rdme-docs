@@ -85,7 +85,7 @@ Tendo recebido a NF, a CrediPay irá realizar o provisionamento do montante a se
 
 Similarmente ao tópico anterior, a CrediPay receberá de forma automática os reembolsos e cancelamentos da VTEX, que por sua vez deve receber do ERP. Quando isto acontecer, os boletos serão ajustados automaticamente, para garantir uma cobrança coerente ao comprador. Além disso, o valor reembolsado será somado ao limite de crédito disponível do cliente, permitindo-o usar esse saldo para novas compras.
 
-Buscando otimizar o processo, nós não requisitamos que o vendedor faça uma transferência para nos estornar os valores reembolsados, mas descontamos do adiantamento seguinte. Esse detalhamento pode ser encontrado na parte de [Relatórios](https://docs.credipay.credix.finance/docs/integra%C3%A7%C3%A3o-vtex#relatórios)
+Buscando otimizar o processo, nós não requisitamos que o vendedor faça uma transferência para nos estornar os valores reembolsados, mas descontamos do adiantamento seguinte. Esse detalhamento pode ser encontrado na parte de Relatórios (abaixo).
 
 **Como isso se integra ao ERP?**
 
