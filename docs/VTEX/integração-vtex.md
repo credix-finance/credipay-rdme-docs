@@ -45,9 +45,9 @@ Medidas de segurança nesta etapa
 
 Tendo limite de crédito, o comprador conseguirá abrir a tela de confirmação de pedido, onde verá um resumo de sua compra, e com um clique consegue finalizar a compra sem sair do ambiente VTEX. Ao fazer isso, o pedido é enviado à CrediPay, e o valor da compra é subtraído limite de crédito disponível do cliente.
 
-![image.png](%5BEXT%5D%20CrediPay%20-%20Integra%C3%A7%C3%A3o%20VTEX%20231917cac58d80199df4e83907426f7e/image.png)
+<Image align="center" src="https://files.readme.io/cf6cebfc0ac9c8fb5a71181b03676e90b51ee6a8a4a443611ca18d3b1f489c1a-image.png" />
 
-![image.png](%5BEXT%5D%20CrediPay%20-%20Integra%C3%A7%C3%A3o%20VTEX%20231917cac58d80199df4e83907426f7e/image%201.png)
+<Image align="center" src="https://files.readme.io/904ab304a0c414c7e7304121438606c9801ab6d17901d498ccd2c0071f42e603-image2.png" />
 
 No nosso checkout, o comprador começa o processo escolhendo o número de parcelas com que deseja pagar. Depois, abre o modal, que exibirá as datas de vencimento dos boletos do pedido.
 
