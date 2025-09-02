@@ -5,7 +5,7 @@ hidden: true
 metadata:
   robots: index
 ---
-# Introdução
+# Introdução)
 
 ***
 
@@ -19,7 +19,11 @@ Nosso objetivo é permitir que vendedores ofereçam crédito de forma automatiza
 
 ## Análise de crédito em tempo real
 
-[https://www.loom.com/share/5add326975d24371bbf54d9a467eb8cc?sid=3a61a232-b267-43f9-9cbc-f06aa0882c88](https://www.loom.com/share/5add326975d24371bbf54d9a467eb8cc?sid=3a61a232-b267-43f9-9cbc-f06aa0882c88)
+<HTMLBlock>{`
+<div style="position: relative; padding-bottom: 58.82352941176471%; height: 0;">
+  <iframe src="https://www.loom.com/embed/5add326975d24371bbf54d9a467eb8cc?sid=c1b336d8-fd9d-40e1-a326-14860ad50ca6" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" />
+</div>
+`}</HTMLBlock>
 
 Quando um comprador chega ao checkout e deseja transacionar utilizando crédito, 3 cenários podem ocorrer:
 
