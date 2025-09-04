@@ -240,6 +240,51 @@ paths:
       summary: Cancel Order
       tags:
         - Orders
+  /v2/disbursements:
+    get:
+      description: Gets seller disbursements
+      operationId: SellerDisbursementsController_getSellerDisbursements
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: Page number of the disbursements.
+          schema:
+            minimum: 1
+            default: 1
+            example: 1
+            type: number
+        - name: take
+          required: false
+          in: query
+          description: Number of disbursements to return.
+          schema:
+            minimum: 1
+            maximum: 100
+            default: 10
+            example: 10
+            type: number
+        - name: startDate
+          required: true
+          in: query
+          description: Start date of the disbursements.
+          schema:
+            example: '2025-01-01'
+            type: string
+        - name: endDate
+          required: false
+          in: query
+          description: End date of the disbursements.
+          schema:
+            default: '2025-09-04'
+            example: '2025-01-01'
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+      summary: Get seller disbursements
+      tags:
+        - Disbursements
 info:
   title: Credipay API
   description: ''
