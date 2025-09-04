@@ -901,6 +901,8 @@
         "properties": {
           "buyerTaxId": {
             "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
             "title": "Buyer Tax ID",
             "description": "Brazilian CNPJ (tax ID) of the buyer requesting the credit limit increase",
             "examples": [
@@ -909,6 +911,8 @@
           },
           "sellerTaxId": {
             "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
             "title": "Seller Tax ID",
             "description": "Brazilian CNPJ (tax ID) of the seller approving the credit limit increase",
             "examples": [
@@ -1799,10 +1803,6 @@
       },
       "TaktileWebhookResponseDTO": {
         "properties": {
-          "version": {
-            "type": "string",
-            "title": "Version"
-          },
           "time": {
             "type": "string",
             "title": "Time"
@@ -1812,14 +1812,23 @@
           },
           "event": {
             "$ref": "#/components/schemas/WebhookEvent"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
           }
         },
         "type": "object",
         "required": [
-          "version",
           "time",
           "type",
-          "event"
+          "event",
+          "version",
+          "id"
         ],
         "title": "TaktileWebhookResponseDTO"
       },
