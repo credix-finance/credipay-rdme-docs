@@ -897,6 +897,179 @@
         "type": "object",
         "title": "BrowserCheck"
       },
+      "CreateCRREnforcementRequestDTO": {
+        "properties": {
+          "entity_id": {
+            "type": "string",
+            "maxLength": 255,
+            "title": "Entity Id",
+            "description": "The unique identifier of the entity the enforcement rule refers to",
+            "example": "192.168.1.1"
+          },
+          "entity_type": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Entity Type",
+            "description": "The entity type from the entity_types table",
+            "example": "ip_address"
+          },
+          "flag_type": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Flag Type",
+            "description": "The unique string for this flag type",
+            "example": "TFB0000001"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EnforcementTypeEnum",
+            "description": "The enforcement action type: 'block' to prevent actions or 'allow' to explicitly permit actions",
+            "example": "block"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "The date limit after which the enforcement is no longer valid",
+            "example": "2024-12-31T23:59:59Z"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes about this enforcement rule explaining the reasoning, attaching Zendesk tickets, etc.",
+            "example": {
+              "reason": "Suspicious activity detected",
+              "zendesk_ticket": "TICKET-12345"
+            }
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_id",
+          "entity_type",
+          "flag_type",
+          "type"
+        ],
+        "title": "CreateCRREnforcementRequestDTO",
+        "description": "DTO for creating a new enforcement rule."
+      },
+      "CreateCRREnforcementResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Status of the operation",
+            "example": "success"
+          },
+          "enforcements": {
+            "items": {
+              "$ref": "#/components/schemas/EnforcementDTO"
+            },
+            "type": "array",
+            "title": "Enforcements",
+            "description": "Array with enforcement objects",
+            "example": []
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Reason if error occurred"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "enforcements"
+        ],
+        "title": "CreateCRREnforcementResponseDTO",
+        "description": "DTO for enforcement creation responses."
+      },
+      "CreateEntityTypeRequestDTO": {
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entity Type",
+            "description": "An entity type either described in our internal models or not (must be PascalCase)",
+            "example": "Order"
+          },
+          "regex_validation": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex Validation",
+            "description": "A REGEX pattern to validate entity IDs for this type",
+            "example": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_type"
+        ],
+        "title": "CreateEntityTypeRequestDTO",
+        "description": "DTO for creating a new entity type."
+      },
+      "CreateFlagTypeRequestDTO": {
+        "properties": {
+          "flag_type": {
+            "type": "string",
+            "maxLength": 7,
+            "minLength": 7,
+            "title": "Flag Type",
+            "description": "A string that names the flag type (format: AA11111 - 2 uppercase letters + 5 digits)",
+            "example": "TFB00001"
+          },
+          "domain": {
+            "$ref": "#/components/schemas/DomainEnum",
+            "description": "The nature of the rule to be bypassed",
+            "example": "fraud"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Description",
+            "description": "A small explanation of what this flag type is about",
+            "example": "Suspicious transaction pattern detected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag_type",
+          "domain",
+          "description"
+        ],
+        "title": "CreateFlagTypeRequestDTO",
+        "description": "DTO for creating a new flag type."
+      },
       "CreditLimitIncreaseRequestDTO": {
         "properties": {
           "buyerTaxId": {
@@ -1413,6 +1586,229 @@
         ],
         "title": "DeviceCheck"
       },
+      "DisableEnforcementResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Status of the operation (success or error)",
+            "example": "success"
+          },
+          "enforcement_id": {
+            "type": "string",
+            "title": "Enforcement Id",
+            "description": "UUID of the disabled enforcement rule",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Reason for the operation result (if error)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "enforcement_id"
+        ],
+        "title": "DisableEnforcementResponseDTO",
+        "description": "DTO for enforcement disable responses."
+      },
+      "DomainEnum": {
+        "type": "string",
+        "enum": [
+          "fraud",
+          "credit",
+          "generic"
+        ],
+        "title": "DomainEnum",
+        "description": "Enum representing the domain/nature of a flag type.\n\n- fraud: Flags related to fraudulent activities or suspicious behavior\n- credit: Flags related to credit risk assessment and creditworthiness\n- generic: General-purpose flags that can apply across multiple domains"
+      },
+      "EnforcementDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The unique identifier of the enforcement rule",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "The unique identifier of the entity",
+            "example": "192.168.1.1"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The entity type",
+            "example": "ip_address"
+          },
+          "flag_type": {
+            "type": "string",
+            "title": "Flag Type",
+            "description": "The flag type",
+            "example": "TFB0000001"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EnforcementTypeEnum",
+            "description": "The enforcement action type",
+            "example": "block"
+          },
+          "created_by": {
+            "type": "string",
+            "title": "Created By",
+            "description": "The user who created this enforcement rule",
+            "example": "admin@credix.io"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "The expiration date of the enforcement rule",
+            "example": "2024-12-31T23:59:59Z"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "Additional context about the enforcement rule",
+            "example": {
+              "reason": "Suspicious activity detected"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the enforcement rule was created",
+            "example": "2024-01-01T00:00:00Z"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity_id",
+          "entity_type",
+          "flag_type",
+          "type",
+          "created_by",
+          "created_at"
+        ],
+        "title": "EnforcementDTO",
+        "description": "DTO for enforcement rule in responses."
+      },
+      "EnforcementTypeEnum": {
+        "type": "string",
+        "enum": [
+          "block",
+          "allow"
+        ],
+        "title": "EnforcementTypeEnum",
+        "description": "Enum representing the enforcement action type.\n\n- block: Prevents the entity from performing certain actions\n- allow: Explicitly allows the entity to perform actions (whitelist)"
+      },
+      "EntityTypeResponseDTO": {
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The unique identifier for this entity type",
+            "example": "order"
+          },
+          "regex_validation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex Validation",
+            "description": "The REGEX pattern used to validate entity IDs",
+            "example": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_type"
+        ],
+        "title": "EntityTypeResponseDTO",
+        "description": "DTO for entity type responses."
+      },
+      "FlagTypeInfoDTO": {
+        "properties": {
+          "flag_type": {
+            "type": "string",
+            "title": "Flag Type",
+            "description": "The flag type identifier",
+            "example": "TFB0000001"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Description of the flag type",
+            "example": "Suspicious transaction pattern detected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag_type",
+          "description"
+        ],
+        "title": "FlagTypeInfoDTO",
+        "description": "DTO for flag type information in enforcement responses."
+      },
+      "FlagTypeResponseDTO": {
+        "properties": {
+          "flag_type": {
+            "type": "string",
+            "title": "Flag Type",
+            "description": "The unique identifier for this flag type",
+            "example": "TFB0000001"
+          },
+          "domain": {
+            "$ref": "#/components/schemas/DomainEnum",
+            "description": "The domain/nature of this flag type",
+            "example": "fraud"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Description of what this flag type represents",
+            "example": "Suspicious transaction pattern detected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag_type",
+          "domain",
+          "description"
+        ],
+        "title": "FlagTypeResponseDTO",
+        "description": "DTO for flag type responses."
+      },
       "FraudAnalysisDecisionsEnum": {
         "type": "string",
         "enum": [
@@ -1421,6 +1817,208 @@
           "ActionRequired"
         ],
         "title": "FraudAnalysisDecisionsEnum"
+      },
+      "GetEnforcementRequestDTO": {
+        "properties": {
+          "domain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DomainEnum"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filter by domain",
+            "example": "fraud"
+          },
+          "flag_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flag Type",
+            "description": "Filter by flag type",
+            "example": "TFB0000001"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EnforcementTypeEnum"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filter by enforcement type (blocklist/allowlist)",
+            "example": "block"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active",
+            "description": "Filter by active status",
+            "example": true
+          },
+          "expired": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expired",
+            "description": "Filter by expiration status",
+            "example": false
+          }
+        },
+        "type": "object",
+        "title": "GetEnforcementRequestDTO",
+        "description": "DTO for enforcement retrieval request with filters."
+      },
+      "GetEnforcementResponseDTO": {
+        "properties": {
+          "result": {
+            "items": {
+              "$ref": "#/components/schemas/GetEnforcementResultDTO"
+            },
+            "type": "array",
+            "title": "Result",
+            "description": "Array of enforcement rules matching the criteria",
+            "example": []
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The entity type that was queried",
+            "example": "ip_address"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "The entity ID that was queried",
+            "example": "192.168.1.1"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/GetEnforcementRequestDTO",
+            "description": "The filters that were applied to this query"
+          }
+        },
+        "type": "object",
+        "required": [
+          "result",
+          "entity_type",
+          "entity_id",
+          "filters"
+        ],
+        "title": "GetEnforcementResponseDTO",
+        "description": "DTO for enforcement retrieval responses."
+      },
+      "GetEnforcementResultDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier of the enforcement rule",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "The unique identifier of the entity",
+            "example": "192.168.1.1"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The entity type",
+            "example": "ip_address"
+          },
+          "generic": {
+            "type": "boolean",
+            "title": "Generic",
+            "description": "Whether this is a generic flag (not specific to a flag type)",
+            "example": false
+          },
+          "flag_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FlagTypeInfoDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Flag type information (null if generic flag)"
+          },
+          "list_entry_type": {
+            "$ref": "#/components/schemas/EnforcementTypeEnum",
+            "description": "The enforcement type (blocklist or allowlist)",
+            "example": "block"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the enforcement rule is currently active",
+            "example": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the enforcement rule was created",
+            "example": "2024-01-01T00:00:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "When the enforcement rule was last updated",
+            "example": "2024-01-01T00:00:00Z"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "Additional context about the enforcement rule",
+            "example": {
+              "reason": "Suspicious activity detected"
+            }
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity_id",
+          "entity_type",
+          "generic",
+          "list_entry_type",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "GetEnforcementResultDTO",
+        "description": "DTO for individual enforcement result."
       },
       "HTTPValidationError": {
         "properties": {
