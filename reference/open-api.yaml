@@ -276,7 +276,7 @@ paths:
           in: query
           description: End date of the disbursements.
           schema:
-            default: '2025-09-12'
+            default: '2025-09-15'
             example: '2025-01-01'
             type: string
       responses:
