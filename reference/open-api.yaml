@@ -276,7 +276,7 @@ paths:
           in: query
           description: End date of the disbursements.
           schema:
-            default: '2025-09-19'
+            default: '2025-09-22'
             example: '2025-01-01'
             type: string
       responses:
@@ -608,6 +608,7 @@ components:
             - Expired
             - Validating
             - ValidationFailed
+            - NfValidationFailed
             - PartiallyRefunded
             - FullyRefunded
             - WaitingForOtp
@@ -715,6 +716,7 @@ components:
             - Expired
             - Validating
             - ValidationFailed
+            - NfValidationFailed
             - PartiallyRefunded
             - FullyRefunded
             - WaitingForOtp
