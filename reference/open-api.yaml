@@ -1058,6 +1058,7 @@ components:
             - declined
             - waiting_for_invoice
             - validation_failed
+            - nf_validation_failed
             - partially_refunded
             - fully_refunded
             - waiting_for_otp
@@ -1186,6 +1187,7 @@ components:
             - declined
             - waiting_for_invoice
             - validation_failed
+            - nf_validation_failed
             - partially_refunded
             - fully_refunded
             - waiting_for_otp
@@ -1727,6 +1729,7 @@ components:
             - declined
             - waiting_for_invoice
             - validation_failed
+            - nf_validation_failed
             - partially_refunded
             - fully_refunded
             - waiting_for_otp
