@@ -2399,17 +2399,83 @@
         ],
         "title": "SellerFieldsDTO"
       },
-      "TaktileWebhookResponseDTO": {
+      "TaktileWebhookEvent": {
+        "properties": {
+          "decision_id": {
+            "type": "string",
+            "title": "Decision Id"
+          },
+          "entity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "environment": {
+            "type": "string",
+            "title": "Environment"
+          },
+          "flow": {
+            "type": "string",
+            "title": "Flow"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "workspace": {
+            "type": "string",
+            "title": "Workspace"
+          }
+        },
+        "type": "object",
+        "required": [
+          "decision_id",
+          "entity_id",
+          "status",
+          "environment",
+          "flow",
+          "version",
+          "workspace"
+        ],
+        "title": "TaktileWebhookEvent"
+      },
+      "TaktileWebhookEventType": {
+        "type": "string",
+        "enum": [
+          "DecisionOutcome",
+          "ManualReviewCaseCreation",
+          "JobRunExecuted",
+          "WebhookTest"
+        ],
+        "title": "TaktileWebhookEventType"
+      },
+      "TaktileWebhookResponse": {
         "properties": {
           "time": {
             "type": "string",
-            "title": "Time"
+            "format": "date-time",
+            "title": "Time",
+            "description": "This indicates the time in UTC at which the webhook was sent."
           },
           "type": {
-            "$ref": "#/components/schemas/WebhookEventType"
+            "$ref": "#/components/schemas/TaktileWebhookEventType"
           },
           "event": {
-            "$ref": "#/components/schemas/WebhookEvent"
+            "$ref": "#/components/schemas/TaktileWebhookEvent"
           },
           "version": {
             "type": "string",
@@ -2428,7 +2494,7 @@
           "version",
           "id"
         ],
-        "title": "TaktileWebhookResponseDTO"
+        "title": "TaktileWebhookResponse"
       },
       "TriggerProvisionalBuyerOnboardingRequestDTO": {
         "properties": {
@@ -2550,70 +2616,6 @@
           "type"
         ],
         "title": "ValidationError"
-      },
-      "WebhookEvent": {
-        "properties": {
-          "decision_id": {
-            "type": "string",
-            "title": "Decision Id"
-          },
-          "entity_id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Entity Id"
-          },
-          "status": {
-            "type": "string",
-            "title": "Status"
-          },
-          "environment": {
-            "type": "string",
-            "title": "Environment"
-          },
-          "flow": {
-            "type": "string",
-            "title": "Flow"
-          },
-          "version": {
-            "type": "string",
-            "title": "Version"
-          },
-          "workspace": {
-            "type": "string",
-            "title": "Workspace"
-          }
-        },
-        "type": "object",
-        "required": [
-          "decision_id",
-          "entity_id",
-          "status",
-          "environment",
-          "flow",
-          "version",
-          "workspace"
-        ],
-        "title": "WebhookEvent"
-      },
-      "WebhookEventType": {
-        "type": "string",
-        "enum": [
-          "DecisionOutcome",
-          "ManualReviewCaseCreation",
-          "JobRunExecuted",
-          "WebhookTest"
-        ],
-        "title": "WebhookEventType"
       }
     },
     "securitySchemes": {
