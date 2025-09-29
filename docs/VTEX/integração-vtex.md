@@ -105,25 +105,25 @@ Em conjunto com a integração VTEX-CrediPay, entregamos também um dashboard po
 
 Nesta aba, é possível visualizar, na maior granularidade possível, tudo o que está sendo pago e cobrado na relação entre CrediPay e vendedor.
 
-<Image align="center" src="https://files.readme.io/b702a8482bdb5286157d2a277824e81529c0d124c5ba3d2ac107ff36993b32d7-reconc.png" />
+<Image align="center" border={false} src="https://files.readme.io/b702a8482bdb5286157d2a277824e81529c0d124c5ba3d2ac107ff36993b32d7-reconc.png" />
 
 **Limites de crédito**
 
 Nesta aba, é possível obter uma visão geral de todos os limites de crédito aprovados pela CrediPay, o quanto foram consumidos, e o quanto ainda está disponível
 
-<Image align="center" src="https://files.readme.io/5748ae1e26a2c75686c02bc4f88bd1567b143a1dd01be2bd5d4be56f9831a1a2-lc.png" />
+<Image align="center" border={false} src="https://files.readme.io/5748ae1e26a2c75686c02bc4f88bd1567b143a1dd01be2bd5d4be56f9831a1a2-lc.png" />
 
 **Acompanhamento de pedidos e XML’s**
 
 Aqui, é possível acompanhar quais pedidos ainda não receberam um XML de Nota Fiscal, portanto estão ocupando limite de crédito do cliente sem que o vendedor tenha sido pago.
 
-<Image align="center" src="https://files.readme.io/9d0201dd1b90744dc046d11cc0ef96b16b8ce48ce765119a4c0be80ce886614c-pedsxmls.png" />
+<Image align="center" border={false} src="https://files.readme.io/9d0201dd1b90744dc046d11cc0ef96b16b8ce48ce765119a4c0be80ce886614c-pedsxmls.png" />
 
 **Cobrança**
 
 Na seção de cobrança, damos visibilidade dos casos em que ainda não conseguimos receber pelo pedido, e um detalhamento dos valores em aberto por comprador.
 
-<Image align="center" src="https://files.readme.io/d5f8a80d7a885b91d728390ede8b09b8ebc138461f5bd1914b9e1f5e9fafedbc-cobranca.png" />
+<Image align="center" border={false} src="https://files.readme.io/d5f8a80d7a885b91d728390ede8b09b8ebc138461f5bd1914b9e1f5e9fafedbc-cobranca.png" />
 
 ## Funcionalidades adicionais (API)
 
@@ -151,7 +151,9 @@ Installments = 3 → Pedido será pago em três parcelas de igual valor, vencend
 
 ## Faturamento
 
-Se o pedido foi criando corretamente na etapa anterior, o faturamento deve ser relativamente simples. Cada parcela criada deve entrar na Nota Fiscal como uma _duplicata_ - portanto, se temos 3 parcelas por exemplo (installments = 3), devemos ter 3 duplicatas, vencendo em 30, 60 e 90 dias. Em termos técnicos, isso significa que o XML deve conter a tag `dup`, sendo uma para cada parcela do pedido. O vencimento e valor de cada duplicata na NF será usado para a emissão de boletos - por exemplo, se temos uma duplicata de R$1000 com vencimento em 25/10/2025, o boleto a ser gerado terá exatamente os mesmos parâmetros.
+Se o pedido foi criando corretamente na etapa anterior, o faturamento deve ser relativamente simples. Cada parcela criada deve entrar na Nota Fiscal como uma _duplicata_ - portanto, se temos 3 parcelas por exemplo (installments = 3), devemos ter 3 duplicatas, vencendo em 30, 60 e 90 dias. 
+
+Em termos técnicos, isso significa que o XML deve conter a tag `dup`, sendo uma para cada parcela do pedido (a primeira parcela terá número 1, a segunda 2, a terceira 3 - normalmente é gerado de forma automática pelo ERP). O vencimento e valor de cada duplicata na NF será usado para a emissão de boletos - por exemplo, se temos uma duplicata de R$1000 com vencimento em 25/10/2025, o boleto a ser gerado terá exatamente os mesmos parâmetros.
 
 ## Envio da NF à VTEX
 
@@ -159,7 +161,7 @@ O envio da NF à VTEX deve ocorrer somente após a aprovação da Secretaria da 
 
 Ao faturar um pedido na VTEX, um dos parâmetros a serem passados é o `invoiceUrl`. Neste campo, é fundamental que seja enviado um URL público **diretamente** para o arquivo XML da NF em questão. Esse é um URL que necessariamente acabará com ‘.xml’
 
-Exemplo de URL: [https://www.webdanfe.com.br/danfe/exemplos/NFe_assinada.xml](https://www.webdanfe.com.br/danfe/exemplos/NFe_assinada.xml) (XML público)
+Exemplo de URL: [https://www.webdanfe.com.br/danfe/exemplos/NFe\_assinada.xml](https://www.webdanfe.com.br/danfe/exemplos/NFe_assinada.xml) (XML público)
 
 # Conclusão
 
