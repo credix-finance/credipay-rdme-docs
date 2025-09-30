@@ -151,7 +151,7 @@ Installments = 3 → Pedido será pago em três parcelas de igual valor, vencend
 
 ## Faturamento
 
-Se o pedido foi criando corretamente na etapa anterior, o faturamento deve ser relativamente simples. Cada parcela criada deve entrar na Nota Fiscal como uma _duplicata_ - portanto, se temos 3 parcelas por exemplo (installments = 3), devemos ter 3 duplicatas, vencendo em 30, 60 e 90 dias. 
+Se o pedido foi criando corretamente na etapa anterior, o faturamento deve ser relativamente simples. Cada parcela criada deve entrar na Nota Fiscal como uma _duplicata_ - portanto, se temos 3 parcelas por exemplo (installments = 3), devemos ter 3 duplicatas, vencendo em 30, 60 e 90 dias.
 
 Em termos técnicos, isso significa que o XML deve conter a tag `dup`, sendo uma para cada parcela do pedido (a primeira parcela terá número 1, a segunda 2, a terceira 3 - normalmente é gerado de forma automática pelo ERP). O vencimento e valor de cada duplicata na NF será usado para a emissão de boletos - por exemplo, se temos uma duplicata de R$1000 com vencimento em 25/10/2025, o boleto a ser gerado terá exatamente os mesmos parâmetros.
 
@@ -160,8 +160,6 @@ Em termos técnicos, isso significa que o XML deve conter a tag `dup`, sendo uma
 O envio da NF à VTEX deve ocorrer somente após a aprovação da Secretaria da Fazenda para a NF. Em termos técnicos, isso quer dizer que o XML da NF deve conter a tag `nfeProc` para ser aceito. Isso, juntamente com a presença das duplicatas (etapa anterior), é o que garante que aquela NF está pronta para ser utilizada em uma operação de crédito.
 
 Ao faturar um pedido na VTEX, um dos parâmetros a serem passados é o `invoiceUrl`. Neste campo, é fundamental que seja enviado um URL público **diretamente** para o arquivo XML da NF em questão. Esse é um URL que necessariamente acabará com ‘.xml’
-
-Exemplo de URL: [https://www.webdanfe.com.br/danfe/exemplos/NFe\_assinada.xml](https://www.webdanfe.com.br/danfe/exemplos/NFe_assinada.xml) (XML público)
 
 # Conclusão
 
