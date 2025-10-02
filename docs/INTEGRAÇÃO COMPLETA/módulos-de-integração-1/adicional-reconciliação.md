@@ -15,7 +15,7 @@ Com os dados fornecidos, será possível conectar de forma simples e direta cada
 
 Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
 
-```
+```json
 {
   "data": [
     {
