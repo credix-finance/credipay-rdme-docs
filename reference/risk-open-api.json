@@ -2530,6 +2530,51 @@
         ],
         "title": "TriggerProvisionalBuyerOnboardingRequestDTO"
       },
+      "TriggerTaktileDecisionRequestDTO": {
+        "properties": {
+          "flow_slug": {
+            "type": "string",
+            "title": "Flow Slug",
+            "description": "Taktile's flow internal name slug of the flow to trigger"
+          },
+          "entity_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Type",
+            "description": "Type of the entity that is being validated. If provided, validation will be done aganist the provided entity id"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "Unique identifier of the entity that is being validated"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Payload",
+            "description": "Payload to be forwarded to the decision flow. Validations will be mapped based on flow slug name"
+          },
+          "async_mode": {
+            "type": "boolean",
+            "title": "Async Mode",
+            "description": "Indicates if the decision should be triggered asynchronously",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "flow_slug",
+          "entity_id",
+          "payload"
+        ],
+        "title": "TriggerTaktileDecisionRequestDTO"
+      },
       "UnderwritingFieldsDTO": {
         "properties": {
           "status": {
