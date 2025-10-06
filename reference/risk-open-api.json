@@ -2336,6 +2336,10 @@
           "retry_count": {
             "type": "integer",
             "title": "Retry Count"
+          },
+          "buyer_economic_group_id": {
+            "type": "string",
+            "title": "Buyer Economic Group Id"
           }
         },
         "type": "object",
@@ -2343,7 +2347,8 @@
           "buyer_tax_id",
           "payer_name",
           "delay_in_hours",
-          "retry_count"
+          "retry_count",
+          "buyer_economic_group_id"
         ],
         "title": "ScheduleProvisionalBuyersOnboardingRequestDTO"
       },
@@ -2520,13 +2525,18 @@
           "retry_count": {
             "type": "integer",
             "title": "Retry Count"
+          },
+          "buyer_economic_group_id": {
+            "type": "string",
+            "title": "Buyer Economic Group Id"
           }
         },
         "type": "object",
         "required": [
           "buyer_tax_id",
           "payer_name",
-          "retry_count"
+          "retry_count",
+          "buyer_economic_group_id"
         ],
         "title": "TriggerProvisionalBuyerOnboardingRequestDTO"
       },
