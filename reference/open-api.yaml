@@ -2,7 +2,7 @@ openapi: 3.0.0
 paths:
   /v2/buyers:
     get:
-      description: Gets all buyers associated with a seller.
+      description: Obtém todos os compradores associados a um vendedor.
       operationId: BuyersController_getBuyers
       parameters:
         - name: taxId
@@ -31,42 +31,42 @@ paths:
             type: number
       responses:
         '200':
-          description: Successful operation.
+          description: Operação bem-sucedida.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetBuyersResponseDto'
-      summary: Get buyers
+      summary: Obter compradores
       tags:
         - Buyers
   /v2/orders/{id}:
     get:
-      description: Gets an order by CrediPay's internal order ID.
+      description: Obtém um pedido pelo ID interno de pedido da CrediPay.
       operationId: OrdersController_getOrderById
       parameters:
         - name: id
           required: true
           in: path
-          description: CrediPay's internal order ID. UUID v4 format.
+          description: ID interno de pedido da CrediPay. Formato UUID v4.
           schema:
             format: uuid
             example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
             type: string
       responses:
         '200':
-          description: Successful operation.
+          description: Operação bem-sucedida.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetOrderResponseDto'
         '404':
-          description: Order was not found.
-      summary: Get an order
+          description: Pedido não foi encontrado.
+      summary: Obter um pedido
       tags:
         - Orders
   /v2/orders/search:
     post:
-      description: Searches for orders by various criteria.
+      description: Pesquisa pedidos por diversos critérios.
       operationId: OrdersController_searchOrders
       parameters: []
       requestBody:
@@ -77,51 +77,51 @@ paths:
               $ref: '#/components/schemas/SearchOrdersRequestDto'
       responses:
         '200':
-          description: Successful operation.
+          description: Operação bem-sucedida.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchOrdersResponseDto'
-      summary: Search orders
+      summary: Pesquisar pedidos
       tags:
         - Orders
   /v2/orders:
     post:
-      description: Create an order by submitting a json payload.
+      description: Cria um pedido enviando um payload JSON.
       operationId: OrdersController_postOrder
       parameters: []
       requestBody:
         required: true
-        description: Order data.
+        description: Dados do pedido.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateOrderDto'
       responses:
         '201':
-          description: Successful operation, order created.
+          description: Operação bem-sucedida, pedido criado.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetOrderResponseDto'
-      summary: Create an order
+      summary: Criar um pedido
       tags:
         - Orders
   /v2/orders/invoices:
     post:
       description: >-
-        Allows you to create an order by submitting a Nota Fiscal XML file. If
-        orderId is not provided, a new order is created. If orderId is provided,
-        the invoice is linked to the specified order. For an invoice to be
-        accepted, it needs to be within the buyer's available credit limit and
-        maximum payment terms.
+        Permite criar um pedido enviando um arquivo XML de Nota Fiscal. Se
+        orderId não for informado, um novo pedido é criado. Se orderId for
+        informado, a nota fiscal é vinculada ao pedido especificado. Para que
+        uma nota fiscal seja aceita, ela precisa estar dentro do limite de
+        crédito disponível do comprador e do prazo máximo de pagamento.
       operationId: OrdersController_postInvoiceXml
       parameters: []
       requestBody:
         required: true
         description: >-
-          Nota Fiscal XML file. Needs to have been processed and approved by
-          SEFAZ (draft XMLs are not allowed).
+          Arquivo XML de Nota Fiscal. Precisa ter sido processado e aprovado
+          pela SEFAZ (XMLs de rascunho não são permitidos).
         content:
           multipart/form-data:
             schema:
@@ -134,31 +134,33 @@ paths:
                 - invoice
       responses:
         '400':
-          description: Could not process the invoice XML due to a format error.
-      summary: Create an order by NF-e
+          description: >-
+            Não foi possível processar o XML da nota fiscal devido a um erro de
+            formato.
+      summary: Criar um pedido por NF-e
       tags:
         - Orders
         - Invoices
   /v2/orders/{id}/capture:
     post:
       description: >-
-        This is an async endpoint that allows you to submit a Nota Fiscal XML
-        file for an order. Once the xml file is submitted, a job will be
-        triggered to perform validations and capture the order.
+        Este é um endpoint assíncrono que permite enviar um arquivo XML de Nota
+        Fiscal para um pedido. Assim que o arquivo XML é enviado, um job será
+        disparado para realizar validações e capturar o pedido.
       operationId: OrdersController_captureOrder
       parameters:
         - name: id
           required: true
           in: path
-          description: CrediPay's internal order ID. UUID v4 format.
+          description: ID interno de pedido da CrediPay. Formato UUID v4.
           schema:
             example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
             type: string
       requestBody:
         required: true
         description: >-
-          Nota Fiscal XML file. Needs to have been processed and approved by
-          SEFAZ (draft XMLs are not allowed).
+          Arquivo XML de Nota Fiscal. Precisa ter sido processado e aprovado
+          pela SEFAZ (XMLs de rascunho não são permitidos).
         content:
           multipart/form-data:
             schema:
@@ -172,83 +174,83 @@ paths:
       responses:
         '400':
           description: >-
-            Could not transition the order to the validating state due to an
-            error.
-      summary: Capture Order
+            Não foi possível mover o pedido para o estado de validação devido a
+            um erro.
+      summary: Capturar pedido
       tags:
         - Orders
   /v2/orders/{id}/refund:
     post:
       description: >-
-        This is an async endpoint that allows you to request a refund on an
-        existing order.
+        Este é um endpoint assíncrono que permite solicitar um reembolso de um
+        pedido existente.
       operationId: OrdersController_refundOrder
       parameters:
         - name: id
           required: true
           in: path
-          description: CrediPay's internal order ID. UUID v4 format.
+          description: ID interno de pedido da CrediPay. Formato UUID v4.
           schema:
             example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
             type: string
       requestBody:
         required: true
-        description: Refund request data.
+        description: Dados da solicitação de reembolso.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RefundOrderDto'
       responses:
         '200':
-          description: Successful operation, refund request created.
+          description: Operação bem-sucedida, solicitação de reembolso criada.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RefundOrderResponseDto'
         '400':
           description: >-
-            Could not transition the order to the validating state due to an
-            error.
-      summary: Refund Order
+            Não foi possível mover o pedido para o estado de validação devido a
+            um erro.
+      summary: Reembolsar pedido
       tags:
         - Orders
   /v2/orders/{id}/cancel:
     post:
       description: >-
-        Moves an order to cancelled state and increases the buyer's available
-        credit limit by that order's total amount. If the order already has an
-        invoice linked to it, it will be fully refunded.
+        Move um pedido para o estado cancelado e aumenta o limite de crédito
+        disponível do comprador pelo valor total desse pedido. Se o pedido já
+        tiver uma nota fiscal vinculada, ele será totalmente reembolsado.
       operationId: OrdersController_cancelOrder
       parameters:
         - name: id
           required: true
           in: path
-          description: CrediPay's internal order ID. UUID v4 format.
+          description: ID interno de pedido da CrediPay. Formato UUID v4.
           schema:
             example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
             type: string
       responses:
         '204':
-          description: Successful operation, order cancelled.
+          description: Operação bem-sucedida, pedido cancelado.
         '404':
-          description: Order was not found.
+          description: Pedido não foi encontrado.
         '409':
           description: >-
-            Could not cancel order. Order could be already cancelled OR is not
-            in any of the following states [created, accepted, finalized,
-            rejected].
-      summary: Cancel Order
+            Não foi possível cancelar o pedido. O pedido pode já estar cancelado
+            OU não está em nenhum dos seguintes estados [created, accepted,
+            finalized, rejected].
+      summary: Cancelar pedido
       tags:
         - Orders
   /v2/disbursements:
     get:
-      description: Gets seller disbursements
+      description: Obtém repasses de vendedores
       operationId: SellerDisbursementsController_getSellerDisbursements
       parameters:
         - name: page
           required: false
           in: query
-          description: Page number of the disbursements.
+          description: Número da página dos repasses.
           schema:
             minimum: 1
             default: 1
@@ -257,7 +259,7 @@ paths:
         - name: take
           required: false
           in: query
-          description: Number of disbursements to return.
+          description: Quantidade de repasses a retornar.
           schema:
             minimum: 1
             maximum: 100
@@ -267,22 +269,22 @@ paths:
         - name: startDate
           required: true
           in: query
-          description: Start date of the disbursements.
+          description: Data inicial dos repasses.
           schema:
             example: '2025-01-01'
             type: string
         - name: endDate
           required: false
           in: query
-          description: End date of the disbursements.
+          description: Data final dos repasses.
           schema:
-            default: '2025-10-03'
+            default: '2025-10-06'
             example: '2025-01-01'
             type: string
       responses:
         '200':
-          description: Successful operation.
-      summary: Get seller disbursements
+          description: Operação bem-sucedida.
+      summary: Buscar repasses de vendedores
       tags:
         - Disbursements
 info:

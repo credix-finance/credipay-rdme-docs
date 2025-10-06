@@ -1,9 +1,9 @@
 ---
-title: Capture Order
+title: Capturar pedido
 excerpt: >-
-  This is an async endpoint that allows you to submit a Nota Fiscal XML file for
-  an order. Once the xml file is submitted, a job will be triggered to perform
-  validations and capture the order.
+  Este é um endpoint assíncrono que permite enviar um arquivo XML de Nota Fiscal
+  para um pedido. Assim que o arquivo XML é enviado, um job será disparado para
+  realizar validações e capturar o pedido.
 api:
   file: open-api.yaml
   operationId: OrdersController_captureOrder

@@ -1,6 +1,6 @@
 ---
-title: Search orders
-excerpt: Searches for orders by various criteria.
+title: Pesquisar pedidos
+excerpt: Pesquisa pedidos por diversos critérios.
 api:
   file: open-api.yaml
   operationId: OrdersController_searchOrders
