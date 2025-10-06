@@ -1,6 +1,6 @@
 ---
-title: Get buyers
-excerpt: Gets all buyers associated with a seller.
+title: Obter compradores
+excerpt: Obtém todos os compradores associados a um vendedor.
 api:
   file: open-api.yaml
   operationId: BuyersController_getBuyers

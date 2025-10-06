@@ -1,10 +1,11 @@
 ---
-title: Create an order by NF-e
+title: Criar um pedido por NF-e
 excerpt: >-
-  Allows you to create an order by submitting a Nota Fiscal XML file. If orderId
-  is not provided, a new order is created. If orderId is provided, the invoice
-  is linked to the specified order. For an invoice to be accepted, it needs to
-  be within the buyer's available credit limit and maximum payment terms.
+  Permite criar um pedido enviando um arquivo XML de Nota Fiscal. Se orderId não
+  for informado, um novo pedido é criado. Se orderId for informado, a nota
+  fiscal é vinculada ao pedido especificado. Para que uma nota fiscal seja
+  aceita, ela precisa estar dentro do limite de crédito disponível do comprador
+  e do prazo máximo de pagamento.
 api:
   file: open-api.yaml
   operationId: OrdersController_postInvoiceXml
