@@ -21,8 +21,8 @@
         "tags": [
           "Credit Limit"
         ],
-        "summary": "Request a credit limit",
-        "description": "Request a credit limit for a specific buyer for the first time. If additional credit limit is needed, use the Request a credit limit increase endpoint.",
+        "summary": "Solicitar um limite de crédito",
+        "description": "Solicite um limite de crédito para um comprador específico pela primeira vez. Se for necessário limite adicional, use o endpoint de aumento de limite.",
         "operationId": "credit_underwrite_request_risk_engine_credit_underwrite_request_post",
         "requestBody": {
           "content": {
@@ -36,7 +36,7 @@
         },
         "responses": {
           "200": {
-            "description": "Credit limit request is received and will be processed.",
+            "description": "Solicitação de limite de crédito recebida e será processada.",
             "content": {
               "application/json": {
                 "schema": {
@@ -63,8 +63,8 @@
         "tags": [
           "Credit Limit"
         ],
-        "summary": "Get a credit limit request",
-        "description": "Get a credit limit request by ID (UUID)",
+        "summary": "Obter uma solicitação de limite de crédito",
+        "description": "Obtenha uma solicitação de limite de crédito pelo ID (UUID)",
         "operationId": "get_credit_underwrite_request_risk_engine_credit_underwrite_request__creditUnderwritingId__get",
         "parameters": [
           {
@@ -73,16 +73,16 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unique identifier for the credit underwriting request",
+              "description": "Identificador único da solicitação de análise de crédito",
               "title": "Creditunderwritingid"
             },
-            "description": "Unique identifier for the credit underwriting request",
+            "description": "Identificador único da solicitação de análise de crédito",
             "example": "123e4567-e89b-12d3-a456-426614174000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Credit limit request retrieved successfully",
+            "description": "Solicitação de limite de crédito recuperada com sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -109,8 +109,8 @@
         "tags": [
           "Credit Limit"
         ],
-        "summary": "Request a credit limit increase",
-        "description": "Request a credit limit increase for a specific buyer",
+        "summary": "Solicitar um aumento de limite de crédito",
+        "description": "Solicite um aumento de limite de crédito para um comprador específico",
         "operationId": "credit_limit_increase_request_risk_engine_credit_limit_increase_request_post",
         "requestBody": {
           "content": {
@@ -124,7 +124,7 @@
         },
         "responses": {
           "200": {
-            "description": "Credit limit increase request is received and will be processed.",
+            "description": "Solicitação de aumento de limite de crédito recebida e será processada.",
             "content": {
               "application/json": {
                 "schema": {
@@ -151,8 +151,8 @@
         "tags": [
           "Credit Limit"
         ],
-        "summary": "Get a credit limit increase request",
-        "description": "Get a credit limit increase request by ID (UUID)",
+        "summary": "Obter uma solicitação de aumento de limite de crédito",
+        "description": "Obtenha uma solicitação de aumento de limite de crédito pelo ID (UUID)",
         "operationId": "get_credit_limit_increase_request_risk_engine_credit_limit_increase_request__cliRequestId__get",
         "parameters": [
           {
@@ -161,16 +161,16 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Unique identifier for the credit limit increase request",
+              "description": "Identificador único da solicitação de aumento de limite de crédito",
               "title": "Clirequestid"
             },
-            "description": "Unique identifier for the credit limit increase request",
+            "description": "Identificador único da solicitação de aumento de limite de crédito",
             "example": "987fcdeb-51a2-43d1-9c4f-123456789abc"
           }
         ],
         "responses": {
           "200": {
-            "description": "Credit limit increase request retrieved successfully",
+            "description": "Solicitação de aumento de limite de crédito recuperada com sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -2336,6 +2336,10 @@
           "retry_count": {
             "type": "integer",
             "title": "Retry Count"
+          },
+          "buyer_economic_group_id": {
+            "type": "string",
+            "title": "Buyer Economic Group Id"
           }
         },
         "type": "object",
@@ -2343,7 +2347,8 @@
           "buyer_tax_id",
           "payer_name",
           "delay_in_hours",
-          "retry_count"
+          "retry_count",
+          "buyer_economic_group_id"
         ],
         "title": "ScheduleProvisionalBuyersOnboardingRequestDTO"
       },
@@ -2520,13 +2525,18 @@
           "retry_count": {
             "type": "integer",
             "title": "Retry Count"
+          },
+          "buyer_economic_group_id": {
+            "type": "string",
+            "title": "Buyer Economic Group Id"
           }
         },
         "type": "object",
         "required": [
           "buyer_tax_id",
           "payer_name",
-          "retry_count"
+          "retry_count",
+          "buyer_economic_group_id"
         ],
         "title": "TriggerProvisionalBuyerOnboardingRequestDTO"
       },
