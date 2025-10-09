@@ -2261,12 +2261,22 @@ components:
           type: string
           description: The tax ID of the buyer.
           example: '12345678000196'
+        creditLimitCents:
+          type: number
+          description: The current credit limit in cents.
+          example: 1000000
+        eligible:
+          type: boolean
+          description: Whether the buyer is eligible for credit.
+          example: true
       required:
         - eventType
         - id
         - sellerTaxId
         - status
         - buyerTaxId
+        - creditLimitCents
+        - eligible
     CreditLimitIncreaseFinishedWebhookBody:
       type: object
       properties:
