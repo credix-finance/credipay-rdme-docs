@@ -412,6 +412,18 @@
             "examples": [
               "Client 1 - Pre-approval"
             ]
+          },
+          "notification": {
+            "$ref": "#/components/schemas/NotificationEnum",
+            "title": "Notification Setting",
+            "description": "Notification setting for the batch operation",
+            "default": "Disabled",
+            "examples": [
+              "Disabled",
+              "Admin",
+              "Seller",
+              "All"
+            ]
           }
         },
         "type": "object",
@@ -528,6 +540,18 @@
               3600,
               86400,
               null
+            ]
+          },
+          "notification": {
+            "$ref": "#/components/schemas/NotificationEnum",
+            "title": "Notification Setting",
+            "description": "Notification setting for the credit underwriting operation",
+            "default": "All",
+            "examples": [
+              "Disabled",
+              "Admin",
+              "Seller",
+              "All"
             ]
           }
         },
@@ -764,6 +788,24 @@
             "description": "Timestamp when the credit underwriting request was created",
             "examples": [
               "2024-03-20T10:30:00Z"
+            ]
+          },
+          "notification": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NotificationEnum"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notification Setting",
+            "description": "Notification setting for the credit underwriting operation",
+            "examples": [
+              "Disabled",
+              "Admin",
+              "Seller",
+              "All"
             ]
           },
           "underwriting": {
@@ -1037,6 +1079,144 @@
         "title": "CreateEntityTypeRequestDTO",
         "description": "DTO for creating a new entity type."
       },
+      "CreateFlagRequestDTO": {
+        "properties": {
+          "decision_id": {
+            "type": "string",
+            "title": "Decision Id",
+            "description": "The ID of the decision run that generated these flags",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "flags": {
+            "items": {
+              "$ref": "#/components/schemas/CreateFlagRequestItemDTO"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Flags",
+            "description": "Array of flags to create",
+            "example": [
+              {
+                "context": {
+                  "notes": "High priority risk indicator",
+                  "user_id": "user-123"
+                },
+                "entity_id": "41652379000100",
+                "entity_type": "BuyerCnpj",
+                "expires_at": "2024-12-31T23:59:59Z",
+                "flag_type": "TF00001"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "decision_id",
+          "flags"
+        ],
+        "title": "CreateFlagRequestDTO",
+        "description": "DTO for creating multiple flags."
+      },
+      "CreateFlagRequestItemDTO": {
+        "properties": {
+          "entity_id": {
+            "type": "string",
+            "maxLength": 255,
+            "title": "Entity Id",
+            "description": "The unique identifier of the entity the flag was raised for",
+            "example": "41652379000100"
+          },
+          "entity_type": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Entity Type",
+            "description": "The entity type from the entity_types table",
+            "example": "BuyerCnpj"
+          },
+          "flag_type": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Flag Type",
+            "description": "The unique string for this flag type",
+            "example": "TF00001"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "The date limit after which the flag is no longer valid",
+            "example": "2024-12-31T23:59:59Z"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes about this flag to help Taktile make decisions",
+            "example": {
+              "notes": "High priority risk indicator",
+              "user_id": "user-123"
+            }
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_id",
+          "entity_type",
+          "flag_type"
+        ],
+        "title": "CreateFlagRequestItemDTO",
+        "description": "DTO for a single flag creation request."
+      },
+      "CreateFlagResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Overall status of the operation",
+            "example": "success"
+          },
+          "total_flags_created": {
+            "type": "integer",
+            "title": "Total Flags Created",
+            "description": "Total number of flags successfully created",
+            "example": 3
+          },
+          "error_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason",
+            "description": "Detailed reason for failure when status is 'error'. Omitted for successful operations.",
+            "example": "No analysis found with decision_id: 550e8400-e29b-41d4-a716-446655440000"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "total_flags_created"
+        ],
+        "title": "CreateFlagResponseDTO",
+        "description": "DTO for flag creation responses."
+      },
       "CreateFlagTypeRequestDTO": {
         "properties": {
           "flag_type": {
@@ -1244,6 +1424,18 @@
             "description": "Valid Brazilian CNPJ with 14 characters",
             "examples": [
               "09876543210987"
+            ]
+          },
+          "notification": {
+            "$ref": "#/components/schemas/NotificationEnum",
+            "title": "Notification Setting",
+            "description": "Notification setting for the credit underwriting operation",
+            "default": "All",
+            "examples": [
+              "Disabled",
+              "Admin",
+              "Seller",
+              "All"
             ]
           }
         },
@@ -1621,6 +1813,29 @@
         "title": "DisableEnforcementResponseDTO",
         "description": "DTO for enforcement disable responses."
       },
+      "DisableFlagResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Overall status of the operation",
+            "example": "success"
+          },
+          "flag_id": {
+            "type": "string",
+            "title": "Flag Id",
+            "description": "The UUID of the disabled flag",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "flag_id"
+        ],
+        "title": "DisableFlagResponseDTO",
+        "description": "Response DTO for disabling a flag."
+      },
       "DomainEnum": {
         "type": "string",
         "enum": [
@@ -1757,6 +1972,93 @@
         "title": "EntityTypeResponseDTO",
         "description": "DTO for entity type responses."
       },
+      "FlagResultDomain": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type"
+          },
+          "analysis_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Analysis Id"
+          },
+          "domain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DomainEnum"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "flag_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FlagTypeInfoDomain"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity_id",
+          "entity_type",
+          "analysis_id"
+        ],
+        "title": "FlagResultDomain",
+        "description": "Domain model for a flag result item."
+      },
       "FlagTypeInfoDTO": {
         "properties": {
           "flag_type": {
@@ -1779,6 +2081,25 @@
         ],
         "title": "FlagTypeInfoDTO",
         "description": "DTO for flag type information in enforcement responses."
+      },
+      "FlagTypeInfoDomain": {
+        "properties": {
+          "flag_type": {
+            "type": "string",
+            "title": "Flag Type"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag_type",
+          "description"
+        ],
+        "title": "FlagTypeInfoDomain",
+        "description": "Domain model representing flag type information for enforcement retrieval."
       },
       "FlagTypeResponseDTO": {
         "properties": {
@@ -2020,6 +2341,37 @@
         "title": "GetEnforcementResultDTO",
         "description": "DTO for individual enforcement result."
       },
+      "GetFlagsResponseDTO": {
+        "properties": {
+          "result": {
+            "items": {
+              "$ref": "#/components/schemas/FlagResultDomain"
+            },
+            "type": "array",
+            "title": "Result"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "filters": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Filters"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_type",
+          "entity_id"
+        ],
+        "title": "GetFlagsResponseDTO",
+        "description": "Response DTO for flags retrieval."
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -2032,6 +2384,17 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "NotificationEnum": {
+        "type": "string",
+        "enum": [
+          "Disabled",
+          "Admin",
+          "Seller",
+          "All"
+        ],
+        "title": "NotificationEnum",
+        "description": "Enum representing notification settings for batch operations.\n\n- DISABLED: No notifications will be sent\n- ADMIN: Notifications will be sent to admin users only\n- SELLER: Notifications will be sent to seller users only\n- ALL: Notifications will be sent to all relevant users"
       },
       "OnboardingFieldsDTO": {
         "properties": {
