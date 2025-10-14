@@ -244,7 +244,10 @@ paths:
         - Orders
   /v2/disbursements:
     get:
-      description: Obtém repasses de vendedores
+      description: >-
+        Este endpoint permite obter uma lista de repasses com base em parâmetros
+        específicos.
+        https://docs.credipay.credix.finance/docs/adicional-reconcilia%C3%A7%C3%A3o
       operationId: SellerDisbursementsController_getSellerDisbursements
       parameters:
         - name: page
@@ -278,12 +281,16 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-10-09'
+            default: '2025-10-14'
             example: '2025-01-01'
             type: string
       responses:
         '200':
           description: Operação bem-sucedida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerDisbursementsResponseDto'
       summary: Buscar repasses de vendedores
       tags:
         - Disbursements
@@ -1136,5 +1143,8 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
+    SellerDisbursementsResponseDto:
+      type: object
+      properties: {}
 security:
   - api_key: []
