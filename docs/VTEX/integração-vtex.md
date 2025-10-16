@@ -27,13 +27,15 @@ Nosso objetivo é permitir que vendedores ofereçam crédito de forma automatiza
 </div>
 `}</HTMLBlock>
 
-Quando um comprador chega ao checkout e deseja transacionar utilizando crédito, 3 cenários podem ocorrer:
+A CrediPay pode rodar uma análise de crédito em tempo real em 2 momentos da jornada do cliente:
 
-1. O comprador possui limite suficiente para completar a transação
-2. O comprador possui limite, mas não o suficiente para completar a transação
-3. O comprador não possui limite
+* Quando o cliente loga, caso não tenha sido analisado ainda, ele será analisado
+* Quando um comprador chega ao checkout e deseja transacionar utilizando crédito. Aqui 3 cenários podem ocorrer:
+  * O comprador possui limite suficiente para completar a transação
+  * O comprador possui limite, mas não o suficiente para completar a transação
+  * O comprador não possui limite
 
-A integração da CrediPay automaticamente identifica compradores nos cenários 2 e 3, e realiza uma análise de crédito em tempo real usando apenas o CNPJ. Assim, conseguimos atribuir um novo limite em minutos (dependendo da análise de crédito) e permitir que este cliente finalize a compra.
+Dentro do checkout, a integração da CrediPay automaticamente identifica compradores nos cenários 2 e 3, e realiza uma análise de crédito em tempo real usando apenas o CNPJ. Assim, conseguimos atribuir um novo limite em minutos (dependendo da análise de crédito) e permitir que este cliente finalize a compra.
 
 **Medidas de segurança nesta etapa**
 
