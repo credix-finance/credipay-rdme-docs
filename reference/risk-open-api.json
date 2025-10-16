@@ -1383,27 +1383,6 @@
         ],
         "title": "CreditLimitIncreaseResultDTO"
       },
-      "CreditUnderwritingParameters": {
-        "properties": {
-          "tax_ids": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Tax Ids"
-          },
-          "seller_tax_id": {
-            "type": "string",
-            "title": "Seller Tax Id"
-          }
-        },
-        "type": "object",
-        "required": [
-          "tax_ids",
-          "seller_tax_id"
-        ],
-        "title": "CreditUnderwritingParameters"
-      },
       "CreditUnderwritingRequestDTO": {
         "properties": {
           "buyerTaxId": {
@@ -2581,111 +2560,6 @@
           "order"
         ],
         "title": "OrderFraudAnalysisRequestDTO"
-      },
-      "PostCreditUnderwritingDto": {
-        "properties": {
-          "parameters": {
-            "$ref": "#/components/schemas/CreditUnderwritingParameters"
-          }
-        },
-        "type": "object",
-        "required": [
-          "parameters"
-        ],
-        "title": "PostCreditUnderwritingDto"
-      },
-      "ProposalPricingDTO": {
-        "properties": {
-          "transaction_fee_percentage": {
-            "type": "number",
-            "maximum": 1,
-            "minimum": 0,
-            "title": "Transaction Fee Percentage"
-          },
-          "discount_rate_percentage": {
-            "type": "number",
-            "maximum": 1,
-            "minimum": 0,
-            "title": "Discount Rate Percentage"
-          },
-          "contribution_margin_percentage": {
-            "type": "number",
-            "maximum": 1,
-            "minimum": 0,
-            "title": "Contribution Margin Percentage"
-          },
-          "additional_fee_percentage": {
-            "type": "number",
-            "maximum": 1,
-            "minimum": 0,
-            "title": "Additional Fee Percentage"
-          },
-          "terms": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "title": "Terms"
-          },
-          "additional_terms": {
-            "type": "integer",
-            "exclusiveMinimum": 0,
-            "title": "Additional Terms"
-          },
-          "decision_url": {
-            "type": "string",
-            "title": "Decision Url"
-          },
-          "accepted": {
-            "type": "boolean",
-            "title": "Accepted",
-            "default": false
-          }
-        },
-        "type": "object",
-        "required": [
-          "transaction_fee_percentage",
-          "discount_rate_percentage",
-          "contribution_margin_percentage",
-          "terms"
-        ],
-        "title": "ProposalPricingDTO"
-      },
-      "ProposalRequestDTO": {
-        "properties": {
-          "parameters": {
-            "$ref": "#/components/schemas/ProposalRequestParameters"
-          }
-        },
-        "type": "object",
-        "required": [
-          "parameters"
-        ],
-        "title": "ProposalRequestDTO"
-      },
-      "ProposalRequestParameters": {
-        "properties": {
-          "tax_ids": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Tax Ids"
-          },
-          "seller_tax_id": {
-            "type": "string",
-            "title": "Seller Tax Id"
-          },
-          "proposal_name": {
-            "type": "string",
-            "title": "Proposal Name"
-          }
-        },
-        "type": "object",
-        "required": [
-          "tax_ids",
-          "seller_tax_id",
-          "proposal_name"
-        ],
-        "title": "ProposalRequestParameters"
       },
       "ScheduleProvisionalBuyersOnboardingRequestDTO": {
         "properties": {
