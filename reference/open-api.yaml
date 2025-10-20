@@ -39,6 +39,24 @@ paths:
       summary: Obter compradores
       tags:
         - Buyers
+  /v2/onboarding:
+    post:
+      description: Creates a new onboarding request
+      operationId: OnboardingController_createOnboarding
+      parameters: []
+      requestBody:
+        required: true
+        description: The onboarding request to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOnboardingDto'
+      responses:
+        '201':
+          description: ''
+      summary: Create onboarding request
+      tags:
+        - Onboarding
   /v2/orders/{id}:
     get:
       description: Obtém um pedido pelo ID interno de pedido da CrediPay.
@@ -281,7 +299,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-10-14'
+            default: '2025-10-20'
             example: '2025-01-01'
             type: string
       responses:
@@ -383,6 +401,20 @@ components:
         - page
         - items
         - total
+    CreateOnboardingDto:
+      type: object
+      properties:
+        buyerTaxId:
+          type: string
+          description: CNPJ do comprador.
+          example: 65.413.430/0000-08
+        sellerTaxId:
+          type: string
+          description: CNPJ do vendedor.
+          example: 65.413.430/0000-03
+      required:
+        - buyerTaxId
+        - sellerTaxId
     InvoiceResponseDto:
       type: object
       properties:
