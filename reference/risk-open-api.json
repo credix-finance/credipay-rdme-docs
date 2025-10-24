@@ -1280,6 +1280,24 @@
               1000000,
               5000000
             ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes and metadata about this credit limit increase request, including extra documents and other contextual information",
+            "examples": [
+              {
+                "extra_documents": "https://link-to-extra-documents.com"
+              }
+            ]
           }
         },
         "additionalProperties": true,
@@ -1370,6 +1388,24 @@
               "Credit limit increase request expired after 1200 seconds",
               "Buyer is eligible for desired credit limit",
               "Internal error during analysis"
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes and metadata about this credit limit increase request, including extra documents and other contextual information",
+            "examples": [
+              {
+                "extra_documents": "https://link-to-extra-documents.com"
+              }
             ]
           }
         },
