@@ -1081,10 +1081,10 @@
       },
       "CreateFlagRequestDTO": {
         "properties": {
-          "decision_id": {
+          "analysis_id": {
             "type": "string",
-            "title": "Decision Id",
-            "description": "The ID of the decision run that generated these flags",
+            "title": "Analysis Id",
+            "description": "The ID of the analysis that generated these flags",
             "example": "550e8400-e29b-41d4-a716-446655440000"
           },
           "flags": {
@@ -1111,7 +1111,7 @@
         },
         "type": "object",
         "required": [
-          "decision_id",
+          "analysis_id",
           "flags"
         ],
         "title": "CreateFlagRequestDTO",
@@ -1206,7 +1206,7 @@
             ],
             "title": "Error Reason",
             "description": "Detailed reason for failure when status is 'error'. Omitted for successful operations.",
-            "example": "No analysis found with decision_id: 550e8400-e29b-41d4-a716-446655440000"
+            "example": "No analysis found with analysis_id: 550e8400-e29b-41d4-a716-446655440000"
           }
         },
         "type": "object",
@@ -1279,6 +1279,24 @@
             "examples": [
               1000000,
               5000000
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes and metadata about this credit limit increase request, including extra documents and other contextual information",
+            "examples": [
+              {
+                "extra_documents": "https://link-to-extra-documents.com"
+              }
             ]
           }
         },
@@ -1370,6 +1388,24 @@
               "Credit limit increase request expired after 1200 seconds",
               "Buyer is eligible for desired credit limit",
               "Internal error during analysis"
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes and metadata about this credit limit increase request, including extra documents and other contextual information",
+            "examples": [
+              {
+                "extra_documents": "https://link-to-extra-documents.com"
+              }
             ]
           }
         },
