@@ -57,6 +57,21 @@ paths:
       summary: Create onboarding request
       tags:
         - Onboarding
+  /v2/onboarding/buyer:
+    post:
+      operationId: OnboardingController_onboardingBuyer
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingBuyerDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Onboarding
   /v2/orders/{id}:
     get:
       description: Obtém um pedido pelo ID interno de pedido da CrediPay.
@@ -299,7 +314,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-10-27'
+            default: '2025-10-28'
             example: '2025-01-01'
             type: string
       responses:
@@ -415,6 +430,103 @@ components:
       required:
         - buyerTaxId
         - sellerTaxId
+    OnboardingBuyerDto:
+      type: object
+      properties:
+        addressCheckEnabled:
+          type: boolean
+          description: O endereço do comprador deve ser validado?
+          example: true
+        btgFidcOnboarded:
+          type: boolean
+          description: O comprador foi onboardado para o BTG?
+          example: true
+        btgRequestId:
+          type: string
+          description: ID da requisição do BTG.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        buyerCompanyName:
+          type: string
+          description: Nome da empresa do comprador.
+          example: Empresa LTDA
+        buyerCompanyTradeName:
+          type: string
+          description: Nome fantasia da empresa do comprador.
+          example: Empresa LDTA
+        buyerTaxId:
+          type: string
+          description: CNPJ do comprador.
+          example: 65.413.430/0000-08
+        creditRating:
+          type: string
+          description: Rating de crédito do comprador.
+          example: A
+        creditLimitCents:
+          type: number
+          description: Limite de crédito do comprador em centavos.
+          example: 1000000
+        paymentProvider:
+          type: string
+          description: Provider de pagamento do comprador.
+          example: BtgBolePix
+        provisionalStateStartsAt:
+          type: string
+          description: Início da vigência do estado provisório do buyer onbordado na Sec
+          example: '2024-02-29T00:00:00Z'
+        riskEligibility:
+          type: boolean
+          description: Eligibilidade do comprador para crédito.
+          example: true
+        riskType:
+          type: string
+          description: Tipo de eligibilidade do comprador.
+          enum:
+            - Manual
+            - RiskEngine
+          example: RiskEngine
+          default: RiskEngine
+        riskEligibilityStatus:
+          type: string
+          description: Eligibilidade do comprador para crédito.
+          enum:
+            - Eligible
+            - Ineligible
+          example: Eligible
+        riskEligibilityReason:
+          type: string
+          description: Motivo da ineligibilidade do comprador para crédito.
+          example: Motivo da ineligibilidade do comprador para crédito.
+          default: null
+        riskEligibilityCriterium:
+          type: string
+          description: Criterio da ineligibilidade do comprador para crédito.
+          example: Criterio da ineligibilidade do comprador para crédito.
+          default: null
+        routeToBtgFidc:
+          type: boolean
+          description: O comprador deve ser roteado para o BTG?
+          example: true
+        segmentId:
+          type: string
+          description: Id do segmento do comprador.
+          example: 123e4567-e89b-12d3-a456-426614174000
+      required:
+        - addressCheckEnabled
+        - btgFidcOnboarded
+        - btgRequestId
+        - buyerCompanyName
+        - buyerCompanyTradeName
+        - buyerTaxId
+        - creditRating
+        - creditLimitCents
+        - paymentProvider
+        - provisionalStateStartsAt
+        - riskEligibility
+        - riskEligibilityStatus
+        - riskEligibilityReason
+        - riskEligibilityCriterium
+        - routeToBtgFidc
+        - segmentId
     InvoiceResponseDto:
       type: object
       properties:
