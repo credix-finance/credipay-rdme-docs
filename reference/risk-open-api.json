@@ -2446,15 +2446,6 @@
         ],
         "title": "OnboardingFieldsDTO"
       },
-      "OrderChannelEnum": {
-        "type": "string",
-        "enum": [
-          "Vtex",
-          "SellerPlatform",
-          "CredipayApi"
-        ],
-        "title": "OrderChannelEnum"
-      },
       "OrderCheck": {
         "properties": {
           "id": {
@@ -2545,7 +2536,8 @@
       "OrderFraudAnalysisRequestDTO": {
         "properties": {
           "channel": {
-            "$ref": "#/components/schemas/OrderChannelEnum"
+            "type": "string",
+            "title": "Channel"
           },
           "sellerSegmentId": {
             "type": "string",
