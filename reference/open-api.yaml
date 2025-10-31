@@ -314,7 +314,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-10-28'
+            default: '2025-10-31'
             example: '2025-01-01'
             type: string
       responses:
@@ -437,14 +437,14 @@ components:
           type: boolean
           description: O endereço do comprador deve ser validado?
           example: true
-        btgFidcOnboarded:
-          type: boolean
-          description: O comprador foi onboardado para o BTG?
-          example: true
         btgRequestId:
           type: string
           description: ID da requisição do BTG.
           example: 123e4567-e89b-12d3-a456-426614174000
+        btgStatus:
+          type: string
+          description: Status da requisição do BTG.
+          example: AUTORIZADO
         buyerCompanyName:
           type: string
           description: Nome da empresa do comprador.
@@ -492,7 +492,7 @@ components:
             - Eligible
             - Ineligible
           example: Eligible
-        riskEligibilityReason:
+        riskIneligibilityReason:
           type: string
           description: Motivo da ineligibilidade do comprador para crédito.
           example: Motivo da ineligibilidade do comprador para crédito.
@@ -502,18 +502,14 @@ components:
           description: Criterio da ineligibilidade do comprador para crédito.
           example: Criterio da ineligibilidade do comprador para crédito.
           default: null
-        routeToBtgFidc:
-          type: boolean
-          description: O comprador deve ser roteado para o BTG?
-          example: true
         segmentId:
           type: string
           description: Id do segmento do comprador.
           example: 123e4567-e89b-12d3-a456-426614174000
       required:
         - addressCheckEnabled
-        - btgFidcOnboarded
         - btgRequestId
+        - btgStatus
         - buyerCompanyName
         - buyerCompanyTradeName
         - buyerTaxId
@@ -523,9 +519,8 @@ components:
         - provisionalStateStartsAt
         - riskEligibility
         - riskEligibilityStatus
-        - riskEligibilityReason
+        - riskIneligibilityReason
         - riskEligibilityCriterium
-        - routeToBtgFidc
         - segmentId
     InvoiceResponseDto:
       type: object
