@@ -299,7 +299,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-11-05'
+            default: '2025-11-07'
             example: '2025-01-01'
             type: string
       responses:
@@ -347,10 +347,26 @@ components:
           type: number
           description: Limite de crédito do comprador em centavos.
           example: 100000
+        creditLimitUpdatedAt:
+          type: string
+          description: Data de atualização do limite de crédito do comprador.
+          example: '2021-01-01T00:00:00.000Z'
         eligible:
           type: boolean
           description: Se o comprador é elegível ou não para crédito.
           example: true
+          deprecated: true
+        eligibilityUpdatedAt:
+          type: string
+          description: Data de atualização da elegibilidade do comprador.
+          example: '2021-01-01T00:00:00.000Z'
+        eligibilityStatus:
+          type: string
+          description: Status da elegibilidade do comprador.
+          example: Eligible
+          enum:
+            - Eligible
+            - Ineligible
         inactive:
           type: boolean
           description: Se o comprador está marcado como inativo.
@@ -371,7 +387,10 @@ components:
         - taxId
         - availableCreditLimitAmountCents
         - creditLimitAmountCents
+        - creditLimitUpdatedAt
         - eligible
+        - eligibilityUpdatedAt
+        - eligibilityStatus
         - inactive
         - maxPaymentTermDays
         - name
