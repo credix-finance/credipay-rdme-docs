@@ -299,7 +299,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-11-10'
+            default: '2025-11-11'
             example: '2025-01-01'
             type: string
       responses:
@@ -360,13 +360,6 @@ components:
           type: string
           description: Data de atualização da elegibilidade do comprador.
           example: '2021-01-01T00:00:00.000Z'
-        eligibilityStatus:
-          type: string
-          description: Status da elegibilidade do comprador.
-          example: Eligible
-          enum:
-            - Eligible
-            - Ineligible
         inactive:
           type: boolean
           description: Se o comprador está marcado como inativo.
@@ -390,7 +383,6 @@ components:
         - creditLimitUpdatedAt
         - eligible
         - eligibilityUpdatedAt
-        - eligibilityStatus
         - inactive
         - maxPaymentTermDays
         - name
