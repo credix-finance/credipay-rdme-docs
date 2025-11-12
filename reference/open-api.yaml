@@ -260,6 +260,32 @@ paths:
       summary: Cancelar pedido
       tags:
         - Orders
+  /v2/segments/{segmentId}/buyer-economic-groups/{buyerEconomicGroupId}/status:
+    patch:
+      operationId: SegmentsController_updateSegmentStatus
+      parameters:
+        - name: segmentId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: buyerEconomicGroupId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/UpdateSegmentBuyerEconomicGroupStatusBodyDto
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Segments
   /v2/disbursements:
     get:
       description: >-
@@ -299,7 +325,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-11-11'
+            default: '2025-11-12'
             example: '2025-01-01'
             type: string
       responses:
@@ -328,6 +354,20 @@ components:
       in: header
       name: X-CREDIPAY-API-KEY
   schemas:
+    BuyerGroupMemberDto:
+      type: object
+      properties:
+        taxId:
+          type: string
+          description: CNPJ do membro do grupo.
+          example: '56596567000127'
+        name:
+          type: string
+          description: Nome do membro do grupo.
+          example: Comprador Inexistente LTDA
+      required:
+        - taxId
+        - name
     BuyerResponseDto:
       type: object
       properties:
@@ -375,6 +415,11 @@ components:
           type: boolean
           description: Se o comprador completou ou não o processo de onboarding.
           example: true
+        groupMembers:
+          description: Membros do grupo do comprador.
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerGroupMemberDto'
       required:
         - id
         - taxId
@@ -387,6 +432,7 @@ components:
         - maxPaymentTermDays
         - name
         - onboarded
+        - groupMembers
     GetBuyersResponseDto:
       type: object
       properties:
@@ -438,6 +484,11 @@ components:
           type: string
           description: Número da nota fiscal.
           example: NFe00000000000000000000000001642012886703226971
+        shortInvoiceNumber:
+          type: string
+          description: Número curto da nota fiscal.
+          example: '0992346'
+          nullable: true
         issuanceDate:
           type: string
           description: Data e hora de emissão da nota fiscal (ISO).
@@ -549,6 +600,13 @@ components:
           example: 3b27b131-7ab7-4a67-b88e-424c1d30b247
           format: uuid
           nullable: true
+        documentNumber:
+          type: string
+          description: >-
+            Número do documento: número curto da nota fiscal + '-' + número
+            único do ativo.
+          example: 0992346-001
+          nullable: true
       required:
         - id
         - pdfUrl
@@ -559,6 +617,7 @@ components:
         - paymentDate
         - paidAmountCents
         - parentId
+        - documentNumber
     OrderErrorDto:
       type: object
       properties:
@@ -749,6 +808,12 @@ components:
           default: 20
           minimum: 1
           maximum: 100
+        group:
+          type: string
+          description: >-
+            Tax ID da empresa. Retorna todos os pedidos do grupo econômico
+            vinculado ao comprador vinculado à empresa com este tax ID.
+          example: '12345678901234'
       required:
         - query
     SearchOrdersResponseItemDto:
@@ -1184,6 +1249,18 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
+    UpdateSegmentBuyerEconomicGroupStatusBodyDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the segment buyer economic group
+          enum:
+            - ALLOWED_TO_TRANSACT
+            - NOT_ALLOWED_TO_TRANSACT
+            - BYPASS
+      required:
+        - status
     SellerDisbursementsResponseDto:
       type: object
       properties: {}
