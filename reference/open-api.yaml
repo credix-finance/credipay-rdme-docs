@@ -286,6 +286,27 @@ paths:
           description: ''
       tags:
         - Segments
+  /v2/segments/{segmentId}/buyer-economic-groups/status:
+    patch:
+      operationId: SegmentsController_updateSegmentBuyerEconomicGroupsStatus
+      parameters:
+        - name: segmentId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/UpdateSegmentBuyerEconomicGroupsStatusBodyDto
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Segments
   /v2/disbursements:
     get:
       description: >-
@@ -325,7 +346,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-11-12'
+            default: '2025-11-14'
             example: '2025-01-01'
             type: string
       responses:
@@ -543,6 +564,49 @@ components:
         - id
         - taxId
         - name
+    RepaymentIssuerDto:
+      type: object
+      properties:
+        taxId:
+          type: string
+          description: CNPJ da facility (emissor).
+          example: '12345678000190'
+        razaoSocial:
+          type: string
+          description: Razão social da facility (emissor).
+          example: Credix Securitizadora III S.A.
+      required:
+        - taxId
+        - razaoSocial
+    RepaymentPayeeDto:
+      type: object
+      properties:
+        branchNumber:
+          type: string
+          description: Número da agência bancária.
+          example: '0001'
+        branchDigit:
+          type: string
+          description: Dígito da agência bancária.
+          example: '1'
+        accountNumber:
+          type: string
+          description: Número da conta bancária.
+          example: '12345678'
+        accountDigit:
+          type: string
+          description: Dígito da conta bancária.
+          example: '9'
+        bankIdentificationCode:
+          type: string
+          description: Código de identificação bancária (ISPB).
+          example: '001'
+      required:
+        - branchNumber
+        - branchDigit
+        - accountNumber
+        - accountDigit
+        - bankIdentificationCode
     RepaymentResponseDto:
       type: object
       properties:
@@ -607,6 +671,16 @@ components:
             único do ativo.
           example: 0992346-001
           nullable: true
+        issuer:
+          description: Informações do emissor (facility).
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/RepaymentIssuerDto'
+        payee:
+          description: Informações do beneficiário (conta bancária da empresa vendedora).
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/RepaymentPayeeDto'
       required:
         - id
         - pdfUrl
@@ -618,6 +692,8 @@ components:
         - paidAmountCents
         - parentId
         - documentNumber
+        - issuer
+        - payee
     OrderErrorDto:
       type: object
       properties:
@@ -1260,6 +1336,27 @@ components:
             - NOT_ALLOWED_TO_TRANSACT
             - BYPASS
       required:
+        - status
+    UpdateSegmentBuyerEconomicGroupsStatusBodyDto:
+      type: object
+      properties:
+        buyerEconomicGroupIds:
+          description: The buyers economic group ids to update the status of
+          example:
+            - 123e4567-e89b-12d3-a456-426614174000
+            - 123e4567-e89b-12d3-a456-426614174001
+          type: array
+          items:
+            type: array
+        status:
+          type: string
+          description: The status of the segment buyer economic group
+          enum:
+            - ALLOWED_TO_TRANSACT
+            - NOT_ALLOWED_TO_TRANSACT
+            - BYPASS
+      required:
+        - buyerEconomicGroupIds
         - status
     SellerDisbursementsResponseDto:
       type: object
