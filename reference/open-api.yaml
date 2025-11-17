@@ -850,6 +850,23 @@ components:
         - refunds
         - metadata
         - totalAmountCents
+    TaxIdFilterDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Tax ID do comprador. Filtra os pedidos pelo tax ID do comprador.
+          example: '12345678901234'
+        includeGroup:
+          type: boolean
+          description: >-
+            Se true, filtra os pedidos pelo grupo econômico vinculado ao
+            comprador com o tax ID especificado. Se false ou não fornecido,
+            filtra apenas pelo tax ID do comprador.
+          example: false
+          default: false
+      required:
+        - value
     SearchOrdersRequestDto:
       type: object
       properties:
@@ -885,16 +902,9 @@ components:
           minimum: 1
           maximum: 100
         taxId:
-          type: string
-          description: Tax ID do comprador. Filtra os pedidos pelo tax ID do comprador.
-          example: '12345678901234'
-        includeGroup:
-          type: boolean
-          description: >-
-            Se true, filtra os pedidos pelo grupo econômico vinculado ao
-            comprador com o tax ID especificado. Se false ou não fornecido,
-            filtra apenas pelo tax ID do comprador.
-          example: true
+          description: Filtro de Tax ID do comprador.
+          allOf:
+            - $ref: '#/components/schemas/TaxIdFilterDto'
       required:
         - query
     SearchOrdersResponseItemDto:
