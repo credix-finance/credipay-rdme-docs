@@ -260,6 +260,53 @@ paths:
       summary: Cancelar pedido
       tags:
         - Orders
+  /v2/segments/{segmentId}/buyer-economic-groups/{buyerEconomicGroupId}/status:
+    patch:
+      operationId: SegmentsController_updateSegmentStatus
+      parameters:
+        - name: segmentId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: buyerEconomicGroupId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/UpdateSegmentBuyerEconomicGroupStatusBodyDto
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Segments
+  /v2/segments/{segmentId}/buyer-economic-groups/status:
+    patch:
+      operationId: SegmentsController_updateSegmentBuyerEconomicGroupsStatus
+      parameters:
+        - name: segmentId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/UpdateSegmentBuyerEconomicGroupsStatusBodyDto
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Segments
   /v2/disbursements:
     get:
       description: >-
@@ -299,7 +346,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-11-12'
+            default: '2025-11-17'
             example: '2025-01-01'
             type: string
       responses:
@@ -330,6 +377,20 @@ components:
       in: header
       name: X-CREDIPAY-API-KEY
   schemas:
+    BuyerGroupMemberDto:
+      type: object
+      properties:
+        taxId:
+          type: string
+          description: CNPJ do membro do grupo.
+          example: '56596567000127'
+        name:
+          type: string
+          description: Nome do membro do grupo.
+          example: Comprador Inexistente LTDA
+      required:
+        - taxId
+        - name
     BuyerResponseDto:
       type: object
       properties:
@@ -377,6 +438,11 @@ components:
           type: boolean
           description: Se o comprador completou ou não o processo de onboarding.
           example: true
+        groupMembers:
+          description: Membros do grupo do comprador.
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerGroupMemberDto'
       required:
         - id
         - taxId
@@ -389,6 +455,7 @@ components:
         - maxPaymentTermDays
         - name
         - onboarded
+        - groupMembers
     GetBuyersResponseDto:
       type: object
       properties:
@@ -440,6 +507,11 @@ components:
           type: string
           description: Número da nota fiscal.
           example: NFe00000000000000000000000001642012886703226971
+        shortInvoiceNumber:
+          type: string
+          description: Número curto da nota fiscal.
+          example: '0992346'
+          nullable: true
         issuanceDate:
           type: string
           description: Data e hora de emissão da nota fiscal (ISO).
@@ -494,6 +566,49 @@ components:
         - id
         - taxId
         - name
+    RepaymentIssuerDto:
+      type: object
+      properties:
+        taxId:
+          type: string
+          description: CNPJ da facility (emissor).
+          example: '12345678000190'
+        razaoSocial:
+          type: string
+          description: Razão social da facility (emissor).
+          example: Credix Securitizadora III S.A.
+      required:
+        - taxId
+        - razaoSocial
+    RepaymentPayeeDto:
+      type: object
+      properties:
+        branchNumber:
+          type: string
+          description: Número da agência bancária.
+          example: '0001'
+        branchDigit:
+          type: string
+          description: Dígito da agência bancária.
+          example: '1'
+        accountNumber:
+          type: string
+          description: Número da conta bancária.
+          example: '12345678'
+        accountDigit:
+          type: string
+          description: Dígito da conta bancária.
+          example: '9'
+        bankIdentificationCode:
+          type: string
+          description: Código de identificação bancária (ISPB).
+          example: '001'
+      required:
+        - branchNumber
+        - branchDigit
+        - accountNumber
+        - accountDigit
+        - bankIdentificationCode
     RepaymentResponseDto:
       type: object
       properties:
@@ -551,6 +666,23 @@ components:
           example: 3b27b131-7ab7-4a67-b88e-424c1d30b247
           format: uuid
           nullable: true
+        documentNumber:
+          type: string
+          description: >-
+            Número do documento: número curto da nota fiscal + '-' + número
+            único do ativo.
+          example: 0992346-001
+          nullable: true
+        issuer:
+          description: Informações do emissor (facility).
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/RepaymentIssuerDto'
+        payee:
+          description: Informações do beneficiário (conta bancária da empresa vendedora).
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/RepaymentPayeeDto'
       required:
         - id
         - pdfUrl
@@ -561,6 +693,9 @@ components:
         - paymentDate
         - paidAmountCents
         - parentId
+        - documentNumber
+        - issuer
+        - payee
     OrderErrorDto:
       type: object
       properties:
@@ -717,6 +852,23 @@ components:
         - refunds
         - metadata
         - totalAmountCents
+    TaxIdFilterDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Tax ID do comprador. Filtra os pedidos pelo tax ID do comprador.
+          example: '12345678901234'
+        includeGroup:
+          type: boolean
+          description: >-
+            Se true, filtra os pedidos pelo grupo econômico vinculado ao
+            comprador com o tax ID especificado. Se false ou não fornecido,
+            filtra apenas pelo tax ID do comprador.
+          example: false
+          default: false
+      required:
+        - value
     SearchOrdersRequestDto:
       type: object
       properties:
@@ -751,6 +903,10 @@ components:
           default: 20
           minimum: 1
           maximum: 100
+        taxId:
+          description: Filtro de Tax ID do comprador.
+          allOf:
+            - $ref: '#/components/schemas/TaxIdFilterDto'
       required:
         - query
     SearchOrdersResponseItemDto:
@@ -1186,6 +1342,39 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
+    UpdateSegmentBuyerEconomicGroupStatusBodyDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the segment buyer economic group
+          enum:
+            - ALLOWED_TO_TRANSACT
+            - NOT_ALLOWED_TO_TRANSACT
+            - BYPASS
+      required:
+        - status
+    UpdateSegmentBuyerEconomicGroupsStatusBodyDto:
+      type: object
+      properties:
+        buyerEconomicGroupIds:
+          description: The buyers economic group ids to update the status of
+          example:
+            - 123e4567-e89b-12d3-a456-426614174000
+            - 123e4567-e89b-12d3-a456-426614174001
+          type: array
+          items:
+            type: array
+        status:
+          type: string
+          description: The status of the segment buyer economic group
+          enum:
+            - ALLOWED_TO_TRANSACT
+            - NOT_ALLOWED_TO_TRANSACT
+            - BYPASS
+      required:
+        - buyerEconomicGroupIds
+        - status
     SellerDisbursementsResponseDto:
       type: object
       properties: {}
