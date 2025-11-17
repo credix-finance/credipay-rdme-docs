@@ -346,7 +346,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-11-14'
+            default: '2025-11-17'
             example: '2025-01-01'
             type: string
       responses:
@@ -884,12 +884,17 @@ components:
           default: 20
           minimum: 1
           maximum: 100
-        group:
+        taxId:
           type: string
-          description: >-
-            Tax ID da empresa. Retorna todos os pedidos do grupo econômico
-            vinculado ao comprador vinculado à empresa com este tax ID.
+          description: Tax ID do comprador. Filtra os pedidos pelo tax ID do comprador.
           example: '12345678901234'
+        includeGroup:
+          type: boolean
+          description: >-
+            Se true, filtra os pedidos pelo grupo econômico vinculado ao
+            comprador com o tax ID especificado. Se false ou não fornecido,
+            filtra apenas pelo tax ID do comprador.
+          example: true
       required:
         - query
     SearchOrdersResponseItemDto:
