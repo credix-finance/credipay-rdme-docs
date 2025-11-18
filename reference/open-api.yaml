@@ -346,7 +346,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-11-17'
+            default: '2025-11-18'
             example: '2025-01-01'
             type: string
       responses:
@@ -683,6 +683,14 @@ components:
           nullable: true
           allOf:
             - $ref: '#/components/schemas/RepaymentPayeeDto'
+        monthlyLateFeeRate:
+          type: number
+          description: Taxa de juros mensal por atraso.
+          example: 0.02
+        fixedLateFeePercentage:
+          type: number
+          description: Percentual fixo de multa por atraso.
+          example: 0.1
       required:
         - id
         - pdfUrl
@@ -696,6 +704,8 @@ components:
         - documentNumber
         - issuer
         - payee
+        - monthlyLateFeeRate
+        - fixedLateFeePercentage
     OrderErrorDto:
       type: object
       properties:
