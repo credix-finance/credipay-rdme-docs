@@ -114,7 +114,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrderDto'
+              $ref: '#/components/schemas/CreateOrderDtoOpenApiSpec'
       responses:
         '201':
           description: Operação bem-sucedida, pedido criado.
@@ -346,7 +346,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-11-19'
+            default: '2025-11-21'
             example: '2025-01-01'
             type: string
       responses:
@@ -1127,148 +1127,7 @@ components:
         - region
         - postalCode
         - country
-    DeviceInfoDto:
-      type: object
-      properties:
-        ip:
-          type: string
-          description: Client IP address
-          example: 112.196.3.212
-        os:
-          type: string
-          description: Operating system
-          example: Windows
-        trueIp:
-          type: string
-          description: True IP address
-          example: 112.196.3.212
-        memory:
-          type: number
-          description: Device memory in bytes
-          example: 1048576000
-        gpuName:
-          type: string
-          description: GPU name
-          example: Apple GPU
-        language:
-          type: string
-          description: Device language
-          example: en_US
-        cpuCores:
-          type: number
-          description: CPU cores count
-          example: 4
-        isMobile:
-          type: boolean
-          description: Whether device is mobile
-          example: true
-        gpuVendor:
-          type: string
-          description: GPU vendor
-          example: Apple Inc
-        osVersion:
-          type: string
-          description: Operating system version
-          example: 15.4.1
-        screenDpi:
-          type: number
-          description: Screen DPI
-          example: 24
-        screenPpi:
-          type: number
-          description: Screen PPI
-          example: 24
-        screenWidth:
-          type: number
-          description: Screen width in pixels
-          example: 1920
-        screenHeight:
-          type: number
-          description: Screen height in pixels
-          example: 1200
-        storageFree:
-          type: number
-          description: Free storage in bytes
-          example: 176508846080
-        batteryLevel:
-          type: number
-          description: Battery level percentage
-          example: 60
-        localLanguage:
-          type: string
-          description: Local language
-          example: en-IN
-        isScreenTouch:
-          type: boolean
-          description: Whether screen is touch enabled
-          example: true
-        storageCapacity:
-          type: number
-          description: Storage capacity in bytes
-          example: 255881465856
-        screenResolution:
-          type: string
-          description: Screen resolution
-          example: 'null'
-        isBatteryCharging:
-          type: boolean
-          description: Whether battery is charging
-          example: true
-    BrowserInfoDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Browser name (e.g., Chrome, Firefox, Safari)
-          example: Chrome
-        canvas:
-          type: number
-          description: Canvas fingerprint for browser identification
-          example: 271996
-        device:
-          type: string
-          description: Device type (desktop, mobile, tablet)
-          example: desktop
-        charset:
-          type: string
-          description: Character encoding
-          example: UTF-8
-        version:
-          type: string
-          description: Browser version
-          example: 72.0.3626
-        userAgent:
-          type: string
-          description: User agent string
-          example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/
-        acceptLanguage:
-          type: string
-          description: Accept-Language header value
-          example: en-us, de
-        isCookiesEnabled:
-          type: boolean
-          description: Whether cookies are enabled
-          example: true
-        preferredLanguage:
-          type: string
-          description: User's preferred language
-          example: en-us
-    RequestContextDto:
-      type: object
-      properties:
-        channel:
-          type: string
-          description: Channel of the request
-          example: Vtex
-        deviceInfo:
-          description: Device information for fraud detection
-          allOf:
-            - $ref: '#/components/schemas/DeviceInfoDto'
-        browserInfo:
-          description: Browser information for fraud detection
-          allOf:
-            - $ref: '#/components/schemas/BrowserInfoDto'
-    CreateOrderDto:
+    CreateOrderDtoOpenApiSpec:
       type: object
       properties:
         buyerTaxId:
@@ -1319,10 +1178,6 @@ components:
             - DDE
           default: DDF
           example: DDF
-        requestContext:
-          description: Optional fraud detection data for order validation
-          allOf:
-            - $ref: '#/components/schemas/RequestContextDto'
       required:
         - buyerTaxId
         - sellerTaxId
