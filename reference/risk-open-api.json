@@ -302,6 +302,107 @@
         ],
         "title": "AccountCheck"
       },
+      "AddDataPointRequestDTO": {
+        "properties": {
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data",
+            "description": "JSON data associated with this data point"
+          },
+          "analysisData": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisdata",
+            "description": "Any data that needs to be linked to this fraud data point"
+          },
+          "files": {
+            "type": "string",
+            "title": "Files",
+            "description": "String representation of files associated with this data point"
+          },
+          "indication": {
+            "type": "string",
+            "title": "Indication",
+            "description": "Whether the data point supports fraud or not (Fraud, Legitimate, or Neutral)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "files",
+          "indication"
+        ],
+        "title": "AddDataPointRequestDTO",
+        "description": "DTO for adding a data point to a fraud investigation."
+      },
+      "AddDataPointResponseDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The UUID of the created data point"
+          },
+          "fraudInvestigationId": {
+            "type": "string",
+            "title": "Fraudinvestigationid",
+            "description": "The UUID of the fraud investigation"
+          },
+          "dataPointId": {
+            "type": "string",
+            "title": "Datapointid",
+            "description": "The UUID of the data point"
+          },
+          "analysisData": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisdata",
+            "description": "Any data that needs to be linked to this fraud data point"
+          },
+          "indication": {
+            "type": "string",
+            "title": "Indication",
+            "description": "Whether the data point supports fraud or not"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat",
+            "description": "The timestamp when the data point was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat",
+            "description": "The timestamp when the data point was last updated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "fraudInvestigationId",
+          "dataPointId",
+          "indication",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "AddDataPointResponseDTO",
+        "description": "DTO for data point response."
+      },
       "AddressCheck": {
         "properties": {
           "city": {
@@ -939,6 +1040,39 @@
         "type": "object",
         "title": "BrowserCheck"
       },
+      "CloseInvestigationRequestDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "The final status of the investigation (FraudConfirmed or NotFraud)"
+          },
+          "confidence": {
+            "type": "string",
+            "title": "Confidence",
+            "description": "The confidence level of the investigation (Low, Medium, or High)"
+          },
+          "fraudType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fraudtype",
+            "description": "The type of fraud (impersonation, false documents, …)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "confidence"
+        ],
+        "title": "CloseInvestigationRequestDTO",
+        "description": "DTO for closing a fraud investigation."
+      },
       "CreateCRREnforcementRequestDTO": {
         "properties": {
           "entity_id": {
@@ -1250,6 +1384,61 @@
         "title": "CreateFlagTypeRequestDTO",
         "description": "DTO for creating a new flag type."
       },
+      "CreateInvestigationRequestDTO": {
+        "properties": {
+          "analysisId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisid",
+            "description": "Optional UUID of the associated analysis"
+          },
+          "parentId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parentid",
+            "description": "Optional UUID of a parent investigation that this one supersedes"
+          },
+          "entityId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid",
+            "description": "The ID of the entity being investigated (required if entityType is provided)"
+          },
+          "entityType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entitytype",
+            "description": "The type of entity being investigated (required if entityId is provided)"
+          }
+        },
+        "type": "object",
+        "title": "CreateInvestigationRequestDTO",
+        "description": "DTO for creating a new fraud investigation."
+      },
       "CreditLimitIncreaseRequestDTO": {
         "properties": {
           "buyerTaxId": {
@@ -1555,7 +1744,8 @@
       "DataLoggingProvidersEnum": {
         "type": "string",
         "enum": [
-          "modelbit"
+          "modelbit",
+          "modal"
         ],
         "title": "DataLoggingProvidersEnum"
       },
@@ -2399,6 +2589,224 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "InvestigationDataPointDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The UUID of the data point"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat",
+            "description": "The timestamp when the data point was created"
+          },
+          "analysisData": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisdata",
+            "description": "Any data that needs to be linked to this fraud data point"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data",
+            "description": "JSON data associated with this data point"
+          },
+          "files": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Files",
+            "description": "String representation of files associated with this data point"
+          },
+          "createdBy": {
+            "type": "string",
+            "title": "Createdby",
+            "description": "The person who created this data point"
+          },
+          "indication": {
+            "type": "string",
+            "title": "Indication",
+            "description": "Whether the data point supports fraud or not"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "createdAt",
+          "createdBy",
+          "indication"
+        ],
+        "title": "InvestigationDataPointDTO",
+        "description": "DTO for a data point in an investigation."
+      },
+      "InvestigationResponseDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The UUID of the created investigation"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "The status of the investigation (PendingInvestigation, InProgress, FraudConfirmed, NotFraud)"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence",
+            "description": "The confidence level of the investigation (Low, Medium, or High)"
+          },
+          "fraudType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fraudtype",
+            "description": "The type of fraud (impersonation, false documents, …)"
+          },
+          "openedBy": {
+            "type": "string",
+            "title": "Openedby",
+            "description": "The person who opened the investigation"
+          },
+          "closedBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closedby",
+            "description": "The person who closed the investigation"
+          },
+          "closedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closedat",
+            "description": "The timestamp when the investigation was closed"
+          },
+          "analysisId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisid",
+            "description": "The UUID of the associated analysis"
+          },
+          "parentId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parentid",
+            "description": "The UUID of the parent investigation"
+          },
+          "entityId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid",
+            "description": "The ID of the entity being investigated"
+          },
+          "entityType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entitytype",
+            "description": "The type of entity being investigated"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat",
+            "description": "The timestamp when the investigation was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat",
+            "description": "The timestamp when the investigation was last updated"
+          },
+          "dataPoints": {
+            "items": {
+              "$ref": "#/components/schemas/InvestigationDataPointDTO"
+            },
+            "type": "array",
+            "title": "Datapoints",
+            "description": "List of data points associated with this investigation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "openedBy",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "InvestigationResponseDTO",
+        "description": "DTO for fraud investigation response."
       },
       "NotificationEnum": {
         "type": "string",
