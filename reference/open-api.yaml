@@ -346,7 +346,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-11-24'
+            default: '2025-11-27'
             example: '2025-01-01'
             type: string
       responses:
@@ -672,6 +672,21 @@ components:
             Número do documento: número curto da nota fiscal + '-' + número
             único do ativo.
           example: 0992346-001
+          nullable: true
+        duplicata:
+          type: string
+          description: Número único da duplicata (parcela).
+          example: '123456789'
+          nullable: true
+        paymentCode:
+          type: string
+          description: Código de pagamento do boleto.
+          example: 34191.79001 01043.510047 91020.150008 6 91570000002000
+          nullable: true
+        pixEmv:
+          type: string
+          description: Código EMV para pagamento via PIX.
+          example: 00020101021126580014BR.GOV.BCB.PIX0136b69bc...
           nullable: true
         issuer:
           description: Informações do emissor (facility).
