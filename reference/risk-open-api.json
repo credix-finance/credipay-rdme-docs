@@ -934,6 +934,207 @@
         ],
         "title": "AdminCreditUnderwritingResponseDTO"
       },
+      "Analysis": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "entity_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Id"
+          },
+          "entity_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EntityType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "decision_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Id"
+          },
+          "flow_slug": {
+            "type": "string",
+            "title": "Flow Slug"
+          },
+          "decision_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Url"
+          },
+          "flow_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flow Version"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisSource"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "input_data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Data"
+          },
+          "output_data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Data"
+          },
+          "error_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason"
+          },
+          "execution_status": {
+            "$ref": "#/components/schemas/AnalysisStatus"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_id",
+          "entity_type",
+          "decision_id",
+          "flow_slug",
+          "decision_url",
+          "flow_version",
+          "input_data",
+          "output_data",
+          "error_reason",
+          "execution_status",
+          "started_at",
+          "completed_at"
+        ],
+        "title": "Analysis",
+        "description": "Model to transform the database entity (and potential joins) into a simple object with validations."
+      },
+      "AnalysisSource": {
+        "type": "string",
+        "enum": [
+          "Taktile",
+          "Manual",
+          "CredipayApi",
+          "SellerPlataform",
+          "Retool",
+          "Vtex"
+        ],
+        "title": "AnalysisSource"
+      },
+      "AnalysisStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "error",
+          "success"
+        ],
+        "title": "AnalysisStatus"
+      },
       "BrowserCheck": {
         "properties": {
           "name": {
@@ -2147,6 +2348,31 @@
         ],
         "title": "EnforcementTypeEnum",
         "description": "Enum representing the enforcement action type.\n\n- block: Prevents the entity from performing certain actions\n- allow: Explicitly allows the entity to perform actions (whitelist)"
+      },
+      "EntityType": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "regex_validation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex Validation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "regex_validation"
+        ],
+        "title": "EntityType"
       },
       "EntityTypeResponseDTO": {
         "properties": {
