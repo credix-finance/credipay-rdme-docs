@@ -1246,7 +1246,7 @@
           "status": {
             "type": "string",
             "title": "Status",
-            "description": "The final status of the investigation (FraudConfirmed or NotFraud)"
+            "description": "The final status of the investigation (FraudConfirmed, NotFraud, or FraudSuspect)"
           },
           "confidence": {
             "type": "string",
@@ -2898,7 +2898,7 @@
           "status": {
             "type": "string",
             "title": "Status",
-            "description": "The status of the investigation (PendingInvestigation, InProgress, FraudConfirmed, NotFraud)"
+            "description": "The status of the investigation (PendingInvestigation, InProgress, FraudConfirmed, NotFraud, FraudSuspect)"
           },
           "confidence": {
             "anyOf": [
