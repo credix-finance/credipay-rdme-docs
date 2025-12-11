@@ -3,5 +3,5 @@ title: /v2/segments/{segmentId}/buyer-economic-groups/{buyerEconomicGroupId}/sta
 api:
   file: open-api.yaml
   operationId: SegmentsController_updateSegmentStatus
-hidden: false
+hidden: true
 ---
