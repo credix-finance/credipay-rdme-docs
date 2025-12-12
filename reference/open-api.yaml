@@ -39,24 +39,6 @@ paths:
       summary: Obter compradores
       tags:
         - Buyers
-  /v2/onboarding:
-    post:
-      description: Creates a new onboarding request
-      operationId: OnboardingController_createOnboarding
-      parameters: []
-      requestBody:
-        required: true
-        description: The onboarding request to create
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateOnboardingDto'
-      responses:
-        '201':
-          description: ''
-      summary: Create onboarding request
-      tags:
-        - Onboarding
   /v2/orders/{id}:
     get:
       description: Obtém um pedido pelo ID interno de pedido da CrediPay.
@@ -260,53 +242,6 @@ paths:
       summary: Cancelar pedido
       tags:
         - Orders
-  /v2/segments/{segmentId}/buyer-economic-groups/{buyerEconomicGroupId}/status:
-    patch:
-      operationId: SegmentsController_updateSegmentStatus
-      parameters:
-        - name: segmentId
-          required: true
-          in: path
-          schema:
-            type: string
-        - name: buyerEconomicGroupId
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: >-
-                #/components/schemas/UpdateSegmentBuyerEconomicGroupStatusBodyDto
-      responses:
-        '200':
-          description: ''
-      tags:
-        - Segments
-  /v2/segments/{segmentId}/buyer-economic-groups/status:
-    patch:
-      operationId: SegmentsController_updateSegmentBuyerEconomicGroupsStatus
-      parameters:
-        - name: segmentId
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: >-
-                #/components/schemas/UpdateSegmentBuyerEconomicGroupsStatusBodyDto
-      responses:
-        '200':
-          description: ''
-      tags:
-        - Segments
   /v2/disbursements:
     get:
       description: >-
@@ -346,7 +281,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-12-11'
+            default: '2025-12-12'
             example: '2025-01-01'
             type: string
       responses:
@@ -479,20 +414,6 @@ components:
         - page
         - items
         - total
-    CreateOnboardingDto:
-      type: object
-      properties:
-        buyerTaxId:
-          type: string
-          description: CNPJ do comprador.
-          example: 65.413.430/0000-08
-        sellerTaxId:
-          type: string
-          description: CNPJ do vendedor.
-          example: 65.413.430/0000-03
-      required:
-        - buyerTaxId
-        - sellerTaxId
     InvoiceResponseDto:
       type: object
       properties:
@@ -1220,39 +1141,6 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
-    UpdateSegmentBuyerEconomicGroupStatusBodyDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: The status of the segment buyer economic group
-          enum:
-            - ALLOWED_TO_TRANSACT
-            - NOT_ALLOWED_TO_TRANSACT
-            - BYPASS
-      required:
-        - status
-    UpdateSegmentBuyerEconomicGroupsStatusBodyDto:
-      type: object
-      properties:
-        buyerEconomicGroupIds:
-          description: The buyers economic group ids to update the status of
-          example:
-            - 123e4567-e89b-12d3-a456-426614174000
-            - 123e4567-e89b-12d3-a456-426614174001
-          type: array
-          items:
-            type: array
-        status:
-          type: string
-          description: The status of the segment buyer economic group
-          enum:
-            - ALLOWED_TO_TRANSACT
-            - NOT_ALLOWED_TO_TRANSACT
-            - BYPASS
-      required:
-        - buyerEconomicGroupIds
-        - status
     SellerDisbursementsResponseDto:
       type: object
       properties: {}
