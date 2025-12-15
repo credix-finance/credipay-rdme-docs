@@ -1210,17 +1210,13 @@ components:
     SearchResponseDto:
       type: object
       properties:
-        results:
+        hits:
           description: Lista de resultados da busca.
           type: array
           items:
             $ref: '#/components/schemas/SearchResultDto'
-        total:
-          type: number
-          description: Total de resultados encontrados.
       required:
-        - results
-        - total
+        - hits
     SellerDisbursementsResponseDto:
       type: object
       properties: {}
