@@ -242,6 +242,42 @@ paths:
       summary: Cancelar pedido
       tags:
         - Orders
+  /v2/search:
+    get:
+      description: Realiza uma busca search-as-you-type nos dados de compradores e pedidos.
+      operationId: SearchController_search
+      parameters:
+        - name: x-credipay-organization-id
+          required: true
+          in: header
+          schema:
+            type: string
+        - name: q
+          required: true
+          in: query
+          description: A consulta de busca.
+          schema:
+            example: comprador exemplo
+            type: string
+        - name: size
+          required: false
+          in: query
+          description: Número máximo de resultados a retornar.
+          schema:
+            minimum: 1
+            maximum: 100
+            default: 10
+            type: number
+      responses:
+        '200':
+          description: Operação bem-sucedida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponseDto'
+      summary: Buscar
+      tags:
+        - Search
   /v2/disbursements:
     get:
       description: >-
@@ -281,7 +317,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2025-12-12'
+            default: '2025-12-15'
             example: '2025-01-01'
             type: string
       responses:
@@ -1141,6 +1177,50 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
+    SearchResultDto:
+      type: object
+      properties:
+        companyName:
+          type: string
+          description: Nome da empresa do comprador.
+        companyTradeName:
+          type: string
+          description: Nome comercial da empresa do comprador.
+        companyTaxId:
+          type: string
+          description: CNPJ da empresa do comprador.
+        buyerCompanyId:
+          type: string
+          description: ID da empresa do comprador.
+        invoiceNumber:
+          type: string
+          description: Número da nota fiscal.
+        invoiceBillNumber:
+          type: string
+          description: Número do boleto da nota fiscal.
+        orderId:
+          type: string
+          description: ID do pedido.
+        externalOrderId:
+          type: string
+          description: ID externo do pedido.
+        organizationId:
+          type: string
+          description: ID da organização.
+    SearchResponseDto:
+      type: object
+      properties:
+        results:
+          description: Lista de resultados da busca.
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResultDto'
+        total:
+          type: number
+          description: Total de resultados encontrados.
+      required:
+        - results
+        - total
     SellerDisbursementsResponseDto:
       type: object
       properties: {}
