@@ -2242,6 +2242,143 @@
         "title": "DisableFlagResponseDTO",
         "description": "Response DTO for disabling a flag."
       },
+      "DocumentMimeType": {
+        "type": "string",
+        "enum": [
+          "application/pdf",
+          "image/jpeg",
+          "image/jpg",
+          "image/png"
+        ],
+        "title": "DocumentMimeType"
+      },
+      "DocumentUploadItemInputDTO": {
+        "properties": {
+          "mimeType": {
+            "$ref": "#/components/schemas/DocumentMimeType",
+            "description": "MIME type of the document (e.g., 'application/pdf')"
+          },
+          "size": {
+            "type": "integer",
+            "maximum": 52428800,
+            "exclusiveMinimum": 0,
+            "title": "Size",
+            "description": "Size of the document in bytes (max 50MB)"
+          },
+          "originalFilename": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Originalfilename",
+            "description": "Original filename of the document"
+          },
+          "hash": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 64,
+            "pattern": "^[0-9a-fA-F]{64}$",
+            "title": "Hash",
+            "description": "SHA256 hash of the document content (64 hex characters)"
+          },
+          "classification": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classification",
+            "description": "Classification of the document (e.g., 'DRE', 'NF', 'other')"
+          }
+        },
+        "type": "object",
+        "required": [
+          "mimeType",
+          "size",
+          "originalFilename",
+          "hash"
+        ],
+        "title": "DocumentUploadItemInputDTO",
+        "description": "Nested validation for a single document to be uploaded.\n\nStructural validation:\n- MIME type must be one of the allowed types (PDF, JPEG, JPG, PNG)\n- File size must not exceed 50MB\n- Hash must be a valid SHA256 (64 hex characters)\n- entity_type and entity_id must both be present or both absent"
+      },
+      "DocumentUploadResult": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Document ID (use this for finalize endpoint)"
+          },
+          "hash": {
+            "type": "string",
+            "title": "Hash",
+            "description": "SHA256 hash of the document"
+          },
+          "signedUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signedurl",
+            "description": "Presigned URL for uploading the document (null if error or already exists)"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DocumentUploadResultStatus",
+            "description": "Status of the document upload preparation"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiresat",
+            "description": "Expiration time of the presigned URL (null if error or already exists)"
+          },
+          "errorMessage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errormessage",
+            "description": "Error message if status is 'error'"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "hash",
+          "status"
+        ],
+        "title": "DocumentUploadResult",
+        "description": "Nested response for a single document upload result."
+      },
+      "DocumentUploadResultStatus": {
+        "type": "string",
+        "enum": [
+          "Pending",
+          "AlreadyExists",
+          "Error"
+        ],
+        "title": "DocumentUploadResultStatus",
+        "description": "Status of a document upload preparation."
+      },
       "DomainEnum": {
         "type": "string",
         "enum": [
@@ -2349,6 +2486,40 @@
         "title": "EnforcementTypeEnum",
         "description": "Enum representing the enforcement action type.\n\n- block: Prevents the entity from performing certain actions\n- allow: Explicitly allows the entity to perform actions (whitelist)"
       },
+      "EntityReference": {
+        "properties": {
+          "type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Type",
+            "description": "Type of the entity the document belongs to (e.g., 'buyerTaxId')"
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "ID of the entity the document belongs to"
+          }
+        },
+        "type": "object",
+        "title": "EntityReference",
+        "description": "Reusable entity reference with validation.\n\nStructural validation:\n- entity_type and entity_id must both be present or both absent"
+      },
       "EntityType": {
         "properties": {
           "type": {
@@ -2402,6 +2573,33 @@
         ],
         "title": "EntityTypeResponseDTO",
         "description": "DTO for entity type responses."
+      },
+      "FinalizeDocumentRequestDTO": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Whether the upload was successful: true if completed, false if failed"
+          },
+          "errorMessage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errormessage",
+            "description": "Error message if success is false"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "FinalizeDocumentRequestDTO",
+        "description": "Request DTO for finalizing a document upload."
       },
       "FlagResultDomain": {
         "properties": {
@@ -3222,6 +3420,53 @@
           "order"
         ],
         "title": "OrderFraudAnalysisRequestDTO"
+      },
+      "PresignDocumentsRequestDTO": {
+        "properties": {
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentUploadItemInputDTO"
+            },
+            "type": "array",
+            "title": "Documents",
+            "description": "List of documents to generate presigned URLs for"
+          },
+          "entity": {
+            "$ref": "#/components/schemas/EntityReference",
+            "description": "Entity the document belongs to"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Additional metadata (e.g., 'approachId', 'ipAddress', 'userAgent', 'channel')"
+          }
+        },
+        "type": "object",
+        "required": [
+          "documents",
+          "entity"
+        ],
+        "title": "PresignDocumentsRequestDTO",
+        "description": "Request DTO for presigning document uploads."
+      },
+      "PresignDocumentsResponseDTO": {
+        "properties": {
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentUploadResult"
+            },
+            "type": "array",
+            "title": "Documents",
+            "description": "List of document upload results with presigned URLs or errors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "documents"
+        ],
+        "title": "PresignDocumentsResponseDTO",
+        "description": "Response DTO for presigning document uploads."
       },
       "ScheduleProvisionalBuyersOnboardingRequestDTO": {
         "properties": {
