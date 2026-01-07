@@ -39,6 +39,33 @@ paths:
       summary: Obter compradores
       tags:
         - Buyers
+  /v2/buyers/{buyerId}/documents:
+    post:
+      description: Gera URLs pré-assinadas para upload de documentos do comprador.
+      operationId: BuyersController_presignBuyerDocuments
+      parameters:
+        - name: buyerId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Dados dos documentos a serem pré-assinados.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresignBuyerDocumentsRequestDto'
+      responses:
+        '201':
+          description: Operação bem-sucedida, URLs pré-assinadas geradas.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresignBuyerDocumentsResponseDto'
+      summary: Pré-assinar documentos do comprador
+      tags:
+        - Buyers
   /v2/orders/{id}:
     get:
       description: Obtém um pedido pelo ID interno de pedido da CrediPay.
@@ -317,7 +344,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-01-06'
+            default: '2026-01-07'
             example: '2025-01-01'
             type: string
       responses:
@@ -452,6 +479,39 @@ components:
         - page
         - items
         - total
+    PresignBuyerDocumentsRequestDto:
+      type: object
+      properties:
+        documents:
+          description: Documents.
+          example:
+            - mimeType: application/pdf
+              size: 100
+              originalFilename: DRE-2025.pdf
+              hash: '1234567890'
+              classification: DRE
+          type: array
+          items:
+            type: string
+      required:
+        - documents
+    PresignBuyerDocumentsResponseDto:
+      type: object
+      properties:
+        documents:
+          description: Documents.
+          example:
+            - id: '1234567890'
+              signedUrl: https://example.com/document.pdf
+              hash: '1234567890'
+              status: pending
+              expiresAt: '2025-01-01T00:00:00Z'
+              errorMessage: null
+          type: array
+          items:
+            type: string
+      required:
+        - documents
     InvoiceResponseDto:
       type: object
       properties:
