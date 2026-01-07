@@ -2489,34 +2489,24 @@
       "EntityReference": {
         "properties": {
           "type": {
-            "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 100,
-                "minLength": 1
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
             "title": "Type",
             "description": "Type of the entity the document belongs to (e.g., 'buyerTaxId')"
           },
           "id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "minLength": 1
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "string",
+            "minLength": 1,
             "title": "Id",
             "description": "ID of the entity the document belongs to"
           }
         },
         "type": "object",
+        "required": [
+          "type",
+          "id"
+        ],
         "title": "EntityReference",
         "description": "Reusable entity reference with validation.\n\nStructural validation:\n- entity_type and entity_id must both be present or both absent"
       },
