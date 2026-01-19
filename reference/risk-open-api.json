@@ -654,6 +654,23 @@
               "Seller",
               "All"
             ]
+          },
+          "expectedCreditLimitCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Credit Limit",
+            "description": "Expected credit limit in cents for the credit underwriting",
+            "examples": [
+              1000000,
+              500000
+            ],
+            "optional": true
           }
         },
         "type": "object",
@@ -1842,6 +1859,23 @@
               "Seller",
               "All"
             ]
+          },
+          "expectedCreditLimitCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Credit Limit",
+            "description": "Expected credit limit in cents for the credit underwriting",
+            "examples": [
+              1000000,
+              500000
+            ],
+            "optional": true
           }
         },
         "type": "object",
