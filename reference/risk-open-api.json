@@ -3445,6 +3445,19 @@
         ],
         "title": "OrderFraudAnalysisRequestDTO"
       },
+      "PatchDocumentMetadataRequestDTO": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Metadata to merge with existing metadata (e.g., 'email', 'phone', 'channel')"
+          }
+        },
+        "type": "object",
+        "title": "PatchDocumentMetadataRequestDTO",
+        "description": "Request DTO for patching document metadata."
+      },
       "PresignDocumentsRequestDTO": {
         "properties": {
           "documents": {
