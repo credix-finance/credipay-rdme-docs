@@ -1,4 +1,4 @@
 ---
 title: Search
-hidden: false
+hidden: true
 ---
