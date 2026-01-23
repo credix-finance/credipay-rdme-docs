@@ -1,4 +1,4 @@
 ---
 title: Onboarding
-hidden: false
+hidden: true
 ---
