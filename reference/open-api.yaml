@@ -317,7 +317,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-01-30'
+            default: '2026-02-02'
             example: '2025-01-01'
             type: string
       responses:
