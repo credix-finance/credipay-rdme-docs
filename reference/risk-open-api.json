@@ -3302,6 +3302,156 @@
         ],
         "title": "OnboardingFieldsDTO"
       },
+      "OpenFinanceAuthorizerInputDTO": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "description": "Authorizer full name"
+          },
+          "cpf": {
+            "type": "string",
+            "title": "Cpf",
+            "description": "Brazilian CPF (11 digits, formatting allowed)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "cpf"
+        ],
+        "title": "OpenFinanceAuthorizerInputDTO",
+        "description": "Authorizer (person) data for Open Finance link/connection."
+      },
+      "OpenFinanceCompanyInputDTO": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "description": "Company legal name"
+          },
+          "cnpj": {
+            "type": "string",
+            "title": "Cnpj",
+            "description": "Brazilian CNPJ (14 digits, formatting allowed)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "cnpj"
+        ],
+        "title": "OpenFinanceCompanyInputDTO",
+        "description": "Company data for Open Finance link/connection."
+      },
+      "OpenFinanceConnectionLinkDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Link ID"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Link status"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expiresat",
+            "description": "Link expiration (ISO 8601)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "expiresAt"
+        ],
+        "title": "OpenFinanceConnectionLinkDTO",
+        "description": "Link metadata when a connection/link exists."
+      },
+      "OpenFinanceConnectionRequestDTO": {
+        "properties": {
+          "company": {
+            "$ref": "#/components/schemas/OpenFinanceCompanyInputDTO",
+            "description": "Company data"
+          },
+          "authorizer": {
+            "$ref": "#/components/schemas/OpenFinanceAuthorizerInputDTO",
+            "description": "Authorizer (person) data"
+          },
+          "institution": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Institution",
+            "description": "Institution slug (e.g. pj_nubank)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "company",
+          "authorizer",
+          "institution"
+        ],
+        "title": "OpenFinanceConnectionRequestDTO",
+        "description": "Request body for Open Finance connection endpoint."
+      },
+      "OpenFinanceConnectionResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Link/connection status (e.g. ALREADY_EXISTS, EXPIRED, INCOMPLETE)"
+          },
+          "token": {
+            "$ref": "#/components/schemas/OpenFinanceConnectionTokenDTO",
+            "description": "Access and refresh tokens"
+          },
+          "link": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OpenFinanceConnectionLinkDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Link metadata when a link exists; null otherwise"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "token"
+        ],
+        "title": "OpenFinanceConnectionResponseDTO",
+        "description": "Response body for Open Finance connection endpoint."
+      },
+      "OpenFinanceConnectionTokenDTO": {
+        "properties": {
+          "refresh": {
+            "type": "string",
+            "title": "Refresh",
+            "description": "Refresh token"
+          },
+          "access": {
+            "type": "string",
+            "title": "Access",
+            "description": "Access token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refresh",
+          "access"
+        ],
+        "title": "OpenFinanceConnectionTokenDTO",
+        "description": "Access and refresh tokens for the Open Finance connection."
+      },
       "OrderCheck": {
         "properties": {
           "id": {
