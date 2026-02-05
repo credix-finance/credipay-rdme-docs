@@ -2276,21 +2276,11 @@
         "title": "DisableFlagResponseDTO",
         "description": "Response DTO for disabling a flag."
       },
-      "DocumentMimeType": {
-        "type": "string",
-        "enum": [
-          "application/pdf",
-          "image/jpeg",
-          "image/jpg",
-          "image/png",
-          "application/xml"
-        ],
-        "title": "DocumentMimeType"
-      },
       "DocumentUploadItemInputDTO": {
         "properties": {
           "mimeType": {
-            "$ref": "#/components/schemas/DocumentMimeType",
+            "type": "string",
+            "title": "Mimetype",
             "description": "MIME type of the document (e.g., 'application/pdf')"
           },
           "size": {
@@ -2338,7 +2328,7 @@
           "hash"
         ],
         "title": "DocumentUploadItemInputDTO",
-        "description": "Nested validation for a single document to be uploaded.\n\nStructural validation:\n- MIME type must be one of the allowed types (PDF, JPEG, JPG, PNG)\n- File size must not exceed 50MB\n- Hash must be a valid SHA256 (64 hex characters)\n- entity_type and entity_id must both be present or both absent"
+        "description": "Nested validation for a single document to be uploaded.\n\nStructural validation:\n- MIME type must map to an allowed file extension (PDF, JPEG, JPG, PNG, XML)\n- File size must not exceed 50MB\n- Hash must be a valid SHA256 (64 hex characters)\n- entity_type and entity_id must both be present or both absent"
       },
       "DocumentUploadResult": {
         "properties": {
