@@ -1152,6 +1152,133 @@
         ],
         "title": "AnalysisStatus"
       },
+      "BatchCreateCRREnforcementRequestDTO": {
+        "properties": {
+          "enforcements": {
+            "items": {
+              "$ref": "#/components/schemas/CreateCRREnforcementRequestDTO"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Enforcements",
+            "description": "List of enforcement rules to create"
+          }
+        },
+        "type": "object",
+        "required": [
+          "enforcements"
+        ],
+        "title": "BatchCreateCRREnforcementRequestDTO",
+        "description": "DTO for batch creating enforcement rules."
+      },
+      "BatchCreateCRREnforcementResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "partial"
+            ],
+            "title": "Status",
+            "description": "'success' when no failures, 'partial' when at least one item failed"
+          },
+          "created": {
+            "items": {
+              "$ref": "#/components/schemas/EnforcementDTO"
+            },
+            "type": "array",
+            "title": "Created",
+            "description": "Enforcements newly created"
+          },
+          "failed": {
+            "items": {
+              "$ref": "#/components/schemas/BatchEnforcementFailureItemDTO"
+            },
+            "type": "array",
+            "title": "Failed",
+            "description": "Items that failed (validation or DB error)"
+          },
+          "skipped": {
+            "items": {
+              "$ref": "#/components/schemas/BatchEnforcementSkippedItemDTO"
+            },
+            "type": "array",
+            "title": "Skipped",
+            "description": "Items skipped because they already exist"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "created",
+          "failed",
+          "skipped"
+        ],
+        "title": "BatchCreateCRREnforcementResponseDTO",
+        "description": "DTO for batch enforcement creation responses (partial success)."
+      },
+      "BatchEnforcementFailureItemDTO": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index",
+            "description": "Zero-based index of the item in the request that failed"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason",
+            "description": "Human-readable reason for the failure"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code",
+            "description": "Optional HTTP-style status code for the failure"
+          }
+        },
+        "type": "object",
+        "required": [
+          "index",
+          "reason"
+        ],
+        "title": "BatchEnforcementFailureItemDTO",
+        "description": "DTO for a single failed item in a batch enforcement create."
+      },
+      "BatchEnforcementSkippedItemDTO": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index",
+            "description": "Zero-based index of the item in the request that was skipped (for debugging)"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "The entity_id of the request item that was skipped (already exists)"
+          },
+          "reason": {
+            "type": "string",
+            "const": "already_exists",
+            "title": "Reason",
+            "description": "Reason the item was skipped"
+          }
+        },
+        "type": "object",
+        "required": [
+          "index",
+          "entity_id",
+          "reason"
+        ],
+        "title": "BatchEnforcementSkippedItemDTO",
+        "description": "DTO for a single skipped item in a batch enforcement create (e.g. already exists)."
+      },
       "BrowserCheck": {
         "properties": {
           "name": {
