@@ -1,7 +1,10 @@
-- orderscontroller_getorderbyid
-- orderscontroller_postorder
-- orderscontroller_postinvoicexml
-- orderscontroller_captureorder
-- orderscontroller_refundorder
-- orderscontroller_cancelorder
-- orderscontroller_searchorders
+- post-create-order
+- list-orders
+- post-handle-order-notification
+- get-order
+- post-cancel-order
+- get-order-documents
+- post-order-simulation
+- post-order-refund
+- post-order-extend-payment-terms
+- post-finalize-order-and-process-invoice
