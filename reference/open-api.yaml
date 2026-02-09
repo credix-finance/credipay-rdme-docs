@@ -828,10 +828,8 @@ info:
   contact: {}
 tags: []
 servers:
-  - url: https://api.pre.credix.finance
-    description: Sandbox
-  - url: https://api.credix.finance
-    description: Production
+  - url: https://api.dev.credix.finance
+    description: Development
 components:
   securitySchemes:
     api_key:
