@@ -442,6 +442,165 @@
         ],
         "title": "AddressCheck"
       },
+      "AddressValidationRequestDTO": {
+        "properties": {
+          "street1": {
+            "type": "string",
+            "title": "Street1"
+          },
+          "street2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Street2"
+          },
+          "postalCode": {
+            "type": "string",
+            "title": "Postalcode"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "region": {
+            "type": "string",
+            "title": "Region"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "taxId": {
+            "type": "string",
+            "title": "Taxid"
+          },
+          "sum_face_value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sum Face Value"
+          },
+          "source_client_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Client Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "street1",
+          "postalCode",
+          "city",
+          "region",
+          "country",
+          "taxId"
+        ],
+        "title": "AddressValidationRequestDTO"
+      },
+      "AddressValidationResponseDTO": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/AddressValidationStatusEnum"
+          },
+          "distance": {
+            "type": "number",
+            "title": "Distance"
+          },
+          "taxId": {
+            "type": "string",
+            "title": "Taxid"
+          },
+          "input_address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Address"
+          },
+          "addresses_extended_output": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresses Extended Output"
+          },
+          "matcher_address_match": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Matcher Address Match"
+          },
+          "matcher_address_match_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Matcher Address Match Reason"
+          },
+          "sum_face_value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sum Face Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "distance",
+          "taxId"
+        ],
+        "title": "AddressValidationResponseDTO"
+      },
+      "AddressValidationStatusEnum": {
+        "type": "string",
+        "enum": [
+          "SUCCESS",
+          "FAILURE"
+        ],
+        "title": "AddressValidationStatusEnum"
+      },
       "AdminCreditUnderwritingBatchRequestDTO": {
         "properties": {
           "buyerTaxIds": {
