@@ -2834,6 +2834,29 @@
         "title": "EntityTypeResponseDTO",
         "description": "DTO for entity type responses."
       },
+      "FetchBelvoHistoricalResourceRequestDTO": {
+        "properties": {
+          "linkId": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Linkid",
+            "description": "Belvo link id"
+          },
+          "resourceName": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Resourcename",
+            "description": "Belvo resource name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "linkId",
+          "resourceName"
+        ],
+        "title": "FetchBelvoHistoricalResourceRequestDTO",
+        "description": "Input payload for historical resource fetching."
+      },
       "FinalizeDocumentRequestDTO": {
         "properties": {
           "success": {
