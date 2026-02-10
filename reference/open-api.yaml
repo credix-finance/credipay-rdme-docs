@@ -317,7 +317,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-02-09'
+            default: '2026-02-10'
             example: '2025-01-01'
             type: string
       responses:
@@ -337,8 +337,10 @@ info:
   contact: {}
 tags: []
 servers:
-  - url: https://api.dev.credix.finance
-    description: Development
+  - url: https://api.pre.credix.finance
+    description: Sandbox
+  - url: https://api.credix.finance
+    description: Production
 components:
   securitySchemes:
     api_key:
