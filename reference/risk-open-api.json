@@ -1279,6 +1279,124 @@
         "title": "BatchEnforcementSkippedItemDTO",
         "description": "DTO for a single skipped item in a batch enforcement create (e.g. already exists)."
       },
+      "BelvoWebhookDataDTO": {
+        "properties": {
+          "errors": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/BelvoWebhookErrorDTO"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errors"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "BelvoWebhookDataDTO",
+        "description": "Belvo webhook data payload."
+      },
+      "BelvoWebhookErrorDTO": {
+        "properties": {
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "title": "BelvoWebhookErrorDTO",
+        "description": "Error details sent by Belvo in webhook payloads."
+      },
+      "BelvoWebhookPayloadDTO": {
+        "properties": {
+          "webhookId": {
+            "type": "string",
+            "title": "Webhookid"
+          },
+          "webhookType": {
+            "type": "string",
+            "title": "Webhooktype"
+          },
+          "webhookCode": {
+            "type": "string",
+            "title": "Webhookcode"
+          },
+          "linkId": {
+            "type": "string",
+            "title": "Linkid"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BelvoWebhookDataDTO"
+          },
+          "processType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processtype"
+          },
+          "requestId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requestid"
+          },
+          "externalId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Externalid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "webhookId",
+          "webhookType",
+          "webhookCode",
+          "linkId",
+          "data"
+        ],
+        "title": "BelvoWebhookPayloadDTO",
+        "description": "Belvo webhook payload."
+      },
       "BrowserCheck": {
         "properties": {
           "name": {
