@@ -1377,6 +1377,100 @@
         "title": "BatchCreateCRREnforcementResponseDTO",
         "description": "DTO for batch enforcement creation responses (partial success)."
       },
+      "BatchDisableEnforcementRequestDTO": {
+        "properties": {
+          "enforcement_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Enforcement Ids",
+            "description": "List of enforcement rule IDs (UUIDs) to disable"
+          }
+        },
+        "type": "object",
+        "required": [
+          "enforcement_ids"
+        ],
+        "title": "BatchDisableEnforcementRequestDTO",
+        "description": "DTO for batch disabling enforcement rules."
+      },
+      "BatchDisableEnforcementResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "partial"
+            ],
+            "title": "Status",
+            "description": "'success' when no failures, 'partial' when at least one item failed"
+          },
+          "disabled": {
+            "items": {
+              "$ref": "#/components/schemas/DisableEnforcementResponseDTO"
+            },
+            "type": "array",
+            "title": "Disabled",
+            "description": "Enforcements successfully disabled"
+          },
+          "failed": {
+            "items": {
+              "$ref": "#/components/schemas/BatchEnforcementFailureItemDTO"
+            },
+            "type": "array",
+            "title": "Failed",
+            "description": "Items that failed (not found or disable error)"
+          },
+          "skipped": {
+            "items": {
+              "$ref": "#/components/schemas/BatchDisableEnforcementSkippedItemDTO"
+            },
+            "type": "array",
+            "title": "Skipped",
+            "description": "Items skipped because they were already disabled"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "disabled",
+          "failed",
+          "skipped"
+        ],
+        "title": "BatchDisableEnforcementResponseDTO",
+        "description": "DTO for batch enforcement disable responses (partial success)."
+      },
+      "BatchDisableEnforcementSkippedItemDTO": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index",
+            "description": "Zero-based index of the item in the request that was skipped (for debugging)"
+          },
+          "enforcement_id": {
+            "type": "string",
+            "title": "Enforcement Id",
+            "description": "The enforcement_id of the request item that was skipped (already disabled)"
+          },
+          "reason": {
+            "type": "string",
+            "const": "already_disabled",
+            "title": "Reason",
+            "description": "Reason the item was skipped"
+          }
+        },
+        "type": "object",
+        "required": [
+          "index",
+          "enforcement_id",
+          "reason"
+        ],
+        "title": "BatchDisableEnforcementSkippedItemDTO",
+        "description": "DTO for a single skipped item in a batch enforcement disable (e.g. already disabled)."
+      },
       "BatchEnforcementFailureItemDTO": {
         "properties": {
           "index": {
