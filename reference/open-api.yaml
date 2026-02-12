@@ -320,6 +320,14 @@ paths:
             default: '2026-02-12'
             example: '2025-01-01'
             type: string
+        - name: includePending
+          required: false
+          in: query
+          description: Inclui repasses pendentes quando true.
+          schema:
+            default: false
+            example: false
+            type: boolean
       responses:
         '200':
           description: Operação bem-sucedida.
