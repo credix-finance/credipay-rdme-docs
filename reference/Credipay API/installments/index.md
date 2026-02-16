@@ -1,4 +1,4 @@
 ---
 title: Installments
-hidden: false
+hidden: true
 ---
