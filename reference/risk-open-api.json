@@ -1756,6 +1756,104 @@
         "type": "object",
         "title": "BrowserCheck"
       },
+      "BuyerPlatformPresignDocumentsRequestDTO": {
+        "properties": {
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentUploadItemInputDTO"
+            },
+            "type": "array",
+            "title": "Documents",
+            "description": "List of documents to generate presigned URLs for"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Additional metadata (e.g., 'approachId', 'ipAddress', 'userAgent', 'channel')"
+          }
+        },
+        "type": "object",
+        "required": [
+          "documents"
+        ],
+        "title": "BuyerPlatformPresignDocumentsRequestDTO",
+        "description": "Request DTO for buyer platform presign document uploads."
+      },
+      "BuyerPlatformTokenRequestDTO": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Source",
+            "description": "Token source"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "buyer",
+              "seller",
+              "admin"
+            ],
+            "title": "Role",
+            "description": "Role associated with token permissions"
+          },
+          "taxId": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Taxid",
+            "description": "Tax ID associated with the token"
+          },
+          "paymentId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paymentid",
+            "description": "Optional payment identifier"
+          },
+          "callbackUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Callbackurl",
+            "description": "Optional callback URL"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "source",
+          "role",
+          "taxId"
+        ],
+        "title": "BuyerPlatformTokenRequestDTO",
+        "description": "Request DTO for buyer platform document upload token generation."
+      },
+      "BuyerPlatformTokenResponseDTO": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token",
+            "description": "Signed JWT token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "BuyerPlatformTokenResponseDTO",
+        "description": "Response DTO with a signed buyer platform token."
+      },
       "CloseInvestigationRequestDTO": {
         "properties": {
           "status": {
