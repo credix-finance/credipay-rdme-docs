@@ -1,0 +1,4635 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Credipay API",
+    "description": "",
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.pre.credix.finance",
+      "description": "Sandbox"
+    },
+    {
+      "url": "https://api.credix.finance",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/v2/credit-limit/request": {
+      "post": {
+        "tags": [
+          "Credit Limit"
+        ],
+        "summary": "Solicitar um limite de crédito",
+        "description": "Solicite um limite de crédito para um comprador específico pela primeira vez. Se for necessário limite adicional, use o endpoint de aumento de limite.",
+        "operationId": "credit_underwrite_request_risk_engine_credit_underwrite_request_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditUnderwritingRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Solicitação de limite de crédito recebida e será processada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditUnderwritingResponseDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/credit-limit/request/{creditUnderwritingId}": {
+      "get": {
+        "tags": [
+          "Credit Limit"
+        ],
+        "summary": "Obter uma solicitação de limite de crédito",
+        "description": "Obtenha uma solicitação de limite de crédito pelo ID (UUID)",
+        "operationId": "get_credit_underwrite_request_risk_engine_credit_underwrite_request__creditUnderwritingId__get",
+        "parameters": [
+          {
+            "name": "creditUnderwritingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Identificador único da solicitação de análise de crédito",
+              "title": "Creditunderwritingid"
+            },
+            "description": "Identificador único da solicitação de análise de crédito",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Solicitação de limite de crédito recuperada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditUnderwritingResponseDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/credit-limit/increase": {
+      "post": {
+        "tags": [
+          "Credit Limit"
+        ],
+        "summary": "Solicitar um aumento de limite de crédito",
+        "description": "Solicite um aumento de limite de crédito para um comprador específico",
+        "operationId": "credit_limit_increase_request_risk_engine_credit_limit_increase_request_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditLimitIncreaseRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Solicitação de aumento de limite de crédito recebida e será processada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditLimitIncreaseResultDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/credit-limit/increase/{cliRequestId}": {
+      "get": {
+        "tags": [
+          "Credit Limit"
+        ],
+        "summary": "Obter uma solicitação de aumento de limite de crédito",
+        "description": "Obtenha uma solicitação de aumento de limite de crédito pelo ID (UUID)",
+        "operationId": "get_credit_limit_increase_request_risk_engine_credit_limit_increase_request__cliRequestId__get",
+        "parameters": [
+          {
+            "name": "cliRequestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Identificador único da solicitação de aumento de limite de crédito",
+              "title": "Clirequestid"
+            },
+            "description": "Identificador único da solicitação de aumento de limite de crédito",
+            "example": "987fcdeb-51a2-43d1-9c4f-123456789abc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Solicitação de aumento de limite de crédito recuperada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditLimitIncreaseResultDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountCheck": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active"
+          },
+          "created": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created"
+          },
+          "ipLast": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iplast"
+          },
+          "ipCreated": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ipcreated"
+          },
+          "ipHistory": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iphistory"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AddressCheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "email",
+          "phone"
+        ],
+        "title": "AccountCheck"
+      },
+      "AddDataPointRequestDTO": {
+        "properties": {
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data",
+            "description": "JSON data associated with this data point"
+          },
+          "analysisData": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisdata",
+            "description": "Any data that needs to be linked to this fraud data point"
+          },
+          "files": {
+            "type": "string",
+            "title": "Files",
+            "description": "String representation of files associated with this data point"
+          },
+          "indication": {
+            "type": "string",
+            "title": "Indication",
+            "description": "Whether the data point supports fraud or not (Fraud, Legitimate, or Neutral)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "files",
+          "indication"
+        ],
+        "title": "AddDataPointRequestDTO",
+        "description": "DTO for adding a data point to a fraud investigation."
+      },
+      "AddDataPointResponseDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The UUID of the created data point"
+          },
+          "fraudInvestigationId": {
+            "type": "string",
+            "title": "Fraudinvestigationid",
+            "description": "The UUID of the fraud investigation"
+          },
+          "dataPointId": {
+            "type": "string",
+            "title": "Datapointid",
+            "description": "The UUID of the data point"
+          },
+          "analysisData": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisdata",
+            "description": "Any data that needs to be linked to this fraud data point"
+          },
+          "indication": {
+            "type": "string",
+            "title": "Indication",
+            "description": "Whether the data point supports fraud or not"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat",
+            "description": "The timestamp when the data point was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat",
+            "description": "The timestamp when the data point was last updated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "fraudInvestigationId",
+          "dataPointId",
+          "indication",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "AddDataPointResponseDTO",
+        "description": "DTO for data point response."
+      },
+      "AddressCheck": {
+        "properties": {
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "house": {
+            "type": "string",
+            "title": "House"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "street": {
+            "type": "string",
+            "title": "Street"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "zipCode": {
+            "type": "string",
+            "title": "Zipcode"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "city",
+          "house",
+          "state",
+          "street",
+          "country",
+          "zipCode"
+        ],
+        "title": "AddressCheck"
+      },
+      "AddressValidationRequestDTO": {
+        "properties": {
+          "street1": {
+            "type": "string",
+            "title": "Street1"
+          },
+          "street2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Street2"
+          },
+          "postalCode": {
+            "type": "string",
+            "title": "Postalcode"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "region": {
+            "type": "string",
+            "title": "Region"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "taxId": {
+            "type": "string",
+            "title": "Taxid"
+          },
+          "sum_face_value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sum Face Value"
+          },
+          "source_client_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Client Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "street1",
+          "postalCode",
+          "city",
+          "region",
+          "country",
+          "taxId"
+        ],
+        "title": "AddressValidationRequestDTO"
+      },
+      "AddressValidationResponseDTO": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/AddressValidationStatusEnum"
+          },
+          "distance": {
+            "type": "number",
+            "title": "Distance"
+          },
+          "taxId": {
+            "type": "string",
+            "title": "Taxid"
+          },
+          "input_address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Address"
+          },
+          "addresses_extended_output": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Addresses Extended Output"
+          },
+          "matcher_address_match": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Matcher Address Match"
+          },
+          "matcher_address_match_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Matcher Address Match Reason"
+          },
+          "sum_face_value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sum Face Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "distance",
+          "taxId"
+        ],
+        "title": "AddressValidationResponseDTO"
+      },
+      "AddressValidationStatusEnum": {
+        "type": "string",
+        "enum": [
+          "SUCCESS",
+          "FAILURE"
+        ],
+        "title": "AddressValidationStatusEnum"
+      },
+      "AdminCreditUnderwritingBatchRequestDTO": {
+        "properties": {
+          "buyerTaxIds": {
+            "items": {
+              "type": "string",
+              "maxLength": 14,
+              "minLength": 14
+            },
+            "type": "array",
+            "title": "Buyer Tax ID",
+            "description": "Valid Brazilian CNPJ with 14 characters",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "sellerTaxId": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Seller Tax ID",
+            "description": "Valid Brazilian CNPJ with 14 characters",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "onboard": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Onboard",
+            "description": "Whether to onboard the buyer automatically after underwriting",
+            "default": true
+          },
+          "freshnessInSeconds": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 999999999,
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Freshness Check",
+            "description": "Underwriting analysis freshness check in seconds, null disables the check and defaults to 0 seconds",
+            "examples": [
+              3600,
+              86400,
+              null
+            ]
+          },
+          "proposalName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proposal Name",
+            "description": "Name of the proposal to be associated with the batch",
+            "examples": [
+              "Client 1 - Pre-approval"
+            ]
+          },
+          "notification": {
+            "$ref": "#/components/schemas/NotificationEnum",
+            "title": "Notification Setting",
+            "description": "Notification setting for the batch operation",
+            "default": "Disabled",
+            "examples": [
+              "Disabled",
+              "Admin",
+              "Seller",
+              "All"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "buyerTaxIds",
+          "sellerTaxId"
+        ],
+        "title": "AdminCreditUnderwritingBatchRequestDTO"
+      },
+      "AdminCreditUnderwritingBatchResponseDTO": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Whether the batch operation was successfully scheduled",
+            "examples": [
+              true,
+              false
+            ]
+          },
+          "totalUnderwritingsRequested": {
+            "type": "integer",
+            "title": "Total Underwritings Requested",
+            "description": "Total number of underwriting requests in the batch",
+            "examples": [
+              10,
+              50,
+              100
+            ]
+          },
+          "totalUnderwritingsScheduled": {
+            "type": "integer",
+            "title": "Total Underwritings Scheduled",
+            "description": "Number of underwriting requests that were scheduled for processing",
+            "examples": [
+              5,
+              25,
+              50
+            ]
+          },
+          "totalUnderwritingsRunning": {
+            "type": "integer",
+            "title": "Total Underwritings Running",
+            "description": "Number of underwriting requests currently being processed",
+            "examples": [
+              3,
+              15,
+              30
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "success",
+          "totalUnderwritingsRequested",
+          "totalUnderwritingsScheduled",
+          "totalUnderwritingsRunning"
+        ],
+        "title": "AdminCreditUnderwritingBatchResponseDTO"
+      },
+      "AdminCreditUnderwritingRequestDTO": {
+        "properties": {
+          "buyerTaxId": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Buyer Tax ID",
+            "description": "Valid Brazilian CNPJ with 14 characters",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "sellerTaxId": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Seller Tax ID",
+            "description": "Valid Brazilian CNPJ with 14 characters",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "onboard": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Onboard Requested",
+            "description": "Whether to onboard the buyer automatically after underwriting",
+            "default": true,
+            "examples": [
+              true,
+              false
+            ]
+          },
+          "freshnessInSeconds": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 999999999,
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Freshness Check",
+            "description": "Underwriting analysis freshness check in seconds, null disables the check and defaults to 0 seconds",
+            "examples": [
+              3600,
+              86400,
+              null
+            ]
+          },
+          "notification": {
+            "$ref": "#/components/schemas/NotificationEnum",
+            "title": "Notification Setting",
+            "description": "Notification setting for the credit underwriting operation",
+            "default": "All",
+            "examples": [
+              "Disabled",
+              "Admin",
+              "Seller",
+              "All"
+            ]
+          },
+          "expectedCreditLimitCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Credit Limit",
+            "description": "Expected credit limit in cents for the credit underwriting",
+            "examples": [
+              1000000,
+              500000
+            ],
+            "optional": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "buyerTaxId",
+          "sellerTaxId"
+        ],
+        "title": "AdminCreditUnderwritingRequestDTO"
+      },
+      "AdminCreditUnderwritingResponseDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Credit Underwriting ID",
+            "description": "Unique identifier for the credit underwriting analysis request",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "taxId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 14,
+                "minLength": 14
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Buyer Tax ID",
+            "description": "Brazilian CNPJ (tax ID) of the buyer",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "sellerTaxId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 14,
+                "minLength": 14
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seller Tax ID",
+            "description": "Brazilian CNPJ (tax ID) of the seller",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "eligibility": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eligibility",
+            "description": "Whether the buyer is eligible for credit underwriting",
+            "examples": [
+              true,
+              false
+            ]
+          },
+          "creditRating": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credit Rating",
+            "description": "Credit rating assigned to the buyer",
+            "examples": [
+              "A",
+              "B",
+              "C"
+            ]
+          },
+          "creditLimitCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credit Limit",
+            "description": "Credit limit in cents approved for the buyer",
+            "examples": [
+              1000000,
+              500000
+            ]
+          },
+          "ineligibilityReason": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ineligibility Reason",
+            "description": "List of reasons why the buyer is not eligible",
+            "examples": [
+              [
+                "{\"Rejected: Debt ratio (9.68) above upper threshold of 60%\"}",
+                "{\"Rejected - company with foundation date less than 12 months.\"}"
+              ]
+            ]
+          },
+          "errorReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason",
+            "description": "Reason for any internal error that occurred during the process",
+            "examples": [
+              "Credit underwriting expired after 1200 seconds"
+            ]
+          },
+          "decisionUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision URL",
+            "description": "URL to access the detailed underwriting decision on Taktile",
+            "examples": [
+              "https://app.taktile.com/decide/display/decision?workspace_id=a43e25b9-3430-49d8-b95e-1e299b482fdc&flow_slug=test-vadu-flow&version_id=ea54589b-3108-4d46-8102-494601d4f1dd&decision_id=c31b95db-4fb6-4a96-b058-364c60dbf3d8"
+            ]
+          },
+          "onboardingDecisionUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Onboarding Decision URL",
+            "description": "URL to access the detailed onboarding decision on Taktile",
+            "examples": [
+              "https://app.taktile.com/decide/display/decision?workspace_id=a43e25b9-3430-49d8-b95e-1e299b482fdc&flow_slug=master-e2e-config&version_id=9f78cdc3-b4d8-4d9b-b53a-42e88db68515&decision_id=b41ef6c3-484f-453c-88c8-894bb713d781"
+            ]
+          },
+          "paymentTerms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Terms",
+            "description": "Payment terms in days approved for the buyer",
+            "examples": [
+              30,
+              60,
+              90
+            ]
+          },
+          "underwritingDetails": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Underwriting Details",
+            "description": "Additional details about the underwriting process - can be a complex nested object",
+            "examples": [
+              {
+                "analysis_date": "2024-03-20",
+                "risk_level": "low",
+                "score": 85
+              }
+            ]
+          },
+          "segmentId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Segment ID",
+            "description": "Identifier for the buyer's segment - soon to be deprecated",
+            "examples": [
+              "f459c4c3-5a5f-4712-a279-f3ad3267bb95"
+            ]
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "Timestamp when the credit underwriting request was created",
+            "examples": [
+              "2024-03-20T10:30:00Z"
+            ]
+          },
+          "notification": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NotificationEnum"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notification Setting",
+            "description": "Notification setting for the credit underwriting operation",
+            "examples": [
+              "Disabled",
+              "Admin",
+              "Seller",
+              "All"
+            ]
+          },
+          "underwriting": {
+            "$ref": "#/components/schemas/UnderwritingFieldsDTO",
+            "description": "Underwriting process details including status, decision URL, and additional details",
+            "readOnly": true
+          },
+          "onboarding": {
+            "$ref": "#/components/schemas/OnboardingFieldsDTO",
+            "description": "Onboarding process details including status and decision URL",
+            "readOnly": true
+          },
+          "seller": {
+            "$ref": "#/components/schemas/SellerFieldsDTO",
+            "description": "Seller-facing information derived from underwriting and onboarding status",
+            "readOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "underwriting",
+          "onboarding",
+          "seller"
+        ],
+        "title": "AdminCreditUnderwritingResponseDTO"
+      },
+      "Analysis": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "entity_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Id"
+          },
+          "entity_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EntityType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "decision_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Id"
+          },
+          "flow_slug": {
+            "type": "string",
+            "title": "Flow Slug"
+          },
+          "decision_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Url"
+          },
+          "flow_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flow Version"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisSource"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "input_data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Data"
+          },
+          "output_data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Data"
+          },
+          "error_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason"
+          },
+          "execution_status": {
+            "$ref": "#/components/schemas/AnalysisStatus"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_id",
+          "entity_type",
+          "decision_id",
+          "flow_slug",
+          "decision_url",
+          "flow_version",
+          "input_data",
+          "output_data",
+          "error_reason",
+          "execution_status",
+          "started_at",
+          "completed_at"
+        ],
+        "title": "Analysis",
+        "description": "Model to transform the database entity (and potential joins) into a simple object with validations."
+      },
+      "AnalysisSource": {
+        "type": "string",
+        "enum": [
+          "Taktile",
+          "Manual",
+          "CredipayApi",
+          "SellerPlataform",
+          "Retool",
+          "Vtex"
+        ],
+        "title": "AnalysisSource"
+      },
+      "AnalysisStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "error",
+          "success"
+        ],
+        "title": "AnalysisStatus"
+      },
+      "BatchCreateCRREnforcementRequestDTO": {
+        "properties": {
+          "enforcements": {
+            "items": {
+              "$ref": "#/components/schemas/CreateCRREnforcementRequestDTO"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Enforcements",
+            "description": "List of enforcement rules to create"
+          }
+        },
+        "type": "object",
+        "required": [
+          "enforcements"
+        ],
+        "title": "BatchCreateCRREnforcementRequestDTO",
+        "description": "DTO for batch creating enforcement rules."
+      },
+      "BatchCreateCRREnforcementResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "partial"
+            ],
+            "title": "Status",
+            "description": "'success' when no failures, 'partial' when at least one item failed"
+          },
+          "created": {
+            "items": {
+              "$ref": "#/components/schemas/EnforcementDTO"
+            },
+            "type": "array",
+            "title": "Created",
+            "description": "Enforcements newly created"
+          },
+          "failed": {
+            "items": {
+              "$ref": "#/components/schemas/BatchEnforcementFailureItemDTO"
+            },
+            "type": "array",
+            "title": "Failed",
+            "description": "Items that failed (validation or DB error)"
+          },
+          "skipped": {
+            "items": {
+              "$ref": "#/components/schemas/BatchEnforcementSkippedItemDTO"
+            },
+            "type": "array",
+            "title": "Skipped",
+            "description": "Items skipped because they already exist"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "created",
+          "failed",
+          "skipped"
+        ],
+        "title": "BatchCreateCRREnforcementResponseDTO",
+        "description": "DTO for batch enforcement creation responses (partial success)."
+      },
+      "BatchDisableEnforcementRequestDTO": {
+        "properties": {
+          "enforcement_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Enforcement Ids",
+            "description": "List of enforcement rule IDs (UUIDs) to disable"
+          }
+        },
+        "type": "object",
+        "required": [
+          "enforcement_ids"
+        ],
+        "title": "BatchDisableEnforcementRequestDTO",
+        "description": "DTO for batch disabling enforcement rules."
+      },
+      "BatchDisableEnforcementResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "partial"
+            ],
+            "title": "Status",
+            "description": "'success' when no failures, 'partial' when at least one item failed"
+          },
+          "disabled": {
+            "items": {
+              "$ref": "#/components/schemas/DisableEnforcementResponseDTO"
+            },
+            "type": "array",
+            "title": "Disabled",
+            "description": "Enforcements successfully disabled"
+          },
+          "failed": {
+            "items": {
+              "$ref": "#/components/schemas/BatchEnforcementFailureItemDTO"
+            },
+            "type": "array",
+            "title": "Failed",
+            "description": "Items that failed (not found or disable error)"
+          },
+          "skipped": {
+            "items": {
+              "$ref": "#/components/schemas/BatchDisableEnforcementSkippedItemDTO"
+            },
+            "type": "array",
+            "title": "Skipped",
+            "description": "Items skipped because they were already disabled"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "disabled",
+          "failed",
+          "skipped"
+        ],
+        "title": "BatchDisableEnforcementResponseDTO",
+        "description": "DTO for batch enforcement disable responses (partial success)."
+      },
+      "BatchDisableEnforcementSkippedItemDTO": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index",
+            "description": "Zero-based index of the item in the request that was skipped (for debugging)"
+          },
+          "enforcement_id": {
+            "type": "string",
+            "title": "Enforcement Id",
+            "description": "The enforcement_id of the request item that was skipped (already disabled)"
+          },
+          "reason": {
+            "type": "string",
+            "const": "already_disabled",
+            "title": "Reason",
+            "description": "Reason the item was skipped"
+          }
+        },
+        "type": "object",
+        "required": [
+          "index",
+          "enforcement_id",
+          "reason"
+        ],
+        "title": "BatchDisableEnforcementSkippedItemDTO",
+        "description": "DTO for a single skipped item in a batch enforcement disable (e.g. already disabled)."
+      },
+      "BatchEnforcementFailureItemDTO": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index",
+            "description": "Zero-based index of the item in the request that failed"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason",
+            "description": "Human-readable reason for the failure"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code",
+            "description": "Optional HTTP-style status code for the failure"
+          }
+        },
+        "type": "object",
+        "required": [
+          "index",
+          "reason"
+        ],
+        "title": "BatchEnforcementFailureItemDTO",
+        "description": "DTO for a single failed item in a batch enforcement create."
+      },
+      "BatchEnforcementSkippedItemDTO": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index",
+            "description": "Zero-based index of the item in the request that was skipped (for debugging)"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "The entity_id of the request item that was skipped (already exists)"
+          },
+          "reason": {
+            "type": "string",
+            "const": "already_exists",
+            "title": "Reason",
+            "description": "Reason the item was skipped"
+          }
+        },
+        "type": "object",
+        "required": [
+          "index",
+          "entity_id",
+          "reason"
+        ],
+        "title": "BatchEnforcementSkippedItemDTO",
+        "description": "DTO for a single skipped item in a batch enforcement create (e.g. already exists)."
+      },
+      "BelvoWebhookDataDTO": {
+        "properties": {
+          "errors": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/BelvoWebhookErrorDTO"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errors"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "BelvoWebhookDataDTO",
+        "description": "Belvo webhook data payload."
+      },
+      "BelvoWebhookErrorDTO": {
+        "properties": {
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "title": "BelvoWebhookErrorDTO",
+        "description": "Error details sent by Belvo in webhook payloads."
+      },
+      "BelvoWebhookPayloadDTO": {
+        "properties": {
+          "webhookId": {
+            "type": "string",
+            "title": "Webhookid"
+          },
+          "webhookType": {
+            "type": "string",
+            "title": "Webhooktype"
+          },
+          "webhookCode": {
+            "type": "string",
+            "title": "Webhookcode"
+          },
+          "linkId": {
+            "type": "string",
+            "title": "Linkid"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BelvoWebhookDataDTO"
+          },
+          "processType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processtype"
+          },
+          "requestId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requestid"
+          },
+          "externalId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Externalid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "webhookId",
+          "webhookType",
+          "webhookCode",
+          "linkId",
+          "data"
+        ],
+        "title": "BelvoWebhookPayloadDTO",
+        "description": "Belvo webhook payload."
+      },
+      "BrowserCheck": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "canvas": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Canvas"
+          },
+          "device": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device"
+          },
+          "charset": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Charset"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "userAgent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Useragent"
+          },
+          "acceptLanguage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Acceptlanguage"
+          },
+          "isCookiesEnabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Iscookiesenabled"
+          },
+          "preferredLanguage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preferredlanguage"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "BrowserCheck"
+      },
+      "BuyerPlatformPresignDocumentsRequestDTO": {
+        "properties": {
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentUploadItemInputDTO"
+            },
+            "type": "array",
+            "title": "Documents",
+            "description": "List of documents to generate presigned URLs for"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Additional metadata (e.g., 'approachId', 'ipAddress', 'userAgent', 'channel')"
+          }
+        },
+        "type": "object",
+        "required": [
+          "documents"
+        ],
+        "title": "BuyerPlatformPresignDocumentsRequestDTO",
+        "description": "Request DTO for buyer platform presign document uploads."
+      },
+      "BuyerPlatformTokenRequestDTO": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Source",
+            "description": "Token source"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "buyer",
+              "seller",
+              "admin"
+            ],
+            "title": "Role",
+            "description": "Role associated with token permissions"
+          },
+          "taxId": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Taxid",
+            "description": "Tax ID associated with the token"
+          },
+          "paymentId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paymentid",
+            "description": "Optional payment identifier"
+          },
+          "callbackUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Callbackurl",
+            "description": "Optional callback URL"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "source",
+          "role",
+          "taxId"
+        ],
+        "title": "BuyerPlatformTokenRequestDTO",
+        "description": "Request DTO for buyer platform document upload token generation."
+      },
+      "BuyerPlatformTokenResponseDTO": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token",
+            "description": "Signed JWT token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "BuyerPlatformTokenResponseDTO",
+        "description": "Response DTO with a signed buyer platform token."
+      },
+      "CloseInvestigationRequestDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "The final status of the investigation (FraudConfirmed, NotFraud, or FraudSuspect)"
+          },
+          "confidence": {
+            "type": "string",
+            "title": "Confidence",
+            "description": "The confidence level of the investigation (Low, Medium, or High)"
+          },
+          "fraudType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fraudtype",
+            "description": "The type of fraud (impersonation, false documents, …)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "confidence"
+        ],
+        "title": "CloseInvestigationRequestDTO",
+        "description": "DTO for closing a fraud investigation."
+      },
+      "CreateCRREnforcementRequestDTO": {
+        "properties": {
+          "entity_id": {
+            "type": "string",
+            "maxLength": 255,
+            "title": "Entity Id",
+            "description": "The unique identifier of the entity the enforcement rule refers to",
+            "example": "192.168.1.1"
+          },
+          "entity_type": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Entity Type",
+            "description": "The entity type from the entity_types table",
+            "example": "ip_address"
+          },
+          "flag_type": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Flag Type",
+            "description": "The unique string for this flag type",
+            "example": "TFB0000001"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EnforcementTypeEnum",
+            "description": "The enforcement action type: 'block' to prevent actions or 'allow' to explicitly permit actions",
+            "example": "block"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "The date limit after which the enforcement is no longer valid",
+            "example": "2024-12-31T23:59:59Z"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes about this enforcement rule explaining the reasoning, attaching Zendesk tickets, etc.",
+            "example": {
+              "reason": "Suspicious activity detected",
+              "zendesk_ticket": "TICKET-12345"
+            }
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_id",
+          "entity_type",
+          "flag_type",
+          "type"
+        ],
+        "title": "CreateCRREnforcementRequestDTO",
+        "description": "DTO for creating a new enforcement rule."
+      },
+      "CreateCRREnforcementResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Status of the operation",
+            "example": "success"
+          },
+          "enforcements": {
+            "items": {
+              "$ref": "#/components/schemas/EnforcementDTO"
+            },
+            "type": "array",
+            "title": "Enforcements",
+            "description": "Array with enforcement objects",
+            "example": []
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Reason if error occurred"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "enforcements"
+        ],
+        "title": "CreateCRREnforcementResponseDTO",
+        "description": "DTO for enforcement creation responses."
+      },
+      "CreateEntityTypeRequestDTO": {
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Entity Type",
+            "description": "An entity type either described in our internal models or not (must be PascalCase)",
+            "example": "Order"
+          },
+          "regex_validation": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex Validation",
+            "description": "A REGEX pattern to validate entity IDs for this type",
+            "example": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_type"
+        ],
+        "title": "CreateEntityTypeRequestDTO",
+        "description": "DTO for creating a new entity type."
+      },
+      "CreateFlagRequestDTO": {
+        "properties": {
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id",
+            "description": "The ID of the analysis that generated these flags",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "flags": {
+            "items": {
+              "$ref": "#/components/schemas/CreateFlagRequestItemDTO"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Flags",
+            "description": "Array of flags to create",
+            "example": [
+              {
+                "context": {
+                  "notes": "High priority risk indicator",
+                  "user_id": "user-123"
+                },
+                "entity_id": "41652379000100",
+                "entity_type": "BuyerCnpj",
+                "expires_at": "2024-12-31T23:59:59Z",
+                "flag_type": "TF00001"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "flags"
+        ],
+        "title": "CreateFlagRequestDTO",
+        "description": "DTO for creating multiple flags."
+      },
+      "CreateFlagRequestItemDTO": {
+        "properties": {
+          "entity_id": {
+            "type": "string",
+            "maxLength": 255,
+            "title": "Entity Id",
+            "description": "The unique identifier of the entity the flag was raised for",
+            "example": "41652379000100"
+          },
+          "entity_type": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Entity Type",
+            "description": "The entity type from the entity_types table",
+            "example": "BuyerCnpj"
+          },
+          "flag_type": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Flag Type",
+            "description": "The unique string for this flag type",
+            "example": "TF00001"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "The date limit after which the flag is no longer valid",
+            "example": "2024-12-31T23:59:59Z"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes about this flag to help Taktile make decisions",
+            "example": {
+              "notes": "High priority risk indicator",
+              "user_id": "user-123"
+            }
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_id",
+          "entity_type",
+          "flag_type"
+        ],
+        "title": "CreateFlagRequestItemDTO",
+        "description": "DTO for a single flag creation request."
+      },
+      "CreateFlagResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Overall status of the operation",
+            "example": "success"
+          },
+          "total_flags_created": {
+            "type": "integer",
+            "title": "Total Flags Created",
+            "description": "Total number of flags successfully created",
+            "example": 3
+          },
+          "error_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason",
+            "description": "Detailed reason for failure when status is 'error'. Omitted for successful operations.",
+            "example": "No analysis found with analysis_id: 550e8400-e29b-41d4-a716-446655440000"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "total_flags_created"
+        ],
+        "title": "CreateFlagResponseDTO",
+        "description": "DTO for flag creation responses."
+      },
+      "CreateFlagTypeRequestDTO": {
+        "properties": {
+          "flag_type": {
+            "type": "string",
+            "maxLength": 7,
+            "minLength": 7,
+            "title": "Flag Type",
+            "description": "A string that names the flag type (format: AA11111 - 2 uppercase letters + 5 digits)",
+            "example": "TFB00001"
+          },
+          "domain": {
+            "$ref": "#/components/schemas/DomainEnum",
+            "description": "The nature of the rule to be bypassed",
+            "example": "fraud"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Description",
+            "description": "A small explanation of what this flag type is about",
+            "example": "Suspicious transaction pattern detected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag_type",
+          "domain",
+          "description"
+        ],
+        "title": "CreateFlagTypeRequestDTO",
+        "description": "DTO for creating a new flag type."
+      },
+      "CreateInvestigationRequestDTO": {
+        "properties": {
+          "analysisId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisid",
+            "description": "Optional UUID of the associated analysis"
+          },
+          "parentId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parentid",
+            "description": "Optional UUID of a parent investigation that this one supersedes"
+          },
+          "entityId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid",
+            "description": "The ID of the entity being investigated (required if entityType is provided)"
+          },
+          "entityType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entitytype",
+            "description": "The type of entity being investigated (required if entityId is provided)"
+          }
+        },
+        "type": "object",
+        "title": "CreateInvestigationRequestDTO",
+        "description": "DTO for creating a new fraud investigation."
+      },
+      "CreditLimitIncreaseRequestDTO": {
+        "properties": {
+          "buyerTaxId": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Buyer Tax ID",
+            "description": "Brazilian CNPJ (tax ID) of the buyer requesting the credit limit increase",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "sellerTaxId": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Seller Tax ID",
+            "description": "Brazilian CNPJ (tax ID) of the seller approving the credit limit increase",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "creditLimitRequestedCents": {
+            "type": "integer",
+            "title": "Credit Limit Requested",
+            "description": "Requested credit limit increase amount in cents - this is a delta value, so in order to increase the credit limit in R$ 10, the value must be 1000",
+            "examples": [
+              1000000,
+              5000000
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes and metadata about this credit limit increase request, including extra documents and other contextual information",
+            "examples": [
+              {
+                "extra_documents": "https://link-to-extra-documents.com"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "buyerTaxId",
+          "sellerTaxId",
+          "creditLimitRequestedCents"
+        ],
+        "title": "CreditLimitIncreaseRequestDTO"
+      },
+      "CreditLimitIncreaseResultDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Credit Limit Increase Request ID",
+            "description": "Unique identifier for the credit limit increase request",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "buyerTaxId": {
+            "type": "string",
+            "title": "Buyer Tax ID",
+            "description": "Brazilian CNPJ (tax ID) of the buyer who requested the increase",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "sellerTaxId": {
+            "type": "string",
+            "title": "Seller Tax ID",
+            "description": "Brazilian CNPJ (tax ID) of the seller who approved the increase",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "creditLimitRequestedCents": {
+            "type": "integer",
+            "title": "Credit Limit Requested",
+            "description": "Requested credit limit increase amount in cents - this is a delta value, so in order to increase the credit limit in R$ 10, the value must be 1000",
+            "examples": [
+              1000000,
+              5000000
+            ]
+          },
+          "creditLimitApprovedCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credit Limit Approved",
+            "description": "Approved credit limit increase amount in cents",
+            "examples": [
+              1000000,
+              5000000
+            ]
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Status of the credit limit increase request: `Created`, `Pending`, `Approved`, `Partially Approved`, `Rejected`, `Failed`",
+            "examples": [
+              "Pending",
+              "Approved",
+              "PartiallyApproved",
+              "Rejected",
+              "Failed"
+            ]
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Reason for the current status, especially for Rejected or Failed statuses",
+            "examples": [
+              "Credit limit increase request expired after 1200 seconds",
+              "Buyer is eligible for desired credit limit",
+              "Internal error during analysis"
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "User-generated notes and metadata about this credit limit increase request, including extra documents and other contextual information",
+            "examples": [
+              {
+                "extra_documents": "https://link-to-extra-documents.com"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "buyerTaxId",
+          "sellerTaxId",
+          "creditLimitRequestedCents",
+          "status"
+        ],
+        "title": "CreditLimitIncreaseResultDTO"
+      },
+      "CreditUnderwritingRequestDTO": {
+        "properties": {
+          "buyerTaxId": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Buyer Tax ID",
+            "description": "Valid Brazilian CNPJ with 14 characters",
+            "examples": [
+              "12345678901234"
+            ]
+          },
+          "sellerTaxId": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Seller Tax ID",
+            "description": "Valid Brazilian CNPJ with 14 characters",
+            "examples": [
+              "09876543210987"
+            ]
+          },
+          "notification": {
+            "$ref": "#/components/schemas/NotificationEnum",
+            "title": "Notification Setting",
+            "description": "Notification setting for the credit underwriting operation",
+            "default": "All",
+            "examples": [
+              "Disabled",
+              "Admin",
+              "Seller",
+              "All"
+            ]
+          },
+          "expectedCreditLimitCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Credit Limit",
+            "description": "Expected credit limit in cents for the credit underwriting",
+            "examples": [
+              1000000,
+              500000
+            ],
+            "optional": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "buyerTaxId",
+          "sellerTaxId"
+        ],
+        "title": "CreditUnderwritingRequestDTO"
+      },
+      "CreditUnderwritingResponseDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Credit Underwriting ID",
+            "description": "Unique identifier for the credit underwriting analysis request",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "taxId": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Buyer Tax ID",
+            "description": "Brazilian CNPJ (tax ID) of the buyer",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "sellerTaxId": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Seller Tax ID",
+            "description": "Brazilian CNPJ (tax ID) of the seller",
+            "examples": [
+              "12345678000199"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Current status of the underwriting process: `Pending`, `Failed`, `Rejected`, or `Finished`",
+            "readOnly": true,
+            "examples": [
+              "Finished",
+              "Pending",
+              "Failed",
+              "Rejected"
+            ]
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Reason for failure or rejection, if applicable. Provides human-readable explanation when status is `Failed` or `Rejected`",
+            "readOnly": true,
+            "examples": [
+              null,
+              "Insufficient credit history for requested increase",
+              "Buyer is not eligible for underwriting"
+            ]
+          },
+          "retryAfter": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Retryafter",
+            "description": "Time after which the credit underwriting or onboarding can be retried",
+            "readOnly": true,
+            "examples": [
+              "2025-06-10T19:10:13.788308",
+              null
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "taxId",
+          "sellerTaxId",
+          "status",
+          "reason",
+          "retryAfter"
+        ],
+        "title": "CreditUnderwritingResponseDTO"
+      },
+      "DataLoggingProvidersEnum": {
+        "type": "string",
+        "enum": [
+          "modelbit",
+          "modal"
+        ],
+        "title": "DataLoggingProvidersEnum"
+      },
+      "DeviceCheck": {
+        "properties": {
+          "ip": {
+            "type": "string",
+            "title": "Ip"
+          },
+          "os": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Os"
+          },
+          "trueIp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trueip"
+          },
+          "memory": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Memory"
+          },
+          "gpuName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gpuname"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language"
+          },
+          "cpuCores": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpucores"
+          },
+          "isMobile": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ismobile"
+          },
+          "gpuVendor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gpuvendor"
+          },
+          "osVersion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Osversion"
+          },
+          "screenDpi": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screendpi"
+          },
+          "screenPpi": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screenppi"
+          },
+          "screenWidth": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screenwidth"
+          },
+          "screenHeight": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screenheight"
+          },
+          "storageFree": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storagefree"
+          },
+          "batteryLevel": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Batterylevel"
+          },
+          "localLanguage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Locallanguage"
+          },
+          "isScreenTouch": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Isscreentouch"
+          },
+          "storageCapacity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storagecapacity"
+          },
+          "screenResolution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Screenresolution"
+          },
+          "isBatteryCharging": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Isbatterycharging"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "ip"
+        ],
+        "title": "DeviceCheck"
+      },
+      "DisableEnforcementResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Status of the operation (success or error)",
+            "example": "success"
+          },
+          "enforcement_id": {
+            "type": "string",
+            "title": "Enforcement Id",
+            "description": "UUID of the disabled enforcement rule",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Reason for the operation result (if error)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "enforcement_id"
+        ],
+        "title": "DisableEnforcementResponseDTO",
+        "description": "DTO for enforcement disable responses."
+      },
+      "DisableFlagResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Overall status of the operation",
+            "example": "success"
+          },
+          "flag_id": {
+            "type": "string",
+            "title": "Flag Id",
+            "description": "The UUID of the disabled flag",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "flag_id"
+        ],
+        "title": "DisableFlagResponseDTO",
+        "description": "Response DTO for disabling a flag."
+      },
+      "DocumentUploadItemInputDTO": {
+        "properties": {
+          "mimeType": {
+            "type": "string",
+            "title": "Mimetype",
+            "description": "MIME type of the document (e.g., 'application/pdf')"
+          },
+          "size": {
+            "type": "integer",
+            "maximum": 52428800,
+            "exclusiveMinimum": 0,
+            "title": "Size",
+            "description": "Size of the document in bytes (max 50MB)"
+          },
+          "originalFilename": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Originalfilename",
+            "description": "Original filename of the document"
+          },
+          "hash": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 64,
+            "pattern": "^[0-9a-fA-F]{64}$",
+            "title": "Hash",
+            "description": "SHA256 hash of the document content (64 hex characters)"
+          },
+          "classification": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classification",
+            "description": "Classification of the document (e.g., 'DRE', 'NF', 'other')"
+          }
+        },
+        "type": "object",
+        "required": [
+          "mimeType",
+          "size",
+          "originalFilename",
+          "hash"
+        ],
+        "title": "DocumentUploadItemInputDTO",
+        "description": "Nested validation for a single document to be uploaded.\n\nStructural validation:\n- MIME type must map to an allowed file extension (PDF, JPEG, JPG, PNG, XML)\n- File size must not exceed 50MB\n- Hash must be a valid SHA256 (64 hex characters)\n- entity_type and entity_id must both be present or both absent"
+      },
+      "DocumentUploadResult": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Document ID (use this for finalize endpoint)"
+          },
+          "hash": {
+            "type": "string",
+            "title": "Hash",
+            "description": "SHA256 hash of the document"
+          },
+          "signedUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signedurl",
+            "description": "Presigned URL for uploading the document (null if error or already exists)"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DocumentUploadResultStatus",
+            "description": "Status of the document upload preparation"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiresat",
+            "description": "Expiration time of the presigned URL (null if error or already exists)"
+          },
+          "errorMessage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errormessage",
+            "description": "Error message if status is 'error'"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "hash",
+          "status"
+        ],
+        "title": "DocumentUploadResult",
+        "description": "Nested response for a single document upload result."
+      },
+      "DocumentUploadResultStatus": {
+        "type": "string",
+        "enum": [
+          "Pending",
+          "AlreadyExists",
+          "Error"
+        ],
+        "title": "DocumentUploadResultStatus",
+        "description": "Status of a document upload preparation."
+      },
+      "DomainEnum": {
+        "type": "string",
+        "enum": [
+          "fraud",
+          "credit",
+          "generic"
+        ],
+        "title": "DomainEnum",
+        "description": "Enum representing the domain/nature of a flag type.\n\n- fraud: Flags related to fraudulent activities or suspicious behavior\n- credit: Flags related to credit risk assessment and creditworthiness\n- generic: General-purpose flags that can apply across multiple domains"
+      },
+      "EnforcementDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The unique identifier of the enforcement rule",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "The unique identifier of the entity",
+            "example": "192.168.1.1"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The entity type",
+            "example": "ip_address"
+          },
+          "flag_type": {
+            "type": "string",
+            "title": "Flag Type",
+            "description": "The flag type",
+            "example": "TFB0000001"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EnforcementTypeEnum",
+            "description": "The enforcement action type",
+            "example": "block"
+          },
+          "created_by": {
+            "type": "string",
+            "title": "Created By",
+            "description": "The user who created this enforcement rule",
+            "example": "admin@credix.io"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "The expiration date of the enforcement rule",
+            "example": "2024-12-31T23:59:59Z"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "Additional context about the enforcement rule",
+            "example": {
+              "reason": "Suspicious activity detected"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the enforcement rule was created",
+            "example": "2024-01-01T00:00:00Z"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity_id",
+          "entity_type",
+          "flag_type",
+          "type",
+          "created_by",
+          "created_at"
+        ],
+        "title": "EnforcementDTO",
+        "description": "DTO for enforcement rule in responses."
+      },
+      "EnforcementTypeEnum": {
+        "type": "string",
+        "enum": [
+          "block",
+          "allow"
+        ],
+        "title": "EnforcementTypeEnum",
+        "description": "Enum representing the enforcement action type.\n\n- block: Prevents the entity from performing certain actions\n- allow: Explicitly allows the entity to perform actions (whitelist)"
+      },
+      "EntityReference": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Type",
+            "description": "Type of the entity the document belongs to (e.g., 'buyerTaxId')"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id",
+            "description": "ID of the entity the document belongs to"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "id"
+        ],
+        "title": "EntityReference",
+        "description": "Reusable entity reference with validation.\n\nStructural validation:\n- entity_type and entity_id must both be present or both absent"
+      },
+      "EntityType": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "regex_validation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex Validation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "regex_validation"
+        ],
+        "title": "EntityType"
+      },
+      "EntityTypeResponseDTO": {
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The unique identifier for this entity type",
+            "example": "order"
+          },
+          "regex_validation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex Validation",
+            "description": "The REGEX pattern used to validate entity IDs",
+            "example": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_type"
+        ],
+        "title": "EntityTypeResponseDTO",
+        "description": "DTO for entity type responses."
+      },
+      "FetchBelvoHistoricalResourceRequestDTO": {
+        "properties": {
+          "linkId": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Linkid",
+            "description": "Belvo link id"
+          },
+          "resourceName": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Resourcename",
+            "description": "Belvo resource name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "linkId",
+          "resourceName"
+        ],
+        "title": "FetchBelvoHistoricalResourceRequestDTO",
+        "description": "Input payload for historical resource fetching."
+      },
+      "FinalizeDocumentRequestDTO": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Whether the upload was successful: true if completed, false if failed"
+          },
+          "errorMessage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errormessage",
+            "description": "Error message if success is false"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "FinalizeDocumentRequestDTO",
+        "description": "Request DTO for finalizing a document upload."
+      },
+      "FlagResultDomain": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type"
+          },
+          "analysis_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Analysis Id"
+          },
+          "domain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DomainEnum"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "flag_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FlagTypeInfoDomain"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity_id",
+          "entity_type",
+          "analysis_id"
+        ],
+        "title": "FlagResultDomain",
+        "description": "Domain model for a flag result item."
+      },
+      "FlagTypeInfoDTO": {
+        "properties": {
+          "flag_type": {
+            "type": "string",
+            "title": "Flag Type",
+            "description": "The flag type identifier",
+            "example": "TFB0000001"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Description of the flag type",
+            "example": "Suspicious transaction pattern detected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag_type",
+          "description"
+        ],
+        "title": "FlagTypeInfoDTO",
+        "description": "DTO for flag type information in enforcement responses."
+      },
+      "FlagTypeInfoDomain": {
+        "properties": {
+          "flag_type": {
+            "type": "string",
+            "title": "Flag Type"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag_type",
+          "description"
+        ],
+        "title": "FlagTypeInfoDomain",
+        "description": "Domain model representing flag type information for enforcement retrieval."
+      },
+      "FlagTypeResponseDTO": {
+        "properties": {
+          "flag_type": {
+            "type": "string",
+            "title": "Flag Type",
+            "description": "The unique identifier for this flag type",
+            "example": "TFB0000001"
+          },
+          "domain": {
+            "$ref": "#/components/schemas/DomainEnum",
+            "description": "The domain/nature of this flag type",
+            "example": "fraud"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Description of what this flag type represents",
+            "example": "Suspicious transaction pattern detected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag_type",
+          "domain",
+          "description"
+        ],
+        "title": "FlagTypeResponseDTO",
+        "description": "DTO for flag type responses."
+      },
+      "FraudAnalysisDecisionsEnum": {
+        "type": "string",
+        "enum": [
+          "Approved",
+          "Rejected",
+          "ActionRequired"
+        ],
+        "title": "FraudAnalysisDecisionsEnum"
+      },
+      "GetEnforcementRequestDTO": {
+        "properties": {
+          "domain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DomainEnum"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filter by domain",
+            "example": "fraud"
+          },
+          "flag_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flag Type",
+            "description": "Filter by flag type",
+            "example": "TFB0000001"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EnforcementTypeEnum"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filter by enforcement type (blocklist/allowlist)",
+            "example": "block"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active",
+            "description": "Filter by active status",
+            "example": true
+          },
+          "expired": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expired",
+            "description": "Filter by expiration status",
+            "example": false
+          }
+        },
+        "type": "object",
+        "title": "GetEnforcementRequestDTO",
+        "description": "DTO for enforcement retrieval request with filters."
+      },
+      "GetEnforcementResponseDTO": {
+        "properties": {
+          "result": {
+            "items": {
+              "$ref": "#/components/schemas/GetEnforcementResultDTO"
+            },
+            "type": "array",
+            "title": "Result",
+            "description": "Array of enforcement rules matching the criteria",
+            "example": []
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The entity type that was queried",
+            "example": "ip_address"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "The entity ID that was queried",
+            "example": "192.168.1.1"
+          },
+          "filters": {
+            "$ref": "#/components/schemas/GetEnforcementRequestDTO",
+            "description": "The filters that were applied to this query"
+          }
+        },
+        "type": "object",
+        "required": [
+          "result",
+          "entity_type",
+          "entity_id",
+          "filters"
+        ],
+        "title": "GetEnforcementResponseDTO",
+        "description": "DTO for enforcement retrieval responses."
+      },
+      "GetEnforcementResultDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier of the enforcement rule",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "The unique identifier of the entity",
+            "example": "192.168.1.1"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "The entity type",
+            "example": "ip_address"
+          },
+          "generic": {
+            "type": "boolean",
+            "title": "Generic",
+            "description": "Whether this is a generic flag (not specific to a flag type)",
+            "example": false
+          },
+          "flag_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FlagTypeInfoDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Flag type information (null if generic flag)"
+          },
+          "list_entry_type": {
+            "$ref": "#/components/schemas/EnforcementTypeEnum",
+            "description": "The enforcement type (blocklist or allowlist)",
+            "example": "block"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the enforcement rule is currently active",
+            "example": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the enforcement rule was created",
+            "example": "2024-01-01T00:00:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "When the enforcement rule was last updated",
+            "example": "2024-01-01T00:00:00Z"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "Additional context about the enforcement rule",
+            "example": {
+              "reason": "Suspicious activity detected"
+            }
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity_id",
+          "entity_type",
+          "generic",
+          "list_entry_type",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "GetEnforcementResultDTO",
+        "description": "DTO for individual enforcement result."
+      },
+      "GetFlagsResponseDTO": {
+        "properties": {
+          "result": {
+            "items": {
+              "$ref": "#/components/schemas/FlagResultDomain"
+            },
+            "type": "array",
+            "title": "Result"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "filters": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Filters"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_type",
+          "entity_id"
+        ],
+        "title": "GetFlagsResponseDTO",
+        "description": "Response DTO for flags retrieval."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InvestigationDataPointDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The UUID of the data point"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat",
+            "description": "The timestamp when the data point was created"
+          },
+          "analysisData": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisdata",
+            "description": "Any data that needs to be linked to this fraud data point"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data",
+            "description": "JSON data associated with this data point"
+          },
+          "files": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Files",
+            "description": "String representation of files associated with this data point"
+          },
+          "createdBy": {
+            "type": "string",
+            "title": "Createdby",
+            "description": "The person who created this data point"
+          },
+          "indication": {
+            "type": "string",
+            "title": "Indication",
+            "description": "Whether the data point supports fraud or not"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "createdAt",
+          "createdBy",
+          "indication"
+        ],
+        "title": "InvestigationDataPointDTO",
+        "description": "DTO for a data point in an investigation."
+      },
+      "InvestigationResponseDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The UUID of the created investigation"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "The status of the investigation (PendingInvestigation, InProgress, FraudConfirmed, NotFraud, FraudSuspect)"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence",
+            "description": "The confidence level of the investigation (Low, Medium, or High)"
+          },
+          "fraudType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fraudtype",
+            "description": "The type of fraud (impersonation, false documents, …)"
+          },
+          "openedBy": {
+            "type": "string",
+            "title": "Openedby",
+            "description": "The person who opened the investigation"
+          },
+          "closedBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closedby",
+            "description": "The person who closed the investigation"
+          },
+          "closedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closedat",
+            "description": "The timestamp when the investigation was closed"
+          },
+          "analysisId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysisid",
+            "description": "The UUID of the associated analysis"
+          },
+          "parentId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parentid",
+            "description": "The UUID of the parent investigation"
+          },
+          "entityId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entityid",
+            "description": "The ID of the entity being investigated"
+          },
+          "entityType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entitytype",
+            "description": "The type of entity being investigated"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat",
+            "description": "The timestamp when the investigation was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat",
+            "description": "The timestamp when the investigation was last updated"
+          },
+          "dataPoints": {
+            "items": {
+              "$ref": "#/components/schemas/InvestigationDataPointDTO"
+            },
+            "type": "array",
+            "title": "Datapoints",
+            "description": "List of data points associated with this investigation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "openedBy",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "InvestigationResponseDTO",
+        "description": "DTO for fraud investigation response."
+      },
+      "NotificationEnum": {
+        "type": "string",
+        "enum": [
+          "Disabled",
+          "Admin",
+          "Seller",
+          "All"
+        ],
+        "title": "NotificationEnum",
+        "description": "Enum representing notification settings for batch operations.\n\n- DISABLED: No notifications will be sent\n- ADMIN: Notifications will be sent to admin users only\n- SELLER: Notifications will be sent to seller users only\n- ALL: Notifications will be sent to all relevant users"
+      },
+      "OnboardingFieldsDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Onboarding Status",
+            "description": "Current status of the onboarding process",
+            "examples": [
+              "Pending",
+              "Completed",
+              "Failed",
+              "Aborted"
+            ]
+          },
+          "decisionUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Onboarding Decision URL",
+            "description": "URL to access the detailed onboarding decision on Taktile",
+            "examples": [
+              "https://app.taktile.com/decide/display/decision?workspace_id=a43e25b9-3430-49d8-b95e-1e299b482fdc&flow_slug=master-e2e-config&version_id=9f78cdc3-b4d8-4d9b-b53a-42e88db68515&decision_id=b41ef6c3-484f-453c-88c8-894bb713d781"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "OnboardingFieldsDTO"
+      },
+      "OpenFinanceAuthorizerInputDTO": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "description": "Authorizer full name"
+          },
+          "cpf": {
+            "type": "string",
+            "title": "Cpf",
+            "description": "Brazilian CPF (11 digits, formatting allowed)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "cpf"
+        ],
+        "title": "OpenFinanceAuthorizerInputDTO",
+        "description": "Authorizer (person) data for Open Finance link/connection."
+      },
+      "OpenFinanceCompanyInputDTO": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "description": "Company legal name"
+          },
+          "cnpj": {
+            "type": "string",
+            "title": "Cnpj",
+            "description": "Brazilian CNPJ (14 digits, formatting allowed)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "cnpj"
+        ],
+        "title": "OpenFinanceCompanyInputDTO",
+        "description": "Company data for Open Finance link/connection."
+      },
+      "OpenFinanceConnectionLinkDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Link ID"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Link status"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expiresat",
+            "description": "Link expiration (ISO 8601)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "expiresAt"
+        ],
+        "title": "OpenFinanceConnectionLinkDTO",
+        "description": "Link metadata when a connection/link exists."
+      },
+      "OpenFinanceConnectionRequestDTO": {
+        "properties": {
+          "company": {
+            "$ref": "#/components/schemas/OpenFinanceCompanyInputDTO",
+            "description": "Company data"
+          },
+          "authorizer": {
+            "$ref": "#/components/schemas/OpenFinanceAuthorizerInputDTO",
+            "description": "Authorizer (person) data"
+          },
+          "institution": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Institution",
+            "description": "Institution slug (e.g. pj_nubank)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "company",
+          "authorizer",
+          "institution"
+        ],
+        "title": "OpenFinanceConnectionRequestDTO",
+        "description": "Request body for Open Finance connection endpoint."
+      },
+      "OpenFinanceConnectionResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Link/connection status (e.g. ALREADY_EXISTS, EXPIRED, INCOMPLETE)"
+          },
+          "token": {
+            "$ref": "#/components/schemas/OpenFinanceConnectionTokenDTO",
+            "description": "Access and refresh tokens"
+          },
+          "link": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OpenFinanceConnectionLinkDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Link metadata when a link exists; null otherwise"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "token"
+        ],
+        "title": "OpenFinanceConnectionResponseDTO",
+        "description": "Response body for Open Finance connection endpoint."
+      },
+      "OpenFinanceConnectionTokenDTO": {
+        "properties": {
+          "refresh": {
+            "type": "string",
+            "title": "Refresh",
+            "description": "Refresh token"
+          },
+          "access": {
+            "type": "string",
+            "title": "Access",
+            "description": "Access token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refresh",
+          "access"
+        ],
+        "title": "OpenFinanceConnectionTokenDTO",
+        "description": "Access and refresh tokens for the Open Finance connection."
+      },
+      "OrderCheck": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "amountInCents": {
+            "type": "integer",
+            "title": "Amountincents"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "numberOfItems": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Numberofitems"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "amountInCents",
+          "createdAt"
+        ],
+        "title": "OrderCheck"
+      },
+      "OrderFraudAnalysisAction": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "OrderFraudAnalysisAction"
+      },
+      "OrderFraudAnalysisDecisionResponseDTO": {
+        "properties": {
+          "decision": {
+            "$ref": "#/components/schemas/FraudAnalysisDecisionsEnum"
+          },
+          "actions": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/OrderFraudAnalysisAction"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "decision"
+        ],
+        "title": "OrderFraudAnalysisDecisionResponseDTO"
+      },
+      "OrderFraudAnalysisRequestDTO": {
+        "properties": {
+          "channel": {
+            "type": "string",
+            "title": "Channel"
+          },
+          "sellerSegmentId": {
+            "type": "string",
+            "title": "Sellersegmentid"
+          },
+          "buyerTaxId": {
+            "type": "string",
+            "title": "Buyertaxid"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountCheck"
+          },
+          "shippingAddress": {
+            "$ref": "#/components/schemas/AddressCheck"
+          },
+          "order": {
+            "$ref": "#/components/schemas/OrderCheck"
+          },
+          "browser": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BrowserCheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "device": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DeviceCheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "channel",
+          "sellerSegmentId",
+          "buyerTaxId",
+          "account",
+          "shippingAddress",
+          "order"
+        ],
+        "title": "OrderFraudAnalysisRequestDTO"
+      },
+      "PatchDocumentMetadataRequestDTO": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Metadata to merge with existing metadata (e.g., 'email', 'phone', 'channel')"
+          }
+        },
+        "type": "object",
+        "title": "PatchDocumentMetadataRequestDTO",
+        "description": "Request DTO for patching document metadata."
+      },
+      "PresignDocumentsRequestDTO": {
+        "properties": {
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentUploadItemInputDTO"
+            },
+            "type": "array",
+            "title": "Documents",
+            "description": "List of documents to generate presigned URLs for"
+          },
+          "entity": {
+            "$ref": "#/components/schemas/EntityReference",
+            "description": "Entity the document belongs to"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Additional metadata (e.g., 'approachId', 'ipAddress', 'userAgent', 'channel')"
+          }
+        },
+        "type": "object",
+        "required": [
+          "documents",
+          "entity"
+        ],
+        "title": "PresignDocumentsRequestDTO",
+        "description": "Request DTO for presigning document uploads."
+      },
+      "PresignDocumentsResponseDTO": {
+        "properties": {
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentUploadResult"
+            },
+            "type": "array",
+            "title": "Documents",
+            "description": "List of document upload results with presigned URLs or errors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "documents"
+        ],
+        "title": "PresignDocumentsResponseDTO",
+        "description": "Response DTO for presigning document uploads."
+      },
+      "ScheduleProvisionalBuyersOnboardingRequestDTO": {
+        "properties": {
+          "buyer_tax_id": {
+            "type": "string",
+            "title": "Buyer Tax Id"
+          },
+          "payer_name": {
+            "type": "string",
+            "title": "Payer Name"
+          },
+          "delay_in_hours": {
+            "type": "integer",
+            "title": "Delay In Hours"
+          },
+          "retry_count": {
+            "type": "integer",
+            "title": "Retry Count"
+          },
+          "buyer_economic_group_id": {
+            "type": "string",
+            "title": "Buyer Economic Group Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "buyer_tax_id",
+          "payer_name",
+          "delay_in_hours",
+          "retry_count",
+          "buyer_economic_group_id"
+        ],
+        "title": "ScheduleProvisionalBuyersOnboardingRequestDTO"
+      },
+      "SellerFieldsDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Current status of the credit underwriting analysis",
+            "examples": [
+              "Pending",
+              "Finished",
+              "Failed",
+              "Rejected"
+            ]
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Reason for a Failed or Rejected status",
+            "examples": [
+              "Internal error while running underwriting analysis",
+              "Buyer is not eligible for credit"
+            ]
+          },
+          "retryAfter": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Retry After",
+            "description": "Timestamp indicating when the seller can retry the underwriting analysis",
+            "examples": [
+              "2024-03-21T10:30:00Z"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "SellerFieldsDTO"
+      },
+      "TaktileWebhookEvent": {
+        "properties": {
+          "decision_id": {
+            "type": "string",
+            "title": "Decision Id"
+          },
+          "entity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "environment": {
+            "type": "string",
+            "title": "Environment"
+          },
+          "flow": {
+            "type": "string",
+            "title": "Flow"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "workspace": {
+            "type": "string",
+            "title": "Workspace"
+          }
+        },
+        "type": "object",
+        "required": [
+          "decision_id",
+          "entity_id",
+          "status",
+          "environment",
+          "flow",
+          "version",
+          "workspace"
+        ],
+        "title": "TaktileWebhookEvent"
+      },
+      "TaktileWebhookEventType": {
+        "type": "string",
+        "enum": [
+          "DecisionOutcome",
+          "ManualReviewCaseCreation",
+          "JobRunExecuted",
+          "WebhookTest"
+        ],
+        "title": "TaktileWebhookEventType"
+      },
+      "TaktileWebhookResponse": {
+        "properties": {
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Time",
+            "description": "This indicates the time in UTC at which the webhook was sent."
+          },
+          "type": {
+            "$ref": "#/components/schemas/TaktileWebhookEventType"
+          },
+          "event": {
+            "$ref": "#/components/schemas/TaktileWebhookEvent"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "time",
+          "type",
+          "event",
+          "version",
+          "id"
+        ],
+        "title": "TaktileWebhookResponse"
+      },
+      "TriggerProvisionalBuyerOnboardingRequestDTO": {
+        "properties": {
+          "buyer_tax_id": {
+            "type": "string",
+            "title": "Buyer Tax Id"
+          },
+          "payer_name": {
+            "type": "string",
+            "title": "Payer Name"
+          },
+          "btg_request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Btg Request Id"
+          },
+          "retry_count": {
+            "type": "integer",
+            "title": "Retry Count"
+          },
+          "buyer_economic_group_id": {
+            "type": "string",
+            "title": "Buyer Economic Group Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "buyer_tax_id",
+          "payer_name",
+          "retry_count",
+          "buyer_economic_group_id"
+        ],
+        "title": "TriggerProvisionalBuyerOnboardingRequestDTO"
+      },
+      "TriggerTaktileDecisionRequestDTO": {
+        "properties": {
+          "flow_slug": {
+            "type": "string",
+            "title": "Flow Slug",
+            "description": "Taktile's flow internal name slug of the flow to trigger"
+          },
+          "entity_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Type",
+            "description": "Type of the entity that is being validated. If provided, validation will be done aganist the provided entity id"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id",
+            "description": "Unique identifier of the entity that is being validated"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Payload",
+            "description": "Payload to be forwarded to the decision flow. Validations will be mapped based on flow slug name"
+          },
+          "async_mode": {
+            "type": "boolean",
+            "title": "Async Mode",
+            "description": "Indicates if the decision should be triggered asynchronously",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "flow_slug",
+          "entity_id",
+          "payload"
+        ],
+        "title": "TriggerTaktileDecisionRequestDTO"
+      },
+      "UnderwritingFieldsDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Current status of the underwriting analysis",
+            "examples": [
+              "Pending",
+              "Finished",
+              "Failed"
+            ]
+          },
+          "details": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details",
+            "description": "Additional details about the underwriting analysis - can be a complex nested object",
+            "examples": [
+              {
+                "analysis_date": "2024-03-20",
+                "risk_level": "low",
+                "score": 85
+              }
+            ]
+          },
+          "decisionUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision URL",
+            "description": "URL to access the detailed underwriting decision on Taktile",
+            "examples": [
+              "https://app.taktile.com/decide/display/decision?workspace_id=a43e25b9-3430-49d8-b95e-1e299b482fdc&flow_slug=test-vadu-flow&version_id=ea54589b-3108-4d46-8102-494601d4f1dd&decision_id=c31b95db-4fb6-4a96-b058-364c60dbf3d8"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "UnderwritingFieldsDTO"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-CREDIPAY-API-KEY"
+      }
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
+}

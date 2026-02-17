@@ -1,0 +1,6 @@
+- credit_underwrite_request_risk_engine_credit_underwrite_request_post
+- >-
+  get_credit_underwrite_request_risk_engine_credit_underwrite_request__creditunderwritingid__get
+- credit_limit_increase_request_risk_engine_credit_limit_increase_request_post
+- >-
+  get_credit_limit_increase_request_risk_engine_credit_limit_increase_request__clirequestid__get
