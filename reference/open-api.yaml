@@ -1,625 +1,127 @@
 openapi: 3.0.0
 paths:
-  /v1/orders:
-    post:
-      description: >-
-        Tries to create a new order. Will work if the buyer has enough credit
-        limit and payment terms for the given order. Once successfully created,
-        the total amount of the order will be subtracted from the buyer's
-        available credit limit.
-      operationId: post-create-order
-      parameters: []
-      requestBody:
-        required: true
-        description: Order data.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateApplicationOrderPostBodyDto'
-      responses:
-        '201':
-          description: Successful operation, order created.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMarketplaceOrderResponseDto'
-        '400':
-          description: Bad Request.
-        '412':
-          description: Preconditions Failed.
-        '500':
-          description: Internal Server Error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Create an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
+  /v2/buyers:
     get:
-      description: Lists all orders associated with the sellers linked to the application.
-      operationId: list-orders
+      description: Obtém todos os compradores associados a um vendedor.
+      operationId: BuyersController_getBuyers
       parameters:
-        - description: Returns orders with the provided external id.
-          required: false
-          name: externalId
-          in: query
-          schema:
-            example: REF-10230456
-            type: string
-        - description: Updated after UTC date in ISO 8601 format.
-          required: false
-          name: updatedAfter
-          in: query
-          schema:
-            default: '2024-02-05T00:00:00Z'
-            type: string
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GetMarketplaceOrderResponseDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: List orders
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/orders/notification:
-    post:
-      description: Send order notification(s) to relevant parties.
-      operationId: post-handle-order-notification
-      parameters: []
-      requestBody:
-        required: true
-        description: Order notification data.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderNotificationPostDto'
-      responses:
-        '200':
-          description: Successful operation.
-      summary: Send order notification
-      tags:
-        - Orders
-  /v1/orders/{orderId}:
-    get:
-      description: Gets an order by CrediPay's internal order ID.
-      operationId: get-order
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          description: CrediPay's internal order ID.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMarketplaceOrderResponseDto'
-        '404':
-          description: Order was not found.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Get an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/orders/{orderId}/cancel:
-    post:
-      description: >-
-        Moves an order to cancelled state and increases the buyer's available
-        credit limit by that order's total amount. If the order already has an
-        invoice linked to it, it will be fully refunded.
-      operationId: post-cancel-order
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          description: CrediPay's internal order ID.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      responses:
-        '200':
-          description: Successful operation, order cancelled.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMarketplaceCanceledOrderResponseDto'
-        '404':
-          description: Order was not found.
-        '409':
-          description: >-
-            Could not cancel order. Order could be already cancelled OR is not
-            in any of the following states [created, accepted, finalized,
-            rejected].
-        '500':
-          description: Internal Server Error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Cancel an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/orders/{orderId}/documents:
-    get:
-      description: Gets all documents linked to an order.
-      operationId: get-order-documents
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          description: CrediPay's internal order ID.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetOrderDocumentsResponseDto'
-        '404':
-          description: Order was not found.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Get order documents
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/order-simulation:
-    post:
-      description: Gets the invoice amounts and the total fees for the possible order.
-      operationId: post-order-simulation
-      parameters: []
-      requestBody:
-        required: true
-        description: Order data.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderSimulationPostBodyDto'
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrderSimulationResponseDto'
-        '404':
-          description: Buyer or seller was not found.
-        '409':
-          description: >-
-            Seller is not linked to application or the payment term days is
-            invalid.
-        '500':
-          description: Internal Server Error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Returns order simulation.
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/orders/{orderId}/refund:
-    post:
-      description: >-
-        Refunds an order. When this endpoint is called, the amount CrediPay
-        charges the buyer will be reduced by the amount passed in the body. If
-        the given order was advanced to the seller, the refund amount will then
-        be subtracted from the next disbursement the seller receives.
-      operationId: post-order-refund
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        description: Refund data.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RefundOrderPostBodyDto'
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMarketplaceCanceledOrderResponseDto'
-        '400':
-          description: Bad Request.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Refund an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/orders/{orderId}/extension:
-    post:
-      description: Extends payment terms for an order for the given asset
-      operationId: post-order-extend-payment-terms
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        description: >-
-          Number of days to extend the payment terms and the asset id for which
-          the payment terms are to be extended.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExtendPaymentTermDaysPostBodyDto'
-      responses:
-        '200':
-          description: Successful operation.
-        '400':
-          description: Bad Request.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Extends payment terms for an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/assets:
-    get:
-      deprecated: true
-      description: >-
-        Lists all installments (assets) linked to your account. This endpoint is
-        deprecated, use /installments instead.
-      operationId: list-installments-deprecated
-      parameters:
-        - name: assetStatus
+        - name: taxId
           required: false
           in: query
-          description: assetStatus Status of the installments to filter by.
+          description: CNPJ do comprador.
           schema:
-            enum:
-              - Created
-              - IssuancePending
-              - IssuancePendingRetry
-              - IssuanceFailed
-              - IssuanceSuccess
-              - AcquisitionPending
-              - AcquisitionSuccess
-              - AcquisitionFailed
-              - AdvancePending
-              - Advanced
-              - NotAdvanced
-              - Ineligible
-              - Recourse
-            type: string
-        - name: collectionStatus
-          required: false
-          in: query
-          description: Collection Status of the installments to filter by.
-          schema:
-            enum:
-              - Open
-              - ProcessingPayment
-              - Repaid
-              - Settled
-              - Default
-              - Canceled
-            type: string
-        - name: settledAtFromDate
-          required: false
-          in: query
-          description: >-
-            Filter installments (assets) settled after this date. Can be used
-            together with settledAtToDate to query a date-range.
-          schema:
-            example: '2024-02-29T00:00:00.000Z'
-            type: string
-        - name: settledAtToDate
-          required: false
-          in: query
-          description: >-
-            Filter installments (assets) settled before this date. Can be used
-            together with settledAtFromDate to query a date-range
-          schema:
-            example: '2024-02-29T00:00:00.000Z'
-            type: string
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GetAssetResponseDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: List installments
-      tags:
-        - Installments
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/installments:
-    get:
-      deprecated: false
-      description: Lists all installments (assets) linked to your account.
-      operationId: list-installments
-      parameters:
-        - name: assetStatus
-          required: false
-          in: query
-          description: assetStatus Status of the installments to filter by.
-          schema:
-            enum:
-              - Created
-              - IssuancePending
-              - IssuancePendingRetry
-              - IssuanceFailed
-              - IssuanceSuccess
-              - AcquisitionPending
-              - AcquisitionSuccess
-              - AcquisitionFailed
-              - AdvancePending
-              - Advanced
-              - NotAdvanced
-              - Ineligible
-              - Recourse
-            type: string
-        - name: collectionStatus
-          required: false
-          in: query
-          description: Collection Status of the installments to filter by.
-          schema:
-            enum:
-              - Open
-              - ProcessingPayment
-              - Repaid
-              - Settled
-              - Default
-              - Canceled
-            type: string
-        - name: settledAtFromDate
-          required: false
-          in: query
-          description: >-
-            Filter installments (assets) settled after this date. Can be used
-            together with settledAtToDate to query a date-range.
-          schema:
-            example: '2024-02-29T00:00:00.000Z'
-            type: string
-        - name: settledAtToDate
-          required: false
-          in: query
-          description: >-
-            Filter installments (assets) settled before this date. Can be used
-            together with settledAtFromDate to query a date-range
-          schema:
-            example: '2024-02-29T00:00:00.000Z'
-            type: string
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GetAssetResponseDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: List installments
-      tags:
-        - Installments
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/buyers:
-    get:
-      description: >-
-        Retrieve a list of buyers, each with their credit limits and seller
-        configurations. Seller configurations include settings specific to the
-        relationship between each buyer and seller. There is an optional
-        parameter 'sellerTaxId'. If 'sellerTaxId' is provided, the response
-        includes seller configurations for the specified seller only. If no
-        'sellerTaxId' is provided, the response includes seller configurations
-        for all sellers associated with the API key. This endpoint allows
-        customization of data retrieval, enabling a focus on either a specific
-        seller or configurations for all linked sellers.
-      operationId: get-buyers
-      parameters:
-        - name: sellerTaxId
-          required: false
-          in: query
-          description: >-
-            Tax Id of the seller. It is used to filter the seller configurations
-            defined for each buyer. If not provided the seller configurations
-            for all sellers linked to the application are returned.
-          schema:
+            example: '56596567000127'
             type: string
         - name: page
           required: false
           in: query
-          description: Page number of buyers to return.
+          description: Qual página retornar da lista de compradores. Começa em 1.
           schema:
+            minimum: 1
+            default: 1
             type: number
         - name: take
           required: false
           in: query
-          description: Limit of buyers to return.
+          description: Limite de compradores a serem retornados.
           schema:
+            minimum: 1
+            maximum: 100
+            default: 20
             type: number
-        - name: order
-          required: false
-          in: query
-          description: Order By of buyers to return.
-          schema:
-            enum:
-              - ASC
-              - DESC
-            type: string
       responses:
         '200':
-          description: The list of buyers.
+          description: Operação bem-sucedida.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GetBuyerDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Get buyers
+                $ref: '#/components/schemas/GetBuyersResponseDto'
+      summary: Obter compradores
       tags:
         - Buyers
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/buyers/{taxId}:
+  /v2/orders/{id}:
     get:
-      description: >-
-        Retrieve a single buyer with their credit limits and seller
-        configurations. Seller configurations include settings specific to the
-        relationship between the buyer and seller. There is an optional
-        parameter 'sellerTaxId'. If 'sellerTaxId' is provided, the response
-        includes seller configurations for the specified seller only. If no
-        'sellerTaxId' is provided, the response includes seller configurations
-        for all sellers associated with the API key. This endpoint allows
-        customization of data retrieval, enabling a focus on either a specific
-        seller or configurations for all linked sellers.
-      operationId: get-buyer
+      description: Obtém um pedido pelo ID interno de pedido da CrediPay.
+      operationId: OrdersController_getOrderById
       parameters:
-        - name: taxId
+        - name: id
           required: true
           in: path
-          description: Tax Id of the buyer.
+          description: ID interno de pedido da CrediPay. Formato UUID v4.
           schema:
-            example: '67016116000009'
-            type: string
-        - name: sellerTaxId
-          required: false
-          in: query
-          description: >-
-            Tax Id of the seller. It is used to filter the seller configurations
-            defined for the buyer. If not provided the seller configurations for
-            all sellers linked to the application are returned.
-          schema:
-            example: '85661377000063'
+            format: uuid
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
             type: string
       responses:
         '200':
-          description: The buyer's information.
+          description: Operação bem-sucedida.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetBuyerDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Get buyer
+                $ref: '#/components/schemas/GetOrderResponseDto'
+        '404':
+          description: Pedido não foi encontrado.
+      summary: Obter um pedido
       tags:
-        - Buyers
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/invoices:
+        - Orders
+  /v2/orders/search:
+    post:
+      description: Pesquisa pedidos por diversos critérios.
+      operationId: OrdersController_searchOrders
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchOrdersRequestDto'
+      responses:
+        '200':
+          description: Operação bem-sucedida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchOrdersResponseDto'
+      summary: Pesquisar pedidos
+      tags:
+        - Orders
+  /v2/orders:
+    post:
+      description: Cria um pedido enviando um payload JSON.
+      operationId: OrdersController_postOrder
+      parameters: []
+      requestBody:
+        required: true
+        description: Dados do pedido.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderDtoOpenApiSpec'
+      responses:
+        '201':
+          description: Operação bem-sucedida, pedido criado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrderResponseDto'
+      summary: Criar um pedido
+      tags:
+        - Orders
+  /v2/orders/invoices:
     post:
       description: >-
-        Allows you to submit a Nota Fiscal XML file. If orderId is not provided,
-        a new order is created. If orderId is provided, the invoice is linked to
-        the specified order. For an invoice to be accepted, it needs to be
-        within the buyer's available credit limit and maximum payment terms.
-      operationId: post-submit-invoice-xml
-      parameters:
-        - name: orderId
-          required: false
-          in: query
-          description: >-
-            CrediPay's internal order ID. UUID v4 format. If provided the
-            uploaded invoice will be linked to this order.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
+        Permite criar um pedido enviando um arquivo XML de Nota Fiscal. Se
+        orderId não for informado, um novo pedido é criado. Se orderId for
+        informado, a nota fiscal é vinculada ao pedido especificado. Para que
+        uma nota fiscal seja aceita, ela precisa estar dentro do limite de
+        crédito disponível do comprador e do prazo máximo de pagamento.
+      operationId: OrdersController_postInvoiceXml
+      parameters: []
       requestBody:
         required: true
         description: >-
-          Nota Fiscal XML file. Needs to have been processed and approved by
-          SEFAZ (draft XMLs are not allowed).
+          Arquivo XML de Nota Fiscal. Precisa ter sido processado e aprovado
+          pela SEFAZ (XMLs de rascunho não são permitidos).
         content:
           multipart/form-data:
             schema:
@@ -631,205 +133,220 @@ paths:
               required:
                 - invoice
       responses:
-        '200':
-          description: Successful operation, Invoice uploaded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateInvoiceResponseDto'
         '400':
-          description: Could not process the invoice XML due to a format error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Submit Invoice XML
-      tags:
-        - Invoices
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-    get:
-      description: Get all the invoices linked to the application.
-      operationId: get-invoices
-      parameters:
-        - description: Returns invoices with the provided order id.
-          required: false
-          name: orderId
-          in: query
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-        - description: Returns invoices with the provided external id.
-          required: false
-          name: externalId
-          in: query
-          schema:
-            example: REF-10230456
-            type: string
-        - description: Returns invoices with the provided invoice number.
-          required: false
-          name: invoiceNumber
-          in: query
-          schema:
-            example: Invoice-123456
-            type: string
-        - description: Updated after UTC date in ISO 8601 format.
-          required: false
-          name: updatedAfter
-          in: query
-          schema:
-            default: '2024-02-05T00:00:00Z'
-            type: string
-      responses:
-        '200':
-          description: All invoices linked to the application.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InvoiceResponseDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Gets all the invoices
-      tags:
-        - Invoices
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/invoices/{invoiceId}:
-    get:
-      description: Get information of an specific invoice.
-      operationId: get-invoice
-      parameters:
-        - name: invoiceId
-          required: true
-          in: path
-          description: Id of the invoice
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The invoice with the provided id was found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvoiceResponseDto'
-        '400':
-          description: Bad Request.
-        '404':
-          description: The invoice with the provided id was not found.
-        '500':
-          description: Internal Server Error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Get Invoice
-      tags:
-        - Invoices
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/orders/{orderId}/finalize:
-    post:
-      description: >-
-        Moves an order to finalized state. Status for indicating the order is
-        ready to be processed by the seller, and the goods will be delivered.
-        After an order is finalized, you will be able to attach an invoice to
-        it.
-      operationId: post-finalize-order-and-process-invoice
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          description: CrediPay's internal order ID.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      responses:
-        '200':
-          description: Successful operation, order finalized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMarketplaceOrderResponseDto'
-        '404':
-          description: Order was not found.
-        '409':
           description: >-
-            Could not finalize order. Order could be already finalized OR is not
-            in accepted state.
-        '500':
-          description: Internal Server Error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Finalize an order
+            Não foi possível processar o XML da nota fiscal devido a um erro de
+            formato.
+      summary: Criar um pedido por NF-e
       tags:
         - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/webhook-events/endpoints/{endpointId}/resend:
+        - Invoices
+  /v2/orders/{id}/capture:
     post:
       description: >-
-        This endpoint lets customers resend failed webhooks. Messages sent
-        successfully are not resent. The endpoint Id required can be found in
-        the webhooks dashboard
-      operationId: post-resend-failed-webhooks
+        Este é um endpoint assíncrono que permite enviar um arquivo XML de Nota
+        Fiscal para um pedido. Assim que o arquivo XML é enviado, um job será
+        disparado para realizar validações e capturar o pedido.
+      operationId: OrdersController_captureOrder
       parameters:
-        - name: endpointId
+        - name: id
           required: true
           in: path
-          description: Endpoint ID. Please get the endpoint Id from webhooks dashboard.
+          description: ID interno de pedido da CrediPay. Formato UUID v4.
           schema:
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
             type: string
       requestBody:
         required: true
-        description: Request body to resend failed webhooks.
+        description: >-
+          Arquivo XML de Nota Fiscal. Precisa ter sido processado e aprovado
+          pela SEFAZ (XMLs de rascunho não são permitidos).
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                invoice:
+                  type: string
+                  format: binary
+              required:
+                - invoice
+      responses:
+        '400':
+          description: >-
+            Não foi possível mover o pedido para o estado de validação devido a
+            um erro.
+      summary: Capturar pedido
+      tags:
+        - Orders
+  /v2/orders/{id}/refund:
+    post:
+      description: >-
+        Este é um endpoint assíncrono que permite solicitar um reembolso de um
+        pedido existente.
+      operationId: OrdersController_refundOrder
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID interno de pedido da CrediPay. Formato UUID v4.
+          schema:
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+            type: string
+      requestBody:
+        required: true
+        description: Dados da solicitação de reembolso.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WebhooksResendRequestDto'
+              $ref: '#/components/schemas/RefundOrderDto'
       responses:
         '200':
-          description: Successful operation.
-        '500':
-          description: Internal Server Error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Resend failed webhooks.
+          description: Operação bem-sucedida, solicitação de reembolso criada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundOrderResponseDto'
+        '400':
+          description: >-
+            Não foi possível mover o pedido para o estado de validação devido a
+            um erro.
+      summary: Reembolsar pedido
       tags:
-        - Webhooks
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
+        - Orders
+  /v2/orders/{id}/cancel:
+    post:
+      description: >-
+        Move um pedido para o estado cancelado e aumenta o limite de crédito
+        disponível do comprador pelo valor total desse pedido. Se o pedido já
+        tiver uma nota fiscal vinculada, ele será totalmente reembolsado.
+      operationId: OrdersController_cancelOrder
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID interno de pedido da CrediPay. Formato UUID v4.
+          schema:
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+            type: string
+      responses:
+        '204':
+          description: Operação bem-sucedida, pedido cancelado.
+        '404':
+          description: Pedido não foi encontrado.
+        '409':
+          description: >-
+            Não foi possível cancelar o pedido. O pedido pode já estar cancelado
+            OU não está em nenhum dos seguintes estados [created, accepted,
+            finalized, rejected].
+      summary: Cancelar pedido
+      tags:
+        - Orders
+  /v2/search:
+    get:
+      description: Realiza uma busca search-as-you-type nos dados de compradores e pedidos.
+      operationId: SearchController_search
+      parameters:
+        - name: x-credipay-organization-id
+          required: true
+          in: header
+          schema:
+            type: string
+        - name: q
+          required: true
+          in: query
+          description: A consulta de busca.
+          schema:
+            example: comprador exemplo
+            type: string
+        - name: size
+          required: false
+          in: query
+          description: Número máximo de resultados a retornar.
+          schema:
+            minimum: 1
+            maximum: 100
+            default: 10
+            type: number
+      responses:
+        '200':
+          description: Operação bem-sucedida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponseDto'
+      summary: Buscar
+      tags:
+        - Search
+  /v2/disbursements:
+    get:
+      description: >-
+        Este endpoint permite obter uma lista de repasses com base em parâmetros
+        específicos.
+        https://docs.credipay.credix.finance/docs/adicional-reconcilia%C3%A7%C3%A3o
+      operationId: SellerDisbursementsController_getSellerDisbursements
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: Número da página dos repasses.
+          schema:
+            minimum: 1
+            default: 1
+            example: 1
+            type: number
+        - name: take
+          required: false
+          in: query
+          description: Quantidade de repasses a retornar.
+          schema:
+            minimum: 1
+            maximum: 100
+            default: 10
+            example: 10
+            type: number
+        - name: startDate
+          required: true
+          in: query
+          description: Data inicial dos repasses.
+          schema:
+            example: '2025-01-01'
+            type: string
+        - name: endDate
+          required: false
+          in: query
+          description: Data final dos repasses.
+          schema:
+            default: '2026-02-17'
+            example: '2025-01-01'
+            type: string
+        - name: includePending
+          required: false
+          in: query
+          description: Inclui repasses pendentes quando true.
+          schema:
+            default: false
+            example: false
+            type: boolean
+      responses:
+        '200':
+          description: Operação bem-sucedida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerDisbursementsResponseDto'
+      summary: Buscar repasses de vendedores
+      tags:
+        - Disbursements
 info:
   title: Credipay API
   description: ''
-  version: '1.0'
+  version: '2.0'
   contact: {}
 tags: []
 servers:
-  - url: https://api.pre.credix.finance
-    description: Sandbox
+  - url: https://api.dev.credix.finance
+    description: Development
 components:
   securitySchemes:
     api_key:
@@ -837,71 +354,696 @@ components:
       in: header
       name: X-CREDIPAY-API-KEY
   schemas:
-    OrderShippingLocationDto:
+    BuyerGroupMemberDto:
       type: object
       properties:
-        address1:
+        taxId:
           type: string
-          description: Street address 1.
-          default: Rua da Consolação, 930
-        address2:
+          description: CNPJ do membro do grupo.
+          example: '56596567000127'
+        name:
           type: string
-          description: Street address 2.
-          default: Apto 101
-        city:
-          type: string
-          description: City.
-          default: São Paulo
-        region:
-          type: string
-          description: Region.
-          default: São Paulo
-        postalCode:
-          type: string
-          description: Postal code.
-          default: '01302000'
-        country:
-          type: string
-          description: Country.
-          default: Brazil
+          description: Nome do membro do grupo.
+          example: Comprador Inexistente LTDA
       required:
-        - address1
-        - city
-        - region
-        - postalCode
-        - country
-    OrderInstallmentsDto:
+        - taxId
+        - name
+    BuyerResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID do comprador. (UUID)
+          example: a0eebc4b-1f3d-4b2a-8c5f-7e6d5f8e9b2f
+        taxId:
+          type: string
+          description: CNPJ do comprador.
+          example: '56596567000127'
+        availableCreditLimitAmountCents:
+          type: number
+          description: Limite de crédito disponível do comprador em centavos.
+          example: 100000
+        creditLimitAmountCents:
+          type: number
+          description: Limite de crédito do comprador em centavos.
+          example: 100000
+        creditLimitUpdatedAt:
+          type: string
+          description: Data de atualização do limite de crédito do comprador.
+          example: '2021-01-01T00:00:00.000Z'
+        eligible:
+          type: boolean
+          description: Se o comprador é elegível ou não para crédito.
+          example: true
+          deprecated: true
+        eligibilityUpdatedAt:
+          type: string
+          description: Data de atualização da elegibilidade do comprador.
+          example: '2021-01-01T00:00:00.000Z'
+        inactive:
+          type: boolean
+          description: Se o comprador está marcado como inativo.
+          example: false
+        maxPaymentTermDays:
+          type: number
+          description: O prazo máximo de pagamento em dias.
+        name:
+          type: string
+          description: Nome da empresa do comprador.
+          example: Comprador Inexistente LTDA
+        onboarded:
+          type: boolean
+          description: Se o comprador completou ou não o processo de onboarding.
+          example: true
+        groupMembers:
+          description: Membros do grupo do comprador.
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerGroupMemberDto'
+      required:
+        - id
+        - taxId
+        - availableCreditLimitAmountCents
+        - creditLimitAmountCents
+        - creditLimitUpdatedAt
+        - eligible
+        - eligibilityUpdatedAt
+        - inactive
+        - maxPaymentTermDays
+        - name
+        - onboarded
+        - groupMembers
+    GetBuyersResponseDto:
+      type: object
+      properties:
+        data:
+          description: Lista de compradores.
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerResponseDto'
+        page:
+          type: number
+          description: Número da página.
+          example: 1
+        items:
+          type: number
+          description: Número de itens na página atual.
+          example: 20
+        total:
+          type: number
+          description: Número total de itens em todas as páginas.
+          example: 100
+      required:
+        - data
+        - page
+        - items
+        - total
+    InvoiceResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID único da nota fiscal no sistema do CrediPay.
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+        invoiceNumber:
+          type: string
+          description: Número da nota fiscal.
+          example: NFe00000000000000000000000001642012886703226971
+        shortInvoiceNumber:
+          type: string
+          description: Número curto da nota fiscal.
+          example: '0992346'
+          nullable: true
+        issuanceDate:
+          type: string
+          description: Data e hora de emissão da nota fiscal (ISO).
+          example: '2023-10-02T15:30:00Z'
+          format: date-time
+        totalAmountCents:
+          type: number
+          description: Valor total da nota fiscal em centavos.
+          example: 150000
+      required:
+        - id
+        - invoiceNumber
+        - issuanceDate
+        - totalAmountCents
+    OrderBuyerDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID do comprador.
+          example: a0eebc4b-1f3d-4b2a-8c5f-7e6d5f8e9b2f
+          format: uuid
+        taxId:
+          type: string
+          description: CNPJ do comprador.
+          example: '56596567000127'
+        name:
+          type: string
+          description: Nome do comprador.
+          example: Comprador Inexistente LTDA
+      required:
+        - id
+        - taxId
+        - name
+    OrderSellerDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID do vendedor.
+          example: a0eebc4b-1f3d-4b2a-8c5f-7e6d5f8e9b2f
+          format: uuid
+        taxId:
+          type: string
+          description: CNPJ do vendedor.
+          example: '56596567000127'
+        name:
+          type: string
+          description: Nome do vendedor.
+          example: Nome Fictício Distribuidora LTDA
+      required:
+        - id
+        - taxId
+        - name
+    RepaymentIssuerDto:
+      type: object
+      properties:
+        taxId:
+          type: string
+          description: CNPJ da facility (emissor).
+          example: '12345678000190'
+        razaoSocial:
+          type: string
+          description: Razão social da facility (emissor).
+          example: Credix Securitizadora III S.A.
+      required:
+        - taxId
+        - razaoSocial
+    RepaymentPayeeDto:
+      type: object
+      properties:
+        branchNumber:
+          type: string
+          description: Número da agência bancária.
+          example: '0001'
+        branchDigit:
+          type: string
+          description: Dígito da agência bancária.
+          example: '1'
+        accountNumber:
+          type: string
+          description: Número da conta bancária.
+          example: '12345678'
+        accountDigit:
+          type: string
+          description: Dígito da conta bancária.
+          example: '9'
+        bankIdentificationCode:
+          type: string
+          description: Código de identificação bancária (ISPB).
+          example: '001'
+      required:
+        - branchNumber
+        - branchDigit
+        - accountNumber
+        - accountDigit
+        - bankIdentificationCode
+    RepaymentResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID único do pagamento.
+          example: e912ba21-d530-4982-aa92-a06d7518afa0
+          format: uuid
+        pdfUrl:
+          type: string
+          description: URL para o arquivo PDF do pagamento (boleto).
+          example: >-
+            https://api.starkbank.com/v2/invoice/fb1553149ff34c8db238f36dc64a8232.pdf
+        status:
+          type: string
+          description: Status do pagamento.
+          example: Open
+          enum:
+            - Open
+            - ProcessingPayment
+            - Paid
+            - Canceled
+            - Expired
+            - Unknown
+            - Failed
+            - CancellationFailed
+            - Reversed
+        totalAmountCents:
+          type: number
+          description: Valor total a ser pago em centavos.
+          example: 100000
+        createdAt:
+          type: string
+          description: Data e hora em que o pagamento foi criado.
+          example: '2023-10-01T12:00:00Z'
+          format: date-time
+        dueDate:
+          type: string
+          description: Data de vencimento do pagamento.
+          example: '2023-10-15T12:00:00Z'
+          format: date-time
+        paymentDate:
+          type: string
+          description: Data real em que o pagamento foi efetuado.
+          example: '2023-10-10T12:00:00Z'
+          format: date-time
+          nullable: true
+        paidAmountCents:
+          type: number
+          description: Valor efetivamente pago em centavos.
+          example: 50000
+        parentId:
+          type: string
+          description: "ID do pagamento pai, se aplicável (ex.: vinculado a outro pagamento). \t\t\tQuando um pedido é reembolsado, ou um pagamento é renegociado/estendido, o pagamento pai \t\t\tserá cancelado e um novo será criado."
+          example: 3b27b131-7ab7-4a67-b88e-424c1d30b247
+          format: uuid
+          nullable: true
+        documentNumber:
+          type: string
+          description: >-
+            Número do documento: número curto da nota fiscal + '-' + número
+            único do ativo.
+          example: 0992346-001
+          nullable: true
+        duplicata:
+          type: string
+          description: Número único da duplicata (parcela).
+          example: '123456789'
+          nullable: true
+        paymentCode:
+          type: string
+          description: Código de pagamento do boleto.
+          example: 34191.79001 01043.510047 91020.150008 6 91570000002000
+          nullable: true
+        pixEmv:
+          type: string
+          description: Código EMV para pagamento via PIX.
+          example: 00020101021126580014BR.GOV.BCB.PIX0136b69bc...
+          nullable: true
+        issuer:
+          description: Informações do emissor (facility).
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/RepaymentIssuerDto'
+        payee:
+          description: Informações do beneficiário (conta bancária da empresa vendedora).
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/RepaymentPayeeDto'
+        monthlyLateFeeRate:
+          type: number
+          description: Taxa de juros mensal por atraso.
+          example: 0.02
+        fixedLateFeePercentage:
+          type: number
+          description: Percentual fixo de multa por atraso.
+          example: 0.1
+      required:
+        - id
+        - pdfUrl
+        - status
+        - totalAmountCents
+        - createdAt
+        - dueDate
+        - paymentDate
+        - paidAmountCents
+        - parentId
+        - documentNumber
+        - issuer
+        - payee
+        - monthlyLateFeeRate
+        - fixedLateFeePercentage
+    OrderErrorDto:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Código do erro.
+          example: INVALID_TAX_ID
+        message:
+          type: string
+          description: Mensagem de erro.
+          example: O CNPJ fornecido é inválido.
+      required:
+        - code
+        - message
+    OrderRefundDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID único do reembolso.
+          example: e912ba21-d530-4982-aa92-a06d7518afa0
+          format: uuid
+        amountCents:
+          type: number
+          description: Valor do reembolso em centavos.
+          example: 50000
+        status:
+          type: string
+          description: Status do reembolso.
+          example: Pending
+          enum:
+            - Pending
+            - Completed
+            - Failed
+        createdAt:
+          type: string
+          description: Data e hora em que o reembolso foi criado.
+          example: '2023-10-01T12:00:00Z'
+          format: date-time
+        error:
+          type: string
+          description: O erro que ocorreu durante o reembolso.
+          example: Invalid tax ID format.
+          nullable: true
+      required:
+        - id
+        - amountCents
+        - status
+        - createdAt
+        - error
+    GetOrderResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID interno do pedido no CrediPay. Formato UUID v4.
+          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+          format: uuid
+        createdAt:
+          type: string
+          description: Data de criação do pedido.
+          example: '2023-10-01T12:00:00Z'
+          format: date-time
+        updatedAt:
+          type: string
+          description: Data de atualização do pedido.
+          example: '2023-10-01T12:00:00Z'
+          format: date-time
+        acceptedAt:
+          type: string
+          description: Data em que o pedido foi aceito pelo comprador.
+          example: '2023-10-01T12:00:00Z'
+          format: date-time
+        disbursedAt:
+          type: string
+          description: Data em que o pedido foi desembolsado para o vendedor.
+          example: '2023-10-01T12:00:00Z'
+          format: date-time
+        capturedAt:
+          type: string
+          description: Data em que o pedido foi capturado (criação da nota fiscal).
+          example: '2023-10-01T12:00:00Z'
+          format: date-time
+        externalId:
+          type: string
+          description: ID externo do pedido, se houver.
+          example: '123456789'
+        status:
+          type: string
+          description: Status do pedido.
+          example: Accepted
+          enum:
+            - New
+            - Created
+            - Accepted
+            - Cancelled
+            - WaitingForInvoice
+            - Captured
+            - Expired
+            - Validating
+            - ValidationFailed
+            - NfValidationFailed
+            - PartiallyRefunded
+            - FullyRefunded
+            - WaitingForOtp
+        invoice:
+          description: Nota fiscal do pedido.
+          allOf:
+            - $ref: '#/components/schemas/InvoiceResponseDto'
+        buyer:
+          description: Comprador do pedido.
+          allOf:
+            - $ref: '#/components/schemas/OrderBuyerDto'
+        seller:
+          description: Vendedor do pedido.
+          allOf:
+            - $ref: '#/components/schemas/OrderSellerDto'
+        repayments:
+          description: Informações de pagamento do pedido.
+          type: array
+          items:
+            $ref: '#/components/schemas/RepaymentResponseDto'
+        errors:
+          description: "Qualquer tipo de erro que pode ocorrer durante a vida útil de um pedido. \t\t\tTanto erros de reembolso quanto de validação de nota fiscal estão incluídos aqui. \t\t\tErros de validação anteriores não são incluídos após uma nova tentativa bem-sucedida de upload de nota fiscal."
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderErrorDto'
+        refunds:
+          description: Reembolsos do pedido.
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRefundDto'
+        metadata:
+          type: object
+          description: Metadados passados pelo vendedor na criação do pedido.
+          additionalProperties: true
+          example:
+            yourCustomFieldName: yourCustomFieldValue
+        totalAmountCents:
+          type: number
+          description: "Valor total do pedido em centavos. \t\t \tSe o pedido tiver uma nota fiscal, este valor é retirado da nota fiscal;\n\t\t\tcaso contrário, é retirado do próprio pedido."
+          example: 12345
+      required:
+        - id
+        - createdAt
+        - updatedAt
+        - externalId
+        - status
+        - invoice
+        - buyer
+        - seller
+        - repayments
+        - errors
+        - refunds
+        - metadata
+        - totalAmountCents
+    TaxIdFilterDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Tax ID do comprador. Filtra os pedidos pelo tax ID do comprador.
+          example: '12345678901234'
+        includeGroup:
+          type: boolean
+          description: >-
+            Se true, filtra os pedidos pelo grupo econômico vinculado ao
+            comprador com o tax ID especificado. Se false ou não fornecido,
+            filtra apenas pelo tax ID do comprador.
+          example: false
+          default: false
+      required:
+        - value
+    SearchOrdersRequestDto:
+      type: object
+      properties:
+        query:
+          type: string
+          description: A consulta a ser pesquisada.
+        status:
+          description: Considerar apenas pedidos com estes status.
+          example:
+            - Created
+          type: array
+          items:
+            type: array
+        createdAfter:
+          format: date-time
+          type: string
+          description: Considerar apenas pedidos criados em ou após esta data.
+          example: '2021-01-01T00:00:00.000Z'
+        createdBefore:
+          format: date-time
+          type: string
+          description: Considerar apenas pedidos criados antes ou em esta data.
+          example: '2021-01-02T00:00:00.000Z'
+        page:
+          type: number
+          description: Qual página retornar da lista de pedidos. Começa em 1.
+          default: 1
+          minimum: 1
+        take:
+          type: number
+          description: Limite de pedidos a serem retornados.
+          default: 20
+          minimum: 1
+          maximum: 100
+        taxId:
+          description: Filtro de Tax ID do comprador.
+          allOf:
+            - $ref: '#/components/schemas/TaxIdFilterDto'
+      required:
+        - query
+    SearchOrdersResponseItemDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status do pedido.
+          example: Created
+          enum:
+            - New
+            - Created
+            - Accepted
+            - Cancelled
+            - WaitingForInvoice
+            - Captured
+            - Expired
+            - Validating
+            - ValidationFailed
+            - NfValidationFailed
+            - PartiallyRefunded
+            - FullyRefunded
+            - WaitingForOtp
+        id:
+          type: string
+          description: ID do pedido.
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
+        externalId:
+          type: string
+          description: ID externo do pedido.
+          example: NF-123456
+        createdAt:
+          type: string
+          description: Data de criação do pedido.
+          example: '2021-01-01T00:00:00.000Z'
+          format: date-time
+        updatedAt:
+          type: string
+          description: Data da última atualização do pedido.
+          example: '2021-01-01T00:00:00.000Z'
+          format: date-time
+        disbursedAt:
+          type: string
+          description: Data em que o pedido foi desembolsado para o vendedor.
+          example: '2021-01-01T00:00:00.000Z'
+          format: date-time
+        capturedAt:
+          type: string
+          description: Data em que o pedido foi capturado (criação da nota fiscal).
+          example: '2021-01-01T00:00:00.000Z'
+          format: date-time
+        acceptedAt:
+          type: string
+          description: Data em que o pedido foi aceito pelo comprador.
+          example: '2021-01-01T00:00:00.000Z'
+          format: date-time
+        totalAmountCents:
+          type: number
+          description: Valor total do pedido em centavos.
+          example: 10000
+        invoice:
+          description: Informações da nota fiscal do pedido.
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/InvoiceResponseDto'
+        buyer:
+          description: Informações do comprador do pedido.
+          allOf:
+            - $ref: '#/components/schemas/OrderBuyerDto'
+        seller:
+          description: Informações do vendedor do pedido.
+          allOf:
+            - $ref: '#/components/schemas/OrderSellerDto'
+      required:
+        - status
+        - id
+        - externalId
+        - createdAt
+        - updatedAt
+        - totalAmountCents
+        - invoice
+        - buyer
+        - seller
+    SearchOrdersResponseDto:
+      type: object
+      properties:
+        data:
+          description: Lista de pedidos.
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchOrdersResponseItemDto'
+        page:
+          type: number
+          description: Número da página.
+          example: 1
+        items:
+          type: number
+          description: Número de itens na página atual.
+          example: 20
+        total:
+          type: number
+          description: Número total de itens em todas as páginas.
+          example: 100
+      required:
+        - data
+        - page
+        - items
+        - total
+    InstallmentsDto:
       type: object
       properties:
         maturityDate:
           type: string
-          description: Installments Maturity Date.
-          default: '2024-02-10T00:00:00Z'
+          description: >-
+            A data de vencimento. Deve ser fornecida essa ou termDays, mas não
+            ambos.
+          example: '2024-02-10T00:00:00Z'
+          deprecated: true
+        termDays:
+          type: number
+          description: >-
+            Número de dias até o vencimento. Deve ser fornecida essa ou
+            maturityDate, mas não ambos.
+          example: 30
         faceValueCents:
           type: number
-          description: Face value of the installment
-          default: 1020000
+          description: Valor nominal da parcela em centavos.
+          example: 1020000
       required:
-        - maturityDate
         - faceValueCents
-    OrderItemDto:
+    OrderItemsDto:
       type: object
       properties:
         productId:
           type: string
-          description: Unique product identifier.
+          description: Identificador único do produto.
           default: '7891910000197'
         productName:
           type: string
-          description: Name.
+          description: Nome do produto.
           default: Cerveja Skol 350ml
         quantity:
           type: number
-          description: Quantity.
-          default: 1000
+          description: Quantidade.
+          default: 15
         unitPriceCents:
           type: number
-          description: Unit price in cents.
+          description: Preço unitário em centavos.
           default: 1020
       required:
         - productId
@@ -913,1580 +1055,178 @@ components:
       properties:
         email:
           type: string
-          description: Contact's email.
-          default: sales@acme.com
+          description: E-mail do contato do comprador.
+          example: joaodasilva@example.com
         phone:
           type: string
-          description: Contact's phone number.
-          default: '+551243974164'
+          description: Número de telefone do contato do comprador.
+          example: '+551243974164'
         name:
           type: string
-          description: Contact's name.
-          default: First name
+          description: Nome do contato do comprador.
+          example: Joao
         lastName:
           type: string
-          description: Contact's last name.
-          default: Last name
-      required:
-        - phone
-        - name
-        - lastName
-    CreateApplicationOrderPostBodyDto:
-      type: object
-      properties:
-        externalId:
-          type: string
-          description: Seller's internal order ID.
-          default: REF-10230456
-        subtotalAmountCents:
-          type: number
-          description: The value of the order's goods and or services in cents.
-          default: 1020000
-        taxAmountCents:
-          type: number
-          description: Tax amount in cents.
-          default: 81600
-        shippingCostCents:
-          type: number
-          description: Shipping costs in cents.
-          default: 5000
-        shippingLocation:
-          description: Shipping location.
-          allOf:
-            - $ref: '#/components/schemas/OrderShippingLocationDto'
-        estimatedDeliveryDateUTC:
-          format: date-time
-          type: string
-          description: Estimated delivery UTC date in ISO 8601 format.
-          default: '2024-02-05T00:00:00Z'
-        installments:
-          description: Installments for the order.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderInstallmentsDto'
-        sellerTaxId:
-          type: string
-          description: Seller company tax ID.
-          example: '35027057000088'
-        buyerTaxId:
-          type: string
-          description: Buyer company tax ID.
-          example: '56037284000064'
-        items:
-          description: Order items.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderItemDto'
-        contactInformation:
-          description: Order contact information.
-          allOf:
-            - $ref: '#/components/schemas/ContactInformationDto'
-        metadata:
-          type: object
-          description: Metadata for the order.
-      required:
-        - subtotalAmountCents
-        - taxAmountCents
-        - shippingCostCents
-        - installments
-        - sellerTaxId
-        - buyerTaxId
-        - items
-        - contactInformation
-    GetMarketplaceOrderResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: CrediPay's internal order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        externalId:
-          type: string
-          description: Internal order ID of the seller.
-          example: REF-10230456
-        subtotalAmountCents:
-          type: number
-          description: The value of the order's goods and or services in cents.
-          example: 1020000
-        taxAmountCents:
-          type: number
-          description: Tax amount in cents.
-          example: 81600
-        shippingCostCents:
-          type: number
-          description: Shipping costs in cents.
-          example: 5000
-        buyerFeesCents:
-          type: number
-          description: >-
-            This field will automatically be calculated. It will have a non-zero
-            value when the seller is configured to charge fees to buyers. Note
-            that this value is already included in the total amount cents.
-          example: 10978
-        totalAmountCents:
-          type: number
-          description: >-
-            Total amount in cents. This amount includes buyer fees if
-            applicable. The value of the to-be-created invoice should equal this
-            amount.
-          example: 1117578
-        shippingLocation:
-          description: Shipping location.
-          allOf:
-            - $ref: '#/components/schemas/OrderShippingLocationDto'
-        paymentTermDays:
-          type: string
-          description: >-
-            Payment term in days. The maturity date of the to-be-created invoice
-            should equal the payment term days added to the order creation date.
-          example: 30
-        status:
-          type: string
-          description: Order status.
-          enum:
-            - new
-            - created
-            - accepted
-            - cancelled
-            - rejected
-            - finalized
-            - captured
-            - expired
-            - ineligible
-            - invalidated
-            - validating
-            - declined
-            - waiting_for_invoice
-            - validation_failed
-            - nf_validation_failed
-            - partially_refunded
-            - fully_refunded
-            - waiting_for_otp
-          example: finalized
-        estimatedDeliveryDate:
-          type: object
-          description: Estimated delivery UTC date in ISO 8601 format.
-          example: '2024-02-05T00:00:00Z'
-        createdAt:
-          type: string
-          description: Creation UTC date in ISO 8601 format.
-          example: '2024-02-01T00:00:00Z'
-        sellerTaxId:
-          type: string
-          description: Seller company tax ID.
-          example: '15853054000096'
-        buyerTaxId:
-          type: string
-          description: Buyer company tax ID.
-          example: '18360341000052'
-        noAdvancing:
-          type: boolean
-          description: No advancing
-          example: false
-        installments:
-          description: Installments for the order.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderInstallmentsDto'
-      required:
-        - id
-        - externalId
-        - subtotalAmountCents
-        - taxAmountCents
-        - shippingCostCents
-        - buyerFeesCents
-        - totalAmountCents
-        - paymentTermDays
-        - status
-        - estimatedDeliveryDate
-        - createdAt
-        - sellerTaxId
-        - buyerTaxId
-        - noAdvancing
-        - installments
-    OrderNotificationPostDto:
-      type: object
-      properties:
-        orderId:
-          type: string
-          description: Order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        event:
-          type: string
-          description: The event that triggered the notification.
-          enum:
-            - OrderConfirmed
-            - ConfirmOrderRequest
-            - AllOrderBoletosIssued
-          example: OrderConfirmed
-      required:
-        - orderId
-        - event
-    GetMarketplaceCanceledOrderResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: CrediPay's internal order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        externalId:
-          type: string
-          description: Internal order ID of the seller.
-          example: REF-10230456
-        subtotalAmountCents:
-          type: number
-          description: The value of the order's goods and or services in cents.
-          example: 1020000
-        taxAmountCents:
-          type: number
-          description: Tax amount in cents.
-          example: 81600
-        shippingCostCents:
-          type: number
-          description: Shipping costs in cents.
-          example: 5000
-        buyerFeesCents:
-          type: number
-          description: >-
-            This field will automatically be calculated. It will have a non-zero
-            value when the seller is configured to charge fees to buyers. Note
-            that this value is already included in the total amount cents.
-          example: 10978
-        totalAmountCents:
-          type: number
-          description: >-
-            Total amount in cents. This amount includes buyer fees if
-            applicable. The value of the to-be-created invoice should equal this
-            amount.
-          example: 1117578
-        shippingLocation:
-          description: Shipping location.
-          allOf:
-            - $ref: '#/components/schemas/OrderShippingLocationDto'
-        paymentTermDays:
-          type: string
-          description: >-
-            Payment term in days. The maturity date of the to-be-created invoice
-            should equal the payment term days added to the order creation date.
-          example: 30
-        status:
-          type: string
-          description: Order status.
-          enum:
-            - new
-            - created
-            - accepted
-            - cancelled
-            - rejected
-            - finalized
-            - captured
-            - expired
-            - ineligible
-            - invalidated
-            - validating
-            - declined
-            - waiting_for_invoice
-            - validation_failed
-            - nf_validation_failed
-            - partially_refunded
-            - fully_refunded
-            - waiting_for_otp
-          example: cancelled
-        estimatedDeliveryDate:
-          type: object
-          description: Estimated delivery UTC date in ISO 8601 format.
-          example: '2024-02-05T00:00:00Z'
-        createdAt:
-          type: string
-          description: Creation UTC date in ISO 8601 format.
-          example: '2024-02-01T00:00:00Z'
-        sellerTaxId:
-          type: string
-          description: Seller company tax ID.
-          example: '15853054000096'
-        buyerTaxId:
-          type: string
-          description: Buyer company tax ID.
-          example: '18360341000052'
-        noAdvancing:
-          type: boolean
-          description: No advancing
-          example: false
-        installments:
-          description: Installments for the order.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderInstallmentsDto'
-      required:
-        - id
-        - externalId
-        - subtotalAmountCents
-        - taxAmountCents
-        - shippingCostCents
-        - buyerFeesCents
-        - totalAmountCents
-        - paymentTermDays
-        - status
-        - estimatedDeliveryDate
-        - createdAt
-        - sellerTaxId
-        - buyerTaxId
-        - noAdvancing
-        - installments
-    AssetDocumentMetaData:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Asset ID
-          example: 9a25c2b5-bf6d-4e23-90e5-65fa3ec2dc38
-        maturityDate:
-          type: string
-          description: Asset maturity date in ISO 8601 format
-          example: '2024-02-29T00:00:00.000Z'
-        faceValueCents:
-          type: number
-          description: Asset face value in cents
-          example: 1020000
-      required:
-        - id
-        - maturityDate
-        - faceValueCents
-    RepaymentDocumentMetaData:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Repayment ID.
-          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
-        status:
-          type: string
-          description: repayment status.
-          enum:
-            - open
-            - paid
-            - restructured
-            - renegotiated
-          example: open
-        amount:
-          type: number
-          description: Amount value cents.
-          example: 10000
-        dueDate:
-          type: string
-          description: >-
-            Invoice due date in ISO 8601 format. In the case of multiple
-            installments, this is the due date of the last installment.
-          example: '2024-02-29T00:00:00.000Z'
-        pdfURL:
-          type: object
-          description: Repayment PDF URL
-          example: https://pdfurl.com
-          default: https://pdfurl.com
-      required:
-        - id
-        - status
-        - amount
-        - dueDate
-        - pdfURL
-    DocumentMetaData:
-      type: object
-      properties:
-        documentType:
-          type: string
-          description: Document type
-          enum:
-            - PixInvoice
-            - Boleto
-            - BolePix
-          example: Boleto
-        assetId:
-          type: string
-          description: Asset ID
-          deprecated: true
-        asset:
-          description: Asset metadata
-          allOf:
-            - $ref: '#/components/schemas/AssetDocumentMetaData'
-        repayment:
-          description: Repayment metadata
-          allOf:
-            - $ref: '#/components/schemas/RepaymentDocumentMetaData'
-      required:
-        - documentType
-        - assetId
-        - asset
-        - repayment
-    DocumentDto:
-      type: object
-      properties:
-        metaData:
-          description: Document metadata
-          allOf:
-            - $ref: '#/components/schemas/DocumentMetaData'
-        link:
-          type: object
-          description: Document link
-          example: https://example.com/document.pdf
-        createdAt:
-          format: date-time
-          type: string
-          description: Document creation date
-          example: '2024-02-29T00:00:00.000Z'
-      required:
-        - metaData
-        - link
-        - createdAt
-    GetOrderDocumentsResponseDto:
-      type: object
-      properties:
-        orderId:
-          type: string
-          description: Order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        documents:
-          description: Order documents.
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentDto'
-      required:
-        - orderId
-        - documents
-    OrderSimulationPostBodyDto:
-      type: object
-      properties:
-        sellerTaxId:
-          type: string
-          description: Seller's Tax Id.
-          example: '73021656000164'
-        buyerTaxId:
-          type: string
-          description: Buyer's Tax Id.
-          example: '64456744000106'
-        totalOrderAmountCents:
-          type: number
-          description: Total order amount in cents.
-          example: 1020000
-        paymentTerms:
-          description: Payment terms in days.
-          default:
-            - 30
-            - 60
-            - 90
-          type: array
-          items:
-            type: number
-        maxNumberOfInstallments:
-          type: number
-          description: Number of installments.
-          example: 3
-        periodDuration:
-          type: number
-          description: Period duration in days.
-          example: 30
-      required:
-        - sellerTaxId
-        - buyerTaxId
-        - totalOrderAmountCents
-        - paymentTerms
-        - maxNumberOfInstallments
-        - periodDuration
-    BuyerFeesDto:
-      type: object
-      properties:
-        buyerFeesCents:
-          type: number
-          description: Buyer fees in cents.
-          example: 100
-          deprecated: true
-        buyerFeesPercentage:
-          type: number
-          description: Buyer fees percentage.
-          example: 0.1
-          deprecated: true
-      required:
-        - buyerFeesCents
-        - buyerFeesPercentage
-    InvoiceTotalsWithFeesDto:
-      type: object
-      properties:
-        totalInvoiceAmountCents:
-          type: number
-          description: Total invoice amount in cents.
-          example: 1100
-        fees:
-          description: Fees.
-          deprecated: true
-          allOf:
-            - $ref: '#/components/schemas/BuyerFeesDto'
-        paymentTermDays:
-          type: number
-          description: Payment term days.
-          example: 30
-      required:
-        - totalInvoiceAmountCents
-        - fees
-        - paymentTermDays
-    OrderSimulationResponseDto:
-      type: object
-      properties:
-        maxPaymentTermDays:
-          type: number
-          description: Maximum payment term days.
-          example: 90
-        totalOrderAmountCents:
-          type: number
-          description: Total order amount in cents.
-          example: 1000
-        invoiceTotalsWithFees:
-          description: Invoice totals with fees.
-          type: array
-          items:
-            $ref: '#/components/schemas/InvoiceTotalsWithFeesDto'
-        installments:
-          description: Installments for the order.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderInstallmentsDto'
-      required:
-        - maxPaymentTermDays
-        - totalOrderAmountCents
-        - invoiceTotalsWithFees
-        - installments
-    RefundOrderPostBodyDto:
-      type: object
-      properties:
-        refundValueCents:
-          type: number
-          description: Refund value in cents.
-          example: 1020000
-          minimum: 1
-        value:
-          type: number
-          description: >-
-            Refund value in cents. This property is deprecated use
-            refundValueCents in body instead
-          example: 1020000
-          deprecated: true
-          minimum: 1
-      required:
-        - refundValueCents
-        - value
-    ExtendPaymentTermDaysPostBodyDto:
-      type: object
-      properties:
-        numberOfDays:
-          type: number
-          description: Number of days for extending the payment terms.
-          example: 1020000
-        assetId:
-          type: string
-          description: Id of the asset to be extended
-          example: cb9e8408-aac0-4b4a-9848-904656272de2
-      required:
-        - numberOfDays
-        - assetId
-    GetAssetInvoiceDto:
-      type: object
-      properties:
-        invoiceNumber:
-          type: string
-          description: Invoice number. It can be the seller's internal invoice ID.
-          example: NFe51240530460444000170550010000001971976454382
-      required:
-        - invoiceNumber
-    GetAssetResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Credipay's internal installment (asset) ID. UUID v4 format.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        faceValueCents:
-          type: number
-          description: Installment (asset) face value in cents.
-          example: 1020000
-        assetStatus:
-          type: string
-          description: Installment (asset) state.
-          enum:
-            - Created
-            - IssuancePending
-            - IssuancePendingRetry
-            - IssuanceFailed
-            - IssuanceSuccess
-            - AcquisitionPending
-            - AcquisitionSuccess
-            - AcquisitionFailed
-            - AdvancePending
-            - Advanced
-            - NotAdvanced
-            - Ineligible
-            - Recourse
-          example: Advanced
-          deprecated: true
-        status:
-          type: string
-          description: Installment (asset) state.
-          enum:
-            - Created
-            - IssuancePending
-            - IssuancePendingRetry
-            - IssuanceFailed
-            - IssuanceSuccess
-            - AcquisitionPending
-            - AcquisitionSuccess
-            - AcquisitionFailed
-            - AdvancePending
-            - Advanced
-            - NotAdvanced
-            - Ineligible
-            - Recourse
-          example: Advanced
-        collectionStatus:
-          type: string
-          description: Installment (asset) collection status.
-          enum:
-            - Open
-            - ProcessingPayment
-            - Repaid
-            - Settled
-            - Default
-            - Canceled
-          example: Open
-        refundAmountCents:
-          type: number
-          description: Refund value cents.
-          example: 10000
-        refundStatus:
-          type: string
-          description: Refund status.
-          enum:
-            - NoRefund
-            - PartialRefund
-            - FullRefund
-          example: NoRefund
-        settledAt:
-          format: date-time
-          type: string
-          description: >-
-            The date, in UTC ISO 8601 format, when the amounts were paid to
-            CrediPay.
-          example: '2024-02-29T00:00:00.000Z'
-        maturityDate:
-          format: date-time
-          type: string
-          description: >-
-            The date, in UTC ISO 8601 format, when the asset is expected to be
-            paid.
-          example: '2024-03-20T00:00:00.000Z'
-        invoice:
-          description: The invoice that originated this installment (asset)
-          allOf:
-            - $ref: '#/components/schemas/GetAssetInvoiceDto'
-      required:
-        - id
-        - faceValueCents
-        - assetStatus
-        - status
-        - collectionStatus
-        - refundAmountCents
-        - refundStatus
-        - maturityDate
-        - invoice
-    GetBuyerSellerConfigDto:
-      type: object
-      properties:
-        taxId:
-          type: string
-          description: Seller's tax ID
-          example: '82356350000079'
-        maxPaymentTermDays:
-          type: number
-          description: The maximum payment term days.
-          example: 30
-        monthlyDiscountRate:
-          type: number
-          description: Monthly discount rate
-          example: 0.03
-        transactionFeePercentage:
-          type: number
-          description: Transaction fee percentage
-          example: 0.02
-          deprecated: true
-        baseTransactionFeePercentage:
-          type: number
-          description: base transaction fee percentage
-          example: 0.02
-        variableTransactionFeePercentage:
-          type: object
-          description: variable transaction fee percentage
-          example: 0.02
-        variableTransactionFeeIntervalDays:
-          type: object
-          description: variable transaction fee interval days
-          example: 12
-      required:
-        - taxId
-        - maxPaymentTermDays
-        - monthlyDiscountRate
-        - transactionFeePercentage
-        - baseTransactionFeePercentage
-        - variableTransactionFeePercentage
-        - variableTransactionFeeIntervalDays
-    GetBuyerDto:
-      type: object
-      properties:
-        taxId:
-          type: string
-          description: The tax ID of the company
-          example: '70631413000079'
-        name:
-          type: string
-          description: Company's name.
-          example: ACME ltda.
-        sellerConfigs:
-          description: Seller configurations for the buyer.
-          type: array
-          items:
-            $ref: '#/components/schemas/GetBuyerSellerConfigDto'
-        creditLimitAmountCents:
-          type: number
-          description: Total credit limit in cents
-          example: 1020000
-        availableCreditLimitAmountCents:
-          type: number
-          description: Available credit limit in cents
-          example: 820000
-        onboarded:
-          type: boolean
-          description: Whether or not the buyer has completed the onboarding
-          example: false
-        eligible:
-          type: boolean
-          description: Whether or not the buyer is eligible for credit
-          example: false
-        paymentProvider:
-          type: string
-          description: The payment provider for the buyer
-          example: BtgBoleto
-          enum:
-            - Manual
-            - StarkbankPixInvoice
-            - StarkbankBoleto
-            - BtgBoleto
-            - BtgBolePix
-            - BtgEverestBoleto
-      required:
-        - taxId
-        - name
-        - sellerConfigs
-        - creditLimitAmountCents
-        - availableCreditLimitAmountCents
-        - onboarded
-        - eligible
-        - paymentProvider
-    InvoiceOrderContactInformationDto:
-      type: object
-      properties:
-        email:
-          type: string
-          description: Contact email.
-          example: info@example.com
-        phone:
-          type: string
-          description: Contact phone.
-          example: +55 11 99999-9999
+          description: Sobrenome do contato do comprador.
+          default: Da Silva
       required:
         - email
         - phone
-    InvoiceOrderDto:
+        - name
+        - lastName
+    ShippingLocationDto:
       type: object
       properties:
-        id:
+        address1:
           type: string
-          description: CrediPay's internal order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+          description: Endereço linha 1.
+          example: Rua da Consolação, 930
+        address2:
+          type: string
+          description: Endereço linha 2.
+          example: Apto 101
+        city:
+          type: string
+          description: Cidade.
+          example: São Paulo
+        region:
+          type: string
+          description: Estado.
+          example: São Paulo
+        postalCode:
+          type: string
+          description: CEP.
+          example: '01302000'
+        country:
+          type: string
+          description: País.
+          example: Brazil
+      required:
+        - address1
+        - city
+        - region
+        - postalCode
+        - country
+    CreateOrderDtoOpenApiSpec:
+      type: object
+      properties:
+        buyerTaxId:
+          type: string
+          description: CNPJ do comprador.
+          example: 65.413.430/0000-08
+        sellerTaxId:
+          type: string
+          description: CNPJ do vendedor.
+          example: 44.876.674/0000-49
+        metadata:
+          type: object
+          description: Qualquer metadado que você queira anexar ao pedido.
+          additionalProperties: true
+          example:
+            yourCustomFieldName: yourCustomFieldValue
         externalId:
           type: string
-          description: Seller's internal order ID.
-          example: REF-10230456
-        status:
-          type: string
-          description: Order status.
-          enum:
-            - new
-            - created
-            - accepted
-            - cancelled
-            - rejected
-            - finalized
-            - captured
-            - expired
-            - ineligible
-            - invalidated
-            - validating
-            - declined
-            - waiting_for_invoice
-            - validation_failed
-            - nf_validation_failed
-            - partially_refunded
-            - fully_refunded
-            - waiting_for_otp
-          example: created
+          description: ID interno do pedido do vendedor.
+          default: REF-10230456
+        installments:
+          description: Parcelas
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallmentsDto'
+        items:
+          description: Itens do pedido.
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemsDto'
         contactInformation:
-          description: Contact information.
+          description: Informações de Contato do comprador.
           allOf:
-            - $ref: '#/components/schemas/InvoiceOrderContactInformationDto'
+            - $ref: '#/components/schemas/ContactInformationDto'
+        shippingLocation:
+          description: Endereço de Entrega.
+          allOf:
+            - $ref: '#/components/schemas/ShippingLocationDto'
+        processingMode:
+          type: string
+          description: >-
+            O modo de processamento da nota fiscal. 'DDF' significa que o
+            vendedor faz o upload da nota fiscal para a plataforma antes da
+            entrega das mercadorias. 'DDE' significa que o vendedor faz o upload
+            da nota fiscal para a plataforma após a entrega das mercadorias.
+          enum:
+            - DDF
+            - DDE
+          default: DDF
+          example: DDF
       required:
-        - id
-        - externalId
-        - status
+        - buyerTaxId
+        - sellerTaxId
+        - metadata
+        - installments
+        - items
         - contactInformation
-    InvoicePayerDto:
+        - shippingLocation
+        - processingMode
+    RefundOrderDto:
       type: object
       properties:
-        name:
-          type: string
-          description: Payer company name.
-          example: Aurora Soluções Ltda.
-        taxId:
-          type: string
-          description: Payer tax ID.
-          example: 73.682.637/0000-06
-        sendConfirmationLink:
-          type: boolean
-          description: >-
-            Whether or not a confirmation link will be sent for the order to the
-            buyer
-          example: false
-      required:
-        - name
-        - taxId
-        - sendConfirmationLink
-    InstallmentDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Installment ID.
-          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
-        status:
-          type: string
-          description: Installment status.
-          enum:
-            - Created
-            - Settled
-            - Advanced
-          example: Advanced
-        faceValueCents:
-          type: number
-          description: Face value cents.
-          example: 10000
-        fundedAt:
-          type: object
-          description: >-
-            Funded date in ISO 8601 format. Defaults to null if the installment
-            has yet to be funded.
-          example: '2024-02-20T00:00:00.000Z'
-        settledAt:
-          type: object
-          description: >-
-            Settled date in ISO 8601 format. Defaults to null if the installment
-            has yet to be settled.
-          example: '2024-02-20T00:00:00.000Z'
-        disbursedAmountCents:
-          type: number
-          description: >-
-            Disbursed amount cents. Defaults to 0 if no disbursement has been
-            made.
-          example: 10000
-          default: 0
         refundAmountCents:
           type: number
-          description: Refund value cents.
-          example: 10000
-        refundStatus:
-          type: string
-          description: Refund status.
-          enum:
-            - NoRefund
-            - PartialRefund
-            - FullRefund
-          example: NoRefund
-        latestRefundDate:
-          type: object
-          description: >-
-            Latest refund date in ISO 8601 format. Defaults to null if the
-            installment has not been refunded.
-          example: '2024-02-20T00:00:00.000Z'
-        maturityDate:
-          type: string
-          description: Maturity date in ISO 8601 format.
-          example: '2024-02-29T00:00:00.000Z'
+          description: O valor desejado do reembolso em centavos.
+          minimum: 1
       required:
-        - id
-        - status
-        - faceValueCents
-        - fundedAt
-        - settledAt
-        - disbursedAmountCents
         - refundAmountCents
-        - refundStatus
-        - latestRefundDate
-        - maturityDate
-    CreateInvoiceResponseDto:
+    RefundOrderResponseDto:
       type: object
       properties:
         id:
-          type: object
-          description: Credipay's internal invoice ID. UUID v4 format.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        dueDate:
           type: string
-          description: >-
-            Invoice due date in ISO 8601 format. In the case of multiple
-            installments, this is the due date of the last installment.
-          example: '2024-02-29T00:00:00.000Z'
-        entityCreateStatus:
+          description: ID único do reembolso.
+          example: e912ba21-d530-4982-aa92-a06d7518afa0
+      required:
+        - id
+    SearchResultDto:
+      type: object
+      properties:
+        companyName:
           type: string
-          description: Entity which is created during the process.
-          enum:
-            - OrderCreated
-            - InvoiceCreated
-          example: OrderCreated
-        originalFaceValueCents:
-          type: number
-          description: Invoice face value cents.
-          example: 10000
-        order:
-          description: The order associated with this invoice
-          allOf:
-            - $ref: '#/components/schemas/InvoiceOrderDto'
-        payer:
-          description: The payer of the invoice
-          allOf:
-            - $ref: '#/components/schemas/InvoicePayerDto'
-        currentFaceValueCents:
-          type: object
-          description: Invoice face value cents.
-          example: 10000
-        installments:
-          description: Invoice installments.
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallmentDto'
+          description: Nome da empresa do comprador.
+        companyTradeName:
+          type: string
+          description: Nome comercial da empresa do comprador.
+        companyTaxId:
+          type: string
+          description: CNPJ da empresa do comprador.
+        buyerCompanyId:
+          type: string
+          description: ID da empresa do comprador.
         invoiceNumber:
           type: string
-          description: Invoice number. Extracted from the NF-e.
-          example: NFe35240341264992000141550010000007431018280440
-        issuanceDate:
+          description: Número da nota fiscal.
+        invoiceBillNumber:
           type: string
-          description: Invoice issuance date in ISO 8601 format. Extracted from the NF-e.
-          example: '2024-02-29T00:00:00.000Z'
-        refundAmountCents:
-          type: object
-          description: Refund value cents.
-          example: 10000
-        refundStatus:
-          type: string
-          description: Refund status.
-          enum:
-            - NoRefund
-            - PartialRefund
-            - FullRefund
-          example: NoRefund
-        faceValueCents:
-          type: object
-          description: Invoice face value cents.
-          example: 10000
-          deprecated: true
-      required:
-        - id
-        - dueDate
-        - entityCreateStatus
-        - originalFaceValueCents
-        - order
-        - payer
-        - currentFaceValueCents
-        - installments
-        - invoiceNumber
-        - issuanceDate
-        - refundAmountCents
-        - refundStatus
-        - faceValueCents
-    RepaymentDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Repayment ID.
-          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
-        status:
-          type: string
-          description: repayment status.
-          enum:
-            - open
-            - paid
-            - restructured
-            - renegotiated
-          example: open
-        amount:
-          type: number
-          description: Amount value cents.
-          example: 10000
-        dueDate:
-          type: string
-          description: >-
-            Invoice due date in ISO 8601 format. In the case of multiple
-            installments, this is the due date of the last installment.
-          example: '2024-02-29T00:00:00.000Z'
-        repaymentDate:
-          type: object
-          description: >-
-            Repayment date in ISO 8601 format. Defaults to null if the repayment
-            has yet to be made.
-          example: '2024-02-20T00:00:00.000Z'
-        pdfURL:
-          type: object
-          description: Repayment PDF URL
-          example: https://pdfurl.com
-          default: https://pdfurl.com
-      required:
-        - id
-        - status
-        - amount
-        - dueDate
-        - repaymentDate
-        - pdfURL
-    InvoiceResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Credipay's internal invoice ID. UUID v4 format.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        invoiceNumber:
-          type: string
-          description: Invoice number. Extracted from the NF-e.
-          example: NFe35240341264992000141550010000007431018280440
-        dueDate:
-          type: string
-          description: >-
-            Invoice due date in ISO 8601 format. In the case of multiple
-            installments, this is the due date of the last installment.
-          example: '2024-02-29T00:00:00.000Z'
-        issuanceDate:
-          type: string
-          description: Invoice issuance date in ISO 8601 format. Extracted from the NF-e.
-          example: '2024-02-29T00:00:00.000Z'
-        originalFaceValueCents:
-          type: number
-          description: Invoice face value cents.
-          example: 10000
-        faceValueCents:
-          type: number
-          description: Invoice face value cents.
-          example: 10000
-          deprecated: true
-        currentFaceValueCents:
-          type: number
-          description: Invoice face value cents.
-          example: 10000
-        refundAmountCents:
-          type: number
-          description: Refund value cents.
-          example: 10000
-        refundStatus:
-          type: string
-          description: Refund status.
-          enum:
-            - NoRefund
-            - PartialRefund
-            - FullRefund
-          example: NoRefund
-        installments:
-          description: Invoice installments.
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallmentDto'
-        repayments:
-          description: Invoice repayments.
-          type: array
-          items:
-            $ref: '#/components/schemas/RepaymentDto'
-        order:
-          description: The order associated with this invoice
-          allOf:
-            - $ref: '#/components/schemas/InvoiceOrderDto'
-        payer:
-          description: The payer of the invoice
-          allOf:
-            - $ref: '#/components/schemas/InvoicePayerDto'
-      required:
-        - id
-        - invoiceNumber
-        - dueDate
-        - issuanceDate
-        - originalFaceValueCents
-        - faceValueCents
-        - currentFaceValueCents
-        - refundAmountCents
-        - refundStatus
-        - installments
-        - repayments
-        - order
-        - payer
-    OrderErrorDto:
-      type: object
-      properties:
-        code:
-          type: object
-          description: Error code.
-          example: ORDER_NOT_FOUND_ERROR
-        message:
-          type: object
-          description: Error message.
-          example: Order not found.
-      required:
-        - code
-        - message
-    OrderEventWebhookBody:
-      type: object
-      properties:
-        eventType:
-          type: string
-          description: Event type.
-          enum:
-            - order.created
-            - order.cancelled
-            - order.validation.failed
-            - order.buyer.rejected
-            - order.accepted
-            - order.captured
-            - order.buyer.accepted
-            - order.boletos.issued
-          example: order.buyer.accepted
-        orderId:
-          type: object
-          description: The CrediPay order identifier.
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
-        orderExternalId:
-          type: string
-          description: >-
-            The order identifier as set by the integrator. It is present when
-            the order was created with an external id.
-          example: or-123
-        confirmationDate:
-          type: string
-          description: The acceptance date of the order, if it was accepted by the buyer.
-          example: '2022-01-01T00:00:00Z'
-        buyerTaxId:
-          type: object
-          description: Buyer Tax Id (CNPJ).
-          example: '12345678000196'
-        errors:
-          description: Errors that occurred during the order process.
-          example:
-            - code: ORDER_NOT_FOUND_ERROR
-              message: Order not found.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderErrorDto'
-      required:
-        - eventType
-        - orderId
-        - buyerTaxId
-        - errors
-    RepaymentEventWebhookBody:
-      type: object
-      properties:
-        eventType:
-          type: string
-          description: Event type.
-          enum:
-            - repayment.created
-            - repayment.settled
-            - repayment.cancelled
-            - repayment.processing
-            - repayment.edited
-          example: repayment.created
+          description: Número do boleto da nota fiscal.
         orderId:
           type: string
-          description: The CrediPay order identifier.
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
-        orderExternalId:
+          description: ID do pedido.
+        externalOrderId:
           type: string
-          description: >-
-            The order identifier as set by the integrator. It is present when
-            the order was created with an external id.
-          example: or-123
-          nullable: true
-        invoiceId:
+          description: ID externo do pedido.
+        organizationId:
           type: string
-          description: The CrediPay invoice identifier.
-          example: facc63bc-5d73-4251-ab93-95ecd5338735
-        invoiceNumber:
-          type: string
-          description: Invoice Number (= Nota Fiscal number).
-          example: NFe35240737154724000108550010001280021404361475
-        repaymentId:
-          type: object
-          description: The CrediPay repayment identifier
-          example: 310b728e-8456-4495-b680-9a59d7a45e07
-          nullable: true
-        buyerTaxId:
-          type: string
-          description: Buyer Tax Id (CNPJ).
-          example: '12345678000196'
-        dueDate:
-          format: date-time
-          type: string
-          description: Due date
-          example: '2022-01-01T00:00:00Z'
-        totalAmountCents:
-          type: number
-          description: Total amount in cents.
-          example: 10000
-        paymentCode:
-          type: string
-          description: >-
-            Barcode/code, present if the repayment method is Boleto, BolePix or
-            Pix.
-          example: 34191.09008 64060.401046 00000.000000 1 00000000000000
-          nullable: true
-        paymentPdfUrl:
-          type: string
-          description: >-
-            The pdf to make the payment, present if the repayment method is
-            Boleto, BolePix or Pix.
-          example: https://example.com/boleto.pdf
-          nullable: true
-        paidAmountCents:
-          type: number
-          description: Paid amount in cents, only present if the repayment is settled.
-          example: 10000
-          nullable: true
-        repaymentParentId:
-          type: string
-          description: >-
-            Parent repayment id, present if this repayment is created as a
-            result of a refund/renegotiation. The parent repayment will be
-            canceled.
-          example: 520b728e-8456-4495-b680-9a59d7a452302
-          nullable: true
-        refundStatus:
-          type: string
-          description: The refund status of the order this repayment is associated with.
-          enum:
-            - NoRefund
-            - PartialRefund
-            - FullRefund
-          example: NoRefund
-        paymentMethod:
-          type: string
-          description: The payment method used to pay the repayment.
-          enum:
-            - Manual
-            - StarkbankPixInvoice
-            - StarkbankBoleto
-            - BtgBoleto
-            - BtgBolePix
-            - BtgEverestBoleto
-          example: BtgBolePix
-        repaymentCreationEvent:
-          type: string
-          description: The event that led to the creation of the repayment.
-          enum:
-            - invoiceUploaded
-            - refund
-            - renegotiation
-          example: invoiceUploaded
-          nullable: true
-      required:
-        - eventType
-        - orderId
-        - invoiceId
-        - invoiceNumber
-        - repaymentId
-        - buyerTaxId
-        - dueDate
-        - totalAmountCents
-        - refundStatus
-        - paymentMethod
-    CreditLimitUnderwriteFinishedEventWebhookBody:
+          description: ID da organização.
+    SearchResponseDto:
       type: object
       properties:
-        eventType:
-          type: string
-          description: Event type.
-          enum:
-            - credit-limit.underwrite.finished
-            - credit-limit.increase.finished
-            - credit-limit.admin.underwrite.finished
-          example: credit-limit.underwrite.finished
-        id:
-          type: string
-          description: The ID of the credit limit underwrite request.
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
-        sellerTaxId:
-          type: string
-          description: The tax ID of the seller.
-          example: '12345678000196'
-        status:
-          type: string
-          description: The status of the credit limit underwrite request.
-          enum:
-            - Pending
-            - Failed
-            - Rejected
-            - Finished
-          example: Finished
-        reason:
-          type: string
-          description: The reason for the 'Failed' or 'Rejected' states.
-          example: Insufficient credit history
-          nullable: true
-        retryAfter:
-          format: date-time
-          type: string
-          description: >-
-            A datetime from which it is allowed to retry. Can be null if retry
-            is not allowed
-          example: '2024-03-20T10:00:00Z'
-          nullable: true
-        buyerTaxId:
-          type: string
-          description: The tax ID of the buyer.
-          example: '12345678000196'
-        creditLimitCents:
-          type: number
-          description: The current credit limit in cents.
-          example: 1000000
-        eligible:
-          type: boolean
-          description: Whether the buyer is eligible for credit.
-          example: true
+        hits:
+          description: Lista de resultados da busca.
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResultDto'
       required:
-        - eventType
-        - id
-        - sellerTaxId
-        - status
-        - buyerTaxId
-        - creditLimitCents
-        - eligible
-    CreditLimitIncreaseFinishedWebhookBody:
+        - hits
+    SellerDisbursementsResponseDto:
       type: object
-      properties:
-        eventType:
-          type: string
-          description: Event type.
-          enum:
-            - credit-limit.underwrite.finished
-            - credit-limit.increase.finished
-            - credit-limit.admin.underwrite.finished
-          example: credit-limit.increase.finished
-        id:
-          type: string
-          description: The ID of the credit limit increase request.
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
-        status:
-          type: string
-          description: The status of the credit limit increase request.
-          enum:
-            - Created
-            - Pending
-            - Approved
-            - Partially Approved
-            - Rejected
-            - Failed
-          example: Approved
-        reason:
-          type: string
-          description: The reason for credit limit increase request states.
-          example: Insufficient credit history
-          nullable: true
-        buyerTaxId:
-          type: string
-          description: The tax ID of the buyer.
-          example: '12345678000196'
-        sellerTaxId:
-          type: string
-          description: The tax ID of the seller.
-          example: '12345678000196'
-        creditLimitRequestedCents:
-          type: number
-          description: The requested credit limit in cents.
-          example: 2000000
-        creditLimitApprovedCents:
-          type: number
-          description: >-
-            The approved credit limit in cents. Can be null if the credit limit
-            increase was not approved.
-          example: 1500000
-          nullable: true
-      required:
-        - eventType
-        - id
-        - status
-        - buyerTaxId
-        - sellerTaxId
-        - creditLimitRequestedCents
-        - creditLimitApprovedCents
-    UnderwritingDetailsDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of the underwriting flow
-          example: completed
-        details:
-          type: string
-          description: Details of the underwriting flow
-          example: Underwriting completed successfully
-          nullable: true
-        decisionUrl:
-          type: string
-          description: URL of the Taktile run of the underwriting flow
-          example: https://taktile.io/runs/123
-          nullable: true
-      required:
-        - status
-    OnboardingDetailsDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of the onboarding flow
-          example: completed
-        decisionUrl:
-          type: string
-          description: URL of the Taktile run of the onboarding flow
-          example: https://taktile.io/runs/456
-          nullable: true
-      required:
-        - status
-    SellerStatusDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: >-
-            The status that is actually being displayed to the seller via the
-            non-admin endpoint
-          example: approved
-        reason:
-          type: string
-          description: The reason for the failure or buyer rejection, if applicable
-          example: Buyer rejected the offer
-          nullable: true
-        retryAfter:
-          format: date-time
-          type: string
-          description: >-
-            A datetime from which the seller is allowed to retry. Can be null if
-            retry is not allowed
-          example: '2024-03-20T10:00:00Z'
-          nullable: true
-      required:
-        - status
-    CreditLimitAdminUnderwriteFinishedWebhookBody:
-      type: object
-      properties:
-        eventType:
-          type: string
-          description: Event type.
-          enum:
-            - credit-limit.underwrite.finished
-            - credit-limit.increase.finished
-            - credit-limit.admin.underwrite.finished
-          example: credit-limit.admin.underwrite.finished
-        id:
-          type: string
-          description: >-
-            The same ID the sellers get from the POST endpoint - important to
-            enable reconciliation on their end
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
-        taxId:
-          type: string
-          description: The tax ID of the buyer
-          example: '12345678000196'
-        sellerTaxId:
-          type: string
-          description: The tax ID of the seller
-          example: '12345678000196'
-        eligibility:
-          type: boolean
-          description: Whether the buyer is eligible for credit
-          example: true
-        creditRating:
-          type: string
-          description: The credit rating of the buyer
-          example: A+
-          nullable: true
-        creditLimitCents:
-          type: number
-          description: The credit limit in cents
-          example: 1000000
-          nullable: true
-        ineligibilityReason:
-          type: string
-          description: The reason for ineligibility if applicable
-          example: Insufficient credit history
-          nullable: true
-        errorReason:
-          type: string
-          description: The error reason if applicable
-          example: Failed to fetch credit report
-          nullable: true
-        paymentTerms:
-          type: number
-          description: The payment terms in days
-          example: 30
-          nullable: true
-        segmentId:
-          type: string
-          description: The segment ID
-          example: segment-123
-          nullable: true
-        createdAt:
-          format: date-time
-          type: string
-          description: The creation date of the underwrite request
-          example: '2024-03-20T10:00:00Z'
-        underwriting:
-          description: Underwriting flow details
-          allOf:
-            - $ref: '#/components/schemas/UnderwritingDetailsDto'
-        onboarding:
-          description: Onboarding flow details
-          allOf:
-            - $ref: '#/components/schemas/OnboardingDetailsDto'
-        seller:
-          description: Seller status details
-          allOf:
-            - $ref: '#/components/schemas/SellerStatusDto'
-      required:
-        - eventType
-        - id
-        - taxId
-        - sellerTaxId
-        - eligibility
-        - createdAt
-        - underwriting
-        - onboarding
-        - seller
-    WebhooksResendRequestDto:
-      type: object
-      properties:
-        since:
-          format: date-time
-          type: string
-          description: Date-time from which the webhooks need to be resend
-        until:
-          format: date-time
-          type: string
-          description: Date-time till which the webhooks need to be resend
-      required:
-        - since
-        - until
+      properties: {}
+security:
+  - api_key: []

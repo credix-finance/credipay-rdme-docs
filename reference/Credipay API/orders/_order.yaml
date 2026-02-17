@@ -8,3 +8,10 @@
 - post-order-refund-1
 - post-order-extend-payment-terms-1
 - post-finalize-order-and-process-invoice-1
+- orderscontroller_getorderbyid
+- orderscontroller_searchorders
+- orderscontroller_postorder
+- orderscontroller_postinvoicexml
+- orderscontroller_captureorder
+- orderscontroller_refundorder
+- orderscontroller_cancelorder
