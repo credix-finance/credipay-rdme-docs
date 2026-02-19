@@ -1225,8 +1225,133 @@ components:
             $ref: '#/components/schemas/SearchResultDto'
       required:
         - hits
+    SellerDisbursementBankAccountResponseDto:
+      type: object
+      properties:
+        accountDigit:
+          type: string
+          example: '0'
+        accountNumber:
+          type: string
+          example: '12345'
+        bankIdentificationCode:
+          type: string
+          example: '001'
+        branchNumber:
+          type: string
+          example: '1234'
+        branchDigit:
+          type: string
+          example: '9'
+      required:
+        - accountDigit
+        - accountNumber
+        - bankIdentificationCode
+        - branchNumber
+        - branchDigit
+    SellerDisbursementPayerResponseDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Empresa Pagadora LTDA
+        taxId:
+          type: string
+          example: '12345678000199'
+        bankAccount:
+          $ref: '#/components/schemas/SellerDisbursementBankAccountResponseDto'
+      required:
+        - name
+        - taxId
+        - bankAccount
+    SellerDisbursementSellerResponseDto:
+      type: object
+      properties:
+        bankAccount:
+          $ref: '#/components/schemas/SellerDisbursementBankAccountResponseDto'
+      required:
+        - bankAccount
+    SellerDisbursementTransactionResponseDto:
+      type: object
+      properties:
+        type:
+          type: string
+          example: DUPLICATA
+        amountCents:
+          type: number
+          example: 15990
+        maturityDate:
+          type: string
+          format: date-time
+          example: '2025-01-31T00:00:00.000Z'
+        duplicata:
+          type: string
+          example: DUP-0001
+        invoiceNumber:
+          type: string
+          example: NF-123
+        invoiceKey:
+          type: string
+          example: NFE-KEY-123
+        orderExternalId:
+          type: string
+          example: ORDER-123
+      required:
+        - type
+        - amountCents
+        - maturityDate
+        - duplicata
+        - invoiceNumber
+        - invoiceKey
+        - orderExternalId
+    SellerDisbursementDataResponseDto:
+      type: object
+      properties:
+        referenceCode:
+          type: string
+          example: DESEMBOLSO-CONTRATO-123
+        disbursedAt:
+          type: string
+          format: date-time
+          example: '2025-01-31T00:00:00.000Z'
+        totalAmountCents:
+          type: number
+          example: 25990
+        payer:
+          $ref: '#/components/schemas/SellerDisbursementPayerResponseDto'
+        seller:
+          $ref: '#/components/schemas/SellerDisbursementSellerResponseDto'
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SellerDisbursementTransactionResponseDto'
+      required:
+        - referenceCode
+        - disbursedAt
+        - totalAmountCents
+        - payer
+        - seller
+        - transactions
     SellerDisbursementsResponseDto:
       type: object
-      properties: {}
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SellerDisbursementDataResponseDto'
+        page:
+          type: number
+          example: 1
+        items:
+          type: number
+          example: 10
+        total:
+          type: number
+          example: 100
+      required:
+        - data
+        - page
+        - items
+        - total
 security:
   - api_key: []
