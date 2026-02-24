@@ -1650,6 +1650,24 @@
         "title": "BelvoWebhookPayloadDTO",
         "description": "Belvo webhook payload."
       },
+      "Body_validate_nfe_signatures_risk_engine_nfe_validate_signature_post": {
+        "properties": {
+          "files": {
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "type": "array",
+            "title": "Files",
+            "description": "One or more NFe XML files to validate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "files"
+        ],
+        "title": "Body_validate_nfe_signatures_risk_engine_nfe_validate_signature_post"
+      },
       "BrowserCheck": {
         "properties": {
           "name": {
@@ -1853,6 +1871,99 @@
         ],
         "title": "BuyerPlatformTokenResponseDTO",
         "description": "Response DTO with a signed buyer platform token."
+      },
+      "CertificateInfoDTO": {
+        "properties": {
+          "subject": {
+            "type": "string",
+            "title": "Subject",
+            "description": "The subject of the certificate (RFC 4514 format)"
+          },
+          "issuer": {
+            "type": "string",
+            "title": "Issuer",
+            "description": "The issuer of the certificate (RFC 4514 format)"
+          },
+          "common_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Common Name",
+            "description": "The Common Name (CN) extracted from the subject"
+          },
+          "serial_number": {
+            "type": "string",
+            "title": "Serial Number",
+            "description": "The hex serial number of the certificate"
+          },
+          "valid_from": {
+            "type": "string",
+            "title": "Valid From",
+            "description": "Certificate start validity time in UTC"
+          },
+          "valid_until": {
+            "type": "string",
+            "title": "Valid Until",
+            "description": "Certificate end validity time in UTC"
+          },
+          "is_expired": {
+            "type": "boolean",
+            "title": "Is Expired",
+            "description": "Whether the certificate is currently expired"
+          },
+          "is_not_yet_valid": {
+            "type": "boolean",
+            "title": "Is Not Yet Valid",
+            "description": "Whether the certificate is not yet valid"
+          },
+          "was_valid_at_emission": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Was Valid At Emission",
+            "description": "Whether the cert was valid at the NFe emission time, if provided"
+          },
+          "signature_algorithm": {
+            "type": "string",
+            "title": "Signature Algorithm",
+            "description": "The certificate signature algorithm"
+          },
+          "key_size": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Key Size",
+            "description": "The size of the public key in bits"
+          }
+        },
+        "type": "object",
+        "required": [
+          "subject",
+          "issuer",
+          "serial_number",
+          "valid_from",
+          "valid_until",
+          "is_expired",
+          "is_not_yet_valid",
+          "signature_algorithm",
+          "key_size"
+        ],
+        "title": "CertificateInfoDTO"
       },
       "CloseInvestigationRequestDTO": {
         "properties": {
@@ -3865,6 +3976,206 @@
         ],
         "title": "InvestigationResponseDTO",
         "description": "DTO for fraud investigation response."
+      },
+      "NFeInfoDTO": {
+        "properties": {
+          "access_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Key",
+            "description": "The NFe 44-digit access key"
+          },
+          "invoice_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invoice Number",
+            "description": "The NFe number"
+          },
+          "issuer_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Issuer Name",
+            "description": "The issuer company name"
+          },
+          "issuer_cnpj": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Issuer Cnpj",
+            "description": "The issuer CNPJ formatted"
+          },
+          "emission_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Emission Date",
+            "description": "The emission date as stated in dhEmi"
+          },
+          "total_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Value",
+            "description": "The formatted total value of the invoice"
+          },
+          "sefaz_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sefaz Status",
+            "description": "The internal SEFAZ status if authorized"
+          },
+          "protocol": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protocol",
+            "description": "The NFe authorization protocol number"
+          }
+        },
+        "type": "object",
+        "title": "NFeInfoDTO"
+      },
+      "NFeValidationResponseDTO": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/NFeValidationResultDTO"
+            },
+            "type": "array",
+            "title": "Results",
+            "description": "The list of results for each provided XML"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Total number of files processed"
+          },
+          "valid_count": {
+            "type": "integer",
+            "title": "Valid Count",
+            "description": "Number of files that passed validation"
+          },
+          "invalid_count": {
+            "type": "integer",
+            "title": "Invalid Count",
+            "description": "Number of files that failed validation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "results",
+          "total",
+          "valid_count",
+          "invalid_count"
+        ],
+        "title": "NFeValidationResponseDTO"
+      },
+      "NFeValidationResultDTO": {
+        "properties": {
+          "filename": {
+            "type": "string",
+            "title": "Filename",
+            "description": "Original uploaded filename"
+          },
+          "is_valid": {
+            "type": "boolean",
+            "title": "Is Valid",
+            "description": "Whether the signature check comprehensively passed"
+          },
+          "certificate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CertificateInfoDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Parsed certificate information if found"
+          },
+          "nfe_info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NFeInfoDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Parsed NF-e key information if found"
+          },
+          "digest_matches_sefaz_protocol": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Digest Matches Sefaz Protocol",
+            "description": "Whether the signature digest matches the embedded SEFAZ protocol digest"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Errors",
+            "description": "List of validation error messages encountered"
+          }
+        },
+        "type": "object",
+        "required": [
+          "filename",
+          "is_valid",
+          "errors"
+        ],
+        "title": "NFeValidationResultDTO"
       },
       "NotificationEnum": {
         "type": "string",
