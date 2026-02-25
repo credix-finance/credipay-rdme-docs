@@ -4373,6 +4373,44 @@
         "title": "OpenFinanceConnectionTokenDTO",
         "description": "Access and refresh tokens for the Open Finance connection."
       },
+      "OpenFinanceLinkRequestDTO": {
+        "properties": {
+          "linkId": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Linkid",
+            "description": "Open Finance link identifier"
+          },
+          "institutionName": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Institutionname",
+            "description": "Institution display name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "linkId",
+          "institutionName"
+        ],
+        "title": "OpenFinanceLinkRequestDTO",
+        "description": "Request body for buyer platform Open Finance link endpoint."
+      },
+      "OpenFinanceLinkResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Link registration status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "OpenFinanceLinkResponseDTO",
+        "description": "Response body for buyer platform Open Finance link endpoint."
+      },
       "OrderCheck": {
         "properties": {
           "id": {
