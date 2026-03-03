@@ -4267,6 +4267,104 @@
         "title": "OpenFinanceCompanyInputDTO",
         "description": "Company data for Open Finance link/connection."
       },
+      "OpenFinanceConnectLinkDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id",
+            "description": "Internal link identifier"
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Status",
+            "description": "Current internal link status"
+          },
+          "institution": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Institution",
+            "description": "Institution slug"
+          },
+          "ownerTaxId": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Ownertaxid",
+            "description": "Owner tax id (CNPJ)"
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Createdat",
+            "description": "Link creation datetime"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiresat",
+            "description": "Link expiration datetime"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "institution",
+          "ownerTaxId"
+        ],
+        "title": "OpenFinanceConnectLinkDTO",
+        "description": "Link context returned when connect flow is initialized."
+      },
+      "OpenFinanceConnectResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Status",
+            "description": "Connect flow status"
+          },
+          "belvoToken": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Belvotoken",
+            "description": "Belvo access token in plain text"
+          },
+          "linkToken": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Linktoken",
+            "description": "Signed token for link callback context"
+          },
+          "link": {
+            "$ref": "#/components/schemas/OpenFinanceConnectLinkDTO",
+            "description": "Internal link context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "belvoToken",
+          "linkToken",
+          "link"
+        ],
+        "title": "OpenFinanceConnectResponseDTO",
+        "description": "Response body for buyer platform Open Finance connect endpoint."
+      },
       "OpenFinanceConnectionLinkDTO": {
         "properties": {
           "id": {
