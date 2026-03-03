@@ -1532,6 +1532,16 @@
         "title": "BatchEnforcementSkippedItemDTO",
         "description": "DTO for a single skipped item in a batch enforcement create (e.g. already exists)."
       },
+      "BelvoCallbackEventType": {
+        "type": "string",
+        "enum": [
+          "success",
+          "exit",
+          "error",
+          "warning"
+        ],
+        "title": "BelvoCallbackEventType"
+      },
       "BelvoWebhookDataDTO": {
         "properties": {
           "errors": {
@@ -4378,8 +4388,15 @@
             "description": "Link status"
           },
           "expiresAt": {
-            "type": "string",
-            "format": "date-time",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Expiresat",
             "description": "Link expiration (ISO 8601)"
           }
@@ -4387,8 +4404,7 @@
         "type": "object",
         "required": [
           "id",
-          "status",
-          "expiresAt"
+          "status"
         ],
         "title": "OpenFinanceConnectionLinkDTO",
         "description": "Link metadata when a connection/link exists."
