@@ -789,6 +789,7 @@ components:
             - PartiallyRefunded
             - FullyRefunded
             - WaitingForOtp
+            - PartiallyCaptured
         invoice:
           description: Nota fiscal do pedido.
           allOf:
@@ -918,6 +919,7 @@ components:
             - PartiallyRefunded
             - FullyRefunded
             - WaitingForOtp
+            - PartiallyCaptured
         id:
           type: string
           description: ID do pedido.
