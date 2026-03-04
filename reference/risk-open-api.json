@@ -4487,6 +4487,84 @@
         "title": "OpenFinanceConnectionTokenDTO",
         "description": "Access and refresh tokens for the Open Finance connection."
       },
+      "OpenFinanceLinkPollingResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Status",
+            "description": "Polling status"
+          },
+          "linkId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linkid",
+            "description": "Belvo link identifier"
+          },
+          "institution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Institution",
+            "description": "Institution slug"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiresat",
+            "description": "Link expiration datetime"
+          },
+          "errorReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errorreason",
+            "description": "Error reason if status is error-like"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Safe metadata subset for frontend usage"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "OpenFinanceLinkPollingResponseDTO",
+        "description": "Response body for buyer platform Open Finance polling endpoint."
+      },
       "OpenFinanceLinkRequestDTO": {
         "properties": {
           "linkId": {
