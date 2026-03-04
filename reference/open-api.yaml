@@ -2157,6 +2157,13 @@ components:
             Pix.
           example: 34191.09008 64060.401046 00000.000000 1 00000000000000
           nullable: true
+        pixEmv:
+          type: string
+          description: PIX EMV code, present if the repayment method is Pix or BolePix.
+          example: >-
+            00020101021126580014BR.GOV.BCB.PIX0136b69bc1f6-3f24-4d4b-8e15-12d29bf257cb5204000053039865802BR5920CREDIPAY
+            TESTE LTDA6009SAO PAULO62070503***6304A1B2
+          nullable: true
         paymentPdfUrl:
           type: string
           description: >-
