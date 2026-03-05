@@ -317,7 +317,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-03-04'
+            default: '2026-03-05'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -791,6 +791,7 @@ components:
             - PartiallyRefunded
             - FullyRefunded
             - WaitingForOtp
+            - PartiallyCaptured
         invoice:
           description: Nota fiscal do pedido.
           allOf:
@@ -920,6 +921,7 @@ components:
             - PartiallyRefunded
             - FullyRefunded
             - WaitingForOtp
+            - PartiallyCaptured
         id:
           type: string
           description: ID do pedido.
