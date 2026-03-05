@@ -1064,6 +1064,7 @@ components:
             - partially_refunded
             - fully_refunded
             - waiting_for_otp
+            - partially_captured
           example: finalized
         estimatedDeliveryDate:
           type: object
@@ -1193,6 +1194,7 @@ components:
             - partially_refunded
             - fully_refunded
             - waiting_for_otp
+            - partially_captured
           example: cancelled
         estimatedDeliveryDate:
           type: object
@@ -1735,6 +1737,7 @@ components:
             - partially_refunded
             - fully_refunded
             - waiting_for_otp
+            - partially_captured
           example: created
         contactInformation:
           description: Contact information.
