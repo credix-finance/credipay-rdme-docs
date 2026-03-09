@@ -4349,14 +4349,28 @@
             "description": "Connect flow status"
           },
           "belvoToken": {
-            "type": "string",
-            "minLength": 1,
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Belvotoken",
             "description": "Belvo access token in plain text"
           },
           "linkToken": {
-            "type": "string",
-            "minLength": 1,
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Linktoken",
             "description": "Signed token for link callback context"
           },
@@ -4368,8 +4382,6 @@
         "type": "object",
         "required": [
           "status",
-          "belvoToken",
-          "linkToken",
           "link"
         ],
         "title": "OpenFinanceConnectResponseDTO",
