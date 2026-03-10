@@ -4818,6 +4818,136 @@
         "title": "PresignDocumentsResponseDTO",
         "description": "Response DTO for presigning document uploads."
       },
+      "SanctionsBatchCheckRequestDTO": {
+        "properties": {
+          "buyers_batch": {
+            "items": {
+              "$ref": "#/components/schemas/SanctionsBuyerInputDTO"
+            },
+            "type": "array",
+            "title": "Buyers Batch"
+          }
+        },
+        "type": "object",
+        "required": [
+          "buyers_batch"
+        ],
+        "title": "SanctionsBatchCheckRequestDTO"
+      },
+      "SanctionsBatchCheckResponseDTO": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/SanctionsBuyerResultDTO"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "results"
+        ],
+        "title": "SanctionsBatchCheckResponseDTO"
+      },
+      "SanctionsBuyerInputDTO": {
+        "properties": {
+          "root_tax_id": {
+            "type": "string",
+            "title": "Root Tax Id"
+          },
+          "filial_tax_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Filial Tax Ids"
+          },
+          "owner_tax_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Owner Tax Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "root_tax_id"
+        ],
+        "title": "SanctionsBuyerInputDTO"
+      },
+      "SanctionsBuyerResultDTO": {
+        "properties": {
+          "root_tax_id": {
+            "type": "string",
+            "title": "Root Tax Id"
+          },
+          "is_present_on_lists": {
+            "type": "boolean",
+            "title": "Is Present On Lists"
+          },
+          "data_points": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SanctionsDataPointDTO"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Points"
+          }
+        },
+        "type": "object",
+        "required": [
+          "root_tax_id",
+          "is_present_on_lists"
+        ],
+        "title": "SanctionsBuyerResultDTO"
+      },
+      "SanctionsDataPointDTO": {
+        "properties": {
+          "data_type": {
+            "type": "string",
+            "title": "Data Type"
+          },
+          "data_contents": {
+            "items": {
+              "$ref": "#/components/schemas/SanctionsMatchItemDTO"
+            },
+            "type": "array",
+            "title": "Data Contents"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data_type",
+          "data_contents"
+        ],
+        "title": "SanctionsDataPointDTO"
+      },
+      "SanctionsMatchItemDTO": {
+        "properties": {
+          "relationship": {
+            "type": "string",
+            "title": "Relationship"
+          },
+          "tax_id": {
+            "type": "string",
+            "title": "Tax Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "relationship",
+          "tax_id"
+        ],
+        "title": "SanctionsMatchItemDTO"
+      },
       "ScheduleProvisionalBuyersOnboardingRequestDTO": {
         "properties": {
           "buyer_tax_id": {
