@@ -800,6 +800,12 @@ components:
           description: Nota fiscal do pedido.
           allOf:
             - $ref: '#/components/schemas/InvoiceResponseDto'
+        invoices:
+          description: Notas fiscais do pedido.
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceResponseDto'
         buyer:
           description: Comprador do pedido.
           allOf:
@@ -840,6 +846,7 @@ components:
         - externalId
         - status
         - invoice
+        - invoices
         - buyer
         - seller
         - repayments
@@ -969,6 +976,12 @@ components:
           nullable: true
           allOf:
             - $ref: '#/components/schemas/InvoiceResponseDto'
+        invoices:
+          description: Notas fiscais do pedido.
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceResponseDto'
         buyer:
           description: Informações do comprador do pedido.
           allOf:
@@ -985,6 +998,7 @@ components:
         - updatedAt
         - totalAmountCents
         - invoice
+        - invoices
         - buyer
         - seller
     SearchOrdersResponseDto:
