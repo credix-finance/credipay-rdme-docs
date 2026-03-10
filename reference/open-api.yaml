@@ -149,6 +149,12 @@ paths:
         disparado para realizar validações e capturar o pedido.
       operationId: OrdersController_captureOrder
       parameters:
+        - name: isPartialCapture
+          required: false
+          in: query
+          description: Indica se esta captura deve ser tratada como captura parcial.
+          schema:
+            type: boolean
         - name: id
           required: true
           in: path
@@ -794,6 +800,12 @@ components:
           description: Nota fiscal do pedido.
           allOf:
             - $ref: '#/components/schemas/InvoiceResponseDto'
+        invoices:
+          description: Notas fiscais do pedido.
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceResponseDto'
         buyer:
           description: Comprador do pedido.
           allOf:
@@ -834,6 +846,7 @@ components:
         - externalId
         - status
         - invoice
+        - invoices
         - buyer
         - seller
         - repayments
@@ -963,6 +976,12 @@ components:
           nullable: true
           allOf:
             - $ref: '#/components/schemas/InvoiceResponseDto'
+        invoices:
+          description: Notas fiscais do pedido.
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceResponseDto'
         buyer:
           description: Informações do comprador do pedido.
           allOf:
@@ -979,6 +998,7 @@ components:
         - updatedAt
         - totalAmountCents
         - invoice
+        - invoices
         - buyer
         - seller
     SearchOrdersResponseDto:
