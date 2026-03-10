@@ -149,6 +149,12 @@ paths:
         disparado para realizar validações e capturar o pedido.
       operationId: OrdersController_captureOrder
       parameters:
+        - name: isPartialCapture
+          required: false
+          in: query
+          description: Indica se esta captura deve ser tratada como captura parcial.
+          schema:
+            type: boolean
         - name: id
           required: true
           in: path
@@ -317,7 +323,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-03-09'
+            default: '2026-03-10'
             example: '2025-01-01'
             type: string
         - name: includePending
