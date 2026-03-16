@@ -4436,6 +4436,18 @@
             "minLength": 1,
             "title": "Institution",
             "description": "Institution slug (e.g. pj_nubank)"
+          },
+          "confirmedEmail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confirmedemail",
+            "description": "User confirmed email"
           }
         },
         "type": "object",
