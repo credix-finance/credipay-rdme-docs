@@ -1196,6 +1196,12 @@ components:
           type: number
           description: O valor desejado do reembolso em centavos.
           minimum: 1
+        invoiceNumber:
+          type: string
+          description: >-
+            Número da invoice alvo do reembolso. Obrigatório quando o pedido
+            tiver múltiplas invoices.
+          example: NFe52260201008713004909550450025301111856486341
       required:
         - refundAmountCents
     RefundOrderResponseDto:
