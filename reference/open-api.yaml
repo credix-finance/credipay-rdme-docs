@@ -323,7 +323,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-03-17'
+            default: '2026-03-18'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -1196,6 +1196,12 @@ components:
           type: number
           description: O valor desejado do reembolso em centavos.
           minimum: 1
+        invoiceNumber:
+          type: string
+          description: >-
+            Número da invoice alvo do reembolso. Obrigatório quando o pedido
+            tiver múltiplas invoices.
+          example: NFe52260201008713004909550450025301111856486341
       required:
         - refundAmountCents
     RefundOrderResponseDto:
