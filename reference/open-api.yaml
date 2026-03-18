@@ -214,9 +214,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/RefundOrderResponseDto'
         '400':
-          description: >-
-            Não foi possível mover o pedido para o estado de validação devido a
-            um erro.
+          description: Solicitação inválida de reembolso.
+          content:
+            application/json:
+              schema:
+                example:
+                  code: INVOICE_NUMBER_NOT_PROVIDED_ERROR
+                  message: >-
+                    Invoice number is required when the order has multiple
+                    invoices.
+                  httpStatus: 400
       summary: Reembolsar pedido
       tags:
         - Orders
