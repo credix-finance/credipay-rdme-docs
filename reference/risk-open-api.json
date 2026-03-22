@@ -1975,17 +1975,6 @@
         ],
         "title": "CertificateInfoDTO"
       },
-      "ClassificationRequestEnum": {
-        "type": "string",
-        "enum": [
-          "TrustedBuyer",
-          "Suspect",
-          "FraudConfirmed",
-          "Neutral"
-        ],
-        "title": "ClassificationRequestEnum",
-        "description": "API request classification. Includes Neutral for 'clear all enforcements'."
-      },
       "ClassifyEntityRequestDTO": {
         "properties": {
           "on_level": {
@@ -1997,7 +1986,14 @@
             "title": "Entity Id"
           },
           "classification": {
-            "$ref": "#/components/schemas/ClassificationRequestEnum"
+            "type": "string",
+            "enum": [
+              "TrustedBuyer",
+              "Suspect",
+              "FraudConfirmed",
+              "Neutral"
+            ],
+            "title": "Classification"
           },
           "flagTypes": {
             "items": {
@@ -3564,6 +3560,17 @@
         ],
         "title": "FraudAnalysisDecisionsEnum"
       },
+      "FraudClassification": {
+        "type": "string",
+        "enum": [
+          "TrustedBuyer",
+          "Suspect",
+          "FraudConfirmed",
+          "Neutral"
+        ],
+        "title": "FraudClassification",
+        "description": "Readable classification states exposed through domain state."
+      },
       "GetEnforcementRequestDTO": {
         "properties": {
           "domain": {
@@ -5122,7 +5129,7 @@
             "title": "Entity Id"
           },
           "classification": {
-            "$ref": "#/components/schemas/ClassificationRequestEnum"
+            "$ref": "#/components/schemas/FraudClassification"
           },
           "dismissed_enforcement_types": {
             "items": {
