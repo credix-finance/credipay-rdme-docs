@@ -5,3 +5,4 @@
 - orderscontroller_captureorder
 - orderscontroller_refundorder
 - orderscontroller_cancelorder
+- orderscontroller_completecapture
