@@ -185,6 +185,30 @@ paths:
       summary: Capturar pedido
       tags:
         - Orders
+  /v2/orders/{id}/capture/complete:
+    post:
+      description: Conclui a captura de um pedido parcialmente capturado.
+      operationId: OrdersController_completeCapture
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID interno de pedido da CrediPay. Formato UUID v4.
+          schema:
+            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+            type: string
+      responses:
+        '204':
+          description: Operação bem-sucedida, captura concluída.
+        '400':
+          description: O pedido não está no status parcialmente capturado.
+        '404':
+          description: Pedido não foi encontrado.
+        '500':
+          description: ''
+      summary: Concluir captura parcial
+      tags:
+        - Orders
   /v2/orders/{id}/refund:
     post:
       description: >-
