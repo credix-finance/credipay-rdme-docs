@@ -2411,6 +2411,25 @@
         "title": "CreateInvestigationRequestDTO",
         "description": "DTO for creating a new fraud investigation."
       },
+      "CreateNewRTUForFailedRequestsDTO": {
+        "properties": {
+          "creditUnderwritingIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Credit Underwriting IDs",
+            "description": "Explicit list of failed credit underwriting IDs to process in a deferred RTU run",
+            "examples": [
+              [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ]
+            ]
+          }
+        },
+        "type": "object",
+        "title": "CreateNewRTUForFailedRequestsDTO"
+      },
       "CreditLimitIncreaseRequestDTO": {
         "properties": {
           "buyerTaxId": {
