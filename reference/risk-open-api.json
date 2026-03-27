@@ -830,6 +830,25 @@
               500000
             ],
             "optional": true
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional metadata associated with this credit underwriting request",
+            "examples": [
+              {
+                "request_id": "abc-123",
+                "source": "admin-panel"
+              }
+            ]
           }
         },
         "type": "object",
@@ -1033,6 +1052,25 @@
                 "analysis_date": "2024-03-20",
                 "risk_level": "low",
                 "score": 85
+              }
+            ]
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional metadata associated with this credit underwriting request",
+            "examples": [
+              {
+                "request_id": "abc-123",
+                "source": "admin-panel"
               }
             ]
           },
@@ -1986,7 +2024,14 @@
             "title": "Entity Id"
           },
           "classification": {
-            "$ref": "#/components/schemas/FraudClassification"
+            "type": "string",
+            "enum": [
+              "TrustedBuyer",
+              "Suspect",
+              "FraudConfirmed",
+              "Neutral"
+            ],
+            "title": "Classification"
           },
           "flagTypes": {
             "items": {
@@ -2404,6 +2449,25 @@
         "title": "CreateInvestigationRequestDTO",
         "description": "DTO for creating a new fraud investigation."
       },
+      "CreateNewRTUForFailedRequestsDTO": {
+        "properties": {
+          "creditUnderwritingIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Credit Underwriting IDs",
+            "description": "Explicit list of failed credit underwriting IDs to process in a deferred RTU run",
+            "examples": [
+              [
+                "123e4567-e89b-12d3-a456-426614174000"
+              ]
+            ]
+          }
+        },
+        "type": "object",
+        "title": "CreateNewRTUForFailedRequestsDTO"
+      },
       "CreditLimitIncreaseRequestDTO": {
         "properties": {
           "buyerTaxId": {
@@ -2450,6 +2514,25 @@
             "examples": [
               {
                 "extra_documents": "https://link-to-extra-documents.com"
+              }
+            ]
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional metadata associated with this credit limit increase request",
+            "examples": [
+              {
+                "request_id": "abc-123",
+                "source": "slack"
               }
             ]
           }
@@ -2561,6 +2644,25 @@
                 "extra_documents": "https://link-to-extra-documents.com"
               }
             ]
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional metadata associated with this credit limit increase request",
+            "examples": [
+              {
+                "request_id": "abc-123",
+                "source": "slack"
+              }
+            ]
           }
         },
         "type": "object",
@@ -2623,6 +2725,25 @@
               500000
             ],
             "optional": true
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional metadata associated with this credit underwriting request",
+            "examples": [
+              {
+                "request_id": "abc-123",
+                "source": "seller-portal"
+              }
+            ]
           }
         },
         "type": "object",
@@ -2661,6 +2782,25 @@
             "description": "Brazilian CNPJ (tax ID) of the seller",
             "examples": [
               "12345678000199"
+            ]
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional metadata associated with this credit underwriting request",
+            "examples": [
+              {
+                "request_id": "abc-123",
+                "source": "admin-panel"
+              }
             ]
           },
           "status": {
@@ -3119,6 +3259,19 @@
             "title": "Expiresat",
             "description": "Expiration time of the presigned URL (null if error or already exists)"
           },
+          "uploadedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uploadedat",
+            "description": "Timestamp proving this hash has already been uploaded (when status is AlreadyExists)"
+          },
           "errorMessage": {
             "anyOf": [
               {
@@ -3363,26 +3516,13 @@
         "properties": {
           "success": {
             "type": "boolean",
+            "const": true,
             "title": "Success",
-            "description": "Whether the upload was successful: true if completed, false if failed"
-          },
-          "errorMessage": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Errormessage",
-            "description": "Error message if success is false"
+            "description": "Finalize only supports successful business completion and must be true",
+            "default": true
           }
         },
         "type": "object",
-        "required": [
-          "success"
-        ],
         "title": "FinalizeDocumentRequestDTO",
         "description": "Request DTO for finalizing a document upload."
       },
@@ -3562,7 +3702,7 @@
           "Neutral"
         ],
         "title": "FraudClassification",
-        "description": "Readable classification states exposed through DTOs and domain state."
+        "description": "Readable classification states exposed through domain state."
       },
       "GetEnforcementRequestDTO": {
         "properties": {
@@ -5381,6 +5521,33 @@
           "status"
         ],
         "title": "UnderwritingFieldsDTO"
+      },
+      "UploadStatusDocumentRequestDTO": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Whether the technical file upload succeeded"
+          },
+          "errorMessage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errormessage",
+            "description": "Error message when success is false"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "UploadStatusDocumentRequestDTO",
+        "description": "Request DTO for reporting technical upload outcome."
       },
       "ValidationError": {
         "properties": {
