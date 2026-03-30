@@ -130,6 +130,12 @@ paths:
                 invoice:
                   type: string
                   format: binary
+                metadata:
+                  type: string
+                  description: >-
+                    Optional JSON string with order metadata. Max serialized
+                    size: 102400 characters.
+                  example: '{"seller_user_id":"123"}'
               required:
                 - invoice
       responses:
@@ -1175,7 +1181,9 @@ components:
           example: 44.876.674/0000-49
         metadata:
           type: object
-          description: Qualquer metadado que você queira anexar ao pedido.
+          description: >-
+            Qualquer metadado que você queira anexar ao pedido. Tamanho
+            serializado máximo: 102400 caracteres.
           additionalProperties: true
           example:
             yourCustomFieldName: yourCustomFieldValue
