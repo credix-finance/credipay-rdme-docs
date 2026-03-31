@@ -55,7 +55,15 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "APIKeyHeader": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ]
       }
     },
     "/v2/credit-limit/request/{creditUnderwritingId}": {
@@ -143,7 +151,15 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "APIKeyHeader": []
+          },
+          {
+            "HTTPBearer": []
+          }
+        ]
       }
     },
     "/v2/credit-limit/increase/{cliRequestId}": {
