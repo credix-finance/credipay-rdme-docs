@@ -2069,6 +2069,7 @@ components:
             - order.buyer.rejected
             - order.accepted
             - order.captured
+            - order.partially_captured
             - order.buyer.accepted
             - order.boletos.issued
           example: order.buyer.accepted
