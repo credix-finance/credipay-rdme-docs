@@ -45,6 +45,28 @@ Dentro do checkout, a integração da CrediPay automaticamente identifica compra
 
 <br />
 
+## Reavaliação da análise de crédito via Open Banking ou Documentos
+
+<HTMLBlock>{`
+<div style="position: relative; padding-bottom: 64.75%; height: 0; width: 100%;">
+  <iframe 
+    src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7419808637797404672?compact=1" 
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+    allowfullscreen="" 
+    title="Embedded post">
+  </iframe>
+</div>
+`}</HTMLBlock>
+
+Caso, na etapa anterior, a análise de crédito resulte em uma recusa, ou em uma aprovação parcial, ainda oferecemos mais uma oportunidade para o comprador conseguir obter o crédito necessário para fechar a sua compra. Neste cenário, oferecemos a ele a opção de solicitar uma re-avaliação da decisão inicial, nos enviando alguns dados adicionais, que podem ser:
+
+* Conexão Open Finance: O comprador compartilha conosco dados de sua conta bancária, como extrato, uso de cartão de crédito, etc.
+* Documentos: O comprador nos envia seu DRE, Balanço/Balancete, e NFs de venda
+
+Estes dados são analisados por agentes de IA, e caso seja aprovado, o comprador receberá uma comunicação de que agora está habilitado a transacionar.
+
+<br />
+
 ## Criação de pedidos
 
 Tendo limite de crédito, o comprador conseguirá abrir a tela de confirmação de pedido, onde verá um resumo de sua compra, e com um clique consegue finalizar a compra sem sair do ambiente VTEX. Ao fazer isso, o pedido é enviado à CrediPay, e o valor da compra é subtraído limite de crédito disponível do cliente.
@@ -67,25 +89,6 @@ No nosso checkout, o comprador começa o processo escolhendo o número de parcel
 
 * O servidor da CrediPay recebe dados diretamente do servidor da VTEX, impossibilitando ataques via manipulação do cliente
 * Serão aceitos pedidos com endereço de entrega apenas para o endereço do cartão CNPJ
-
-<br />
-
-<br />
-
-## Reavaliação da análise de crédito via Open Banking ou Documentos
-
-<HTMLBlock>{`
-<div style="position: relative; padding-bottom: 64.75%; height: 0; width: 100%;">
-  <iframe 
-    src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7419808637797404672?compact=1" 
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
-    allowfullscreen="" 
-    title="Embedded post">
-  </iframe>
-</div>
-`}</HTMLBlock>
-
-<br />
 
 <br />
 
