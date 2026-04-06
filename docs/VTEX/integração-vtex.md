@@ -75,7 +75,7 @@ No nosso checkout, o comprador começa o processo escolhendo o número de parcel
 ## Reavaliação da análise de crédito via Open Banking ou Documentos
 
 <HTMLBlock>{`
-<div style="position: relative; padding-bottom: 64.74820143884892%; height: 0;"><iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7419808637797404672?compact=1" height="399" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe></div>
+<div style="position: relative; padding-bottom: 64.74820143884892%; height: 0;"><iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7419808637797404672?compact=1" width: 100%; height: 100%; frameborder="0" allowfullscreen="" title="Embedded post"></iframe></div>
 `}</HTMLBlock>
 
 <br />
