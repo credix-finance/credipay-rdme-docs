@@ -68,6 +68,20 @@ No nosso checkout, o comprador começa o processo escolhendo o número de parcel
 * O servidor da CrediPay recebe dados diretamente do servidor da VTEX, impossibilitando ataques via manipulação do cliente
 * Serão aceitos pedidos com endereço de entrega apenas para o endereço do cartão CNPJ
 
+<br />
+
+<br />
+
+## Reavaliação da análise de crédito via Open Banking ou Documentos
+
+<HTMLBlock>{`
+<div style="position: relative; padding-bottom: 64.74820143884892%; height: 0;"><iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7419808637797404672?compact=1" height="399" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe></div>
+`}</HTMLBlock>
+
+<br />
+
+<br />
+
 ## Faturamento
 
 <HTMLBlock>{`
@@ -107,25 +121,25 @@ Em conjunto com a integração VTEX-CrediPay, entregamos também um dashboard po
 
 Nesta aba, é possível visualizar, na maior granularidade possível, tudo o que está sendo pago e cobrado na relação entre CrediPay e vendedor.
 
-<Image align="center" border={false} src="https://files.readme.io/b702a8482bdb5286157d2a277824e81529c0d124c5ba3d2ac107ff36993b32d7-reconc.png" />
+<Image align="center" src="https://files.readme.io/b702a8482bdb5286157d2a277824e81529c0d124c5ba3d2ac107ff36993b32d7-reconc.png" />
 
 **Limites de crédito**
 
 Nesta aba, é possível obter uma visão geral de todos os limites de crédito aprovados pela CrediPay, o quanto foram consumidos, e o quanto ainda está disponível
 
-<Image align="center" border={false} src="https://files.readme.io/5748ae1e26a2c75686c02bc4f88bd1567b143a1dd01be2bd5d4be56f9831a1a2-lc.png" />
+<Image align="center" src="https://files.readme.io/5748ae1e26a2c75686c02bc4f88bd1567b143a1dd01be2bd5d4be56f9831a1a2-lc.png" />
 
 **Acompanhamento de pedidos e XML’s**
 
 Aqui, é possível acompanhar quais pedidos ainda não receberam um XML de Nota Fiscal, portanto estão ocupando limite de crédito do cliente sem que o vendedor tenha sido pago.
 
-<Image align="center" border={false} src="https://files.readme.io/9d0201dd1b90744dc046d11cc0ef96b16b8ce48ce765119a4c0be80ce886614c-pedsxmls.png" />
+<Image align="center" src="https://files.readme.io/9d0201dd1b90744dc046d11cc0ef96b16b8ce48ce765119a4c0be80ce886614c-pedsxmls.png" />
 
 **Cobrança**
 
 Na seção de cobrança, damos visibilidade dos casos em que ainda não conseguimos receber pelo pedido, e um detalhamento dos valores em aberto por comprador.
 
-<Image align="center" border={false} src="https://files.readme.io/d5f8a80d7a885b91d728390ede8b09b8ebc138461f5bd1914b9e1f5e9fafedbc-cobranca.png" />
+<Image align="center" src="https://files.readme.io/d5f8a80d7a885b91d728390ede8b09b8ebc138461f5bd1914b9e1f5e9fafedbc-cobranca.png" />
 
 ## Funcionalidades adicionais (API)
 
