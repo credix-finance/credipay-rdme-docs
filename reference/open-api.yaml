@@ -773,6 +773,11 @@ components:
           description: O erro que ocorreu durante o reembolso.
           example: Invalid tax ID format.
           nullable: true
+        invoiceNumber:
+          type: string
+          description: Número da invoice alvo do reembolso.
+          example: NFe52260201008713004909550450025301111856486341
+          nullable: true
       required:
         - id
         - amountCents
