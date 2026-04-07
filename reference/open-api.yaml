@@ -381,6 +381,170 @@ paths:
       summary: Buscar repasses de vendedores
       tags:
         - Disbursements
+  /v2/users:
+    get:
+      description: >-
+        Lists active users scoped only to the authenticated seller organization
+        resolved from the request context.
+      operationId: UsersController_getUsers
+      parameters: []
+      responses:
+        '200':
+          description: Users listed successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SellerUserResponseDto'
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      summary: List users in the caller organization
+      tags:
+        - Users
+      x-credix-security:
+        scopes:
+          - read:users
+        onProviders:
+          - auth0_jwt
+        keyNames:
+          - x-credipay-api-key
+    post:
+      description: >-
+        Creates a user only in the authenticated seller organization, assigns
+        Auth0 roles, and persists the local user identity.
+      operationId: UsersController_createUser
+      parameters: []
+      requestBody:
+        required: true
+        description: Seller user data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSellerUserBodyDto'
+      responses:
+        '201':
+          description: User created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerUserResponseDto'
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      summary: Create seller user
+      tags:
+        - Users
+      x-credix-security:
+        scopes:
+          - write:users
+        onProviders:
+          - auth0_jwt
+        keyNames:
+          - x-credipay-api-key
+  /v2/users/me:
+    get:
+      description: >-
+        Returns the internal user identity for the authenticated session inside
+        the authenticated seller organization.
+      operationId: UsersController_getCurrentUser
+      parameters: []
+      responses:
+        '200':
+          description: Current user returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerUserResponseDto'
+        '404':
+          description: User not found.
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      summary: Get current user
+      tags:
+        - Users
+      x-credix-security:
+        scopes: []
+        onProviders:
+          - auth0_jwt
+        keyNames:
+          - x-credipay-api-key
+  /v2/users/{id}:
+    patch:
+      description: >-
+        Updates an active user only inside the authenticated seller organization
+        and keeps Auth0 and local identity in sync.
+      operationId: UsersController_updateUser
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Internal user ID.
+          schema:
+            example: 123e4567-e89b-12d3-a456-426614174000
+            type: string
+      requestBody:
+        required: true
+        description: Seller user update data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSellerUserBodyDto'
+      responses:
+        '200':
+          description: User updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerUserResponseDto'
+        '404':
+          description: User not found.
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      summary: Update seller user
+      tags:
+        - Users
+      x-credix-security:
+        scopes:
+          - write:users
+        onProviders:
+          - auth0_jwt
+        keyNames:
+          - x-credipay-api-key
+    delete:
+      description: >-
+        Revokes Auth0 access, invalidates refresh tokens, and soft-deletes the
+        local user only in the authenticated seller organization.
+      operationId: UsersController_deleteUser
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Internal user ID.
+          schema:
+            example: 123e4567-e89b-12d3-a456-426614174000
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully.
+        '404':
+          description: User not found.
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      summary: Delete seller user
+      tags:
+        - Users
+      x-credix-security:
+        scopes:
+          - write:users
+        onProviders:
+          - auth0_jwt
+        keyNames:
+          - x-credipay-api-key
 info:
   title: Credipay API
   description: ''
@@ -1426,5 +1590,92 @@ components:
         - page
         - items
         - total
+    SellerUserResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Internal user ID.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+          description: User name.
+          example: Seller Admin
+        email:
+          type: string
+          description: User email.
+          example: seller@example.com
+        phone:
+          type: string
+          description: User phone number.
+          example: '+5511999999999'
+          nullable: true
+        roleNames:
+          type: array
+          description: Seller role names assigned to the user.
+          example:
+            - credipay_seller
+          items:
+            type: string
+            enum:
+              - credipay_seller
+        organizationId:
+          type: string
+          description: User organization ID.
+          example: 123e4567-e89b-12d3-a456-426614174000
+      required:
+        - id
+        - name
+        - email
+        - phone
+        - roleNames
+        - organizationId
+    CreateSellerUserBodyDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: User email.
+          example: seller@example.com
+        name:
+          type: string
+          description: User name.
+          example: Seller Admin
+        phone:
+          type: string
+          description: User's phone number.
+          example: '+5511999999999'
+        roleNames:
+          type: array
+          description: Seller role names that must be assigned to the user.
+          example:
+            - credipay_seller
+          items:
+            type: string
+            enum:
+              - credipay_seller
+      required:
+        - email
+        - roleNames
+    UpdateSellerUserBodyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: User name.
+          example: Seller Support
+        phone:
+          type: string
+          description: User's phone number.
+          example: '+5511999999999'
+        roleNames:
+          type: array
+          description: Seller role names that must be assigned to the user.
+          example:
+            - credipay_seller
+          items:
+            type: string
+            enum:
+              - credipay_seller
 security:
   - api_key: []
