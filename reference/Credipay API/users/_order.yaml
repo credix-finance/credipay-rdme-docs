@@ -1,0 +1,5 @@
+- userscontroller_getusers
+- userscontroller_createuser
+- userscontroller_getcurrentuser
+- userscontroller_updateuser
+- userscontroller_deleteuser
