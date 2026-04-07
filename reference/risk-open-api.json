@@ -3505,6 +3505,32 @@
         "title": "EntityTypeResponseDTO",
         "description": "DTO for entity type responses."
       },
+      "FetchBelvoEnrichmentResourceRequestDTO": {
+        "properties": {
+          "linkId": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Linkid",
+            "description": "Belvo link id"
+          },
+          "resourceName": {
+            "type": "string",
+            "enum": [
+              "risk-insights",
+              "recurring-expenses",
+              "incomes"
+            ],
+            "title": "Resourcename"
+          }
+        },
+        "type": "object",
+        "required": [
+          "linkId",
+          "resourceName"
+        ],
+        "title": "FetchBelvoEnrichmentResourceRequestDTO",
+        "description": "Input payload for enrichment resource fetching."
+      },
       "FetchBelvoHistoricalResourceRequestDTO": {
         "properties": {
           "linkId": {
@@ -3527,6 +3553,38 @@
         ],
         "title": "FetchBelvoHistoricalResourceRequestDTO",
         "description": "Input payload for historical resource fetching."
+      },
+      "FetchBelvoHistoricalResourceResponseDTO": {
+        "properties": {
+          "bucketName": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Bucketname",
+            "description": "Destination bucket name"
+          },
+          "destinationBlobs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Destinationblobs",
+            "description": "Uploaded object keys for each parquet part"
+          },
+          "recordsCount": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Recordscount",
+            "description": "Total records fetched and uploaded"
+          }
+        },
+        "type": "object",
+        "required": [
+          "bucketName",
+          "destinationBlobs",
+          "recordsCount"
+        ],
+        "title": "FetchBelvoHistoricalResourceResponseDTO",
+        "description": "Response payload for historical resource upload."
       },
       "FinalizeDocumentRequestDTO": {
         "properties": {
