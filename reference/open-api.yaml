@@ -288,42 +288,6 @@ paths:
           - api_key
         keyNames:
           - x-credipay-api-key
-  /v1/orders/{orderId}/extension:
-    post:
-      description: Extends payment terms for an order for the given asset
-      operationId: post-order-extend-payment-terms
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        description: >-
-          Number of days to extend the payment terms and the asset id for which
-          the payment terms are to be extended.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExtendPaymentTermDaysPostBodyDto'
-      responses:
-        '200':
-          description: Successful operation.
-        '400':
-          description: Bad Request.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Extends payment terms for an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/assets:
     get:
       deprecated: true
@@ -1474,20 +1438,6 @@ components:
       required:
         - refundValueCents
         - value
-    ExtendPaymentTermDaysPostBodyDto:
-      type: object
-      properties:
-        numberOfDays:
-          type: number
-          description: Number of days for extending the payment terms.
-          example: 1020000
-        assetId:
-          type: string
-          description: Id of the asset to be extended
-          example: cb9e8408-aac0-4b4a-9848-904656272de2
-      required:
-        - numberOfDays
-        - assetId
     GetAssetInvoiceDto:
       type: object
       properties:
