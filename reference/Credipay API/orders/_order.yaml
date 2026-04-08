@@ -4,6 +4,5 @@
 - get-order-1
 - post-cancel-order-1
 - get-order-documents-1
-- post-order-simulation-1
 - post-order-refund-1
 - post-finalize-order-and-process-invoice-1
