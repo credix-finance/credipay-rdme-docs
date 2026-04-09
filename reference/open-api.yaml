@@ -80,57 +80,6 @@ paths:
           - api_key
         keyNames:
           - x-credipay-api-key
-  /v1/orders/notification:
-    post:
-      description: Send order notification(s) to relevant parties.
-      operationId: post-handle-order-notification
-      parameters: []
-      requestBody:
-        required: true
-        description: Order notification data.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderNotificationPostDto'
-      responses:
-        '200':
-          description: Successful operation.
-      summary: Send order notification
-      tags:
-        - Orders
-  /v1/orders/{orderId}:
-    get:
-      description: Gets an order by CrediPay's internal order ID.
-      operationId: get-order
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          description: CrediPay's internal order ID.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMarketplaceOrderResponseDto'
-        '404':
-          description: Order was not found.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Get an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/orders/{orderId}/cancel:
     post:
       description: >-
@@ -1030,24 +979,6 @@ components:
         - buyerTaxId
         - noAdvancing
         - installments
-    OrderNotificationPostDto:
-      type: object
-      properties:
-        orderId:
-          type: string
-          description: Order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        event:
-          type: string
-          description: The event that triggered the notification.
-          enum:
-            - OrderConfirmed
-            - ConfirmOrderRequest
-            - AllOrderBoletosIssued
-          example: OrderConfirmed
-      required:
-        - orderId
-        - event
     GetMarketplaceCanceledOrderResponseDto:
       type: object
       properties:
