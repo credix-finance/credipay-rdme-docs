@@ -1,5 +1,5 @@
 ---
-title: Como adicionar um novo pedido
+title: Como criar um novo pedido
 deprecated: false
 hidden: false
 metadata:
