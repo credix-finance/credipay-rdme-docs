@@ -92,14 +92,23 @@ Para interagir com a API, você precisará do order_id (identificador único do 
 Endpoint de Consulta de Pedido:
 `GET /v1/sellers/orders/{order_id}`
 
-### Passo 2: Validando o status de Captura Parcial (partially_captured)
+### Passo 2: Encaminhar NF com status de Captura Parcial (partially_captured)
 
-Quando você envia uma Nota Fiscal e sinaliza que enviará mais notas (na interface, marcando o checkbox), a plataforma processa a nota e altera o status do pedido para indicar que a captura ainda está em andamento.
+Para enviar a Nota Fiscal e sinalizar que aquele pedido receberá mais notas no futuro, você deve utilizar o endpoint de Captura enviando o arquivo XML e passando o parâmetro que indica a continuidade (flag ativa).
+
+Endpoint de Captura:
+Ver referência na [Documentação da API (Capture Order)](https://docs.credipay.credix.finance/update/reference/orderscontroller_captureorder)
+
+```http
+POST /v1/sellers/orders/{order_id}/capture
+```
+
+Nota: Ao realizar esta requisição com a flag indicando mais envios (ex: **isPartialCapture: true** no payload da requisição), a plataforma processa a nota e altera o status do pedido para indicar que a captura ainda está em andamento.
 
 Ao fazer uma requisição GET no pedido após o primeiro envio, a API retornará as seguintes atualizações:
 
-* status: O campo será atualizado para "partially_captured".
-* invoices: Um array será retornado contendo o objeto da Nota Fiscal que acabou de ser processada, incluindo o invoiceNumber (chave de acesso da NF-e) e os valores associados.
+* `status`: O campo será atualizado para "partially_captured".
+* `invoices`: Um array será retornado contendo o objeto da Nota Fiscal que acabou de ser processada, incluindo o invoiceNumber (chave de acesso da NF-e) e os valores associados.
 
 Exemplo de Resposta da API (Parcial):
 
@@ -126,22 +135,36 @@ Enquanto o pedido estiver no status "partially_captured", ele continuará apto a
 
 Sempre que uma nova nota for enviada com a flag de continuidade, o array "invoices" na resposta do GET crescerá, acumulando todas as chaves de acesso vinculadas àquele order_id, e o status se manterá como "partially_captured".
 
-<br />
-
 ### Passo 4: Finalizando a Captura (captured)
 
-O ciclo de múltiplas notas é encerrado de duas maneiras:
+Para encerrar o ciclo de envio de notas e gerar os boletos, você tem duas possibilidades de integração:
 
-* Ao enviar a última nota fiscal sem a flag de continuidade (via API, enviando a requisição de captura final).
-* Acionando o endpoint/botão de Finalizar Captura manualmente, quando não há mais notas para enviar, mesmo que o valor total das notas seja inferior ao valor original do pedido.
+#### Possibilidade 1: Enviando a última nota
 
-Ao realizar essa ação, o sistema consolida as informações e gera os boletos.
+Se você tem uma última nota fiscal para enviar e quer fechar o pedido simultaneamente, basta utilizar o mesmo endpoint do Passo 2, mas desta vez enviando a flag de **isPartialCapture: false**.
 
-Validação no Postman:
+```http
+POST /v2/orders/{id}/capture
+```
+
+  
+
+#### Possibilidade 2: Finalizando manualmente (sem novas notas)
+
+Se você já enviou todas as notas fracionadas anteriormente e quer apenas encerrar o pedido para gerar as cobranças (mesmo que o valor capturado seja inferior ao total original), você deve acionar o endpoint específico de finalização de captura.
+
+```http
+POST /v2/orders/{id}/capture/complete
+```
+
+<Anchor label="Endpoint: Ver referência na Documentação da API (Complete Capture)" target="_blank" href="https://docs.credipay.credix.finance/reference/orderscontroller_completecapture">Endpoint: Ver referência na Documentação da API (Complete Capture)</Anchor>
+
+Ao realizar uma dessas ações, o sistema consolida as informações e gera os boletos.
+
 Ao consultar o pedido novamente via `GET /v1/sellers/orders/{order_id}`, você notará as seguintes mudanças definitivas:
 
-* status: O campo agora retorna "captured".
-* invoices: O array lista todas as notas fiscais validadas.
+* `status`: O campo agora retorna "captured".
+* `invoices`: O array lista todas as notas fiscais validadas.
 
 Exemplo de Resposta da API (Finalizada):
 
