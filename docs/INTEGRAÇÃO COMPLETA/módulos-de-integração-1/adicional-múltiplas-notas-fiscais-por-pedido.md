@@ -12,7 +12,7 @@ flowchart TD
     n1["Pedido aprovado aguardando nota (waiting_for_invoice)"]
 
     subgraph s1["<b>Ações Iniciais do Vendedor</b>"]
-        n2["Vendedor emite NF e recebe aprovação da SEFAZ"]
+        n2["Vendedor emite NF, recebe aprovação da SEFAZ e encaminha para Credix"]
         n10["Aciona 'Finalizar Captura' manualmente"]
     end
 
