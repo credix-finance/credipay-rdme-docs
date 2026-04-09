@@ -5,7 +5,7 @@ hidden: false
 metadata:
   robots: index
 ---
-Para criar um novo Comprador, clique no botão "Novo comprador" na aba de Pedidos ou Compradores.
+1. Para criar um novo Comprador, clique no botão "Novo comprador" na aba de Pedidos ou Compradores.
 
 <Image align="center" border={true} src="https://files.readme.io/c597adc22ae19303da5791a5fef67bd1f76bd11e9375c647033fdb745c945bb3-Screenshot_2026-04-09_at_09.59.56.png" className="border" />
 
