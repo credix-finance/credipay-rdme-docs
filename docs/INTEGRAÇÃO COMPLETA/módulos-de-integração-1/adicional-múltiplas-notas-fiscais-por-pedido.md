@@ -98,9 +98,8 @@ Quando você envia uma Nota Fiscal e sinaliza que enviará mais notas (na interf
 
 Ao fazer uma requisição GET no pedido após o primeiro envio, a API retornará as seguintes atualizações:
 
-status: O campo será atualizado para "partially_captured".
-
-invoices: Um array será retornado contendo o objeto da Nota Fiscal que acabou de ser processada, incluindo o invoiceNumber (chave de acesso da NF-e) e os valores associados.
+* status: O campo será atualizado para "partially_captured".
+* invoices: Um array será retornado contendo o objeto da Nota Fiscal que acabou de ser processada, incluindo o invoiceNumber (chave de acesso da NF-e) e os valores associados.
 
 Exemplo de Resposta da API (Parcial):
 
@@ -133,18 +132,16 @@ Sempre que uma nova nota for enviada com a flag de continuidade, o array "invoic
 
 O ciclo de múltiplas notas é encerrado de duas maneiras:
 
-Ao enviar a última nota fiscal sem a flag de continuidade (via API, enviando a requisição de captura final).
-
-Acionando o endpoint/botão de Finalizar Captura manualmente, quando não há mais notas para enviar, mesmo que o valor total das notas seja inferior ao valor original do pedido.
+* Ao enviar a última nota fiscal sem a flag de continuidade (via API, enviando a requisição de captura final).
+* Acionando o endpoint/botão de Finalizar Captura manualmente, quando não há mais notas para enviar, mesmo que o valor total das notas seja inferior ao valor original do pedido.
 
 Ao realizar essa ação, o sistema consolida as informações e gera os boletos.
 
 Validação no Postman:
 Ao consultar o pedido novamente via `GET /v1/sellers/orders/{order_id}`, você notará as seguintes mudanças definitivas:
 
-status: O campo agora retorna "captured".
-
-invoices: O array lista todas as notas fiscais validadas (no vídeo, o array exibe duas notas atreladas ao pedido finalizado).
+* status: O campo agora retorna "captured".
+* invoices: O array lista todas as notas fiscais validadas.
 
 Exemplo de Resposta da API (Finalizada):
 
@@ -171,9 +168,8 @@ Exemplo de Resposta da API (Finalizada):
 }
 ```
 
-Resumo para o Desenvolvedor
-Utilize a rota `GET /v1/sellers/orders/{order_id}` para monitorar o andamento da captura.
+### Resumo para o Desenvolvedor
 
-O array "invoices" é a sua fonte da verdade para saber quais chaves de acesso já foram atreladas e aprovadas para um determinado pedido.
-
-Apenas pedidos no status "captured" irão gerar recebíveis/boletos para o seu cliente final.
+* Utilize a rota `GET /v1/sellers/orders/{order_id}` para monitorar o andamento da captura.
+* O array "invoices" é a sua fonte da verdade para saber quais chaves de acesso já foram atreladas e aprovadas para um determinado pedido.
+* Apenas pedidos no status "captured" irão gerar recebíveis/boletos para o seu cliente final.
