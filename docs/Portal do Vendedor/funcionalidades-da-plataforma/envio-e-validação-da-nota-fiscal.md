@@ -5,7 +5,7 @@ hidden: false
 metadata:
   robots: index
 next:
-  description: '* Conheça mais sobre a função de encaminhar múltiplas NFs no mesmo pedido.'
+  description: Conheça mais sobre a função de encaminhar múltiplas NFs no mesmo pedido.
   pages:
     - slug: multi-nf
       title: Múltiplas Notas Fiscais por Pedido
