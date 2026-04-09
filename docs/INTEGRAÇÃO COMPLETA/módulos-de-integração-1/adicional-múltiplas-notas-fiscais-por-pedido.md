@@ -9,12 +9,11 @@ Esta seção descreve o comportamento da nossa API durante o fluxo de envio de m
 
 ```mermaid
 flowchart TD
-   
     %% Início do Fluxo
     n1["Pedido aprovado aguardando nota (waiting_for_invoice)"]
 
     subgraph s1["<b>Ações Iniciais do Vendedor</b>"]
-        n2["Vendedor emite NF, recebe aprovação da SEFAZ e encaminha para Credix"]
+        n2["Vendedor emite NF e recebe aprovação da SEFAZ"]
         n10["Aciona 'Finalizar Captura' manualmente"]
     end
 
@@ -38,12 +37,22 @@ flowchart TD
     n5b -- "Não - webhook order.validationFailed" --> n6b["Vendedor apenas recebe feedback"]
     n5b -- "Sim" --> n11["Altera status para captured"]
 
-    %% Caminho do Botão Manual (vai direto pro final pelo canto)
+    %% Caminho do Botão Manual 
     n10 --> n11
 
     %% Conclusão do Pedido
     n11 -- "webhook order.captured" --> n12["Formaliza a operação"]
     n12 --> n13["Gera e envia boletos ao comprador"]
+
+    %% Bloco de Legenda (Agora no final)
+    subgraph Legenda ["<b>Legenda de Responsabilidades</b>"]
+        direction LR
+        boxVendedor["&nbsp;&nbsp;&nbsp;&nbsp;"]:::vendedor ~~~ textVendedor["Ações do Vendedor"]:::textoLegenda
+        boxCredipay["&nbsp;&nbsp;&nbsp;&nbsp;"]:::credipay ~~~ textCredipay["Ações da CrediPay"]:::textoLegenda
+    end
+
+    %% Força a legenda a ficar na parte inferior do fluxo sem exibir uma linha
+    n13 ~~~ boxVendedor
 
     %% Estilização e Cores
     n1:::credipay
@@ -62,27 +71,14 @@ flowchart TD
     n11:::credipay
     n12:::credipay
     n13:::credipay
-    
-    %% Aplicando as cores da legenda
-    L1:::vendedor
-    L2:::credipay
 
+    %% Definições de Classes Visuais
     classDef vendedor fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
-    classDef comprador fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
     classDef credipay fill:#FFD8A8,stroke:#333,stroke-width:1px,color:#000;
+    classDef textoLegenda fill:none,stroke:none,color:#000;
     
     style Legenda fill:#f9f9f9,stroke:#ccc,stroke-width:1px,stroke-dasharray: 5 5
     style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 5 5
-    
- %% Bloco de Legenda
-    subgraph Legenda ["<b>Legenda de Responsabilidades</b>"]
-        direction LR
-        L1["Ações do Vendedor"]:::vendedor ~~~ L2["Ações da CrediPay"]:::credipay
-    end
-
-    %% Invisível para forçar a legenda a ficar no topo sem cruzar linhas
-    Legenda ~~~ n1
-
 ```
 
 ## Visão Geral do Fluxo de Status
