@@ -41,88 +41,6 @@ paths:
           - api_key
         keyNames:
           - x-credipay-api-key
-    get:
-      description: Lists all orders associated with the sellers linked to the application.
-      operationId: list-orders
-      parameters:
-        - description: Returns orders with the provided external id.
-          required: false
-          name: externalId
-          in: query
-          schema:
-            example: REF-10230456
-            type: string
-        - description: Updated after UTC date in ISO 8601 format.
-          required: false
-          name: updatedAfter
-          in: query
-          schema:
-            default: '2024-02-05T00:00:00Z'
-            type: string
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GetMarketplaceOrderResponseDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: List orders
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/orders/{orderId}/cancel:
-    post:
-      description: >-
-        Moves an order to cancelled state and increases the buyer's available
-        credit limit by that order's total amount. If the order already has an
-        invoice linked to it, it will be fully refunded.
-      operationId: post-cancel-order
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          description: CrediPay's internal order ID.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      responses:
-        '200':
-          description: Successful operation, order cancelled.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMarketplaceCanceledOrderResponseDto'
-        '404':
-          description: Order was not found.
-        '409':
-          description: >-
-            Could not cancel order. Order could be already cancelled OR is not
-            in any of the following states [created, accepted, finalized,
-            rejected].
-        '500':
-          description: Internal Server Error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Cancel an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/orders/{orderId}/documents:
     get:
       description: Gets all documents linked to an order.
@@ -981,118 +899,6 @@ components:
         - buyerTaxId
         - noAdvancing
         - installments
-    GetMarketplaceCanceledOrderResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: CrediPay's internal order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        externalId:
-          type: string
-          description: Internal order ID of the seller.
-          example: REF-10230456
-        subtotalAmountCents:
-          type: number
-          description: The value of the order's goods and or services in cents.
-          example: 1020000
-        taxAmountCents:
-          type: number
-          description: Tax amount in cents.
-          example: 81600
-        shippingCostCents:
-          type: number
-          description: Shipping costs in cents.
-          example: 5000
-        buyerFeesCents:
-          type: number
-          description: >-
-            This field will automatically be calculated. It will have a non-zero
-            value when the seller is configured to charge fees to buyers. Note
-            that this value is already included in the total amount cents.
-          example: 10978
-        totalAmountCents:
-          type: number
-          description: >-
-            Total amount in cents. This amount includes buyer fees if
-            applicable. The value of the to-be-created invoice should equal this
-            amount.
-          example: 1117578
-        shippingLocation:
-          description: Shipping location.
-          allOf:
-            - $ref: '#/components/schemas/OrderShippingLocationDto'
-        paymentTermDays:
-          type: string
-          description: >-
-            Payment term in days. The maturity date of the to-be-created invoice
-            should equal the payment term days added to the order creation date.
-          example: 30
-        status:
-          type: string
-          description: Order status.
-          enum:
-            - new
-            - created
-            - accepted
-            - cancelled
-            - rejected
-            - finalized
-            - captured
-            - expired
-            - ineligible
-            - invalidated
-            - validating
-            - declined
-            - waiting_for_invoice
-            - validation_failed
-            - nf_validation_failed
-            - partially_refunded
-            - fully_refunded
-            - waiting_for_otp
-            - partially_captured
-          example: cancelled
-        estimatedDeliveryDate:
-          type: object
-          description: Estimated delivery UTC date in ISO 8601 format.
-          example: '2024-02-05T00:00:00Z'
-        createdAt:
-          type: string
-          description: Creation UTC date in ISO 8601 format.
-          example: '2024-02-01T00:00:00Z'
-        sellerTaxId:
-          type: string
-          description: Seller company tax ID.
-          example: '15853054000096'
-        buyerTaxId:
-          type: string
-          description: Buyer company tax ID.
-          example: '18360341000052'
-        noAdvancing:
-          type: boolean
-          description: No advancing
-          example: false
-        installments:
-          description: Installments for the order.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderInstallmentsDto'
-      required:
-        - id
-        - externalId
-        - subtotalAmountCents
-        - taxAmountCents
-        - shippingCostCents
-        - buyerFeesCents
-        - totalAmountCents
-        - paymentTermDays
-        - status
-        - estimatedDeliveryDate
-        - createdAt
-        - sellerTaxId
-        - buyerTaxId
-        - noAdvancing
-        - installments
     AssetDocumentMetaData:
       type: object
       properties:
@@ -1231,6 +1037,118 @@ components:
       required:
         - refundValueCents
         - value
+    GetMarketplaceCanceledOrderResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: CrediPay's internal order ID.
+          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+        externalId:
+          type: string
+          description: Internal order ID of the seller.
+          example: REF-10230456
+        subtotalAmountCents:
+          type: number
+          description: The value of the order's goods and or services in cents.
+          example: 1020000
+        taxAmountCents:
+          type: number
+          description: Tax amount in cents.
+          example: 81600
+        shippingCostCents:
+          type: number
+          description: Shipping costs in cents.
+          example: 5000
+        buyerFeesCents:
+          type: number
+          description: >-
+            This field will automatically be calculated. It will have a non-zero
+            value when the seller is configured to charge fees to buyers. Note
+            that this value is already included in the total amount cents.
+          example: 10978
+        totalAmountCents:
+          type: number
+          description: >-
+            Total amount in cents. This amount includes buyer fees if
+            applicable. The value of the to-be-created invoice should equal this
+            amount.
+          example: 1117578
+        shippingLocation:
+          description: Shipping location.
+          allOf:
+            - $ref: '#/components/schemas/OrderShippingLocationDto'
+        paymentTermDays:
+          type: string
+          description: >-
+            Payment term in days. The maturity date of the to-be-created invoice
+            should equal the payment term days added to the order creation date.
+          example: 30
+        status:
+          type: string
+          description: Order status.
+          enum:
+            - new
+            - created
+            - accepted
+            - cancelled
+            - rejected
+            - finalized
+            - captured
+            - expired
+            - ineligible
+            - invalidated
+            - validating
+            - declined
+            - waiting_for_invoice
+            - validation_failed
+            - nf_validation_failed
+            - partially_refunded
+            - fully_refunded
+            - waiting_for_otp
+            - partially_captured
+          example: cancelled
+        estimatedDeliveryDate:
+          type: object
+          description: Estimated delivery UTC date in ISO 8601 format.
+          example: '2024-02-05T00:00:00Z'
+        createdAt:
+          type: string
+          description: Creation UTC date in ISO 8601 format.
+          example: '2024-02-01T00:00:00Z'
+        sellerTaxId:
+          type: string
+          description: Seller company tax ID.
+          example: '15853054000096'
+        buyerTaxId:
+          type: string
+          description: Buyer company tax ID.
+          example: '18360341000052'
+        noAdvancing:
+          type: boolean
+          description: No advancing
+          example: false
+        installments:
+          description: Installments for the order.
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderInstallmentsDto'
+      required:
+        - id
+        - externalId
+        - subtotalAmountCents
+        - taxAmountCents
+        - shippingCostCents
+        - buyerFeesCents
+        - totalAmountCents
+        - paymentTermDays
+        - status
+        - estimatedDeliveryDate
+        - createdAt
+        - sellerTaxId
+        - buyerTaxId
+        - noAdvancing
+        - installments
     GetAssetInvoiceDto:
       type: object
       properties:
