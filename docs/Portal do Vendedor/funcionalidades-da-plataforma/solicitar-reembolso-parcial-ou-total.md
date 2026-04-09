@@ -1,7 +1,7 @@
 ---
 title: Solicitar reembolso parcial ou total
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
