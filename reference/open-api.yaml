@@ -1621,6 +1621,11 @@ components:
             type: string
             enum:
               - credipay_seller
+        salesChannel:
+          type: string
+          description: User sales channel.
+          example: inside-sales
+          nullable: true
         organizationId:
           type: string
           description: User organization ID.
@@ -1631,6 +1636,7 @@ components:
         - email
         - phone
         - roleNames
+        - salesChannel
         - organizationId
     CreateSellerUserBodyDto:
       type: object
@@ -1647,6 +1653,10 @@ components:
           type: string
           description: User's phone number.
           example: '+5511999999999'
+        salesChannel:
+          type: string
+          description: User's sales channel.
+          example: inside-sales
         roleNames:
           type: array
           description: Seller role names that must be assigned to the user.
@@ -1670,6 +1680,10 @@ components:
           type: string
           description: User's phone number.
           example: '+5511999999999'
+        salesChannel:
+          type: string
+          description: User's sales channel.
+          example: inside-sales
         roleNames:
           type: array
           description: Seller role names that must be assigned to the user.
