@@ -1,7 +1,7 @@
 ---
 title: Emissão e visualização dos boletos
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
