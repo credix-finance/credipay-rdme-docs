@@ -4,6 +4,12 @@ deprecated: false
 hidden: false
 metadata:
   robots: index
+next:
+  description: '* Conheça mais sobre a função de encaminhar múltiplas NFs no mesmo pedido.'
+  pages:
+    - slug: multi-nf
+      title: Múltiplas Notas Fiscais por Pedido
+      type: basic
 ---
 Se o pedido foi criado manualmente, você deve enviar a nota fiscal (XML) depois da aprovação do comprador. O sistema valida automaticamente as informações.
 
@@ -16,4 +22,6 @@ Regras para a nota fiscal ser aceita, válidas para ambos os métodos de envio (
 5. O endereço de entrega deve ser compatível com o endereço fiscal do CNPJ.
 6. A nota precisa estar aprovada na SEFAZ (produção).
 
-Imagem: Tela com status de validação da nota (Não tenho).
+<Image align="center" border={true} src="https://files.readme.io/99234d6cdcce0c5c5bca4933af121102a3ec20de6b8309c5e67a3877ac665920-Screenshot_2026-04-08_at_19.13.39.png" className="border" />
+
+<br />
