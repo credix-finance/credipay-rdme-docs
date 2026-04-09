@@ -1,7 +1,7 @@
 ---
 title: Envio e validação da nota fiscal
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
