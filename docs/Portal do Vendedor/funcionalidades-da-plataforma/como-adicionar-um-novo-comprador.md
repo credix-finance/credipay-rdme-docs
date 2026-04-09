@@ -4,6 +4,12 @@ deprecated: false
 hidden: false
 metadata:
   robots: index
+next:
+  description: Conheça mais sobre Como criar um novo pedido
+  pages:
+    - slug: como-adicionar-um-novo-pedido
+      title: Como adicionar um novo pedido
+      type: basic
 ---
 1. Para criar um novo Comprador, clique no botão "Novo comprador" na aba de Pedidos ou Compradores.
 
