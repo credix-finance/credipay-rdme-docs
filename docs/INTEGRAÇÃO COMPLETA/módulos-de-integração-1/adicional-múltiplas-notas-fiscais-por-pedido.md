@@ -44,15 +44,24 @@ flowchart TD
     n11 -- "webhook order.captured" --> n12["Formaliza a operação"]
     n12 --> n13["Gera e envia boletos ao comprador"]
 
-    %% Bloco de Legenda (Agora no final)
-    subgraph Legenda ["<b>Legenda de Responsabilidades</b>"]
-        direction LR
-        boxVendedor["&nbsp;&nbsp;&nbsp;&nbsp;"]:::vendedor ~~~ textVendedor["Ações do Vendedor"]:::textoLegenda
-        boxCredipay["&nbsp;&nbsp;&nbsp;&nbsp;"]:::credipay ~~~ textCredipay["Ações da CrediPay"]:::textoLegenda
-    end
+    %% Bloco de Legenda no Final
+    n13 ~~~ Legenda
 
-    %% Força a legenda a ficar na parte inferior do fluxo sem exibir uma linha
-    n13 ~~~ boxVendedor
+    subgraph Legenda ["<b>Legenda</b>"]
+        direction TB
+        
+        %% Linha 1: Vendedor (invisível, força alinhamento horizontal)
+        subgraph row1 [" "]
+            direction LR
+            b1["&nbsp;&nbsp;&nbsp;&nbsp;"]:::vendedor ~~~ t1["Ações do Vendedor"]:::textoLegenda
+        end
+        
+        %% Linha 2: CrediPay (invisível, força alinhamento horizontal)
+        subgraph row2 [" "]
+            direction LR
+            b2["&nbsp;&nbsp;&nbsp;&nbsp;"]:::credipay ~~~ t2["Ações da CrediPay"]:::textoLegenda
+        end
+    end
 
     %% Estilização e Cores
     n1:::credipay
@@ -76,6 +85,10 @@ flowchart TD
     classDef vendedor fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
     classDef credipay fill:#FFD8A8,stroke:#333,stroke-width:1px,color:#000;
     classDef textoLegenda fill:none,stroke:none,color:#000;
+    
+    %% Oculta as bordas das linhas internas da legenda
+    style row1 fill:none,stroke:none
+    style row2 fill:none,stroke:none
     
     style Legenda fill:#f9f9f9,stroke:#ccc,stroke-width:1px,stroke-dasharray: 5 5
     style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 5 5
