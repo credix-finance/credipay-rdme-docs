@@ -10,52 +10,52 @@ Esta seção descreve o comportamento da nossa API durante o fluxo de envio de m
 ```mermaid
 flowchart TD
     n1["Pedido aprovado aguardando nota (waiting_for_invoice)"]
-    
-    subgraph s1["<b>Ciclo de Múltiplas Notas (Captura Parcial)</b>"]
+
+    subgraph s1["<b>Ações Iniciais do Vendedor</b>"]
         n2["Vendedor emite NF e recebe aprovação da SEFAZ"]
-        n3["Envia XML da NF para CrediPay"]
-        n4["Recebe e valida XML da NF"]
-        n5{"XML aprovado?"}
-        n6["Recebe feedback e ajusta XML"]
-        n7{"Flag 'Enviar mais notas' marcada?"}
-        n8["Altera status para partially_captured"]
-        n9{"Possui mais notas para enviar?"}
         n10["Aciona 'Finalizar Captura' manualmente"]
     end
-    
-    n11["Altera status para captured"]
-    n12["Formaliza a operação"]
-    n13["Gera e envia boletos ao comprador"]
 
     n1 --> n2
-    n2 --> n3
-    n3 -- POST v2/orders/{orderId}/capture --> n4
-    n4 --> n5
-    n5 -- "Não - webhook order.validationFailed" --> n6
-    n6 --> n3
-    n5 -- "Sim" --> n7
-    
-    n7 -- "Sim" --> n8
-    n8 --> n9
-    n9 -- "Sim (Repete o processo)" --> n2
-    n9 -- "Não" --> n10
-    n10 --> n11
-    
-    n7 -- "Não (Última nota enviada)" --> n11
-    
-    n11 -- "webhook order.captured" --> n12
-    n12 --> n13
+    n1 --> n10
 
+    %% Validação da Flag ANTES de enviar para a CrediPay
+    n2 --> n7{"Flag 'Enviar mais notas' marcada?"}
+
+    %% Caminho SIM: Mantém em waiting_for_invoice
+    n7 -- "Sim" --> n3a["Envia XML para CrediPay"]
+    n3a -- POST v2/orders/{orderId}/capture --> n4a["CrediPay recebe e valida XML"]
+    n4a --> n5a{"XML aprovado?"}
+    n5a -- "Não - webhook order.validationFailed" --> n6["Vendedor apenas recebe feedback"]
+    n5a -- "Sim" --> n8["Mantém status como waiting_for_invoice"]
+    
+    %% Caminho NÃO: Segue para finalização
+    n7 -- "Não" --> n3b["Envia XML para CrediPay"]
+    n3b -- POST v2/orders/{orderId}/capture --> n4b["CrediPay recebe e valida XML"]
+    n4b --> n5b{"XML aprovado?"}
+    n5b -- "Não - webhook order.validationFailed" --> n6
+    n5b -- "Sim" --> n11["Altera status para captured"]
+
+    %% Caminho do Botão Manual
+    n10 --> n11
+
+    %% Conclusão do Pedido
+    n11 -- "webhook order.captured" --> n12["Formaliza a operação"]
+    n12 --> n13["Gera e envia boletos ao comprador"]
+
+    %% Estilização e Cores
     n1:::credipay
     n2:::vendedor
-    n3:::vendedor
-    n4:::credipay
-    n5:::credipay
-    n6:::vendedor
-    n7:::credipay
-    n8:::credipay
-    n9:::vendedor
     n10:::vendedor
+    n7:::vendedor
+    n3a:::vendedor
+    n4a:::credipay
+    n5a:::credipay
+    n8:::credipay
+    n3b:::vendedor
+    n4b:::credipay
+    n5b:::credipay
+    n6:::vendedor
     n11:::credipay
     n12:::credipay
     n13:::credipay
@@ -163,7 +163,6 @@ Exemplo de Resposta da API (Finalizada):
   "metadata": { ... }
 }
 ```
-
 
 Resumo para o Desenvolvedor
 Utilize a rota `GET /v1/sellers/orders/{order_id}` para monitorar o andamento da captura.
