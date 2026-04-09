@@ -35,7 +35,7 @@ Siga este passo quando for enviar a última nota fiscal pertencente ao pedido, e
 2. Desabilite o Recebimento Múltiplo: Certifique-se de que a caixa "Vou enviar mais notas fiscais para este pedido" esteja desmarcada. Isso sinaliza ao sistema que esta é a última nota.
 3. Anexe e Envie: Faça o upload do último arquivo XML e clique em Enviar Nota Fiscal.
 
-![](https://files.readme.io/5b1ada953926314faf6008d262d41aa84654e73f21b7112d29622468592532a7-Screenshot_2026-04-08_at_19.12.23.png)
+![](https://files.readme.io/03db61b7265b6728d7a41c461f12a138cb65c8d0f425b182e24ca02ae2f289c3-Screenshot_2026-04-08_at_19.13.39.png)
 
 4. Validação: O sistema processará a nota final e o status do pedido será atualizado para capturado/processado, avançando para a próxima etapa e bloqueando a adição de novas notas.
 
