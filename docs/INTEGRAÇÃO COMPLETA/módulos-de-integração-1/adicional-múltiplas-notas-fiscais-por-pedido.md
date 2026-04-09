@@ -9,15 +9,7 @@ Esta seção descreve o comportamento da nossa API durante o fluxo de envio de m
 
 ```mermaid
 flowchart TD
-    %% Bloco de Legenda
-    subgraph Legenda ["<b>Legenda de Responsabilidades</b>"]
-        direction LR
-        L1["Ações do Vendedor"]:::vendedor ~~~ L2["Ações da CrediPay"]:::credipay
-    end
-
-    %% Invisível para forçar a legenda a ficar no topo sem cruzar linhas
-    Legenda ~~~ n1
-
+   
     %% Início do Fluxo
     n1["Pedido aprovado aguardando nota (waiting_for_invoice)"]
 
@@ -81,6 +73,16 @@ flowchart TD
     
     style Legenda fill:#f9f9f9,stroke:#ccc,stroke-width:1px,stroke-dasharray: 5 5
     style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 5 5
+    
+ %% Bloco de Legenda
+    subgraph Legenda ["<b>Legenda de Responsabilidades</b>"]
+        direction LR
+        L1["Ações do Vendedor"]:::vendedor ~~~ L2["Ações da CrediPay"]:::credipay
+    end
+
+    %% Invisível para forçar a legenda a ficar no topo sem cruzar linhas
+    Legenda ~~~ n1
+
 ```
 
 ## Visão Geral do Fluxo de Status
