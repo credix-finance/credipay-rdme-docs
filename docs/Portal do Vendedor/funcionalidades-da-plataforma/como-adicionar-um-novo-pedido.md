@@ -1,7 +1,7 @@
 ---
 title: Como adicionar um novo pedido
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
