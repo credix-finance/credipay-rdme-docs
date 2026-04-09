@@ -5,7 +5,7 @@ hidden: true
 metadata:
   robots: index
 ---
-Esta seção descreve o comportamento da nossa API durante o fluxo de envio de múltiplas notas fiscais para um mesmo pedido. O objetivo é orientar o desenvolvedor sobre como o estado do pedido é alterado a cada envio e como consultar essas informações via API.
+Esta seção descreve o comportamento da nossa API durante o fluxo de envio de múltiplas notas fiscais para um mesmo pedido.
 
 ```mermaid
 flowchart TD
@@ -87,12 +87,10 @@ Quando um pedido é criado e aprovado, ele aguarda o envio das Notas Fiscais. Du
 
 ### Passo 1: Recuperar o ID do Pedido (Order ID)
 
-Para interagir com a API, você precisará do order_id (identificador único do pedido). No vídeo de demonstração, este ID possui o formato UUID (ex: e9feb5aa-0000-...).
+Para interagir com a API, você precisará do order_id (identificador único do pedido ex: e9feb5aa-0000-...).
 
 Endpoint de Consulta de Pedido:
 `GET /v1/sellers/orders/{order_id}`
-
-<br />
 
 ### Passo 2: Validando o status de Captura Parcial (partially_captured)
 
