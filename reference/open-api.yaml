@@ -1,79 +1,5 @@
 openapi: 3.0.0
 paths:
-  /v1/orders:
-    post:
-      description: >-
-        Tries to create a new order. Will work if the buyer has enough credit
-        limit and payment terms for the given order. Once successfully created,
-        the total amount of the order will be subtracted from the buyer's
-        available credit limit.
-      operationId: post-create-order
-      parameters: []
-      requestBody:
-        required: true
-        description: Order data.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateApplicationOrderPostBodyDto'
-      responses:
-        '201':
-          description: Successful operation, order created.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMarketplaceOrderResponseDto'
-        '400':
-          description: Bad Request.
-        '412':
-          description: Preconditions Failed.
-        '500':
-          description: Internal Server Error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Create an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
-  /v1/orders/{orderId}/documents:
-    get:
-      description: Gets all documents linked to an order.
-      operationId: get-order-documents
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          description: CrediPay's internal order ID.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetOrderDocumentsResponseDto'
-        '404':
-          description: Order was not found.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Get order documents
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/orders/{orderId}/refund:
     post:
       description: >-
@@ -631,6 +557,25 @@ components:
       in: header
       name: X-CREDIPAY-API-KEY
   schemas:
+    RefundOrderPostBodyDto:
+      type: object
+      properties:
+        refundValueCents:
+          type: number
+          description: Refund value in cents.
+          example: 1020000
+          minimum: 1
+        value:
+          type: number
+          description: >-
+            Refund value in cents. This property is deprecated use
+            refundValueCents in body instead
+          example: 1020000
+          deprecated: true
+          minimum: 1
+      required:
+        - refundValueCents
+        - value
     OrderShippingLocationDto:
       type: object
       properties:
@@ -678,365 +623,6 @@ components:
       required:
         - maturityDate
         - faceValueCents
-    OrderItemDto:
-      type: object
-      properties:
-        productId:
-          type: string
-          description: Unique product identifier.
-          default: '7891910000197'
-        productName:
-          type: string
-          description: Name.
-          default: Cerveja Skol 350ml
-        quantity:
-          type: number
-          description: Quantity.
-          default: 1000
-        unitPriceCents:
-          type: number
-          description: Unit price in cents.
-          default: 1020
-      required:
-        - productId
-        - productName
-        - quantity
-        - unitPriceCents
-    ContactInformationDto:
-      type: object
-      properties:
-        email:
-          type: string
-          description: Contact's email.
-          default: sales@acme.com
-        phone:
-          type: string
-          description: Contact's phone number.
-          default: '+551243974164'
-        name:
-          type: string
-          description: Contact's name.
-          default: First name
-        lastName:
-          type: string
-          description: Contact's last name.
-          default: Last name
-      required:
-        - phone
-        - name
-        - lastName
-    CreateApplicationOrderPostBodyDto:
-      type: object
-      properties:
-        externalId:
-          type: string
-          description: Seller's internal order ID.
-          default: REF-10230456
-        subtotalAmountCents:
-          type: number
-          description: The value of the order's goods and or services in cents.
-          default: 1020000
-        taxAmountCents:
-          type: number
-          description: Tax amount in cents.
-          default: 81600
-        shippingCostCents:
-          type: number
-          description: Shipping costs in cents.
-          default: 5000
-        shippingLocation:
-          description: Shipping location.
-          allOf:
-            - $ref: '#/components/schemas/OrderShippingLocationDto'
-        estimatedDeliveryDateUTC:
-          format: date-time
-          type: string
-          description: Estimated delivery UTC date in ISO 8601 format.
-          default: '2024-02-05T00:00:00Z'
-        installments:
-          description: Installments for the order.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderInstallmentsDto'
-        sellerTaxId:
-          type: string
-          description: Seller company tax ID.
-          example: '35027057000088'
-        buyerTaxId:
-          type: string
-          description: Buyer company tax ID.
-          example: '56037284000064'
-        items:
-          description: Order items.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderItemDto'
-        contactInformation:
-          description: Order contact information.
-          allOf:
-            - $ref: '#/components/schemas/ContactInformationDto'
-        metadata:
-          type: object
-          description: Metadata for the order.
-      required:
-        - subtotalAmountCents
-        - taxAmountCents
-        - shippingCostCents
-        - installments
-        - sellerTaxId
-        - buyerTaxId
-        - items
-        - contactInformation
-    GetMarketplaceOrderResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: CrediPay's internal order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        externalId:
-          type: string
-          description: Internal order ID of the seller.
-          example: REF-10230456
-        subtotalAmountCents:
-          type: number
-          description: The value of the order's goods and or services in cents.
-          example: 1020000
-        taxAmountCents:
-          type: number
-          description: Tax amount in cents.
-          example: 81600
-        shippingCostCents:
-          type: number
-          description: Shipping costs in cents.
-          example: 5000
-        buyerFeesCents:
-          type: number
-          description: >-
-            This field will automatically be calculated. It will have a non-zero
-            value when the seller is configured to charge fees to buyers. Note
-            that this value is already included in the total amount cents.
-          example: 10978
-        totalAmountCents:
-          type: number
-          description: >-
-            Total amount in cents. This amount includes buyer fees if
-            applicable. The value of the to-be-created invoice should equal this
-            amount.
-          example: 1117578
-        shippingLocation:
-          description: Shipping location.
-          allOf:
-            - $ref: '#/components/schemas/OrderShippingLocationDto'
-        paymentTermDays:
-          type: string
-          description: >-
-            Payment term in days. The maturity date of the to-be-created invoice
-            should equal the payment term days added to the order creation date.
-          example: 30
-        status:
-          type: string
-          description: Order status.
-          enum:
-            - new
-            - created
-            - accepted
-            - cancelled
-            - rejected
-            - finalized
-            - captured
-            - expired
-            - ineligible
-            - invalidated
-            - validating
-            - declined
-            - waiting_for_invoice
-            - validation_failed
-            - nf_validation_failed
-            - partially_refunded
-            - fully_refunded
-            - waiting_for_otp
-            - partially_captured
-          example: finalized
-        estimatedDeliveryDate:
-          type: object
-          description: Estimated delivery UTC date in ISO 8601 format.
-          example: '2024-02-05T00:00:00Z'
-        createdAt:
-          type: string
-          description: Creation UTC date in ISO 8601 format.
-          example: '2024-02-01T00:00:00Z'
-        sellerTaxId:
-          type: string
-          description: Seller company tax ID.
-          example: '15853054000096'
-        buyerTaxId:
-          type: string
-          description: Buyer company tax ID.
-          example: '18360341000052'
-        noAdvancing:
-          type: boolean
-          description: No advancing
-          example: false
-        installments:
-          description: Installments for the order.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderInstallmentsDto'
-      required:
-        - id
-        - externalId
-        - subtotalAmountCents
-        - taxAmountCents
-        - shippingCostCents
-        - buyerFeesCents
-        - totalAmountCents
-        - paymentTermDays
-        - status
-        - estimatedDeliveryDate
-        - createdAt
-        - sellerTaxId
-        - buyerTaxId
-        - noAdvancing
-        - installments
-    AssetDocumentMetaData:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Asset ID
-          example: 9a25c2b5-bf6d-4e23-90e5-65fa3ec2dc38
-        maturityDate:
-          type: string
-          description: Asset maturity date in ISO 8601 format
-          example: '2024-02-29T00:00:00.000Z'
-        faceValueCents:
-          type: number
-          description: Asset face value in cents
-          example: 1020000
-      required:
-        - id
-        - maturityDate
-        - faceValueCents
-    RepaymentDocumentMetaData:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Repayment ID.
-          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
-        status:
-          type: string
-          description: repayment status.
-          enum:
-            - open
-            - paid
-            - restructured
-            - renegotiated
-          example: open
-        amount:
-          type: number
-          description: Amount value cents.
-          example: 10000
-        dueDate:
-          type: string
-          description: >-
-            Invoice due date in ISO 8601 format. In the case of multiple
-            installments, this is the due date of the last installment.
-          example: '2024-02-29T00:00:00.000Z'
-        pdfURL:
-          type: object
-          description: Repayment PDF URL
-          example: https://pdfurl.com
-          default: https://pdfurl.com
-      required:
-        - id
-        - status
-        - amount
-        - dueDate
-        - pdfURL
-    DocumentMetaData:
-      type: object
-      properties:
-        documentType:
-          type: string
-          description: Document type
-          enum:
-            - PixInvoice
-            - Boleto
-            - BolePix
-          example: Boleto
-        assetId:
-          type: string
-          description: Asset ID
-          deprecated: true
-        asset:
-          description: Asset metadata
-          allOf:
-            - $ref: '#/components/schemas/AssetDocumentMetaData'
-        repayment:
-          description: Repayment metadata
-          allOf:
-            - $ref: '#/components/schemas/RepaymentDocumentMetaData'
-      required:
-        - documentType
-        - assetId
-        - asset
-        - repayment
-    DocumentDto:
-      type: object
-      properties:
-        metaData:
-          description: Document metadata
-          allOf:
-            - $ref: '#/components/schemas/DocumentMetaData'
-        link:
-          type: object
-          description: Document link
-          example: https://example.com/document.pdf
-        createdAt:
-          format: date-time
-          type: string
-          description: Document creation date
-          example: '2024-02-29T00:00:00.000Z'
-      required:
-        - metaData
-        - link
-        - createdAt
-    GetOrderDocumentsResponseDto:
-      type: object
-      properties:
-        orderId:
-          type: string
-          description: Order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        documents:
-          description: Order documents.
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentDto'
-      required:
-        - orderId
-        - documents
-    RefundOrderPostBodyDto:
-      type: object
-      properties:
-        refundValueCents:
-          type: number
-          description: Refund value in cents.
-          example: 1020000
-          minimum: 1
-        value:
-          type: number
-          description: >-
-            Refund value in cents. This property is deprecated use
-            refundValueCents in body instead
-          example: 1020000
-          deprecated: true
-          minimum: 1
-      required:
-        - refundValueCents
-        - value
     GetMarketplaceCanceledOrderResponseDto:
       type: object
       properties:
@@ -1701,6 +1287,118 @@ components:
         - repayments
         - order
         - payer
+    GetMarketplaceOrderResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: CrediPay's internal order ID.
+          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+        externalId:
+          type: string
+          description: Internal order ID of the seller.
+          example: REF-10230456
+        subtotalAmountCents:
+          type: number
+          description: The value of the order's goods and or services in cents.
+          example: 1020000
+        taxAmountCents:
+          type: number
+          description: Tax amount in cents.
+          example: 81600
+        shippingCostCents:
+          type: number
+          description: Shipping costs in cents.
+          example: 5000
+        buyerFeesCents:
+          type: number
+          description: >-
+            This field will automatically be calculated. It will have a non-zero
+            value when the seller is configured to charge fees to buyers. Note
+            that this value is already included in the total amount cents.
+          example: 10978
+        totalAmountCents:
+          type: number
+          description: >-
+            Total amount in cents. This amount includes buyer fees if
+            applicable. The value of the to-be-created invoice should equal this
+            amount.
+          example: 1117578
+        shippingLocation:
+          description: Shipping location.
+          allOf:
+            - $ref: '#/components/schemas/OrderShippingLocationDto'
+        paymentTermDays:
+          type: string
+          description: >-
+            Payment term in days. The maturity date of the to-be-created invoice
+            should equal the payment term days added to the order creation date.
+          example: 30
+        status:
+          type: string
+          description: Order status.
+          enum:
+            - new
+            - created
+            - accepted
+            - cancelled
+            - rejected
+            - finalized
+            - captured
+            - expired
+            - ineligible
+            - invalidated
+            - validating
+            - declined
+            - waiting_for_invoice
+            - validation_failed
+            - nf_validation_failed
+            - partially_refunded
+            - fully_refunded
+            - waiting_for_otp
+            - partially_captured
+          example: finalized
+        estimatedDeliveryDate:
+          type: object
+          description: Estimated delivery UTC date in ISO 8601 format.
+          example: '2024-02-05T00:00:00Z'
+        createdAt:
+          type: string
+          description: Creation UTC date in ISO 8601 format.
+          example: '2024-02-01T00:00:00Z'
+        sellerTaxId:
+          type: string
+          description: Seller company tax ID.
+          example: '15853054000096'
+        buyerTaxId:
+          type: string
+          description: Buyer company tax ID.
+          example: '18360341000052'
+        noAdvancing:
+          type: boolean
+          description: No advancing
+          example: false
+        installments:
+          description: Installments for the order.
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderInstallmentsDto'
+      required:
+        - id
+        - externalId
+        - subtotalAmountCents
+        - taxAmountCents
+        - shippingCostCents
+        - buyerFeesCents
+        - totalAmountCents
+        - paymentTermDays
+        - status
+        - estimatedDeliveryDate
+        - createdAt
+        - sellerTaxId
+        - buyerTaxId
+        - noAdvancing
+        - installments
     OrderErrorDto:
       type: object
       properties:
