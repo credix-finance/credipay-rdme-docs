@@ -53,13 +53,13 @@ flowchart TD
         %% Linha 1: Vendedor (invisível, força alinhamento horizontal)
         subgraph row1 [" "]
             direction LR
-            b1["&nbsp;&nbsp;&nbsp;&nbsp;"]:::vendedor ~~~ t1["Ações do Vendedor"]:::textoLegenda
+            b1["&nbsp;&nbsp;"]:::vendedor ~~~ t1["Ações do Vendedor"]:::textoLegenda
         end
         
         %% Linha 2: CrediPay (invisível, força alinhamento horizontal)
         subgraph row2 [" "]
             direction LR
-            b2["&nbsp;&nbsp;&nbsp;&nbsp;"]:::credipay ~~~ t2["Ações da CrediPay"]:::textoLegenda
+            b2["&nbsp;&nbsp;"]:::credipay ~~~ t2["Ações da CrediPay"]:::textoLegenda
         end
     end
 
