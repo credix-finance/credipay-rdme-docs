@@ -4,6 +4,12 @@ deprecated: false
 hidden: false
 metadata:
   robots: index
+next:
+  description: Conheça mais sobre como enviar a NF
+  pages:
+    - slug: envio-e-validação-da-nota-fiscal
+      title: Envio e validação da nota fiscal
+      type: basic
 ---
 Na seção "Pedidos", você pode iniciar uma nova operação clicando em **"Adicionar Pedido(s)"**, no topo da tela.
 
