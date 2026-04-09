@@ -7,6 +7,65 @@ metadata:
 ---
 Esta seção descreve o comportamento da nossa API durante o fluxo de envio de múltiplas notas fiscais para um mesmo pedido. O objetivo é orientar o desenvolvedor sobre como o estado do pedido é alterado a cada envio e como consultar essas informações via API.
 
+```mermaid
+flowchart TD
+    n1["Pedido aprovado aguardando nota (waiting_for_invoice)"]
+    
+    subgraph s1["<b>Ciclo de Múltiplas Notas (Captura Parcial)</b>"]
+        n2["Vendedor emite NF e recebe aprovação da SEFAZ"]
+        n3["Envia XML da NF para CrediPay"]
+        n4["Recebe e valida XML da NF"]
+        n5{"XML aprovado?"}
+        n6["Recebe feedback e ajusta XML"]
+        n7{"Flag 'Enviar mais notas' marcada?"}
+        n8["Altera status para partially_captured"]
+        n9{"Possui mais notas para enviar?"}
+        n10["Aciona 'Finalizar Captura' manualmente"]
+    end
+    
+    n11["Altera status para captured"]
+    n12["Formaliza a operação"]
+    n13["Gera e envia boletos ao comprador"]
+
+    n1 --> n2
+    n2 --> n3
+    n3 -- POST v2/orders/{orderId}/capture --> n4
+    n4 --> n5
+    n5 -- "Não - webhook order.validationFailed" --> n6
+    n6 --> n3
+    n5 -- "Sim" --> n7
+    
+    n7 -- "Sim" --> n8
+    n8 --> n9
+    n9 -- "Sim (Repete o processo)" --> n2
+    n9 -- "Não" --> n10
+    n10 --> n11
+    
+    n7 -- "Não (Última nota enviada)" --> n11
+    
+    n11 -- "webhook order.captured" --> n12
+    n12 --> n13
+
+    n1:::credipay
+    n2:::vendedor
+    n3:::vendedor
+    n4:::credipay
+    n5:::credipay
+    n6:::vendedor
+    n7:::credipay
+    n8:::credipay
+    n9:::vendedor
+    n10:::vendedor
+    n11:::credipay
+    n12:::credipay
+    n13:::credipay
+
+    classDef vendedor fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
+    classDef comprador fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
+    classDef credipay fill:#FFD8A8,stroke:#333,stroke-width:1px,color:#000;
+    style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 5 5
+```
+
 ## Visão Geral do Fluxo de Status
 
 Quando um pedido é criado e aprovado, ele aguarda o envio das Notas Fiscais. Durante o processo de envio de múltiplas notas, o pedido transita pelos seguintes status na API:
