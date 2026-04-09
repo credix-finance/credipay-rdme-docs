@@ -9,6 +9,16 @@ Esta seção descreve o comportamento da nossa API durante o fluxo de envio de m
 
 ```mermaid
 flowchart TD
+    %% Bloco de Legenda
+    subgraph Legenda ["<b>Legenda de Responsabilidades</b>"]
+        direction LR
+        L1["Ações do Vendedor"]:::vendedor ~~~ L2["Ações da CrediPay"]:::credipay
+    end
+
+    %% Invisível para forçar a legenda a ficar no topo sem cruzar linhas
+    Legenda ~~~ n1
+
+    %% Início do Fluxo
     n1["Pedido aprovado aguardando nota (waiting_for_invoice)"]
 
     subgraph s1["<b>Ações Iniciais do Vendedor</b>"]
@@ -60,10 +70,16 @@ flowchart TD
     n11:::credipay
     n12:::credipay
     n13:::credipay
+    
+    %% Aplicando as cores da legenda
+    L1:::vendedor
+    L2:::credipay
 
     classDef vendedor fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
     classDef comprador fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
     classDef credipay fill:#FFD8A8,stroke:#333,stroke-width:1px,color:#000;
+    
+    style Legenda fill:#f9f9f9,stroke:#ccc,stroke-width:1px,stroke-dasharray: 5 5
     style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
