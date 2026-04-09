@@ -44,10 +44,10 @@ flowchart TD
     n11 -- "webhook order.captured" --> n12["Formaliza a operação"]
     n12 --> n13["Gera e envia boletos ao comprador"]
 
-    %% Legenda Compacta no Final (Nó único com HTML)
+    %% Legenda Compacta no Final usando Caracteres Unicode (Não some na renderização)
     n13 ~~~ Legenda
 
-    Legenda["<b>Legenda</b><br><br><span style='background-color:#C6F7D0; border:1px solid #333;'>&nbsp;&nbsp;&nbsp;&nbsp;</span> Ações do Vendedor<br><br><span style='background-color:#FFD8A8; border:1px solid #333;'>&nbsp;&nbsp;&nbsp;&nbsp;</span> Ações da CrediPay"]:::legendaBox
+    Legenda["<b>Legenda</b><br><br>🟩 Ações do Vendedor<br><br>🟧 Ações da CrediPay"]:::legendaBox
 
     %% Estilização e Cores
     n1:::credipay
