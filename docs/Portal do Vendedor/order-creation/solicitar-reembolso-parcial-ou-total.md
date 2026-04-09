@@ -5,17 +5,18 @@ hidden: true
 metadata:
   robots: index
 ---
+<br />
+
 Você pode acompanhar os detalhes da operação e, se necessário, solicitar reembolso (total ou parcial).
 
 Acesse o menu de três pontos ao lado do pedido:
 
-* Clique em **“Ver detalhes do pedido”** para ver todos os boletos emitidos:
+* Clique no pedido para ver todas informações.
+* Em Reembolsos, selecione a NF que gostaria de solicitar o reembolso e preencha com o valor total ou parcial  total do pedido:
 
-<Image align="center" width="600px" src="https://files.readme.io/d50638c57ff70e5b8ff63366e6abd23b33f31ad6a140f06d0690f29d62068861-Frame_4.png" />
+<Image align="center" border={true} src="https://files.readme.io/aa588d6bbd5931d8d80cba64ce31a1b4c88fadf9860887949edd4d114d152926-Screenshot_2026-04-09_at_10.59.50.png" className="border" />
 
-* Solicitar reembolso parcial ou total do pedido:
-
-<Image align="center" width="300px" src="https://files.readme.io/fd4defd63c4b3993f46345b19d49d6071e77a037a5cab3bb6e543fcf37904489-image.png" />
+<br />
 
 Se tiver qualquer dúvida sobre o uso da plataforma, o time da CrediPay está à disposição para ajudar.  
 Entre em contato pelo nosso canal de suporte ou com o responsável da sua operação.
