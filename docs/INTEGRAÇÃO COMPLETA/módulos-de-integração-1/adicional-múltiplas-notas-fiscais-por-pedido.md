@@ -53,13 +53,13 @@ flowchart TD
         %% Linha 1: Vendedor (invisível, força alinhamento horizontal)
         subgraph row1 [" "]
             direction LR
-            b1["&nbsp;&nbsp;"]:::vendedor ~~~ t1["Ações do Vendedor"]:::textoLegenda
+            b1["&nbsp;"]:::vendedor ~~~ t1["Ações do Vendedor"]:::textoLegenda
         end
         
         %% Linha 2: CrediPay (invisível, força alinhamento horizontal)
         subgraph row2 [" "]
             direction LR
-            b2["&nbsp;&nbsp;"]:::credipay ~~~ t2["Ações da CrediPay"]:::textoLegenda
+            b2["&nbsp;"]:::credipay ~~~ t2["Ações da CrediPay"]:::textoLegenda
         end
     end
 
@@ -90,8 +90,8 @@ flowchart TD
     style row1 fill:none,stroke:none
     style row2 fill:none,stroke:none
     
-    style Legenda fill:#f9f9f9,stroke:#ccc,stroke-width:1px,stroke-dasharray: 5 5
-    style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 5 5
+    style Legenda fill:#f9f9f9,stroke:#ccc,stroke-width:1px,stroke-dasharray: 2 2
+    style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 2 2
 ```
 
 ## Visão Geral do Fluxo de Status
