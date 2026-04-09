@@ -2,7 +2,7 @@
 title: Funcionalidades da plataforma
 excerpt: ''
 deprecated: false
-hidden: false
+hidden: true
 metadata:
   title: ''
   description: ''
