@@ -1,7 +1,7 @@
 ---
 title: 'Adicional: Múltiplas Notas Fiscais por pedido'
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
