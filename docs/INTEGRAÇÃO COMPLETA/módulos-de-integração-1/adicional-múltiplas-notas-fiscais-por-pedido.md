@@ -19,24 +19,24 @@ flowchart TD
     n1 --> n2
     n1 --> n10
 
-    %% Validação da Flag ANTES de enviar para a CrediPay
+    %% Validação da Flag
     n2 --> n7{"Flag 'Enviar mais notas' marcada?"}
 
     %% Caminho SIM: Mantém em waiting_for_invoice
     n7 -- "Sim" --> n3a["Envia XML para CrediPay"]
     n3a -- POST v2/orders/{orderId}/capture --> n4a["CrediPay recebe e valida XML"]
     n4a --> n5a{"XML aprovado?"}
-    n5a -- "Não - webhook order.validationFailed" --> n6["Vendedor apenas recebe feedback"]
+    n5a -- "Não - webhook order.validationFailed" --> n6a["Vendedor apenas recebe feedback"]
     n5a -- "Sim" --> n8["Mantém status como waiting_for_invoice"]
     
     %% Caminho NÃO: Segue para finalização
     n7 -- "Não" --> n3b["Envia XML para CrediPay"]
     n3b -- POST v2/orders/{orderId}/capture --> n4b["CrediPay recebe e valida XML"]
     n4b --> n5b{"XML aprovado?"}
-    n5b -- "Não - webhook order.validationFailed" --> n6
+    n5b -- "Não - webhook order.validationFailed" --> n6b["Vendedor apenas recebe feedback"]
     n5b -- "Sim" --> n11["Altera status para captured"]
 
-    %% Caminho do Botão Manual
+    %% Caminho do Botão Manual (vai direto pro final pelo canto)
     n10 --> n11
 
     %% Conclusão do Pedido
@@ -55,7 +55,8 @@ flowchart TD
     n3b:::vendedor
     n4b:::credipay
     n5b:::credipay
-    n6:::vendedor
+    n6a:::vendedor
+    n6b:::vendedor
     n11:::credipay
     n12:::credipay
     n13:::credipay
