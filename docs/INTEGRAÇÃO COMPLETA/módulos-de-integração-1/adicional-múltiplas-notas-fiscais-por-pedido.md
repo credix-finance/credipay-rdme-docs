@@ -89,21 +89,18 @@ Quando um pedido é criado e aprovado, ele aguarda o envio das Notas Fiscais. Du
 
 Para interagir com a API, você precisará do order_id (identificador único do pedido ex: e9feb5aa-0000-...).
 
-Endpoint de Consulta de Pedido:
-`GET /v1/sellers/orders/{order_id}`
+Endpoint de Consulta de Pedido:`GET GET /v2/orders/{id}`
 
 ### Passo 2: Encaminhar NF com status de Captura Parcial (partially_captured)
 
-Para enviar a Nota Fiscal e sinalizar que aquele pedido receberá mais notas no futuro, você deve utilizar o endpoint de Captura enviando o arquivo XML e passando o parâmetro que indica a continuidade (flag ativa).
+Para enviar a Nota Fiscal e sinalizar que aquele pedido receberá mais notas no futuro, você deve utilizar o endpoint de Captura enviando o arquivo XML e passando o parâmetro que indica a continuidade (flag ativa). Ao realizar esta requisição com a flag indicando mais envios (ex: **isPartialCapture: true** no payload da requisição), a plataforma processa a nota e altera o status do pedido para indicar que a captura ainda está em andamento.
 
 Endpoint de Captura:
 Ver referência na [Documentação da API (Capture Order)](https://docs.credipay.credix.finance/update/reference/orderscontroller_captureorder)
 
 ```http
-POST /v1/sellers/orders/{order_id}/capture
+POST /v2/orders/{id}/capture
 ```
-
-Nota: Ao realizar esta requisição com a flag indicando mais envios (ex: **isPartialCapture: true** no payload da requisição), a plataforma processa a nota e altera o status do pedido para indicar que a captura ainda está em andamento.
 
 Ao fazer uma requisição GET no pedido após o primeiro envio, a API retornará as seguintes atualizações:
 
@@ -147,8 +144,6 @@ Se você tem uma última nota fiscal para enviar e quer fechar o pedido simultan
 POST /v2/orders/{id}/capture
 ```
 
-  
-
 #### Possibilidade 2: Finalizando manualmente (sem novas notas)
 
 Se você já enviou todas as notas fracionadas anteriormente e quer apenas encerrar o pedido para gerar as cobranças (mesmo que o valor capturado seja inferior ao total original), você deve acionar o endpoint específico de finalização de captura.
@@ -161,7 +156,7 @@ POST /v2/orders/{id}/capture/complete
 
 Ao realizar uma dessas ações, o sistema consolida as informações e gera os boletos.
 
-Ao consultar o pedido novamente via `GET /v1/sellers/orders/{order_id}`, você notará as seguintes mudanças definitivas:
+Ao consultar o pedido novamente via `GET /v2/orders/{id}`, você notará as seguintes mudanças definitivas:
 
 * `status`: O campo agora retorna "captured".
 * `invoices`: O array lista todas as notas fiscais validadas.
@@ -193,6 +188,6 @@ Exemplo de Resposta da API (Finalizada):
 
 ### Resumo para o Desenvolvedor
 
-* Utilize a rota `GET /v1/sellers/orders/{order_id}` para monitorar o andamento da captura.
+* Utilize a rota `GET /v2/orders/{id}` para monitorar o andamento da captura ou configure webhooks para receber as atualizações.
 * O array "invoices" é a sua fonte da verdade para saber quais chaves de acesso já foram atreladas e aprovadas para um determinado pedido.
 * Apenas pedidos no status "captured" irão gerar recebíveis/boletos para o seu cliente final.
