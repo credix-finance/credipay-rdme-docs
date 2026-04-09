@@ -44,24 +44,10 @@ flowchart TD
     n11 -- "webhook order.captured" --> n12["Formaliza a operação"]
     n12 --> n13["Gera e envia boletos ao comprador"]
 
-    %% Bloco de Legenda no Final
+    %% Legenda Compacta no Final (Nó único com HTML)
     n13 ~~~ Legenda
 
-    subgraph Legenda ["<b>Legenda</b>"]
-        direction TB
-        
-        %% Linha 1: Vendedor (invisível, força alinhamento horizontal)
-        subgraph row1 [" "]
-            direction LR
-            b1["&nbsp;"]:::vendedor ~~~ t1["Ações do Vendedor"]:::textoLegenda
-        end
-        
-        %% Linha 2: CrediPay (invisível, força alinhamento horizontal)
-        subgraph row2 [" "]
-            direction LR
-            b2["&nbsp;"]:::credipay ~~~ t2["Ações da CrediPay"]:::textoLegenda
-        end
-    end
+    Legenda["<b>Legenda</b><br><br><span style='background-color:#C6F7D0; border:1px solid #333;'>&nbsp;&nbsp;&nbsp;&nbsp;</span> Ações do Vendedor<br><br><span style='background-color:#FFD8A8; border:1px solid #333;'>&nbsp;&nbsp;&nbsp;&nbsp;</span> Ações da CrediPay"]:::legendaBox
 
     %% Estilização e Cores
     n1:::credipay
@@ -84,14 +70,9 @@ flowchart TD
     %% Definições de Classes Visuais
     classDef vendedor fill:#C6F7D0,stroke:#333,stroke-width:1px,color:#000;
     classDef credipay fill:#FFD8A8,stroke:#333,stroke-width:1px,color:#000;
-    classDef textoLegenda fill:none,stroke:none,color:#000;
+    classDef legendaBox fill:#f9f9f9,stroke:#ccc,stroke-width:1px,color:#000,text-align:left;
     
-    %% Oculta as bordas das linhas internas da legenda
-    style row1 fill:none,stroke:none
-    style row2 fill:none,stroke:none
-    
-    style Legenda fill:#f9f9f9,stroke:#ccc,stroke-width:1px,stroke-dasharray: 2 2
-    style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 2 2
+    style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ## Visão Geral do Fluxo de Status
