@@ -1,8 +1,8 @@
 ---
 title: Delete seller user
 excerpt: >-
-  Revokes Auth0 access, invalidates refresh tokens, and soft-deletes the local
-  user only in the authenticated seller organization.
+  Revoga o acesso no Auth0, invalida os tokens de atualização e realiza a
+  exclusão lógica do usuário local apenas na organização autenticada.
 api:
   file: open-api.yaml
   operationId: UsersController_deleteUser
