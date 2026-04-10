@@ -7,6 +7,16 @@ metadata:
 ---
 Esta seção descreve o comportamento da nossa API durante o fluxo de envio de múltiplas notas fiscais para um mesmo pedido.
 
+## Visão Geral do Fluxo de Status
+
+Quando um pedido é criado e aprovado, ele aguarda o envio das Notas Fiscais. Durante o processo de envio de múltiplas notas, o pedido transita pelos seguintes status na API:
+
+* waiting_for_invoice (ou status inicial equivalente de aprovação)
+* partially_captured (Recebendo notas de forma fracionada)
+* captured (Captura finalizada e ciclo de envio de notas encerrado)
+
+<br />
+
 ```mermaid
 flowchart TD
     %% Início do Fluxo
@@ -74,14 +84,6 @@ flowchart TD
     
     style s1 stroke:#000000,stroke-width:2px,stroke-dasharray: 5 5
 ```
-
-## Visão Geral do Fluxo de Status
-
-Quando um pedido é criado e aprovado, ele aguarda o envio das Notas Fiscais. Durante o processo de envio de múltiplas notas, o pedido transita pelos seguintes status na API:
-
-* waiting_for_invoice (ou status inicial equivalente de aprovação)
-* partially_captured (Recebendo notas de forma fracionada)
-* captured (Captura finalizada e ciclo de envio de notas encerrado)
 
 <br />
 
