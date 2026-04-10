@@ -25,15 +25,16 @@ Os webhooks permitem que sua aplicação receba notificações em tempo real sob
 
 ## Eventos disponíveis
 
-| Evento                   | Quando é disparado                                                                                       |
-| :----------------------- | :------------------------------------------------------------------------------------------------------- |
-| `order.accepted`         | Quando um pedido é confirmado pelo comprador                                                             |
-| `order.rejected`         | Quando um pedido é rejeitado pelo comprador                                                              |
-| `order.captured`         | Quando um XML é aceito                                                                                   |
-| `order.validationFailed` | Quando um XML é recusado. Ao receber este evento, é possível enviar novas tentativas para o mesmo pedido |
-| `repayment.created`      | Quando um novo boleto é criado (NF enviada, reembolso feito ou renegociação)                             |
-| `repayment.settled`      | Quando um pagamento é compensado ou um reembolso total é concluído                                       |
-| `repayment.cancelled`    | Quando um boleto é cancelado                                                                             |
+| Evento                    | Quando é disparado                                                                                       |
+| :------------------------ | :------------------------------------------------------------------------------------------------------- |
+| `order.accepted`          | Quando um pedido é confirmado pelo comprador                                                             |
+| `order.rejected`          | Quando um pedido é rejeitado pelo comprador                                                              |
+| `order.captured`          | Quando um XML é aceito e o pedido é processado                                                           |
+| `order.partiallyCaptured` | Quando um XML é aceito e o pedido se mantém aberto (parcialmente processado)                             |
+| `order.validationFailed`  | Quando um XML é recusado. Ao receber este evento, é possível enviar novas tentativas para o mesmo pedido |
+| `repayment.created`       | Quando um novo boleto é criado (NF enviada, reembolso feito ou renegociação)                             |
+| `repayment.settled`       | Quando um pagamento é compensado ou um reembolso total é concluído                                       |
+| `repayment.cancelled`     | Quando um boleto é cancelado                                                                             |
 
 ***
 
