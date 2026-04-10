@@ -1,47 +1,5 @@
 openapi: 3.0.0
 paths:
-  /v1/orders/{orderId}/refund:
-    post:
-      description: >-
-        Refunds an order. When this endpoint is called, the amount CrediPay
-        charges the buyer will be reduced by the amount passed in the body. If
-        the given order was advanced to the seller, the refund amount will then
-        be subtracted from the next disbursement the seller receives.
-      operationId: post-order-refund
-      parameters:
-        - name: orderId
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        description: Refund data.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RefundOrderPostBodyDto'
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMarketplaceCanceledOrderResponseDto'
-        '400':
-          description: Bad Request.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Refund an order
-      tags:
-        - Orders
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
   /v1/assets:
     get:
       deprecated: true
@@ -557,184 +515,6 @@ components:
       in: header
       name: X-CREDIPAY-API-KEY
   schemas:
-    RefundOrderPostBodyDto:
-      type: object
-      properties:
-        refundValueCents:
-          type: number
-          description: Refund value in cents.
-          example: 1020000
-          minimum: 1
-        value:
-          type: number
-          description: >-
-            Refund value in cents. This property is deprecated use
-            refundValueCents in body instead
-          example: 1020000
-          deprecated: true
-          minimum: 1
-      required:
-        - refundValueCents
-        - value
-    OrderShippingLocationDto:
-      type: object
-      properties:
-        address1:
-          type: string
-          description: Street address 1.
-          default: Rua da Consolação, 930
-        address2:
-          type: string
-          description: Street address 2.
-          default: Apto 101
-        city:
-          type: string
-          description: City.
-          default: São Paulo
-        region:
-          type: string
-          description: Region.
-          default: São Paulo
-        postalCode:
-          type: string
-          description: Postal code.
-          default: '01302000'
-        country:
-          type: string
-          description: Country.
-          default: Brazil
-      required:
-        - address1
-        - city
-        - region
-        - postalCode
-        - country
-    OrderInstallmentsDto:
-      type: object
-      properties:
-        maturityDate:
-          type: string
-          description: Installments Maturity Date.
-          default: '2024-02-10T00:00:00Z'
-        faceValueCents:
-          type: number
-          description: Face value of the installment
-          default: 1020000
-      required:
-        - maturityDate
-        - faceValueCents
-    GetMarketplaceCanceledOrderResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: CrediPay's internal order ID.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        externalId:
-          type: string
-          description: Internal order ID of the seller.
-          example: REF-10230456
-        subtotalAmountCents:
-          type: number
-          description: The value of the order's goods and or services in cents.
-          example: 1020000
-        taxAmountCents:
-          type: number
-          description: Tax amount in cents.
-          example: 81600
-        shippingCostCents:
-          type: number
-          description: Shipping costs in cents.
-          example: 5000
-        buyerFeesCents:
-          type: number
-          description: >-
-            This field will automatically be calculated. It will have a non-zero
-            value when the seller is configured to charge fees to buyers. Note
-            that this value is already included in the total amount cents.
-          example: 10978
-        totalAmountCents:
-          type: number
-          description: >-
-            Total amount in cents. This amount includes buyer fees if
-            applicable. The value of the to-be-created invoice should equal this
-            amount.
-          example: 1117578
-        shippingLocation:
-          description: Shipping location.
-          allOf:
-            - $ref: '#/components/schemas/OrderShippingLocationDto'
-        paymentTermDays:
-          type: string
-          description: >-
-            Payment term in days. The maturity date of the to-be-created invoice
-            should equal the payment term days added to the order creation date.
-          example: 30
-        status:
-          type: string
-          description: Order status.
-          enum:
-            - new
-            - created
-            - accepted
-            - cancelled
-            - rejected
-            - finalized
-            - captured
-            - expired
-            - ineligible
-            - invalidated
-            - validating
-            - declined
-            - waiting_for_invoice
-            - validation_failed
-            - nf_validation_failed
-            - partially_refunded
-            - fully_refunded
-            - waiting_for_otp
-            - partially_captured
-          example: cancelled
-        estimatedDeliveryDate:
-          type: object
-          description: Estimated delivery UTC date in ISO 8601 format.
-          example: '2024-02-05T00:00:00Z'
-        createdAt:
-          type: string
-          description: Creation UTC date in ISO 8601 format.
-          example: '2024-02-01T00:00:00Z'
-        sellerTaxId:
-          type: string
-          description: Seller company tax ID.
-          example: '15853054000096'
-        buyerTaxId:
-          type: string
-          description: Buyer company tax ID.
-          example: '18360341000052'
-        noAdvancing:
-          type: boolean
-          description: No advancing
-          example: false
-        installments:
-          description: Installments for the order.
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderInstallmentsDto'
-      required:
-        - id
-        - externalId
-        - subtotalAmountCents
-        - taxAmountCents
-        - shippingCostCents
-        - buyerFeesCents
-        - totalAmountCents
-        - paymentTermDays
-        - status
-        - estimatedDeliveryDate
-        - createdAt
-        - sellerTaxId
-        - buyerTaxId
-        - noAdvancing
-        - installments
     GetAssetInvoiceDto:
       type: object
       properties:
@@ -1287,6 +1067,53 @@ components:
         - repayments
         - order
         - payer
+    OrderShippingLocationDto:
+      type: object
+      properties:
+        address1:
+          type: string
+          description: Street address 1.
+          default: Rua da Consolação, 930
+        address2:
+          type: string
+          description: Street address 2.
+          default: Apto 101
+        city:
+          type: string
+          description: City.
+          default: São Paulo
+        region:
+          type: string
+          description: Region.
+          default: São Paulo
+        postalCode:
+          type: string
+          description: Postal code.
+          default: '01302000'
+        country:
+          type: string
+          description: Country.
+          default: Brazil
+      required:
+        - address1
+        - city
+        - region
+        - postalCode
+        - country
+    OrderInstallmentsDto:
+      type: object
+      properties:
+        maturityDate:
+          type: string
+          description: Installments Maturity Date.
+          default: '2024-02-10T00:00:00Z'
+        faceValueCents:
+          type: number
+          description: Face value of the installment
+          default: 1020000
+      required:
+        - maturityDate
+        - faceValueCents
     GetMarketplaceOrderResponseDto:
       type: object
       properties:
