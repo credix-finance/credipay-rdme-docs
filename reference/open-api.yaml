@@ -384,13 +384,13 @@ paths:
   /v2/users:
     get:
       description: >-
-        Lists active users scoped only to the authenticated seller organization
-        resolved from the request context.
+        Lista os usuários ativos restritos à organização autenticada resolvida a
+        partir do contexto da requisição.
       operationId: UsersController_getUsers
       parameters: []
       responses:
         '200':
-          description: Users listed successfully.
+          description: Operação bem-sucedida.
           content:
             application/json:
               schema:
@@ -400,7 +400,7 @@ paths:
       security:
         - auth0_jwt: []
         - api_key: []
-      summary: List users in the caller organization
+      summary: Listar usuários da organização autenticada
       tags:
         - Users
       x-credix-security:
@@ -412,20 +412,20 @@ paths:
           - x-credipay-api-key
     post:
       description: >-
-        Creates a user only in the authenticated seller organization, assigns
-        Auth0 roles, and persists the local user identity.
+        Cria um usuário apenas na organização autenticada, atribui papéis no
+        Auth0 e persiste a identidade local do usuário.
       operationId: UsersController_createUser
       parameters: []
       requestBody:
         required: true
-        description: Seller user data
+        description: Dados do usuário.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateSellerUserBodyDto'
       responses:
         '201':
-          description: User created successfully.
+          description: Operação bem-sucedida, usuário criado.
           content:
             application/json:
               schema:
@@ -433,7 +433,7 @@ paths:
       security:
         - auth0_jwt: []
         - api_key: []
-      summary: Create seller user
+      summary: Criar usuário
       tags:
         - Users
       x-credix-security:
@@ -446,23 +446,23 @@ paths:
   /v2/users/me:
     get:
       description: >-
-        Returns the internal user identity for the authenticated session inside
-        the authenticated seller organization.
+        Retorna a identidade interna do usuário da sessão autenticada dentro da
+        organização autenticada.
       operationId: UsersController_getCurrentUser
       parameters: []
       responses:
         '200':
-          description: Current user returned successfully.
+          description: Operação bem-sucedida.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SellerUserResponseDto'
         '404':
-          description: User not found.
+          description: Usuário não foi encontrado.
       security:
         - auth0_jwt: []
         - api_key: []
-      summary: Get current user
+      summary: Obter usuário atual
       tags:
         - Users
       x-credix-security:
@@ -474,37 +474,37 @@ paths:
   /v2/users/{id}:
     patch:
       description: >-
-        Updates an active user only inside the authenticated seller organization
-        and keeps Auth0 and local identity in sync.
+        Atualiza um usuário ativo apenas dentro da organização autenticada e
+        mantém o Auth0 e a identidade local sincronizados.
       operationId: UsersController_updateUser
       parameters:
         - name: id
           required: true
           in: path
-          description: Internal user ID.
+          description: Id interno do usuário.
           schema:
             example: 123e4567-e89b-12d3-a456-426614174000
             type: string
       requestBody:
         required: true
-        description: Seller user update data
+        description: Dados para atualização do usuário.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateSellerUserBodyDto'
       responses:
         '200':
-          description: User updated successfully.
+          description: Operação bem-sucedida, usuário atualizado.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SellerUserResponseDto'
         '404':
-          description: User not found.
+          description: Usuário não foi encontrado.
       security:
         - auth0_jwt: []
         - api_key: []
-      summary: Update seller user
+      summary: Atualizar usuário
       tags:
         - Users
       x-credix-security:
@@ -516,26 +516,26 @@ paths:
           - x-credipay-api-key
     delete:
       description: >-
-        Revokes Auth0 access, invalidates refresh tokens, and soft-deletes the
-        local user only in the authenticated seller organization.
+        Revoga o acesso no Auth0, invalida os tokens de atualização e realiza a
+        exclusão lógica do usuário local apenas na organização autenticada.
       operationId: UsersController_deleteUser
       parameters:
         - name: id
           required: true
           in: path
-          description: Internal user ID.
+          description: Id interno do usuário.
           schema:
             example: 123e4567-e89b-12d3-a456-426614174000
             type: string
       responses:
         '204':
-          description: User deleted successfully.
+          description: Operação bem-sucedida, usuário excluído.
         '404':
-          description: User not found.
+          description: Usuário não foi encontrado.
       security:
         - auth0_jwt: []
         - api_key: []
-      summary: Delete seller user
+      summary: Exclui usuário
       tags:
         - Users
       x-credix-security:
