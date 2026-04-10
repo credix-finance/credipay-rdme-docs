@@ -1,8 +1,8 @@
 ---
 title: List users in the caller organization
 excerpt: >-
-  Lists active users scoped only to the authenticated seller organization
-  resolved from the request context.
+  Lista os usuários ativos restritos à organização autenticada resolvida a
+  partir do contexto da requisição.
 api:
   file: open-api.yaml
   operationId: UsersController_getUsers

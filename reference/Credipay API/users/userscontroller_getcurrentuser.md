@@ -1,8 +1,8 @@
 ---
 title: Get current user
 excerpt: >-
-  Returns the internal user identity for the authenticated session inside the
-  authenticated seller organization.
+  Retorna a identidade interna do usuário da sessão autenticada dentro da
+  organização autenticada.
 api:
   file: open-api.yaml
   operationId: UsersController_getCurrentUser
