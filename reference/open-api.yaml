@@ -1621,6 +1621,9 @@ components:
             type: string
             enum:
               - credipay_seller
+              - credipay_seller_admin
+              - credipay_seller_finance_team
+              - credipay_seller_sales_team
         salesChannel:
           type: string
           description: User sales channel.
@@ -1666,6 +1669,9 @@ components:
             type: string
             enum:
               - credipay_seller
+              - credipay_seller_admin
+              - credipay_seller_finance_team
+              - credipay_seller_sales_team
       required:
         - email
         - roleNames
@@ -1693,5 +1699,8 @@ components:
             type: string
             enum:
               - credipay_seller
+              - credipay_seller_admin
+              - credipay_seller_finance_team
+              - credipay_seller_sales_team
 security:
   - api_key: []
