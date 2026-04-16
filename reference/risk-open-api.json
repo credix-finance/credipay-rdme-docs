@@ -3325,10 +3325,11 @@
         "enum": [
           "fraud",
           "credit",
-          "generic"
+          "generic",
+          "classification"
         ],
         "title": "DomainEnum",
-        "description": "Enum representing the domain/nature of a flag type.\n\n- fraud: Flags related to fraudulent activities or suspicious behavior\n- credit: Flags related to credit risk assessment and creditworthiness\n- generic: General-purpose flags that can apply across multiple domains"
+        "description": "Enum representing the domain/nature of a flag type.\n\n- fraud: Flags related to fraudulent activities or suspicious behavior\n- credit: Flags related to credit risk assessment and creditworthiness\n- generic: General-purpose flags that can apply across multiple domains\n- classification: Flags related to entity classification outcomes"
       },
       "EnforcementDTO": {
         "properties": {
