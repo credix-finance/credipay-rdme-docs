@@ -1,10 +1,10 @@
 - buyers
 - orders
 - invoices
-- credit-limit
-- disbursements
 - search
+- disbursements
 - users
+- credit-limit
 - onboarding
 - segments
 - installments
