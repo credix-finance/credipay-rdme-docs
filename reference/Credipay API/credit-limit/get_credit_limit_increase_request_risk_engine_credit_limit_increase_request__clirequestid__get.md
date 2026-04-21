@@ -1,6 +1,4 @@
 ---
-title: Obter uma solicitação de aumento de limite de crédito
-excerpt: Obtenha uma solicitação de aumento de limite de crédito pelo ID (UUID)
 api:
   file: risk-open-api.json
   operationId: >-
