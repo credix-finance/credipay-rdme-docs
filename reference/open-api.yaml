@@ -360,7 +360,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-04-20'
+            default: '2026-04-21'
             example: '2025-01-01'
             type: string
         - name: includePending
