@@ -5,7 +5,7 @@ hidden: false
 metadata:
   robots: index
 ---
-Como Administrador, você pode adicionar novos usuários e gerenciar as permissões de acesso na plataforma. 
+Como Administrador, você pode adicionar novos usuários e gerenciar as permissões de acesso na plataforma.
 
 Para adicionar um novo usuário:
 
@@ -23,6 +23,6 @@ Para editar um usuário existente:
 
 <Image align="center" border={true} src="https://files.readme.io/00c92370a3ed98f23f7b62a50413eeded15317b2600ea877efaa5d50b23a3f4b-Screenshot_2026-04-22_at_15.57.39.png" className="border" />
 
-2. Atualize os dados conforme necessário. Nota: Todos os campos podem ser alterados, com exceção do e-mail..
+2. Atualize os dados conforme necessário. Nota: Todos os campos podem ser alterados, com exceção do e-mail.
 
-<Image align="center" border={true} src="https://files.readme.io/b69af3d821c7941bc11fef55bfb58f3999da02c9345b3959345fc537894ccc52-Screenshot_2026-04-22_at_15.58.08.png" className="border" />
+<Image align="center" border={true} src="https://files.readme.io/c58193eaa2b2f1cfa33c2145e6511581fa69a7bb8af7f527b73462e90cc0245c-Screenshot_2026-04-22_at_15.58.08.png" className="border" />
