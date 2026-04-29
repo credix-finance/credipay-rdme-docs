@@ -559,18 +559,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/GetOrganizationSellersResponseDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
       summary: Obter vendedores vinculados à organização
       tags:
         - Sellers
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - auth0_jwt
-        keyNames:
-          - x-credipay-api-key
 info:
   title: Credipay API
   description: ''
