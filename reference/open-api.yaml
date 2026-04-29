@@ -562,6 +562,50 @@ paths:
       summary: Obter vendedores vinculados à organização
       tags:
         - Sellers
+  /v2/webhooks/session:
+    get:
+      description: >-
+        Retorna a URL e o token de sessão para acessar o painel de webhooks da
+        organização na plataforma Svix. A URL e o token são válidos por 7 dias.
+      operationId: api-v2-get-webhook-dashboard-session-url
+      parameters: []
+      responses:
+        '200':
+          description: Operação realizada com sucesso, URL de sessão retornada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookDashboardSessionUrlResponseDto'
+      summary: Obter URL de sessão do painel de webhooks
+      tags:
+        - Webhooks
+  /v2/webhooks/endpoints/{endpointId}/resend:
+    post:
+      description: >-
+        Reenvia os webhooks que falharam em um determinado período. Mensagens
+        enviadas com sucesso não são reenviadas. O ID do endpoint pode ser
+        encontrado no painel de webhooks.
+      operationId: api-v2-post-resend-failed-webhooks
+      parameters:
+        - name: endpointId
+          required: true
+          in: path
+          description: ID do endpoint. Obtenha o ID do endpoint no painel de webhooks.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Dados para reenvio dos webhooks com falha.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhooksResendRequestDto'
+      responses:
+        '200':
+          description: Operação realizada com sucesso.
+      summary: Reenviar webhooks com falha
+      tags:
+        - Webhooks
 info:
   title: Credipay API
   description: ''
@@ -1796,5 +1840,35 @@ components:
         - noAdvancing
         - autoAdvanceDpd
         - sellerEconomicGroupId
+    WebhookDashboardSessionUrlResponseDto:
+      type: object
+      properties:
+        url:
+          type: string
+          description: >-
+            URL para acessar o painel de webhooks da organização. Válida por 7
+            dias.
+        token:
+          type: string
+          description: >-
+            Token de acesso ao painel de webhooks da organização. Válido por 7
+            dias.
+      required:
+        - url
+        - token
+    WebhooksResendRequestDto:
+      type: object
+      properties:
+        since:
+          format: date-time
+          type: string
+          description: Date-time from which the webhooks need to be resend
+        until:
+          format: date-time
+          type: string
+          description: Date-time till which the webhooks need to be resend
+      required:
+        - since
+        - until
 security:
   - api_key: []
