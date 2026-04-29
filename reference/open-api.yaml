@@ -545,6 +545,32 @@ paths:
           - auth0_jwt
         keyNames:
           - x-credipay-api-key
+  /v2/sellers:
+    get:
+      description: Retorna todos os vendedores associados à organização atual.
+      operationId: api-v2-get-organization-sellers
+      parameters: []
+      responses:
+        '200':
+          description: Operação realizada com sucesso, vendedores retornados.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetOrganizationSellersResponseDto'
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      summary: Obter vendedores vinculados à organização
+      tags:
+        - Sellers
+      x-credix-security:
+        scopes: []
+        onProviders:
+          - auth0_jwt
+        keyNames:
+          - x-credipay-api-key
 info:
   title: Credipay API
   description: ''
@@ -1702,5 +1728,84 @@ components:
               - credipay_seller_admin
               - credipay_seller_finance_team
               - credipay_seller_sales_team
+    OrganizationSellerCompanyResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Company ID.
+        taxId:
+          type: string
+          description: Company tax ID.
+        name:
+          type: string
+          description: Company name.
+      required:
+        - id
+        - taxId
+        - name
+    GetOrganizationSellersResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Seller ID.
+        company:
+          description: Seller company.
+          allOf:
+            - $ref: '#/components/schemas/OrganizationSellerCompanyResponseDto'
+        monthlyDiscountRate:
+          type: number
+          description: Monthly discount rate.
+        paymentTermDays:
+          type: number
+          description: Payment term days.
+        baseTransactionFeePercentage:
+          type: number
+          description: Base transaction fee percentage.
+        variableTransactionFeePercentage:
+          type: object
+          description: Variable transaction fee percentage.
+          nullable: true
+        variableTransactionFeeIntervalDays:
+          type: object
+          description: Variable transaction fee interval in days.
+          nullable: true
+        chargeBuyerTransactionFee:
+          type: boolean
+          description: Whether the buyer is charged the transaction fee.
+        chargeBuyerDiscountFee:
+          type: boolean
+          description: Whether the buyer is charged the discount fee.
+        recourse:
+          type: boolean
+          description: Whether the seller has recourse.
+        minimumDaysBetweenInstallments:
+          type: number
+          description: Minimum days between installments.
+        noAdvancing:
+          type: boolean
+          description: Whether advancing is disabled for this seller.
+        autoAdvanceDpd:
+          type: number
+          description: Days past due before auto-advancing.
+        sellerEconomicGroupId:
+          type: string
+          description: Seller economic group ID.
+      required:
+        - id
+        - company
+        - monthlyDiscountRate
+        - paymentTermDays
+        - baseTransactionFeePercentage
+        - variableTransactionFeePercentage
+        - variableTransactionFeeIntervalDays
+        - chargeBuyerTransactionFee
+        - chargeBuyerDiscountFee
+        - recourse
+        - minimumDaysBetweenInstallments
+        - noAdvancing
+        - autoAdvanceDpd
+        - sellerEconomicGroupId
 security:
   - api_key: []
