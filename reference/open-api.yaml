@@ -66,7 +66,24 @@ paths:
         - Orders
   /v2/orders/search:
     post:
-      description: Pesquisa pedidos por diversos critérios.
+      description: >-
+        Pesquisa pedidos por diversos critérios.
+
+
+        O parâmetro `query` aceita:
+
+        - ID do pedido (UUID)
+
+        - CNPJ do comprador (14 dígitos; pontos, hífens e barras são ignorados)
+
+        - Nome do comprador (busca parcial)
+
+        - ID externo do pedido (busca parcial)
+
+        - Chave de acesso da NF-e (`NFe` + 44 dígitos, ou apenas os 44 dígitos
+        com ou sem espaços)
+
+        - Número da nota fiscal (`nNF`, até 10 dígitos — busca parcial)
       operationId: OrdersController_searchOrders
       parameters: []
       requestBody:
@@ -360,7 +377,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-05-12'
+            default: '2026-05-13'
             example: '2025-01-01'
             type: string
         - name: includePending
