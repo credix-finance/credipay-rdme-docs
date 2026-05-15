@@ -341,7 +341,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-05-14'
+            default: '2026-05-15'
             example: '2025-01-01'
             type: string
         - name: includePending
