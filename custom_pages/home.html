@@ -12,512 +12,468 @@ hidden: false
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --black:      #000000;
-      --white:      #ffffff;
-      --gray:       #F1F1F1;
-      --gray-mid:   #494949;
-      --gray-dark:  #30302E;
-      --yellow:     #F8BB00;
-      --yellow-dim: #d4a000;
-      --border:     #e0e0e0;
-      --radius:     0px;
-    }
-
-    body {
-      font-family: 'IBM Plex Mono', monospace;
-      background: var(--white);
-      color: var(--black);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+    .cp-home * { box-sizing: border-box !important; }
+    .cp-home { font-family: 'IBM Plex Mono', monospace !important; background: #fff !important; color: #000 !important; line-height: 1.6; }
 
     /* ── Hero ── */
-    .hero {
-      border-bottom: 1.5px solid var(--black);
-      padding: 64px 48px 56px;
-      position: relative;
-      overflow: hidden;
+    .cp-hero {
+      border-bottom: 1.5px solid #000 !important;
+      padding: 64px 48px 56px !important;
+      position: relative !important;
+      background: #fff !important;
+    }
+    .cp-hero::before {
+      content: '' !important;
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important; left: 0 !important; right: 0 !important;
+      height: 4px !important;
+      background: #F8BB00 !important;
+    }
+    .cp-eyebrow {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      letter-spacing: .15em !important;
+      text-transform: uppercase !important;
+      color: #494949 !important;
+      margin-bottom: 20px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+    }
+    .cp-eyebrow::before {
+      content: '' !important;
+      display: inline-block !important;
+      width: 20px !important;
+      height: 2px !important;
+      background: #F8BB00 !important;
+      flex-shrink: 0 !important;
+    }
+    .cp-hero h1 {
+      font-family: 'Poppins', sans-serif !important;
+      font-size: clamp(30px, 4vw, 48px) !important;
+      font-weight: 700 !important;
+      line-height: 1.1 !important;
+      letter-spacing: -0.02em !important;
+      color: #000 !important;
+      max-width: 680px !important;
+      margin: 0 0 18px !important;
+      padding: 0 !important;
+    }
+    .cp-hero h1 mark {
+      background: #F8BB00 !important;
+      color: #000 !important;
+      padding: 0 6px !important;
+      font-style: normal !important;
+    }
+    .cp-hero p {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 14px !important;
+      color: #494949 !important;
+      max-width: 500px !important;
+      margin: 0 0 32px !important;
+      line-height: 1.7 !important;
+    }
+    .cp-search {
+      display: flex !important;
+      align-items: center !important;
+      max-width: 420px !important;
+      border: 1.5px solid #000 !important;
+      background: #fff !important;
+      cursor: text !important;
+    }
+    .cp-search-icon {
+      padding: 0 14px !important;
+      flex-shrink: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+    .cp-search-text {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 13px !important;
+      color: #949494 !important;
+      padding: 12px 14px 12px 14px !important;
+      border-left: 1.5px solid #000 !important;
+      flex: 1 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+    .cp-kbd {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 10px !important;
+      background: #F1F1F1 !important;
+      border: 1px solid #ddd !important;
+      padding: 2px 6px !important;
+      color: #494949 !important;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: var(--yellow);
+    /* ── Section wrapper ── */
+    .cp-section { padding: 56px 48px !important; border-bottom: 1.5px solid #000 !important; background: #fff !important; }
+    .cp-section-label {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      letter-spacing: .15em !important;
+      text-transform: uppercase !important;
+      color: #494949 !important;
+      margin: 0 0 8px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+    }
+    .cp-section-label::before {
+      content: '' !important;
+      display: inline-block !important;
+      width: 16px !important;
+      height: 2px !important;
+      background: #F8BB00 !important;
+      flex-shrink: 0 !important;
+    }
+    .cp-section-title {
+      font-family: 'Poppins', sans-serif !important;
+      font-size: 24px !important;
+      font-weight: 700 !important;
+      color: #000 !important;
+      margin: 0 0 4px !important;
+      padding: 0 !important;
+    }
+    .cp-section-sub {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 13px !important;
+      color: #494949 !important;
+      margin: 0 0 36px !important;
     }
 
-    .hero-eyebrow {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    /* ── Path cards grid ── */
+    .cp-grid {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      gap: 0 !important;
+      border: 1.5px solid #000 !important;
+      width: 100% !important;
     }
-
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 2px;
-      background: var(--yellow);
+    .cp-card {
+      flex: 1 1 0% !important;
+      min-width: 0 !important;
+      padding: 24px 20px !important;
+      border-right: 1.5px solid #000 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      background: #fff !important;
+      text-decoration: none !important;
+      color: #000 !important;
+      position: relative !important;
+      transition: background 0.15s !important;
+      cursor: pointer !important;
     }
-
-    .hero h1 {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(32px, 4.5vw, 52px);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--black);
-      max-width: 700px;
-      margin-bottom: 20px;
+    .cp-card:last-child { border-right: none !important; }
+    .cp-card:hover { background: #F1F1F1 !important; }
+    .cp-card::before {
+      content: '' !important;
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important; left: 0 !important; right: 0 !important;
+      height: 3px !important;
+      transform: scaleX(0) !important;
+      transform-origin: left !important;
+      transition: transform 0.2s ease !important;
     }
+    .cp-card:hover::before { transform: scaleX(1) !important; }
+    .cp-card--portal::before  { background: #000 !important; }
+    .cp-card--api::before     { background: #F8BB00 !important; }
+    .cp-card--vtex::before    { background: #dc2626 !important; }
+    .cp-card--finance::before { background: #000 !important; }
 
-    .hero h1 mark {
-      background: var(--yellow);
-      color: var(--black);
-      padding: 0 6px;
+    /* Card internals — all use !important to prevent ReadMe overrides */
+    .cp-card-num {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 10px !important;
+      font-weight: 500 !important;
+      letter-spacing: .1em !important;
+      color: #949494 !important;
+      margin: 0 0 14px !important;
+      display: block !important;
     }
-
-    .hero p {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 14px;
-      color: var(--gray-mid);
-      max-width: 500px;
-      margin-bottom: 36px;
-      line-height: 1.7;
+    .cp-card-icon {
+      font-size: 26px !important;
+      line-height: 1 !important;
+      margin: 0 0 12px !important;
+      display: block !important;
     }
-
-    .search-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      max-width: 420px;
-      border: 1.5px solid var(--black);
-      background: var(--white);
+    .cp-card-tag {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 9px !important;
+      font-weight: 500 !important;
+      letter-spacing: .12em !important;
+      text-transform: uppercase !important;
+      color: #494949 !important;
+      margin: 0 0 5px !important;
+      display: block !important;
     }
-
-    .search-wrap svg {
-      padding: 0 14px;
-      flex-shrink: 0;
-      color: var(--gray-mid);
+    .cp-card-title {
+      font-family: 'Poppins', sans-serif !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      color: #000 !important;
+      margin: 0 0 8px !important;
+      padding: 0 !important;
+      line-height: 1.3 !important;
     }
-
-    .search-wrap span {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 13px;
-      color: var(--gray-mid);
-      padding: 12px 0;
-      border-left: 1.5px solid var(--black);
-      padding-left: 14px;
-      flex: 1;
-      cursor: text;
+    .cp-card-desc {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 11px !important;
+      color: #494949 !important;
+      line-height: 1.65 !important;
+      margin: 0 !important;
+      flex: 1 !important;
     }
-
-    .search-wrap .kbd {
-      font-size: 11px;
-      background: var(--gray);
-      border: 1px solid var(--border);
-      padding: 2px 6px;
-      margin-right: 10px;
-      color: var(--gray-mid);
-      font-family: 'IBM Plex Mono', monospace;
+    .cp-card-links {
+      margin: 16px 0 0 !important;
+      padding: 14px 0 0 !important;
+      border-top: 1px solid #e0e0e0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 4px !important;
+      list-style: none !important;
     }
-
-    /* ── Paths section ── */
-    .paths-section {
-      padding: 64px 48px;
-      border-bottom: 1.5px solid var(--black);
+    .cp-card-links li { margin: 0 !important; padding: 0 !important; list-style: none !important; }
+    .cp-card-links a {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 11px !important;
+      color: #000 !important;
+      text-decoration: none !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 3px 0 !important;
+      transition: color 0.12s !important;
     }
-
-    .section-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .cp-card-links a::before {
+      content: '→' !important;
+      color: #d4a000 !important;
+      font-size: 10px !important;
+      flex-shrink: 0 !important;
     }
-
-    .section-label::before {
-      content: '';
-      display: inline-block;
-      width: 16px;
-      height: 2px;
-      background: var(--yellow);
+    .cp-card-links a:hover { color: #494949 !important; }
+    .cp-card-cta {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      margin: 16px 0 0 !important;
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      color: #000 !important;
+      text-decoration: none !important;
+      background: #F8BB00 !important;
+      padding: 7px 12px !important;
+      align-self: flex-start !important;
+      border: none !important;
+      transition: background 0.15s !important;
     }
+    .cp-card-cta:hover { background: #d4a000 !important; color: #000 !important; }
 
-    .section-title {
-      font-family: 'Poppins', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 4px;
+    /* ── Quick reference — dark section ── */
+    .cp-quick { padding: 48px 48px !important; background: #30302E !important; border-bottom: 1.5px solid #000 !important; }
+    .cp-quick .cp-section-label { color: #9ca3af !important; }
+    .cp-quick .cp-section-label::before { background: #F8BB00 !important; }
+    .cp-quick .cp-section-title { color: #fff !important; }
+    .cp-quick .cp-section-sub { color: #9ca3af !important; }
+    .cp-qgrid {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      border: 1px solid #494949 !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
-
-    .section-sub {
-      font-size: 13px;
-      color: var(--gray-mid);
-      margin-bottom: 40px;
+    .cp-qi {
+      width: 25% !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      padding: 12px 16px !important;
+      border-right: 1px solid #494949 !important;
+      border-bottom: 1px solid #494949 !important;
+      text-decoration: none !important;
+      color: #d1d5db !important;
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 12px !important;
+      transition: background 0.1s, color 0.1s !important;
     }
+    .cp-qi:nth-child(4n)   { border-right: none !important; }
+    .cp-qi:nth-last-child(-n+4) { border-bottom: none !important; }
+    .cp-qi:hover { background: rgba(248,187,0,.08) !important; color: #F8BB00 !important; }
+    .cp-qi-icon { font-size: 15px !important; opacity: .75 !important; flex-shrink: 0 !important; }
 
-    .paths-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: 1.5px solid var(--black);
+    /* ── Footer ── */
+    .cp-footer {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 24px 48px !important;
+      border-top: 1.5px solid #000 !important;
+      background: #fff !important;
     }
-
-    .path-card {
-      padding: 28px 24px;
-      border-right: 1.5px solid var(--black);
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: inherit;
-      transition: background .15s;
-      position: relative;
+    .cp-footer p { font-family: 'IBM Plex Mono', monospace !important; font-size: 12px !important; color: #494949 !important; margin: 0 !important; }
+    .cp-footer a {
+      font-family: 'IBM Plex Mono', monospace !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      color: #000 !important;
+      text-decoration: none !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      border-bottom: 1.5px solid #F8BB00 !important;
+      padding-bottom: 2px !important;
     }
+    .cp-footer a:hover { color: #494949 !important; }
 
-    .path-card:last-child { border-right: none; }
-
-    .path-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--card-accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .2s ease;
+    @media (max-width: 880px) {
+      .cp-grid { flex-wrap: wrap !important; }
+      .cp-card { flex: 1 1 calc(50% - 1px) !important; border-bottom: 1.5px solid #000 !important; }
+      .cp-card:nth-child(2n) { border-right: none !important; }
+      .cp-qi { width: 50% !important; }
+      .cp-qi:nth-child(2n)  { border-right: none !important; }
+      .cp-qi:nth-child(4n)  { border-right: none !important; }
+      .cp-qi:nth-last-child(-n+4) { border-bottom: 1px solid #494949 !important; }
+      .cp-qi:nth-last-child(-n+2) { border-bottom: none !important; }
     }
-
-    .path-card:hover { background: var(--gray); }
-    .path-card:hover::before { transform: scaleX(1); }
-
-    .path-card--portal  { --card-accent: #000000; }
-    .path-card--api     { --card-accent: var(--yellow); }
-    .path-card--vtex    { --card-accent: #dc2626; }
-    .path-card--finance { --card-accent: #000000; }
-
-    .card-number {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .1em;
-      color: var(--gray-mid);
-      margin-bottom: 20px;
-    }
-
-    .card-icon {
-      font-size: 28px;
-      margin-bottom: 16px;
-      line-height: 1;
-    }
-
-    .card-tag {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--gray-mid);
-      margin-bottom: 6px;
-    }
-
-    .path-card h3 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 10px;
-      line-height: 1.3;
-    }
-
-    .path-card p {
-      font-size: 12px;
-      color: var(--gray-mid);
-      line-height: 1.65;
-      flex: 1;
-    }
-
-    .card-links {
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .card-links a {
-      font-size: 12px;
-      color: var(--black);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 0;
-      transition: color .12s;
-    }
-
-    .card-links a::before {
-      content: '→';
-      font-size: 11px;
-      color: var(--yellow-dim);
-      flex-shrink: 0;
-    }
-
-    .card-links a:hover { color: var(--gray-mid); }
-
-    .card-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--black);
-      text-decoration: none;
-      background: var(--yellow);
-      padding: 8px 14px;
-      transition: background .15s;
-      align-self: flex-start;
-    }
-
-    .card-cta:hover { background: var(--yellow-dim); }
-
-    /* ── Quick reference ── */
-    .quick-section {
-      padding: 48px 48px;
-      background: var(--gray-dark);
-      border-bottom: 1.5px solid var(--black);
-    }
-
-    .quick-section .section-label { color: #9ca3af; }
-    .quick-section .section-label::before { background: var(--yellow); }
-    .quick-section .section-title { color: var(--white); }
-    .quick-section .section-sub { color: #9ca3af; margin-bottom: 28px; }
-
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: 1px solid #494949;
-    }
-
-    .quick-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 18px;
-      border-right: 1px solid #494949;
-      border-bottom: 1px solid #494949;
-      text-decoration: none;
-      color: #d1d5db;
-      font-size: 12.5px;
-      transition: background .12s, color .12s;
-    }
-
-    .quick-item:hover {
-      background: rgba(248, 187, 0, .08);
-      color: var(--yellow);
-    }
-
-    .quick-item:nth-child(4n) { border-right: none; }
-    .quick-item:nth-last-child(-n+4) { border-bottom: none; }
-
-    .quick-item .qi-icon {
-      font-size: 15px;
-      flex-shrink: 0;
-      opacity: .7;
-    }
-
-    /* ── Footer strip ── */
-    .footer-strip {
-      padding: 28px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1.5px solid var(--black);
-    }
-
-    .footer-strip p {
-      font-size: 12px;
-      color: var(--gray-mid);
-    }
-
-    .footer-strip a {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--black);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      border-bottom: 1.5px solid var(--yellow);
-      padding-bottom: 2px;
-    }
-
-    .footer-strip a:hover { color: var(--gray-mid); }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .paths-grid { grid-template-columns: 1fr 1fr; }
-      .path-card { border-bottom: 1.5px solid var(--black); }
-      .path-card:nth-child(2n) { border-right: none; }
-      .quick-grid { grid-template-columns: 1fr 1fr; }
-      .quick-item:nth-child(2n) { border-right: none; }
-    }
-
     @media (max-width: 560px) {
-      .hero, .paths-section, .quick-section, .footer-strip { padding-left: 24px; padding-right: 24px; }
-      .paths-grid { grid-template-columns: 1fr; }
-      .path-card { border-right: none; }
-      .quick-grid { grid-template-columns: 1fr 1fr; }
+      .cp-hero, .cp-section, .cp-quick, .cp-footer { padding-left: 20px !important; padding-right: 20px !important; }
+      .cp-card { flex: 1 1 100% !important; border-right: none !important; }
+      .cp-qi { width: 50% !important; }
     }
   </style>
 </head>
 <body>
+<div class="cp-home">
 
-  <!-- ── Hero ── -->
-  <section class="hero">
-    <div class="hero-eyebrow">CrediPay Docs</div>
-    <h1>Tudo que você precisa para vender com <mark>crédito B2B</mark></h1>
-    <p>Guias, referências de API e tutoriais pensados para cada perfil — do vendedor ao integrador.</p>
-    <div class="search-wrap">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <span>Buscar na documentação... <span class="kbd">⌘K</span></span>
+  <!-- Hero -->
+  <div class="cp-hero">
+    <div class="cp-eyebrow">CrediPay Docs</div>
+    <h1 class="cp-hero h1" style="font-family:'Poppins',sans-serif;font-size:clamp(30px,4vw,48px);font-weight:700;line-height:1.1;letter-spacing:-.02em;color:#000;max-width:680px;margin:0 0 18px;padding:0">
+      Tudo para vender com <mark style="background:#F8BB00;color:#000;padding:0 6px;font-style:normal">crédito B2B</mark>
+    </h1>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#494949;max-width:500px;margin:0 0 32px;line-height:1.7">
+      Guias, referências de API e tutoriais pensados para cada perfil — do vendedor ao integrador.
+    </p>
+    <div class="cp-search">
+      <div class="cp-search-icon">
+        <svg width="14" height="14" fill="none" stroke="#494949" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+      <div class="cp-search-text">
+        Buscar na documentação...
+        <span class="cp-kbd">⌘K</span>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ── Paths ── -->
-  <section class="paths-section">
-    <div class="section-label">Escolha seu caminho</div>
-    <div class="section-title">Por onde quer começar?</div>
-    <div class="section-sub">Cada perfil tem sua própria trilha de documentação.</div>
+  <!-- Path cards -->
+  <div class="cp-section">
+    <div class="cp-section-label">Escolha seu caminho</div>
+    <h2 class="cp-section-title">Por onde quer começar?</h2>
+    <p class="cp-section-sub">Cada perfil tem sua própria trilha de documentação.</p>
 
-    <div class="paths-grid">
+    <div class="cp-grid">
 
       <!-- Portal -->
-      <a class="path-card path-card--portal" href="/docs/criar-conta">
-        <div class="card-number">01</div>
-        <div class="card-icon">🖥</div>
-        <div class="card-tag">Portal no-code</div>
-        <h3>Vendedor não-técnico</h3>
-        <p>Crie pedidos, gerencie compradores e acompanhe pagamentos diretamente pelo portal, sem escrever uma linha de código.</p>
-        <div class="card-links">
-          <a href="/docs/criar-conta">Criar conta e acessar</a>
-          <a href="/docs/adicionar-comprador">Adicionar compradores</a>
-          <a href="/docs/criar-pedido">Criar um pedido</a>
-          <a href="/docs/solicitar-reembolso">Reembolsos</a>
-        </div>
-        <span class="card-cta">Começar →</span>
-      </a>
+      <div class="cp-card cp-card--portal">
+        <span class="cp-card-num">01</span>
+        <span class="cp-card-icon">🖥️</span>
+        <span class="cp-card-tag">Portal no-code</span>
+        <h3 class="cp-card-title">Vendedor não-técnico</h3>
+        <p class="cp-card-desc">Crie pedidos, gerencie compradores e acompanhe pagamentos pelo portal, sem escrever uma linha de código.</p>
+        <ul class="cp-card-links">
+          <li><a href="/docs/criar-conta">Criar conta e acessar</a></li>
+          <li><a href="/docs/adicionar-comprador">Adicionar compradores</a></li>
+          <li><a href="/docs/criar-pedido">Criar um pedido</a></li>
+          <li><a href="/docs/solicitar-reembolso">Cancelamentos e reembolsos</a></li>
+        </ul>
+        <a class="cp-card-cta" href="/docs/criar-conta">Começar →</a>
+      </div>
 
       <!-- API -->
-      <a class="path-card path-card--api" href="/docs/autenticacao-e-ambientes">
-        <div class="card-number">02</div>
-        <div class="card-icon">⚙</div>
-        <div class="card-tag">Integração via API</div>
-        <h3>Desenvolvedor / Integrador</h3>
-        <p>Integre a CrediPay ao seu sistema via API REST. Automatize pedidos, webhooks e o ciclo de vida completo de ponta a ponta.</p>
-        <div class="card-links">
-          <a href="/docs/autenticacao-e-ambientes">Autenticação e ambientes</a>
-          <a href="/docs/ciclo-de-vida-de-um-pedido">Ciclo de vida do pedido</a>
-          <a href="/docs/visao-geral-webhooks">Configurar webhooks</a>
-          <a href="/docs/checklist-pre-producao">Checklist go-live</a>
-        </div>
-        <span class="card-cta">Começar →</span>
-      </a>
+      <div class="cp-card cp-card--api">
+        <span class="cp-card-num">02</span>
+        <span class="cp-card-icon">⚙️</span>
+        <span class="cp-card-tag">Integração via API</span>
+        <h3 class="cp-card-title">Desenvolvedor / Integrador</h3>
+        <p class="cp-card-desc">Integre via API REST. Automatize pedidos, webhooks e o ciclo de vida completo de ponta a ponta.</p>
+        <ul class="cp-card-links">
+          <li><a href="/docs/autenticacao-e-ambientes">Autenticação e ambientes</a></li>
+          <li><a href="/docs/ciclo-de-vida-de-um-pedido">Ciclo de vida do pedido</a></li>
+          <li><a href="/docs/visao-geral-webhooks">Configurar webhooks</a></li>
+          <li><a href="/docs/checklist-pre-producao">Checklist go-live</a></li>
+        </ul>
+        <a class="cp-card-cta" href="/docs/autenticacao-e-ambientes">Começar →</a>
+      </div>
 
       <!-- VTEX -->
-      <a class="path-card path-card--vtex" href="/docs/credipay-para-vtex">
-        <div class="card-number">03</div>
-        <div class="card-icon">🛒</div>
-        <div class="card-tag">VTEX</div>
-        <h3>Integrador VTEX</h3>
-        <p>Instale o app CrediPay na sua loja VTEX IO e ofereça crédito B2B no checkout sem precisar de desenvolvimento customizado.</p>
-        <div class="card-links">
-          <a href="/docs/pre-requisitos">Pré-requisitos</a>
-          <a href="/docs/instalacao">Instalação do app</a>
-          <a href="/docs/configuracao">Configuração</a>
-          <a href="/docs/testando">Testar a integração</a>
-        </div>
-        <span class="card-cta">Começar →</span>
-      </a>
+      <div class="cp-card cp-card--vtex">
+        <span class="cp-card-num">03</span>
+        <span class="cp-card-icon">🛒</span>
+        <span class="cp-card-tag">VTEX</span>
+        <h3 class="cp-card-title">Integrador VTEX</h3>
+        <p class="cp-card-desc">Instale o app VTEX IO e ofereça crédito B2B no checkout sem precisar de desenvolvimento customizado.</p>
+        <ul class="cp-card-links">
+          <li><a href="/docs/pre-requisitos">Pré-requisitos</a></li>
+          <li><a href="/docs/instalacao">Instalação do app</a></li>
+          <li><a href="/docs/configuracao">Configuração</a></li>
+          <li><a href="/docs/testando">Testar a integração</a></li>
+        </ul>
+        <a class="cp-card-cta" href="/docs/credipay-para-vtex">Começar →</a>
+      </div>
 
       <!-- Financeiro -->
-      <a class="path-card path-card--finance" href="/docs/reconciliacao-de-desembolsos">
-        <div class="card-number">04</div>
-        <div class="card-icon">📊</div>
-        <div class="card-tag">Gestão financeira</div>
-        <h3>Gestor / Financeiro</h3>
-        <p>Acompanhe desembolsos, reconcilie pagamentos e entenda os status de pedidos e parcelas com precisão.</p>
-        <div class="card-links">
-          <a href="/docs/guia-de-status-portal">Guia de status</a>
-          <a href="/docs/reconciliacao-de-desembolsos">Reconciliação</a>
-          <a href="/docs/boletos">Boletos e pagamentos</a>
-          <a href="/docs/solicitar-reembolso">Reembolsos</a>
-        </div>
-        <span class="card-cta">Começar →</span>
-      </a>
+      <div class="cp-card cp-card--finance">
+        <span class="cp-card-num">04</span>
+        <span class="cp-card-icon">📊</span>
+        <span class="cp-card-tag">Gestão financeira</span>
+        <h3 class="cp-card-title">Gestor / Financeiro</h3>
+        <p class="cp-card-desc">Acompanhe desembolsos, reconcilie pagamentos e entenda os status de pedidos e parcelas.</p>
+        <ul class="cp-card-links">
+          <li><a href="/docs/guia-de-status-portal">Guia de status</a></li>
+          <li><a href="/docs/reconciliacao-de-desembolsos">Reconciliação de desembolsos</a></li>
+          <li><a href="/docs/boletos">Boletos e pagamentos</a></li>
+          <li><a href="/docs/solicitar-reembolso">Reembolsos</a></li>
+        </ul>
+        <a class="cp-card-cta" href="/docs/reconciliacao-de-desembolsos">Começar →</a>
+      </div>
 
     </div>
-  </section>
+  </div>
 
-  <!-- ── Quick reference ── -->
-  <section class="quick-section">
-    <div class="section-label">Referência rápida</div>
-    <div class="section-title">Recursos mais acessados</div>
-    <div class="section-sub">Atalhos para os tópicos mais consultados.</div>
-
-    <div class="quick-grid">
-      <a class="quick-item" href="/docs/autenticacao-e-ambientes">
-        <span class="qi-icon">🔑</span> Autenticação
-      </a>
-      <a class="quick-item" href="/docs/eventos-disponiveis">
-        <span class="qi-icon">🔔</span> Eventos de webhook
-      </a>
-      <a class="quick-item" href="/docs/guia-de-status-api">
-        <span class="qi-icon">📋</span> Status de pedidos
-      </a>
-      <a class="quick-item" href="/docs/verificacao-de-assinatura">
-        <span class="qi-icon">🛡</span> Verificar assinatura
-      </a>
-      <a class="quick-item" href="/docs/integracao-parcial">
-        <span class="qi-icon">🧩</span> Integração parcial
-      </a>
-      <a class="quick-item" href="/docs/aumento-de-limite">
-        <span class="qi-icon">📈</span> Aumentar limite
-      </a>
-      <a class="quick-item" href="/docs/checklist-pre-producao">
-        <span class="qi-icon">✅</span> Checklist go-live
-      </a>
-      <a class="quick-item" href="/docs/glossario">
-        <span class="qi-icon">📖</span> Glossário
-      </a>
+  <!-- Quick reference -->
+  <div class="cp-quick">
+    <div class="cp-section-label">Referência rápida</div>
+    <h2 class="cp-section-title">Recursos mais acessados</h2>
+    <p class="cp-section-sub">Atalhos para os tópicos mais consultados.</p>
+    <div class="cp-qgrid">
+      <a class="cp-qi" href="/docs/autenticacao-e-ambientes"><span class="cp-qi-icon">🔑</span> Autenticação</a>
+      <a class="cp-qi" href="/docs/eventos-disponiveis"><span class="cp-qi-icon">🔔</span> Eventos de webhook</a>
+      <a class="cp-qi" href="/docs/guia-de-status-api"><span class="cp-qi-icon">📋</span> Status de pedidos</a>
+      <a class="cp-qi" href="/docs/verificacao-de-assinatura"><span class="cp-qi-icon">🛡️</span> Verificar assinatura</a>
+      <a class="cp-qi" href="/docs/integracao-parcial"><span class="cp-qi-icon">🧩</span> Integração parcial</a>
+      <a class="cp-qi" href="/docs/aumento-de-limite"><span class="cp-qi-icon">📈</span> Aumentar limite</a>
+      <a class="cp-qi" href="/docs/checklist-pre-producao"><span class="cp-qi-icon">✅</span> Checklist go-live</a>
+      <a class="cp-qi" href="/docs/glossario"><span class="cp-qi-icon">📖</span> Glossário</a>
     </div>
-  </section>
+  </div>
 
-  <!-- ── Footer ── -->
-  <div class="footer-strip">
+  <!-- Footer -->
+  <div class="cp-footer">
     <p>Precisa de ajuda? Fale com o time CrediPay.</p>
     <a href="mailto:suporte-credipay@credix.finance">
       suporte-credipay@credix.finance
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
   </div>
 
+</div>
 </body>
 </html>
