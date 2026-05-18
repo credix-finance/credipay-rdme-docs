@@ -9,306 +9,380 @@ hidden: false
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CrediPay — Documentação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --black:      #000000;
+      --white:      #ffffff;
+      --gray:       #F1F1F1;
+      --gray-mid:   #494949;
+      --gray-dark:  #30302E;
+      --yellow:     #F8BB00;
+      --yellow-dim: #d4a000;
+      --border:     #e0e0e0;
+      --radius:     0px;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #ffffff;
-      color: #1c1e26;
+      font-family: 'IBM Plex Mono', monospace;
+      background: var(--white);
+      color: var(--black);
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* ── Hero ── */
     .hero {
-      padding: 72px 24px 56px;
-      text-align: center;
-      background: linear-gradient(160deg, #f0f4ff 0%, #ffffff 60%);
-      border-bottom: 1px solid #e8ecf4;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      background: #e8f0fe;
-      color: #2563eb;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: clamp(28px, 5vw, 44px);
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-      max-width: 680px;
-      margin: 0 auto 16px;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(135deg, #2563eb, #059669);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      font-size: 17px;
-      color: #64748b;
-      max-width: 520px;
-      margin: 0 auto 36px;
-    }
-
-    .hero-search {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      max-width: 420px;
-      margin: 0 auto;
-      background: #fff;
-      border: 1.5px solid #d1d9e8;
-      border-radius: 10px;
-      padding: 10px 16px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.06);
-      color: #94a3b8;
-      font-size: 15px;
-      cursor: text;
-      transition: border-color .2s;
-    }
-
-    .hero-search:hover { border-color: #2563eb; }
-
-    .hero-search svg { flex-shrink: 0; }
-
-    /* ── Paths ── */
-    .section {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 64px 24px;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .section-header h2 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 8px;
-    }
-
-    .section-header p {
-      font-size: 15px;
-      color: #64748b;
-    }
-
-    /* ── Path cards ── */
-    .paths {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .path-card {
-      display: flex;
-      flex-direction: column;
-      background: #fff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 28px 24px 24px;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color .2s, box-shadow .2s, transform .15s;
+      border-bottom: 1.5px solid var(--black);
+      padding: 64px 48px 56px;
       position: relative;
       overflow: hidden;
     }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--yellow);
+    }
+
+    .hero-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 2px;
+      background: var(--yellow);
+    }
+
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(32px, 4.5vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      max-width: 700px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 mark {
+      background: var(--yellow);
+      color: var(--black);
+      padding: 0 6px;
+    }
+
+    .hero p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      color: var(--gray-mid);
+      max-width: 500px;
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      max-width: 420px;
+      border: 1.5px solid var(--black);
+      background: var(--white);
+    }
+
+    .search-wrap svg {
+      padding: 0 14px;
+      flex-shrink: 0;
+      color: var(--gray-mid);
+    }
+
+    .search-wrap span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--gray-mid);
+      padding: 12px 0;
+      border-left: 1.5px solid var(--black);
+      padding-left: 14px;
+      flex: 1;
+      cursor: text;
+    }
+
+    .search-wrap .kbd {
+      font-size: 11px;
+      background: var(--gray);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      margin-right: 10px;
+      color: var(--gray-mid);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* ── Paths section ── */
+    .paths-section {
+      padding: 64px 48px;
+      border-bottom: 1.5px solid var(--black);
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 2px;
+      background: var(--yellow);
+    }
+
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+
+    .section-sub {
+      font-size: 13px;
+      color: var(--gray-mid);
+      margin-bottom: 40px;
+    }
+
+    .paths-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1.5px solid var(--black);
+    }
+
+    .path-card {
+      padding: 28px 24px;
+      border-right: 1.5px solid var(--black);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: background .15s;
+      position: relative;
+    }
+
+    .path-card:last-child { border-right: none; }
 
     .path-card::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
-      background: var(--accent);
-      border-radius: 14px 14px 0 0;
-      opacity: 0;
-      transition: opacity .2s;
+      background: var(--card-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .2s ease;
     }
 
-    .path-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 8px 30px rgba(0,0,0,.08);
-      transform: translateY(-2px);
-    }
+    .path-card:hover { background: var(--gray); }
+    .path-card:hover::before { transform: scaleX(1); }
 
-    .path-card:hover::before { opacity: 1; }
+    .path-card--portal  { --card-accent: #000000; }
+    .path-card--api     { --card-accent: var(--yellow); }
+    .path-card--vtex    { --card-accent: #dc2626; }
+    .path-card--finance { --card-accent: #000000; }
 
-    .path-card--portal   { --accent: #2563eb; }
-    .path-card--api      { --accent: #7c3aed; }
-    .path-card--vtex     { --accent: #dc2626; }
-    .path-card--finance  { --accent: #059669; }
-
-    .card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: var(--icon-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 18px;
-      font-size: 22px;
-    }
-
-    .path-card--portal  .card-icon { --icon-bg: #eff6ff; }
-    .path-card--api     .card-icon { --icon-bg: #f5f3ff; }
-    .path-card--vtex    .card-icon { --icon-bg: #fff1f2; }
-    .path-card--finance .card-icon { --icon-bg: #f0fdf4; }
-
-    .card-tag {
+    .card-number {
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: .07em;
+      letter-spacing: .1em;
+      color: var(--gray-mid);
+      margin-bottom: 20px;
+    }
+
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+
+    .card-tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--gray-mid);
       margin-bottom: 6px;
     }
 
     .path-card h3 {
-      font-size: 17px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
       font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 8px;
+      color: var(--black);
+      margin-bottom: 10px;
       line-height: 1.3;
     }
 
     .path-card p {
-      font-size: 14px;
-      color: #64748b;
-      line-height: 1.55;
+      font-size: 12px;
+      color: var(--gray-mid);
+      line-height: 1.65;
       flex: 1;
     }
 
     .card-links {
       margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .card-links a {
-      font-size: 13px;
-      color: #475569;
+      font-size: 12px;
+      color: var(--black);
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 0;
-      transition: color .15s;
+      padding: 3px 0;
+      transition: color .12s;
     }
-
-    .card-links a:hover { color: var(--accent); }
 
     .card-links a::before {
-      content: '';
-      display: inline-block;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: currentColor;
-      opacity: .5;
+      content: '→';
+      font-size: 11px;
+      color: var(--yellow-dim);
       flex-shrink: 0;
     }
+
+    .card-links a:hover { color: var(--gray-mid); }
 
     .card-cta {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       margin-top: 20px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
-      color: var(--accent);
+      color: var(--black);
       text-decoration: none;
-      border-top: 1px solid #f1f5f9;
-      padding-top: 16px;
-      transition: gap .15s;
+      background: var(--yellow);
+      padding: 8px 14px;
+      transition: background .15s;
+      align-self: flex-start;
     }
 
-    .card-cta:hover { gap: 10px; }
+    .card-cta:hover { background: var(--yellow-dim); }
 
-    /* ── Quick links ── */
-    .quick {
-      background: #f8fafc;
-      border-top: 1px solid #e8ecf4;
-      border-bottom: 1px solid #e8ecf4;
+    /* ── Quick reference ── */
+    .quick-section {
+      padding: 48px 48px;
+      background: var(--gray-dark);
+      border-bottom: 1.5px solid var(--black);
     }
 
-    .quick .section { padding-top: 48px; padding-bottom: 48px; }
+    .quick-section .section-label { color: #9ca3af; }
+    .quick-section .section-label::before { background: var(--yellow); }
+    .quick-section .section-title { color: var(--white); }
+    .quick-section .section-sub { color: #9ca3af; margin-bottom: 28px; }
 
     .quick-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid #494949;
     }
 
     .quick-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px 16px;
+      padding: 14px 18px;
+      border-right: 1px solid #494949;
+      border-bottom: 1px solid #494949;
       text-decoration: none;
-      color: #334155;
-      font-size: 13.5px;
-      font-weight: 500;
-      transition: border-color .15s, color .15s, box-shadow .15s;
+      color: #d1d5db;
+      font-size: 12.5px;
+      transition: background .12s, color .12s;
     }
 
     .quick-item:hover {
-      border-color: #2563eb;
-      color: #2563eb;
-      box-shadow: 0 2px 8px rgba(37,99,235,.08);
+      background: rgba(248, 187, 0, .08);
+      color: var(--yellow);
     }
 
-    .quick-item span { font-size: 18px; }
+    .quick-item:nth-child(4n) { border-right: none; }
+    .quick-item:nth-last-child(-n+4) { border-bottom: none; }
+
+    .quick-item .qi-icon {
+      font-size: 15px;
+      flex-shrink: 0;
+      opacity: .7;
+    }
 
     /* ── Footer strip ── */
     .footer-strip {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 40px 24px;
+      padding: 28px 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
+      border-top: 1.5px solid var(--black);
     }
 
     .footer-strip p {
-      font-size: 14px;
-      color: #94a3b8;
+      font-size: 12px;
+      color: var(--gray-mid);
     }
 
     .footer-strip a {
-      font-size: 14px;
-      color: #2563eb;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--black);
       text-decoration: none;
-      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1.5px solid var(--yellow);
+      padding-bottom: 2px;
     }
 
-    .footer-strip a:hover { text-decoration: underline; }
+    .footer-strip a:hover { color: var(--gray-mid); }
 
-    @media (max-width: 640px) {
-      .paths { grid-template-columns: 1fr; }
-      .hero { padding: 48px 20px 40px; }
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .paths-grid { grid-template-columns: 1fr 1fr; }
+      .path-card { border-bottom: 1.5px solid var(--black); }
+      .path-card:nth-child(2n) { border-right: none; }
+      .quick-grid { grid-template-columns: 1fr 1fr; }
+      .quick-item:nth-child(2n) { border-right: none; }
+    }
+
+    @media (max-width: 560px) {
+      .hero, .paths-section, .quick-section, .footer-strip { padding-left: 24px; padding-right: 24px; }
+      .paths-grid { grid-template-columns: 1fr; }
+      .path-card { border-right: none; }
+      .quick-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -316,141 +390,133 @@ hidden: false
 
   <!-- ── Hero ── -->
   <section class="hero">
-    <div class="hero-badge">Documentação CrediPay</div>
-    <h1>Tudo que você precisa para<br><span>vender com crédito B2B</span></h1>
-    <p>Explore guias, referências de API e tutoriais pensados para cada perfil — do vendedor ao integrador.</p>
-    <div class="hero-search">
+    <div class="hero-eyebrow">CrediPay Docs</div>
+    <h1>Tudo que você precisa para vender com <mark>crédito B2B</mark></h1>
+    <p>Guias, referências de API e tutoriais pensados para cada perfil — do vendedor ao integrador.</p>
+    <div class="search-wrap">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
       </svg>
-      Buscar na documentação...
+      <span>Buscar na documentação... <span class="kbd">⌘K</span></span>
     </div>
   </section>
 
-  <!-- ── Escolha seu caminho ── -->
-  <div class="section">
-    <div class="section-header">
-      <h2>Por onde quer começar?</h2>
-      <p>Escolha o caminho que melhor descreve como você usa a CrediPay.</p>
-    </div>
+  <!-- ── Paths ── -->
+  <section class="paths-section">
+    <div class="section-label">Escolha seu caminho</div>
+    <div class="section-title">Por onde quer começar?</div>
+    <div class="section-sub">Cada perfil tem sua própria trilha de documentação.</div>
 
-    <div class="paths">
+    <div class="paths-grid">
 
       <!-- Portal -->
-      <div class="path-card path-card--portal">
-        <div class="card-icon">🖥️</div>
+      <a class="path-card path-card--portal" href="/docs/criar-conta">
+        <div class="card-number">01</div>
+        <div class="card-icon">🖥</div>
         <div class="card-tag">Portal no-code</div>
         <h3>Vendedor não-técnico</h3>
-        <p>Crie pedidos, gerencie compradores e acompanhe pagamentos diretamente pelo portal, sem precisar de código.</p>
+        <p>Crie pedidos, gerencie compradores e acompanhe pagamentos diretamente pelo portal, sem escrever uma linha de código.</p>
         <div class="card-links">
-          <a href="/docs/criar-conta">Criar conta e acessar o portal</a>
+          <a href="/docs/criar-conta">Criar conta e acessar</a>
           <a href="/docs/adicionar-comprador">Adicionar compradores</a>
           <a href="/docs/criar-pedido">Criar um pedido</a>
-          <a href="/docs/solicitar-reembolso">Cancelamentos e reembolsos</a>
+          <a href="/docs/solicitar-reembolso">Reembolsos</a>
         </div>
-        <a class="card-cta" href="/docs/criar-conta">
-          Começar pelo Portal
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
+        <span class="card-cta">Começar →</span>
+      </a>
 
       <!-- API -->
-      <div class="path-card path-card--api">
-        <div class="card-icon">⚙️</div>
+      <a class="path-card path-card--api" href="/docs/autenticacao-e-ambientes">
+        <div class="card-number">02</div>
+        <div class="card-icon">⚙</div>
         <div class="card-tag">Integração via API</div>
         <h3>Desenvolvedor / Integrador</h3>
-        <p>Integre a CrediPay ao seu sistema via API REST. Automatize pedidos, webhooks e o ciclo de vida completo.</p>
+        <p>Integre a CrediPay ao seu sistema via API REST. Automatize pedidos, webhooks e o ciclo de vida completo de ponta a ponta.</p>
         <div class="card-links">
           <a href="/docs/autenticacao-e-ambientes">Autenticação e ambientes</a>
-          <a href="/docs/ciclo-de-vida-de-um-pedido">Ciclo de vida de um pedido</a>
+          <a href="/docs/ciclo-de-vida-de-um-pedido">Ciclo de vida do pedido</a>
           <a href="/docs/visao-geral-webhooks">Configurar webhooks</a>
-          <a href="/docs/checklist-pre-producao">Checklist de go-live</a>
+          <a href="/docs/checklist-pre-producao">Checklist go-live</a>
         </div>
-        <a class="card-cta" href="/docs/autenticacao-e-ambientes">
-          Começar pela API
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
+        <span class="card-cta">Começar →</span>
+      </a>
 
       <!-- VTEX -->
-      <div class="path-card path-card--vtex">
+      <a class="path-card path-card--vtex" href="/docs/credipay-para-vtex">
+        <div class="card-number">03</div>
         <div class="card-icon">🛒</div>
         <div class="card-tag">VTEX</div>
         <h3>Integrador VTEX</h3>
-        <p>Instale o app CrediPay na sua loja VTEX IO e ofereça crédito B2B no checkout sem desenvolver nada do zero.</p>
+        <p>Instale o app CrediPay na sua loja VTEX IO e ofereça crédito B2B no checkout sem precisar de desenvolvimento customizado.</p>
         <div class="card-links">
           <a href="/docs/pre-requisitos">Pré-requisitos</a>
           <a href="/docs/instalacao">Instalação do app</a>
-          <a href="/docs/configuracao">Configuração de credenciais</a>
+          <a href="/docs/configuracao">Configuração</a>
           <a href="/docs/testando">Testar a integração</a>
         </div>
-        <a class="card-cta" href="/docs/credipay-para-vtex">
-          Começar na VTEX
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
+        <span class="card-cta">Começar →</span>
+      </a>
 
       <!-- Financeiro -->
-      <div class="path-card path-card--finance">
+      <a class="path-card path-card--finance" href="/docs/reconciliacao-de-desembolsos">
+        <div class="card-number">04</div>
         <div class="card-icon">📊</div>
         <div class="card-tag">Gestão financeira</div>
         <h3>Gestor / Financeiro</h3>
-        <p>Acompanhe desembolsos, reconcilie pagamentos e entenda os status de pedidos e parcelas.</p>
+        <p>Acompanhe desembolsos, reconcilie pagamentos e entenda os status de pedidos e parcelas com precisão.</p>
         <div class="card-links">
           <a href="/docs/guia-de-status-portal">Guia de status</a>
-          <a href="/docs/reconciliacao-de-desembolsos">Reconciliação de desembolsos</a>
+          <a href="/docs/reconciliacao-de-desembolsos">Reconciliação</a>
           <a href="/docs/boletos">Boletos e pagamentos</a>
           <a href="/docs/solicitar-reembolso">Reembolsos</a>
         </div>
-        <a class="card-cta" href="/docs/reconciliacao-de-desembolsos">
-          Ver guia financeiro
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
+        <span class="card-cta">Começar →</span>
+      </a>
 
     </div>
-  </div>
+  </section>
 
-  <!-- ── Quick links ── -->
-  <div class="quick">
-    <div class="section">
-      <div class="section-header">
-        <h2>Referência rápida</h2>
-        <p>Os recursos mais acessados da documentação.</p>
-      </div>
-      <div class="quick-grid">
-        <a class="quick-item" href="/docs/autenticacao-e-ambientes">
-          <span>🔑</span> Autenticação
-        </a>
-        <a class="quick-item" href="/docs/eventos-disponiveis">
-          <span>🔔</span> Eventos de webhook
-        </a>
-        <a class="quick-item" href="/docs/guia-de-status-api">
-          <span>📋</span> Status de pedidos
-        </a>
-        <a class="quick-item" href="/docs/verificacao-de-assinatura">
-          <span>🛡️</span> Verificar assinatura
-        </a>
-        <a class="quick-item" href="/docs/integracao-parcial">
-          <span>🧩</span> Integração parcial
-        </a>
-        <a class="quick-item" href="/docs/aumento-de-limite">
-          <span>📈</span> Aumentar limite
-        </a>
-        <a class="quick-item" href="/docs/checklist-pre-producao">
-          <span>✅</span> Checklist go-live
-        </a>
-        <a class="quick-item" href="/docs/glossario">
-          <span>📖</span> Glossário
-        </a>
-      </div>
+  <!-- ── Quick reference ── -->
+  <section class="quick-section">
+    <div class="section-label">Referência rápida</div>
+    <div class="section-title">Recursos mais acessados</div>
+    <div class="section-sub">Atalhos para os tópicos mais consultados.</div>
+
+    <div class="quick-grid">
+      <a class="quick-item" href="/docs/autenticacao-e-ambientes">
+        <span class="qi-icon">🔑</span> Autenticação
+      </a>
+      <a class="quick-item" href="/docs/eventos-disponiveis">
+        <span class="qi-icon">🔔</span> Eventos de webhook
+      </a>
+      <a class="quick-item" href="/docs/guia-de-status-api">
+        <span class="qi-icon">📋</span> Status de pedidos
+      </a>
+      <a class="quick-item" href="/docs/verificacao-de-assinatura">
+        <span class="qi-icon">🛡</span> Verificar assinatura
+      </a>
+      <a class="quick-item" href="/docs/integracao-parcial">
+        <span class="qi-icon">🧩</span> Integração parcial
+      </a>
+      <a class="quick-item" href="/docs/aumento-de-limite">
+        <span class="qi-icon">📈</span> Aumentar limite
+      </a>
+      <a class="quick-item" href="/docs/checklist-pre-producao">
+        <span class="qi-icon">✅</span> Checklist go-live
+      </a>
+      <a class="quick-item" href="/docs/glossario">
+        <span class="qi-icon">📖</span> Glossário
+      </a>
     </div>
-  </div>
+  </section>
 
-  <!-- ── Footer strip ── -->
+  <!-- ── Footer ── -->
   <div class="footer-strip">
-    <p>Precisa de ajuda? Entre em contato com o suporte.</p>
-    <a href="mailto:suporte-credipay@credix.finance">suporte-credipay@credix.finance →</a>
+    <p>Precisa de ajuda? Fale com o time CrediPay.</p>
+    <a href="mailto:suporte-credipay@credix.finance">
+      suporte-credipay@credix.finance
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
   </div>
 
 </body>
