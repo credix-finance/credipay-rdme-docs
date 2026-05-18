@@ -3,326 +3,455 @@ title: Home
 fullscreen: false
 hidden: false
 ---
-# Proposta de Reestruturação — Documentação CrediPay
-
-> Versão 1.0 — Maio 2026
-> Baseado em: mapeamento completo dos Guides + análise comparativa com Claude Platform Docs
-
----
-
-## 1. Diagnóstico da documentação atual
-
-### O que existe hoje
-A documentação atual é organizada por **tipo de integração**, não por perfil de usuário. O resultado é uma landing page passiva com listas de links agrupadas em categorias genéricas: Getting Started, Portal do Vendedor, Integração Completa, Integração Parcial.
-
-### Principais problemas
-- **Entrada genérica:** todos os usuários chegam na mesma porta, sem orientação sobre qual caminho seguir
-- **Sem jornada:** não há progressão clara de "primeiro passo → próximo passo → produção"
-- **Perfis misturados:** o vendedor que usa o portal e o desenvolvedor que integra a API acessam o mesmo conteúdo, organizado da mesma forma
-- **Busca estática:** a documentação não responde perguntas — apenas aponta links
-- **Sem Ask AI:** usuário precisa saber *onde* buscar, não *o que* perguntar
-- **VTEX sem página:** a integração VTEX aparece como opção mas retorna 404
-
-### Oportunidade
-A CrediPay tem um produto com três caminhos de integração bem definidos e perfis de usuário distintos. Com uma reestruturação orientada a perfis + uma homepage que direciona ativamente, é possível reduzir drasticamente o atrito de onboarding e aumentar a taxa de ativação de novos integradores.
-
----
-
-## 2. Perfis de usuário
-
-### 2.1 Vendedor Não-técnico
-**Quem é:** responsável comercial, representante de vendas, gerente de operações que usa a CrediPay exclusivamente via portal web.
-
-**O que precisa:** entender o produto, cadastrar compradores, criar pedidos, enviar notas fiscais, consultar status e solicitar reembolsos — tudo sem código.
-
-**Dor principal:** se perde em documentação técnica que não é para ele. Quer instruções diretas do tipo "clique aqui, faça isso".
-
-**Jornada ideal:**
-Entender o produto → Criar conta → Adicionar compradores → Criar pedido → Enviar NF → Acompanhar pagamentos → Solicitar reembolso
-
----
-
-### 2.2 Usuário da Plataforma No-code (operacional)
-**Quem é:** operador financeiro ou administrativo que gerencia o dia a dia — usuários, limites, reconciliação, desembolsos.
-
-**O que precisa:** gerenciar usuários da plataforma, solicitar aumentos de limite, reconciliar desembolsos com o ERP, entender os status dos pedidos.
-
-**Dor principal:** precisa de referências rápidas para tarefas operacionais específicas, não de um guia completo do zero.
-
-**Jornada ideal:**
-Gerenciar usuários → Solicitar/acompanhar limites → Reconciliar desembolsos → Consultar status
-
----
-
-### 2.3 Desenvolvedor / Integrador API
-**Quem é:** desenvolvedor backend ou fullstack responsável por integrar a CrediPay ao ERP, e-commerce ou sistema de televendas da empresa.
-
-**O que precisa:** autenticação, endpoints, fluxos técnicos (e-commerce vs. televendas), webhooks, tratamento de erros e guia de go-live.
-
-**Dor principal:** precisa entender o fluxo completo antes de começar a codar. Hoje a documentação técnica está fragmentada em muitas páginas sem uma visão sequencial clara.
-
-**Jornada ideal:**
-Entender o ciclo → Autenticar → Criar compradores → Criar pedidos → Formalizar com NF → Configurar webhooks → Testar → Go-live
-
----
-
-### 2.4 Integrador VTEX
-**Quem é:** desenvolvedor ou parceiro técnico que usa VTEX como plataforma de e-commerce e quer adicionar CrediPay como método de pagamento.
-
-**O que precisa:** guia específico de instalação do conector VTEX, configuração, mapeamento de campos e resolução de problemas comuns.
-
-**Dor principal:** precisa de um guia 100% focado em VTEX — não quer ler documentação genérica de API.
-
-**Jornada ideal:**
-Pré-requisitos → Instalar conector → Configurar → Testar → Go-live → Troubleshooting
-
----
-
-### 2.5 Gestor / Financeiro
-**Quem é:** CFO, controller, analista financeiro que precisa entender o produto para tomada de decisão ou acompanhar a operação financeira.
-
-**O que precisa:** entender como funciona o crédito, os prazos, os desembolsos, como reconciliar com o ERP e como interpretar os relatórios.
-
-**Dor principal:** não precisa saber como integrar, mas precisa entender o produto com profundidade financeira.
-
-**Jornada ideal:**
-Entender o produto → Glossário de termos → Como funciona o crédito → Desembolsos e reconciliação → Tipos de transação
-
----
-
-## 3. Nova Arquitetura de Informação
-
-### 3.1 Estrutura de navegação proposta
-
-```
-docs.credipay.credix.finance/
-│
-├── [Homepage]           ← Orientada por perfil
-│
-├── /produto             ← Para todos: o que é, como funciona, glossário
-│   ├── introducao
-│   ├── como-funciona
-│   ├── canais-de-venda
-│   └── glossario
-│
-├── /portal              ← Para: Vendedor Não-técnico + Operacional
-│   ├── primeiros-passos
-│   │   ├── criar-conta
-│   │   └── visao-geral-da-plataforma
-│   ├── compradores
-│   │   ├── adicionar-comprador
-│   │   └── solicitar-aumento-de-limite
-│   ├── pedidos
-│   │   ├── criar-pedido
-│   │   ├── aprovacao-do-comprador
-│   │   ├── enviar-nota-fiscal
-│   │   ├── multiplas-notas-fiscais
-│   │   └── boletos
-│   ├── reembolsos
-│   │   └── solicitar-reembolso
-│   ├── financeiro
-│   │   ├── reconciliacao-de-desembolsos
-│   │   └── guia-de-status
-│   └── administracao
-│       └── gerenciar-usuarios
-│
-├── /api                 ← Para: Desenvolvedor / Integrador
-│   ├── primeiros-passos
-│   │   ├── autenticacao-e-ambientes
-│   │   ├── opcoes-de-integracao
-│   │   └── ciclo-de-vida-de-um-pedido
-│   ├── guias-tecnicos
-│   │   ├── 0-criacao-de-compradores
-│   │   ├── 1-criacao-de-pedido
-│   │   ├── 2-formalizacao-do-pedido
-│   │   ├── 2.1-recebimento-de-boletos
-│   │   ├── 3-pagamento
-│   │   └── adicional-reembolsos-e-cancelamentos
-│   ├── webhooks
-│   │   ├── visao-geral
-│   │   ├── eventos-disponiveis
-│   │   ├── verificacao-de-assinatura
-│   │   └── politica-de-retentativas
-│   ├── referencias
-│   │   ├── guia-de-status
-│   │   ├── aumento-de-limite
-│   │   └── integracao-parcial
-│   └── go-live
-│       ├── checklist-pre-producao
-│       └── migracao-staging-producao
-│
-├── /vtex                ← Para: Integrador VTEX
-│   ├── visao-geral
-│   ├── pre-requisitos
-│   ├── instalacao
-│   ├── configuracao
-│   ├── testando-a-integracao
-│   └── troubleshooting
-│
-└── /referencia          ← API Reference (existente, sem mudança estrutural)
-```
-
----
-
-### 3.2 Página de destino por perfil
-
-| Perfil | Entrada recomendada | Seção principal |
-|---|---|---|
-| Vendedor Não-técnico | `/portal/primeiros-passos/criar-conta` | `/portal` |
-| Operacional / Financeiro | `/portal/financeiro/reconciliacao-de-desembolsos` | `/portal/financeiro` |
-| Desenvolvedor / Integrador | `/api/primeiros-passos/autenticacao-e-ambientes` | `/api` |
-| Integrador VTEX | `/vtex/visao-geral` | `/vtex` |
-| Gestor / Financeiro | `/produto/como-funciona` | `/produto` + `/portal/financeiro` |
-
----
-
-## 4. Proposta de Homepage
-
-### Conceito
-Substituir a lista de links por uma **homepage orientada a perfil**, que faz ao usuário implicitamente a pergunta: *"Como você usa a CrediPay?"* e o direciona ativamente para o caminho certo.
-
-Inspiração direta: Claude Platform Docs (`platform.claude.com/docs/en/home`)
-
-### Estrutura da nova homepage
-
----
-
-**[Hero]**
-```
-Bem-vindo à documentação CrediPay
-
-Tudo o que você precisa para começar a operar, integrar ou gerenciar o
-BNPL B2B da CrediPay — do primeiro acesso à produção.
-
-[🔍 Busca com Ask AI — "Como validar um XML de nota fiscal?"]
-```
-
----
-
-**[Seção: Escolha seu caminho]**
-
-```
-┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
-│  🖥️ Portal           │  │  🔌 Integração API   │  │  🛒 VTEX             │  │  📊 Financeiro       │
-│  No-code             │  │  Para desenvolvedores│  │  Conector nativo     │  │  Gestão e relatórios │
-│                      │  │                      │  │                      │  │                      │
-│ Use a plataforma web │  │ Integre ao seu ERP,  │  │ Adicione CrediPay    │  │ Reconciliação,       │
-│ para gerenciar       │  │ e-commerce ou        │  │ como método de       │  │ desembolsos e        │
-│ pedidos, compradores │  │ sistema de televendas│  │ pagamento na VTEX    │  │ relatórios           │
-│ e notas fiscais      │  │ via API REST         │  │                      │  │                      │
-│                      │  │                      │  │                      │  │                      │
-│ [Começar →]          │  │ [Começar →]          │  │ [Começar →]          │  │ [Ver guias →]        │
-└─────────────────────┘  └─────────────────────┘  └─────────────────────┘  └─────────────────────┘
-```
-
----
-
-**[Seção: Jornada do Desenvolvedor]** *(visível quando perfil API selecionado ou por padrão)*
-
-```
-1. Autenticar         2. Criar compradores    3. Criar pedidos      4. Formalizar com NF   5. Configurar webhooks
-   ↓                     ↓                       ↓                     ↓                      ↓
-   Staging key           POST /credit-limit       GET /buyers +         POST /orders/{id}      order.captured
-   Produção key          /request                 POST /orders          /capture               repayment.created
-```
-
----
-
-**[Seção: Conceitos essenciais]** *(Para qualquer perfil)*
-
-```
-📋 Como funciona um pedido    💳 Limites de crédito    📄 Notas Fiscais    💸 Desembolsos
-```
-
----
-
-**[Seção: Ask AI]**
-```
-Tem alguma dúvida específica? Pergunte diretamente.
-
-Exemplos:
-→ "Qual o prazo de liquidação após envio da NF?"
-→ "O que acontece se o XML for rejeitado?"
-→ "Como funciona o reembolso parcial via API?"
-```
-
----
-
-## 5. Conteúdo a criar vs. reorganizar
-
-### Reorganizar (conteúdo já existe)
-Toda a seção `/portal` e `/api` pode ser construída com o conteúdo atual dos Guides, apenas reorganizado na nova estrutura com URLs mais claras e trilhas de navegação orientadas por perfil.
-
-### Criar do zero
-| Página | Justificativa |
-|---|---|
-| Homepage nova | Não existe — substituir lista de links por orientação por perfil |
-| `/api/go-live/checklist-pre-producao` | Não existe — muito solicitado por integradores |
-| `/api/go-live/migracao-staging-producao` | Não existe — passo crítico não documentado |
-| `/vtex/` (todas as páginas) | Retorna 404 atualmente |
-| `/produto/canais-de-venda` | Existe mas merece página própria mais destacada |
-| Ask AI | Feature nova — integração com LLM sobre o conteúdo da doc |
-
-### Melhorar
-| Página | O que melhorar |
-|---|---|
-| Ciclo de vida de um pedido | Adicionar diagrama visual interativo (atualmente só texto) |
-| Webhooks | Adicionar exemplos de payload completos por evento |
-| Reconciliação de desembolsos | Adicionar exemplo prático de planilha de conciliação |
-| Guia de status | Unificar os dois guias de status (plataforma + API) que hoje são páginas separadas |
-
----
-
-## 6. Funcionalidade Ask AI
-
-### Conceito
-Um campo de busca semântica na homepage (e em todas as páginas) que responde perguntas em linguagem natural sobre a documentação, sem exigir que o usuário saiba qual página consultar.
-
-### Como implementar
-A documentação já tem um `llms.txt` disponível em `https://docs.credipay.credix.finance/llms.txt` — o mesmo mecanismo que a CrediPay usa para integrar com IDEs como Cursor. O Ask AI pode ser construído sobre esse arquivo usando qualquer LLM com RAG.
-
-### Exemplos de perguntas que o Ask AI resolveria
-- *"O que acontece se o comprador não aprovar o pedido em televendas?"*
-- *"Qual a diferença entre DDE e DDF no prazo de pagamento?"*
-- *"Como eu configuro webhooks no ambiente de staging?"*
-- *"Quais campos são obrigatórios no POST /v2/orders?"*
-- *"O XML foi rejeitado com ValidationFailed — o que eu faço?"*
-
----
-
-## 7. Considerações técnicas
-
-### Plataforma atual
-A documentação usa **ReadMe.com** (readme.io). A reestruturação pode ser feita inteiramente dentro da plataforma, sem migração.
-
-### O que o ReadMe suporta
-- Múltiplas seções com URLs customizadas ✅
-- Landing page customizável ✅
-- Ask AI nativo (feature paga do ReadMe) ✅
-- Versionamento (já usado: v1.0 e v2.0) ✅
-- API Reference integrada ✅
-
-### Priorização sugerida
-1. **Homepage nova** — maior impacto, menor esforço
-2. **Reorganização de URLs** — sem criar conteúdo novo
-3. **Seção VTEX** — conteúdo a criar
-4. **Páginas de go-live** — conteúdo a criar
-5. **Ask AI** — feature nova, depende de plano ReadMe ou implementação custom
-
----
-
-## 8. Próximos passos sugeridos
-
-| # | Ação | Esforço | Impacto |
-|---|---|---|---|
-| 1 | Validar os 5 perfis e jornadas com o time | Baixo | Alto |
-| 2 | Aprovar nova arquitetura de URLs | Baixo | Alto |
-| 3 | Reescrever/redesenhar homepage | Médio | Alto |
-| 4 | Reorganizar conteúdo existente nas novas seções | Médio | Médio |
-| 5 | Escrever seção VTEX completa | Alto | Alto |
-| 6 | Criar páginas de go-live e checklist | Médio | Alto |
-| 7 | Ativar Ask AI (ReadMe ou custom) | Alto | Alto |
-
----
-
-*Proposta elaborada com base no mapeamento completo dos Guides da CrediPay (31 páginas) e análise comparativa com a estrutura da Claude Platform Documentation.*
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrediPay — Documentação</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #ffffff;
+      color: #1c1e26;
+      line-height: 1.6;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 24px 56px;
+      text-align: center;
+      background: linear-gradient(160deg, #f0f4ff 0%, #ffffff 60%);
+      border-bottom: 1px solid #e8ecf4;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: #e8f0fe;
+      color: #2563eb;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      max-width: 680px;
+      margin: 0 auto 16px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #2563eb, #059669);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: #64748b;
+      max-width: 520px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 420px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1.5px solid #d1d9e8;
+      border-radius: 10px;
+      padding: 10px 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+      color: #94a3b8;
+      font-size: 15px;
+      cursor: text;
+      transition: border-color .2s;
+    }
+
+    .hero-search:hover { border-color: #2563eb; }
+
+    .hero-search svg { flex-shrink: 0; }
+
+    /* ── Paths ── */
+    .section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .section-header p {
+      font-size: 15px;
+      color: #64748b;
+    }
+
+    /* ── Path cards ── */
+    .paths {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .path-card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 24px 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .2s, box-shadow .2s, transform .15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .path-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 14px 14px 0 0;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+
+    .path-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 30px rgba(0,0,0,.08);
+      transform: translateY(-2px);
+    }
+
+    .path-card:hover::before { opacity: 1; }
+
+    .path-card--portal   { --accent: #2563eb; }
+    .path-card--api      { --accent: #7c3aed; }
+    .path-card--vtex     { --accent: #dc2626; }
+    .path-card--finance  { --accent: #059669; }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--icon-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      font-size: 22px;
+    }
+
+    .path-card--portal  .card-icon { --icon-bg: #eff6ff; }
+    .path-card--api     .card-icon { --icon-bg: #f5f3ff; }
+    .path-card--vtex    .card-icon { --icon-bg: #fff1f2; }
+    .path-card--finance .card-icon { --icon-bg: #f0fdf4; }
+
+    .card-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .path-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .path-card p {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-links {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .card-links a {
+      font-size: 13px;
+      color: #475569;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+      transition: color .15s;
+    }
+
+    .card-links a:hover { color: var(--accent); }
+
+    .card-links a::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .5;
+      flex-shrink: 0;
+    }
+
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 16px;
+      transition: gap .15s;
+    }
+
+    .card-cta:hover { gap: 10px; }
+
+    /* ── Quick links ── */
+    .quick {
+      background: #f8fafc;
+      border-top: 1px solid #e8ecf4;
+      border-bottom: 1px solid #e8ecf4;
+    }
+
+    .quick .section { padding-top: 48px; padding-bottom: 48px; }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .quick-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      text-decoration: none;
+      color: #334155;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: border-color .15s, color .15s, box-shadow .15s;
+    }
+
+    .quick-item:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+      box-shadow: 0 2px 8px rgba(37,99,235,.08);
+    }
+
+    .quick-item span { font-size: 18px; }
+
+    /* ── Footer strip ── */
+    .footer-strip {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-strip p {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+
+    .footer-strip a {
+      font-size: 14px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-strip a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .paths { grid-template-columns: 1fr; }
+      .hero { padding: 48px 20px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-badge">Documentação CrediPay</div>
+    <h1>Tudo que você precisa para<br><span>vender com crédito B2B</span></h1>
+    <p>Explore guias, referências de API e tutoriais pensados para cada perfil — do vendedor ao integrador.</p>
+    <div class="hero-search">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      Buscar na documentação...
+    </div>
+  </section>
+
+  <!-- ── Escolha seu caminho ── -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Por onde quer começar?</h2>
+      <p>Escolha o caminho que melhor descreve como você usa a CrediPay.</p>
+    </div>
+
+    <div class="paths">
+
+      <!-- Portal -->
+      <div class="path-card path-card--portal">
+        <div class="card-icon">🖥️</div>
+        <div class="card-tag">Portal no-code</div>
+        <h3>Vendedor não-técnico</h3>
+        <p>Crie pedidos, gerencie compradores e acompanhe pagamentos diretamente pelo portal, sem precisar de código.</p>
+        <div class="card-links">
+          <a href="/docs/criar-conta">Criar conta e acessar o portal</a>
+          <a href="/docs/adicionar-comprador">Adicionar compradores</a>
+          <a href="/docs/criar-pedido">Criar um pedido</a>
+          <a href="/docs/solicitar-reembolso">Cancelamentos e reembolsos</a>
+        </div>
+        <a class="card-cta" href="/docs/criar-conta">
+          Começar pelo Portal
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- API -->
+      <div class="path-card path-card--api">
+        <div class="card-icon">⚙️</div>
+        <div class="card-tag">Integração via API</div>
+        <h3>Desenvolvedor / Integrador</h3>
+        <p>Integre a CrediPay ao seu sistema via API REST. Automatize pedidos, webhooks e o ciclo de vida completo.</p>
+        <div class="card-links">
+          <a href="/docs/autenticacao-e-ambientes">Autenticação e ambientes</a>
+          <a href="/docs/ciclo-de-vida-de-um-pedido">Ciclo de vida de um pedido</a>
+          <a href="/docs/visao-geral-webhooks">Configurar webhooks</a>
+          <a href="/docs/checklist-pre-producao">Checklist de go-live</a>
+        </div>
+        <a class="card-cta" href="/docs/autenticacao-e-ambientes">
+          Começar pela API
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- VTEX -->
+      <div class="path-card path-card--vtex">
+        <div class="card-icon">🛒</div>
+        <div class="card-tag">VTEX</div>
+        <h3>Integrador VTEX</h3>
+        <p>Instale o app CrediPay na sua loja VTEX IO e ofereça crédito B2B no checkout sem desenvolver nada do zero.</p>
+        <div class="card-links">
+          <a href="/docs/pre-requisitos">Pré-requisitos</a>
+          <a href="/docs/instalacao">Instalação do app</a>
+          <a href="/docs/configuracao">Configuração de credenciais</a>
+          <a href="/docs/testando">Testar a integração</a>
+        </div>
+        <a class="card-cta" href="/docs/credipay-para-vtex">
+          Começar na VTEX
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Financeiro -->
+      <div class="path-card path-card--finance">
+        <div class="card-icon">📊</div>
+        <div class="card-tag">Gestão financeira</div>
+        <h3>Gestor / Financeiro</h3>
+        <p>Acompanhe desembolsos, reconcilie pagamentos e entenda os status de pedidos e parcelas.</p>
+        <div class="card-links">
+          <a href="/docs/guia-de-status-portal">Guia de status</a>
+          <a href="/docs/reconciliacao-de-desembolsos">Reconciliação de desembolsos</a>
+          <a href="/docs/boletos">Boletos e pagamentos</a>
+          <a href="/docs/solicitar-reembolso">Reembolsos</a>
+        </div>
+        <a class="card-cta" href="/docs/reconciliacao-de-desembolsos">
+          Ver guia financeiro
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Quick links ── -->
+  <div class="quick">
+    <div class="section">
+      <div class="section-header">
+        <h2>Referência rápida</h2>
+        <p>Os recursos mais acessados da documentação.</p>
+      </div>
+      <div class="quick-grid">
+        <a class="quick-item" href="/docs/autenticacao-e-ambientes">
+          <span>🔑</span> Autenticação
+        </a>
+        <a class="quick-item" href="/docs/eventos-disponiveis">
+          <span>🔔</span> Eventos de webhook
+        </a>
+        <a class="quick-item" href="/docs/guia-de-status-api">
+          <span>📋</span> Status de pedidos
+        </a>
+        <a class="quick-item" href="/docs/verificacao-de-assinatura">
+          <span>🛡️</span> Verificar assinatura
+        </a>
+        <a class="quick-item" href="/docs/integracao-parcial">
+          <span>🧩</span> Integração parcial
+        </a>
+        <a class="quick-item" href="/docs/aumento-de-limite">
+          <span>📈</span> Aumentar limite
+        </a>
+        <a class="quick-item" href="/docs/checklist-pre-producao">
+          <span>✅</span> Checklist go-live
+        </a>
+        <a class="quick-item" href="/docs/glossario">
+          <span>📖</span> Glossário
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer strip ── -->
+  <div class="footer-strip">
+    <p>Precisa de ajuda? Entre em contato com o suporte.</p>
+    <a href="mailto:suporte-credipay@credix.finance">suporte-credipay@credix.finance →</a>
+  </div>
+
+</body>
+</html>
