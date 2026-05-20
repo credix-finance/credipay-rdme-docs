@@ -4729,6 +4729,12 @@
             ],
             "title": "Confirmedemail",
             "description": "User confirmed email"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Additional metadata (e.g., 'approachId', 'ipAddress', 'userAgent', 'channel')"
           }
         },
         "type": "object",
