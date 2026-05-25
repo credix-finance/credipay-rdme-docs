@@ -2005,6 +2005,28 @@ components:
           type: number
           description: "Valor total do pedido em centavos. \t\t \tSe o pedido tiver uma nota fiscal, este valor é retirado da nota fiscal;\n\t\t\tcaso contrário, é retirado do próprio pedido."
           example: 12345
+        transactionFeeCents:
+          type: number
+          description: >-
+            Taxa de transação total do pedido em centavos (Order-level, não
+            recalculada por invoice).
+          example: 5000
+        disbursementSchedulingStrategy:
+          type: string
+          description: >-
+            Estratégia de agendamento do desembolso. OnAssetCreation =
+            antecipação; OnAssetDueDate / OnBuyerPayment = no-anticipation.
+          example: OnAssetCreation
+          enum:
+            - OnAssetCreation
+            - OnBuyerPayment
+            - OnAssetDueDate
+        disbursementDelayDays:
+          type: number
+          description: >-
+            Dias adicionados à data base (vencimento do asset ou pagamento do
+            comprador) para definir disburseOnDate. 0 para antecipação.
+          example: 0
       required:
         - id
         - createdAt
@@ -2020,6 +2042,9 @@ components:
         - refunds
         - metadata
         - totalAmountCents
+        - transactionFeeCents
+        - disbursementSchedulingStrategy
+        - disbursementDelayDays
     TaxIdFilterDto:
       type: object
       properties:
@@ -2137,6 +2162,28 @@ components:
           type: number
           description: Valor total do pedido em centavos.
           example: 10000
+        transactionFeeCents:
+          type: number
+          description: >-
+            Taxa de transação total do pedido em centavos (Order-level, não
+            recalculada por invoice).
+          example: 5000
+        disbursementSchedulingStrategy:
+          type: string
+          description: >-
+            Estratégia de agendamento do desembolso. OnAssetCreation =
+            antecipação; OnAssetDueDate / OnBuyerPayment = no-anticipation.
+          example: OnAssetCreation
+          enum:
+            - OnAssetCreation
+            - OnBuyerPayment
+            - OnAssetDueDate
+        disbursementDelayDays:
+          type: number
+          description: >-
+            Dias adicionados à data base (vencimento do asset ou pagamento do
+            comprador) para definir disburseOnDate. 0 para antecipação.
+          example: 0
         invoice:
           description: Informações da nota fiscal do pedido.
           nullable: true
@@ -2163,6 +2210,9 @@ components:
         - createdAt
         - updatedAt
         - totalAmountCents
+        - transactionFeeCents
+        - disbursementSchedulingStrategy
+        - disbursementDelayDays
         - invoice
         - invoices
         - buyer
