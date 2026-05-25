@@ -104,7 +104,26 @@ paths:
         - Orders
   /v2/orders:
     post:
-      description: Cria um pedido enviando um payload JSON.
+      description: >-
+        Cria um pedido enviando um payload JSON.
+
+
+        ### Formato dos erros
+
+        Erros de validação são serializados pelo filtro global da CrediPay em
+        duas formas:
+
+        - **`CredixErrorResponse`** (uma única validação): `{ message, code,
+        context, timestamp, path, request_id }`
+
+        - **`CredixAggregateErrorResponse`** (várias validações falhando
+        juntas): `{ message, code: "ORDER_VALIDATION_AGGREGATE_ERROR", errors:
+        [{ message, code, context }], timestamp, path, request_id }`
+
+
+        O campo `code` é estável e deve ser usado pelo seu sistema como chave de
+        identificação do erro. A mensagem em `message` permanece em inglês para
+        evitar quebras quando a tradução evoluir.
       operationId: OrdersController_postOrder
       parameters: []
       requestBody:
@@ -121,6 +140,253 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetOrderResponseDto'
+        '400':
+          description: >-
+            Falha de validação do pedido. O corpo da resposta segue o formato
+            `CredixErrorResponse` (erro único) ou `CredixAggregateErrorResponse`
+            (várias validações falhando ao mesmo tempo, em `errors[]`).
+          content:
+            application/json:
+              examples:
+                NO_INSTALLMENTS_PROVIDED_ERROR:
+                  summary: Nenhuma parcela informada
+                  description: >-
+                    O array `installments` está vazio.
+
+
+                    **Como resolver:** Inclua pelo menos uma entrada em
+                    `installments` com `faceValueCents` e (`termDays` ou
+                    `maturityDate`).
+                  value:
+                    message: No installments provided for the order.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context: {}
+                    code: NO_INSTALLMENTS_PROVIDED_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                PAYMENT_TERMS_LOWER_THAN_MINIMUM_DAYS_ERROR:
+                  summary: Prazo de parcela abaixo do mínimo permitido
+                  description: >-
+                    Pelo menos uma parcela tem prazo menor que o mínimo
+                    permitido na plataforma (15 dias).
+
+
+                    **Como resolver:** Reajuste as parcelas para que `termDays`
+                    (ou a diferença até `maturityDate`) seja maior ou igual a
+                    `context.minimumPaymentTermDays`.
+                  value:
+                    message: >-
+                      The payment term days is lower than the minimum allowed on
+                      platform.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      paymentTermDays: 7
+                      minimumPaymentTermDays: 15
+                      buyerTaxId: '65413430000008'
+                      buyerCompanyName: Mercearia da Esquina LTDA
+                    code: PAYMENT_TERMS_LOWER_THAN_MINIMUM_DAYS_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                PAYMENT_TERMS_DAYS_LIMIT_EXCEEDED_ERROR:
+                  summary: Prazo de parcela acima do máximo permitido
+                  description: >-
+                    Pelo menos uma parcela tem prazo maior que o limite
+                    configurado para essa combinação comprador/vendedor.
+
+
+                    **Como resolver:** Reajuste as parcelas para que `termDays`
+                    (ou a diferença até `maturityDate`) respeite
+                    `context.maxPaymentTermDays`, ou negocie um aumento de prazo
+                    com a CrediPay.
+                  value:
+                    message: >-
+                      The payment term days is higher than the maximum allowed
+                      for this buyer seller combination.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      orderPaymentTermDays: 120
+                      maxPaymentTermDays: 90
+                      installmentNumber: 2
+                      buyerTaxId: '65413430000008'
+                      buyerCompanyName: Mercearia da Esquina LTDA
+                    code: PAYMENT_TERMS_DAYS_LIMIT_EXCEEDED_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                AVAILABLE_CREDIT_LIMIT_EXCEEDED_ERROR:
+                  summary: Limite de crédito do comprador insuficiente
+                  description: >-
+                    O valor líquido do pedido excede o limite de crédito
+                    disponível do comprador.
+
+
+                    **Como resolver:** Reduza o valor do pedido para até
+                    `context.availableCreditLimitCents` ou solicite aumento de
+                    limite junto ao comprador antes de tentar de novo.
+                  value:
+                    message: >-
+                      The order net amount exceeds available credit limit of
+                      buyer.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      availableCreditLimitCents: 1500000
+                      amountCents: 2040000
+                      buyerTaxId: '65413430000008'
+                      buyerCompanyName: Mercearia da Esquina LTDA
+                    code: AVAILABLE_CREDIT_LIMIT_EXCEEDED_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                MIN_ORDER_AMOUNT_ERROR:
+                  summary: Valor total do pedido abaixo do mínimo
+                  description: >-
+                    A soma de `faceValueCents` das parcelas resulta em um valor
+                    menor ou igual a zero.
+
+
+                    **Como resolver:** Garanta que o pedido tenha pelo menos uma
+                    parcela com `faceValueCents` positivo.
+                  value:
+                    message: Order amount is less than the minimum allowed amount.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      orderAmountCents: 0
+                      minOrderAmountCents: 1
+                    code: MIN_ORDER_AMOUNT_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                ORDER_VALIDATION_AGGREGATE_ERROR:
+                  summary: Várias validações falharam simultaneamente
+                  description: >-
+                    Quando mais de uma validação falha no mesmo pedido, a
+                    CrediPay agrega as falhas em `errors[]` e usa o código
+                    `ORDER_VALIDATION_AGGREGATE_ERROR` no topo. Cada item de
+                    `errors[]` é um dos códigos documentados individualmente
+                    acima e mantém o mesmo `context`.
+                  value:
+                    message: Multiple errors occurred
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    code: ORDER_VALIDATION_AGGREGATE_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                    errors:
+                      - message: >-
+                          The order net amount exceeds available credit limit of
+                          buyer.
+                        code: AVAILABLE_CREDIT_LIMIT_EXCEEDED_ERROR
+                        context:
+                          availableCreditLimitCents: 1500000
+                          amountCents: 2040000
+                          buyerTaxId: '65413430000008'
+                          buyerCompanyName: Mercearia da Esquina LTDA
+                      - message: >-
+                          The payment term days is higher than the maximum
+                          allowed for this buyer seller combination.
+                        code: PAYMENT_TERMS_DAYS_LIMIT_EXCEEDED_ERROR
+                        context:
+                          orderPaymentTermDays: 120
+                          maxPaymentTermDays: 90
+                          installmentNumber: 2
+                          buyerTaxId: '65413430000008'
+                          buyerCompanyName: Mercearia da Esquina LTDA
+        '401':
+          description: >-
+            A autenticação foi aceita, mas a organização da API key não tem
+            permissão para a operação solicitada.
+          content:
+            application/json:
+              examples:
+                SELLER_DOES_NOT_BELONG_TO_ORGANIZATION_ERROR:
+                  summary: Vendedor não pertence à organização autenticada
+                  description: >-
+                    O CNPJ informado em `sellerTaxId` (ou identificado na NF-e)
+                    não pertence à organização à qual a API key está vinculada.
+
+
+                    **Como resolver:** Use uma API key da organização correta ou
+                    corrija o `sellerTaxId` enviado.
+                  value:
+                    message: Seller does not belong to the organization.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      taxId: '44876674000049'
+                    code: SELLER_DOES_NOT_BELONG_TO_ORGANIZATION_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+        '403':
+          description: >-
+            A operação não é permitida pela política da CrediPay ou pelo
+            estado/perfil atual do recurso.
+          content:
+            application/json:
+              examples:
+                ORDER_REJECTED_BY_CREDIX_POLICY_ERROR:
+                  summary: Pedido recusado pela política da CrediPay
+                  description: >-
+                    O pedido foi recusado por uma política interna da CrediPay
+                    (risco, antifraude, elegibilidade, conferência de cadastro
+                    ou outros critérios). Por segurança, o motivo específico da
+                    recusa não é detalhado nesta resposta.
+
+
+                    **Como resolver:** Não há nova tentativa automática. Entre
+                    em contato com a equipe da CrediPay para análise se
+                    acreditar que a recusa é indevida.
+                  value:
+                    message: Order rejected by Credix policy.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context: {}
+                    code: ORDER_REJECTED_BY_CREDIX_POLICY_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+        '404':
+          description: Recurso referenciado pelo pedido não foi encontrado.
+          content:
+            application/json:
+              examples:
+                SELLER_NOT_FOUND_ERROR:
+                  summary: Vendedor não cadastrado
+                  description: >-
+                    O CNPJ informado em `sellerTaxId` (ou na NF-e) não está
+                    cadastrado na CrediPay.
+
+
+                    **Como resolver:** Conclua o onboarding do vendedor antes de
+                    criar pedidos para ele.
+                  value:
+                    message: Seller not found.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      taxId: '44876674000049'
+                    code: SELLER_NOT_FOUND_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+        '412':
+          description: Pré-condição do comprador ainda não atendida.
+          content:
+            application/json:
+              examples:
+                BUYER_NOT_ONBOARDED_ERROR:
+                  summary: Comprador ainda não concluiu o onboarding
+                  description: >-
+                    O comprador não finalizou o onboarding (chave PIX ou KYC
+                    ainda pendente). Pedidos só podem ser criados após a
+                    conclusão do cadastro.
+
+
+                    **Como resolver:** Aguarde a conclusão do onboarding. Se
+                    `context.onboardingStartedAt` estiver vazio, oriente o
+                    comprador a iniciar o cadastro pelo link enviado pela
+                    CrediPay.
+                  value:
+                    message: Buyer is not onboarded.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      buyerTaxId: '65413430000008'
+                      buyerId: 5b9f3a4b-1c2d-4e5f-8a7b-6c1e2d3a4b5c
+                      onboardingStartedAt: '2026-05-10T09:15:00.000Z'
+                      onboardingCompletedAt: null
+                    code: BUYER_NOT_ONBOARDED_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
       summary: Criar um pedido
       tags:
         - Orders
@@ -132,6 +398,19 @@ paths:
         informado, a nota fiscal é vinculada ao pedido especificado. Para que
         uma nota fiscal seja aceita, ela precisa estar dentro do limite de
         crédito disponível do comprador e do prazo máximo de pagamento.
+
+
+        ### Formato dos erros
+
+        Erros de validação seguem o mesmo formato de `POST /v2/orders`:
+        `CredixErrorResponse` (uma falha) ou `CredixAggregateErrorResponse`
+        (várias falhas, em `errors[]`). O `code` é estável e deve ser usado para
+        o tratamento programático.
+
+
+        Falhas no parsing do XML da NF-e são consolidadas sob o código
+        `NFE_PARSE_ERROR` — o detalhamento dos campos inválidos vem em
+        `context.error.issues`.
       operationId: OrdersController_postInvoiceXml
       parameters: []
       requestBody:
@@ -156,10 +435,377 @@ paths:
               required:
                 - invoice
       responses:
+        '200':
+          description: Operação bem-sucedida, pedido criado a partir da NF-e.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrderResponseDto'
         '400':
           description: >-
-            Não foi possível processar o XML da nota fiscal devido a um erro de
-            formato.
+            Falha de validação do pedido. O corpo da resposta segue o formato
+            `CredixErrorResponse` (erro único) ou `CredixAggregateErrorResponse`
+            (várias validações falhando ao mesmo tempo, em `errors[]`).
+          content:
+            application/json:
+              examples:
+                NFE_PARSE_ERROR:
+                  summary: XML da NF-e inválido
+                  description: >-
+                    O arquivo enviado não passou na validação de schema da NF-e.
+                    Esse erro cobre toda falha de parsing — XML mal formado,
+                    campos obrigatórios ausentes ou tipos inválidos. Veja
+                    `context.error` para o detalhamento dos campos que falharam.
+
+
+                    **Como resolver:** Verifique se o XML é uma NF-e autorizada
+                    pela SEFAZ (não envie rascunhos). Os campos obrigatórios
+                    incluem:
+
+                    - `nfeProc.NFe.infNFe._Id` (chave de acesso, 44 dígitos)
+
+                    - `ide.dhEmi` (data de emissão)
+
+                    - `ide.nNF` (número curto da nota)
+
+                    - `ide.tpNF` (tipo, deve ser 1)
+
+                    - `emit.CNPJ` e `emit.xNome` (emitente)
+
+                    - `emit.enderEmit.*` (endereço completo do emitente)
+
+                    - `dest.CNPJ` e `dest.xNome` (destinatário)
+
+                    - `dest.enderDest.*` (endereço completo do destinatário)
+
+                    - `det[]` (itens)
+
+                    - `total.ICMSTot.vNF` (valor total)
+
+                    - `cobr.dup[]` (duplicatas com `nDup`, `dVenc`, `vDup`)
+                  value:
+                    message: >-
+                      Could not parse NFE, please check if the xml is formed
+                      correctly.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      error:
+                        issues:
+                          - path:
+                              - nfeProc
+                              - NFe
+                              - infNFe
+                              - dest
+                              - CNPJ
+                            code: invalid_type
+                            message: Required
+                    code: NFE_PARSE_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                CREDIT_NOTE_NOT_SUPPORTED_ERROR:
+                  summary: Nota de crédito não suportada
+                  description: >-
+                    O XML enviado é uma NF-e do tipo nota de crédito (`tpNF=0`).
+                    Apenas NF-e normal de saída (`tpNF=1`) é aceita.
+
+
+                    **Como resolver:** Reemita uma NF-e normal de saída antes de
+                    tentar o upload novamente.
+                  value:
+                    message: Credit note is not supported.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      invoiceNumber: NFe35240614200166000187550010000123451123456789
+                    code: CREDIT_NOTE_NOT_SUPPORTED_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                NFE_MISSING_BUYER_CONTACT_FIELDS_ERROR:
+                  summary: Faltam e-mail/telefone do comprador na NF-e
+                  description: >-
+                    O XML da NF-e não traz e-mail ou telefone do destinatário e
+                    a CrediPay ainda não possui esses dados em cache para o CNPJ
+                    informado.
+
+
+                    **Como resolver:** Reemita a NF-e com o e-mail e o telefone
+                    do destinatário preenchidos, ou cadastre as informações de
+                    contato do comprador previamente.
+                  value:
+                    message: >-
+                      NFe XML is missing required buyer contact fields. Both
+                      email and phone must be present in the XML.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      missingFields:
+                        - email
+                        - phone
+                      buyerTaxId: '65413430000008'
+                    code: NFE_MISSING_BUYER_CONTACT_FIELDS_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                NO_INSTALLMENTS_PROVIDED_ERROR:
+                  summary: Nenhuma parcela informada
+                  description: >-
+                    O array `installments` está vazio.
+
+
+                    **Como resolver:** Inclua pelo menos uma entrada em
+                    `installments` com `faceValueCents` e (`termDays` ou
+                    `maturityDate`).
+                  value:
+                    message: No installments provided for the order.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context: {}
+                    code: NO_INSTALLMENTS_PROVIDED_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                PAYMENT_TERMS_LOWER_THAN_MINIMUM_DAYS_ERROR:
+                  summary: Prazo de parcela abaixo do mínimo permitido
+                  description: >-
+                    Pelo menos uma parcela tem prazo menor que o mínimo
+                    permitido na plataforma (15 dias).
+
+
+                    **Como resolver:** Reajuste as parcelas para que `termDays`
+                    (ou a diferença até `maturityDate`) seja maior ou igual a
+                    `context.minimumPaymentTermDays`.
+                  value:
+                    message: >-
+                      The payment term days is lower than the minimum allowed on
+                      platform.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      paymentTermDays: 7
+                      minimumPaymentTermDays: 15
+                      buyerTaxId: '65413430000008'
+                      buyerCompanyName: Mercearia da Esquina LTDA
+                    code: PAYMENT_TERMS_LOWER_THAN_MINIMUM_DAYS_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                PAYMENT_TERMS_DAYS_LIMIT_EXCEEDED_ERROR:
+                  summary: Prazo de parcela acima do máximo permitido
+                  description: >-
+                    Pelo menos uma parcela tem prazo maior que o limite
+                    configurado para essa combinação comprador/vendedor.
+
+
+                    **Como resolver:** Reajuste as parcelas para que `termDays`
+                    (ou a diferença até `maturityDate`) respeite
+                    `context.maxPaymentTermDays`, ou negocie um aumento de prazo
+                    com a CrediPay.
+                  value:
+                    message: >-
+                      The payment term days is higher than the maximum allowed
+                      for this buyer seller combination.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      orderPaymentTermDays: 120
+                      maxPaymentTermDays: 90
+                      installmentNumber: 2
+                      buyerTaxId: '65413430000008'
+                      buyerCompanyName: Mercearia da Esquina LTDA
+                    code: PAYMENT_TERMS_DAYS_LIMIT_EXCEEDED_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                AVAILABLE_CREDIT_LIMIT_EXCEEDED_ERROR:
+                  summary: Limite de crédito do comprador insuficiente
+                  description: >-
+                    O valor líquido do pedido excede o limite de crédito
+                    disponível do comprador.
+
+
+                    **Como resolver:** Reduza o valor do pedido para até
+                    `context.availableCreditLimitCents` ou solicite aumento de
+                    limite junto ao comprador antes de tentar de novo.
+                  value:
+                    message: >-
+                      The order net amount exceeds available credit limit of
+                      buyer.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      availableCreditLimitCents: 1500000
+                      amountCents: 2040000
+                      buyerTaxId: '65413430000008'
+                      buyerCompanyName: Mercearia da Esquina LTDA
+                    code: AVAILABLE_CREDIT_LIMIT_EXCEEDED_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                MIN_ORDER_AMOUNT_ERROR:
+                  summary: Valor total do pedido abaixo do mínimo
+                  description: >-
+                    A soma de `faceValueCents` das parcelas resulta em um valor
+                    menor ou igual a zero.
+
+
+                    **Como resolver:** Garanta que o pedido tenha pelo menos uma
+                    parcela com `faceValueCents` positivo.
+                  value:
+                    message: Order amount is less than the minimum allowed amount.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      orderAmountCents: 0
+                      minOrderAmountCents: 1
+                    code: MIN_ORDER_AMOUNT_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                ORDER_VALIDATION_AGGREGATE_ERROR:
+                  summary: Várias validações falharam simultaneamente
+                  description: >-
+                    Quando mais de uma validação falha no mesmo pedido, a
+                    CrediPay agrega as falhas em `errors[]` e usa o código
+                    `ORDER_VALIDATION_AGGREGATE_ERROR` no topo. Cada item de
+                    `errors[]` é um dos códigos documentados individualmente
+                    acima e mantém o mesmo `context`.
+                  value:
+                    message: Multiple errors occurred
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    code: ORDER_VALIDATION_AGGREGATE_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                    errors:
+                      - message: >-
+                          The order net amount exceeds available credit limit of
+                          buyer.
+                        code: AVAILABLE_CREDIT_LIMIT_EXCEEDED_ERROR
+                        context:
+                          availableCreditLimitCents: 1500000
+                          amountCents: 2040000
+                          buyerTaxId: '65413430000008'
+                          buyerCompanyName: Mercearia da Esquina LTDA
+                      - message: >-
+                          The payment term days is higher than the maximum
+                          allowed for this buyer seller combination.
+                        code: PAYMENT_TERMS_DAYS_LIMIT_EXCEEDED_ERROR
+                        context:
+                          orderPaymentTermDays: 120
+                          maxPaymentTermDays: 90
+                          installmentNumber: 2
+                          buyerTaxId: '65413430000008'
+                          buyerCompanyName: Mercearia da Esquina LTDA
+        '401':
+          description: >-
+            A autenticação foi aceita, mas a organização da API key não tem
+            permissão para a operação solicitada.
+          content:
+            application/json:
+              examples:
+                SELLER_DOES_NOT_BELONG_TO_ORGANIZATION_ERROR:
+                  summary: Vendedor não pertence à organização autenticada
+                  description: >-
+                    O CNPJ informado em `sellerTaxId` (ou identificado na NF-e)
+                    não pertence à organização à qual a API key está vinculada.
+
+
+                    **Como resolver:** Use uma API key da organização correta ou
+                    corrija o `sellerTaxId` enviado.
+                  value:
+                    message: Seller does not belong to the organization.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      taxId: '44876674000049'
+                    code: SELLER_DOES_NOT_BELONG_TO_ORGANIZATION_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+        '403':
+          description: >-
+            A operação não é permitida pela política da CrediPay ou pelo
+            estado/perfil atual do recurso.
+          content:
+            application/json:
+              examples:
+                ORDER_REJECTED_BY_CREDIX_POLICY_ERROR:
+                  summary: Pedido recusado pela política da CrediPay
+                  description: >-
+                    O pedido foi recusado por uma política interna da CrediPay
+                    (risco, antifraude, elegibilidade, conferência de cadastro
+                    ou outros critérios). Por segurança, o motivo específico da
+                    recusa não é detalhado nesta resposta.
+
+
+                    **Como resolver:** Não há nova tentativa automática. Entre
+                    em contato com a equipe da CrediPay para análise se
+                    acreditar que a recusa é indevida.
+                  value:
+                    message: Order rejected by Credix policy.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context: {}
+                    code: ORDER_REJECTED_BY_CREDIX_POLICY_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+        '404':
+          description: Recurso referenciado pelo pedido não foi encontrado.
+          content:
+            application/json:
+              examples:
+                SELLER_NOT_FOUND_ERROR:
+                  summary: Vendedor não cadastrado
+                  description: >-
+                    O CNPJ informado em `sellerTaxId` (ou na NF-e) não está
+                    cadastrado na CrediPay.
+
+
+                    **Como resolver:** Conclua o onboarding do vendedor antes de
+                    criar pedidos para ele.
+                  value:
+                    message: Seller not found.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      taxId: '44876674000049'
+                    code: SELLER_NOT_FOUND_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+        '409':
+          description: Conflito com o estado atual do recurso.
+          content:
+            application/json:
+              examples:
+                INVOICE_ALREADY_EXISTS_ERROR:
+                  summary: Nota fiscal já registrada
+                  description: >-
+                    A chave de acesso (`nNF`) da NF-e enviada já está registrada
+                    na CrediPay, possivelmente vinculada a outro pedido.
+
+
+                    **Como resolver:** Confirme que você não está reenviando o
+                    mesmo XML. Para corrigir uma nota inválida, cancele-a e
+                    emita uma nova com chave de acesso distinta.
+                  value:
+                    message: Invoice with the given invoice number already exists.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      invoiceNumber: NFe35240614200166000187550010000123451123456789
+                      orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+                    code: INVOICE_ALREADY_EXISTS_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+        '412':
+          description: Pré-condição do comprador ainda não atendida.
+          content:
+            application/json:
+              examples:
+                BUYER_NOT_ONBOARDED_ERROR:
+                  summary: Comprador ainda não concluiu o onboarding
+                  description: >-
+                    O comprador não finalizou o onboarding (chave PIX ou KYC
+                    ainda pendente). Pedidos só podem ser criados após a
+                    conclusão do cadastro.
+
+
+                    **Como resolver:** Aguarde a conclusão do onboarding. Se
+                    `context.onboardingStartedAt` estiver vazio, oriente o
+                    comprador a iniciar o cadastro pelo link enviado pela
+                    CrediPay.
+                  value:
+                    message: Buyer is not onboarded.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      buyerTaxId: '65413430000008'
+                      buyerId: 5b9f3a4b-1c2d-4e5f-8a7b-6c1e2d3a4b5c
+                      onboardingStartedAt: '2026-05-10T09:15:00.000Z'
+                      onboardingCompletedAt: null
+                    code: BUYER_NOT_ONBOARDED_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
       summary: Criar um pedido por NF-e
       tags:
         - Orders
@@ -167,9 +813,20 @@ paths:
   /v2/orders/{id}/capture:
     post:
       description: >-
-        Este é um endpoint assíncrono que permite enviar um arquivo XML de Nota
-        Fiscal para um pedido. Assim que o arquivo XML é enviado, um job será
-        disparado para realizar validações e capturar o pedido.
+        Endpoint que permite enviar um arquivo XML de Nota Fiscal para um pedido
+        existente. Assim que o arquivo XML é aceito, um job é disparado para
+        realizar validações e capturar o pedido — parte das validações roda de
+        forma assíncrona. Falhas síncronas (estado do pedido, lock em andamento,
+        parsing do XML, validações internas de elegibilidade/política) retornam
+        imediatamente nesta resposta.
+
+
+        ### Formato dos erros
+
+        Erros seguem o mesmo formato de `POST /v2/orders`: `CredixErrorResponse`
+        (uma falha) ou `CredixAggregateErrorResponse` (várias falhas, em
+        `errors[]`). O `code` é estável e deve ser usado para o tratamento
+        programático.
       operationId: OrdersController_captureOrder
       parameters:
         - name: isPartialCapture
@@ -201,10 +858,271 @@ paths:
               required:
                 - invoice
       responses:
+        '200':
+          description: >-
+            Solicitação de captura aceita. As validações finais rodam de forma
+            assíncrona — consulte `GET /v2/orders/:id` para acompanhar a
+            transição de estado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrderResponseDto'
         '400':
           description: >-
-            Não foi possível mover o pedido para o estado de validação devido a
-            um erro.
+            Falha de validação do pedido. O corpo da resposta segue o formato
+            `CredixErrorResponse` (erro único) ou `CredixAggregateErrorResponse`
+            (várias validações falhando ao mesmo tempo, em `errors[]`).
+          content:
+            application/json:
+              examples:
+                NFE_PARSE_ERROR:
+                  summary: XML da NF-e inválido
+                  description: >-
+                    O arquivo enviado não passou na validação de schema da NF-e.
+                    Esse erro cobre toda falha de parsing — XML mal formado,
+                    campos obrigatórios ausentes ou tipos inválidos. Veja
+                    `context.error` para o detalhamento dos campos que falharam.
+
+
+                    **Como resolver:** Verifique se o XML é uma NF-e autorizada
+                    pela SEFAZ (não envie rascunhos). Os campos obrigatórios
+                    incluem:
+
+                    - `nfeProc.NFe.infNFe._Id` (chave de acesso, 44 dígitos)
+
+                    - `ide.dhEmi` (data de emissão)
+
+                    - `ide.nNF` (número curto da nota)
+
+                    - `ide.tpNF` (tipo, deve ser 1)
+
+                    - `emit.CNPJ` e `emit.xNome` (emitente)
+
+                    - `emit.enderEmit.*` (endereço completo do emitente)
+
+                    - `dest.CNPJ` e `dest.xNome` (destinatário)
+
+                    - `dest.enderDest.*` (endereço completo do destinatário)
+
+                    - `det[]` (itens)
+
+                    - `total.ICMSTot.vNF` (valor total)
+
+                    - `cobr.dup[]` (duplicatas com `nDup`, `dVenc`, `vDup`)
+                  value:
+                    message: >-
+                      Could not parse NFE, please check if the xml is formed
+                      correctly.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      error:
+                        issues:
+                          - path:
+                              - nfeProc
+                              - NFe
+                              - infNFe
+                              - dest
+                              - CNPJ
+                            code: invalid_type
+                            message: Required
+                    code: NFE_PARSE_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                CREDIT_NOTE_NOT_SUPPORTED_ERROR:
+                  summary: Nota de crédito não suportada
+                  description: >-
+                    O XML enviado é uma NF-e do tipo nota de crédito (`tpNF=0`).
+                    Apenas NF-e normal de saída (`tpNF=1`) é aceita.
+
+
+                    **Como resolver:** Reemita uma NF-e normal de saída antes de
+                    tentar o upload novamente.
+                  value:
+                    message: Credit note is not supported.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      invoiceNumber: NFe35240614200166000187550010000123451123456789
+                    code: CREDIT_NOTE_NOT_SUPPORTED_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                NFE_MISSING_BUYER_CONTACT_FIELDS_ERROR:
+                  summary: Faltam e-mail/telefone do comprador na NF-e
+                  description: >-
+                    O XML da NF-e não traz e-mail ou telefone do destinatário e
+                    a CrediPay ainda não possui esses dados em cache para o CNPJ
+                    informado.
+
+
+                    **Como resolver:** Reemita a NF-e com o e-mail e o telefone
+                    do destinatário preenchidos, ou cadastre as informações de
+                    contato do comprador previamente.
+                  value:
+                    message: >-
+                      NFe XML is missing required buyer contact fields. Both
+                      email and phone must be present in the XML.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      missingFields:
+                        - email
+                        - phone
+                      buyerTaxId: '65413430000008'
+                    code: NFE_MISSING_BUYER_CONTACT_FIELDS_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                INSTALLMENT_COUNT_DOES_NOT_MATCH_ASSET_COUNT_ERROR:
+                  summary: Número de parcelas não bate com o pedido
+                  description: >-
+                    A quantidade de duplicatas (`cobr/dup`) declarada na NF-e é
+                    diferente do número de parcelas registrado no pedido
+                    original.
+
+
+                    **Como resolver:** Garanta que a NF-e enviada contenha
+                    exatamente o mesmo número de parcelas declarado na criação
+                    do pedido.
+                  value:
+                    message: Installment count does not match asset count.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      invoiceNumber: NFe35240614200166000187550010000123451123456789
+                      numberOfInstallments: 2
+                      numberOfAssets: 3
+                    code: INSTALLMENT_COUNT_DOES_NOT_MATCH_ASSET_COUNT_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                ORDER_SEGMENT_MISMATCH_ERROR:
+                  summary: 'Pedido desatualizado: configuração comercial foi alterada'
+                  description: >-
+                    A configuração comercial do pedido (taxas, prazos e demais
+                    parâmetros) foi alterada entre a criação e a captura. O
+                    pedido original não pode mais ser capturado nessas
+                    condições.
+
+
+                    **Como resolver:** Crie um novo pedido com a configuração
+                    vigente e capture-o com a NF-e correspondente.
+                  value:
+                    message: >-
+                      The order is no longer valid for capture because its
+                      configuration has changed.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+                    code: ORDER_SEGMENT_MISMATCH_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                ORDER_BUYER_MISMATCH_ERROR:
+                  summary: CNPJ do destinatário difere do comprador do pedido
+                  description: >-
+                    O CNPJ do destinatário (`dest.CNPJ`) na NF-e enviada não
+                    coincide com o CNPJ do comprador do pedido original.
+
+
+                    **Como resolver:** Reemita a NF-e usando o mesmo CNPJ
+                    informado em `buyerTaxId` na criação do pedido.
+                  value:
+                    message: >-
+                      The buyer tax id linked to the order doesn't match the
+                      buyer tax id provided in the invoice.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+                      orderBuyerId: 5b9f3a4b-1c2d-4e5f-8a7b-6c1e2d3a4b5c
+                      invoiceBuyerId: 7c8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c
+                    code: ORDER_BUYER_MISMATCH_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+        '403':
+          description: >-
+            A operação não é permitida pela política da CrediPay ou pelo
+            estado/perfil atual do recurso.
+          content:
+            application/json:
+              examples:
+                ORDER_REJECTED_BY_CREDIX_POLICY_ERROR:
+                  summary: Pedido recusado pela política da CrediPay
+                  description: >-
+                    O pedido foi recusado por uma política interna da CrediPay
+                    (risco, antifraude, elegibilidade, conferência de cadastro
+                    ou outros critérios). Por segurança, o motivo específico da
+                    recusa não é detalhado nesta resposta.
+
+
+                    **Como resolver:** Não há nova tentativa automática. Entre
+                    em contato com a equipe da CrediPay para análise se
+                    acreditar que a recusa é indevida.
+                  value:
+                    message: Order rejected by Credix policy.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context: {}
+                    code: ORDER_REJECTED_BY_CREDIX_POLICY_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                INVALID_ORDER_STATUS_ERROR:
+                  summary: Operação não permitida no estado atual do pedido
+                  description: >-
+                    A operação solicitada não é compatível com o estado atual do
+                    pedido. Consulte `context.actual` (estado em que o pedido se
+                    encontra) e `context.expected` (estados aceitos pela
+                    operação).
+
+
+                    **Como resolver:** Verifique o estado do pedido via `GET
+                    /v2/orders/:id` e reenvie quando o pedido estiver em um dos
+                    estados esperados.
+                  value:
+                    message: Invalid order status.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      actual: Captured
+                      expected: Validating
+                    code: INVALID_ORDER_STATUS_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+        '409':
+          description: Conflito com o estado atual do recurso.
+          content:
+            application/json:
+              examples:
+                INVOICE_ALREADY_EXISTS_ERROR:
+                  summary: Nota fiscal já registrada
+                  description: >-
+                    A chave de acesso (`nNF`) da NF-e enviada já está registrada
+                    na CrediPay, possivelmente vinculada a outro pedido.
+
+
+                    **Como resolver:** Confirme que você não está reenviando o
+                    mesmo XML. Para corrigir uma nota inválida, cancele-a e
+                    emita uma nova com chave de acesso distinta.
+                  value:
+                    message: Invoice with the given invoice number already exists.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      invoiceNumber: NFe35240614200166000187550010000123451123456789
+                      orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+                    code: INVOICE_ALREADY_EXISTS_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                CAPTURE_IN_PROGRESS_ERROR:
+                  summary: Captura já em andamento
+                  description: >-
+                    Já existe uma captura em processamento para este pedido. A
+                    operação não pode ser iniciada em paralelo.
+
+
+                    **Como resolver:** Aguarde a captura anterior concluir antes
+                    de reenviar. Consulte o estado do pedido via `GET
+                    /v2/orders/:id` para confirmar a finalização.
+                  value:
+                    message: >-
+                      A capture request for this order is already being
+                      processed.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+                    code: CAPTURE_IN_PROGRESS_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
       summary: Capturar pedido
       tags:
         - Orders
