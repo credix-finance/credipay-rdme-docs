@@ -207,6 +207,49 @@
           }
         }
       }
+    },
+    "/v2/credit-limit/auth": {
+      "post": {
+        "tags": [
+          "Credit Limit",
+          "Buyer Platform"
+        ],
+        "summary": "Generate a buyer platform token",
+        "description": "Generate a signed JWT token for embedding the buyer platform on your website.",
+        "operationId": "generate_buyer_platform_token_risk_engine_buyer_platform_buyer_token_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuyerPlatformTokenRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuyerPlatformTokenResponseDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1909,6 +1952,18 @@
             ],
             "title": "Callbackurl",
             "description": "Optional callback URL"
+          },
+          "clientId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clientid",
+            "description": "Client ID that generated the token (Kong consumer)"
           }
         },
         "additionalProperties": true,
@@ -4584,6 +4639,18 @@
             "title": "Ownertaxid",
             "description": "Owner tax id (CNPJ)"
           },
+          "externalId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Externalid",
+            "description": "External identifier for Belvo widget launch"
+          },
           "createdAt": {
             "anyOf": [
               {
@@ -4756,6 +4823,18 @@
           "token": {
             "$ref": "#/components/schemas/OpenFinanceConnectionTokenDTO",
             "description": "Access and refresh tokens"
+          },
+          "externalId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Externalid",
+            "description": "External identifier for Belvo widget launch"
           },
           "link": {
             "anyOf": [
