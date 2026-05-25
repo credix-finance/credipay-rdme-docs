@@ -1625,6 +1625,96 @@ components:
         - page
         - items
         - total
+    InvoiceFeesResponseDto:
+      type: object
+      properties:
+        transactionFeePercentage:
+          type: number
+          description: >-
+            Taxa de transação como percentual do valor da nota fiscal (decimal,
+            0-1).
+          example: 0.025
+        transactionFeeCents:
+          type: number
+          description: Taxa de transação total da nota fiscal em centavos.
+          example: 3750
+        monthlyDiscountRate:
+          type: number
+          description: Taxa mensal de desconto (decimal) snapshot do pedido.
+          example: 0.018
+        discountFeeCents:
+          type: number
+          description: Soma dos descontos por antecipação na nota fiscal em centavos.
+          example: 1200
+        totalFee:
+          type: number
+          description: >-
+            Taxa total (transação + desconto) como fração do valor da nota
+            fiscal.
+          example: 0.033
+        totalFeeCents:
+          type: number
+          description: Soma das taxas (transação + desconto) em centavos.
+          example: 4950
+      required:
+        - transactionFeePercentage
+        - transactionFeeCents
+        - monthlyDiscountRate
+        - discountFeeCents
+        - totalFee
+        - totalFeeCents
+    InvoiceAssetResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID único da duplicata.
+          example: f1c8ec9f-d2c9-4a02-9cbd-2b1a3f8f5e1b
+          format: uuid
+        status:
+          type: string
+          description: Status da duplicata.
+          example: AcquisitionSuccess
+        collectionStatus:
+          type: string
+          description: Status de cobrança da duplicata.
+          example: Open
+        faceValueCents:
+          type: number
+          description: Valor de face atual da duplicata (pós-reembolsos) em centavos.
+          example: 50000
+        refundAmountCents:
+          type: number
+          description: Valor reembolsado da duplicata em centavos.
+          example: 0
+        refundStatus:
+          type: string
+          description: Status de reembolso da duplicata.
+          example: NoRefund
+        originalFaceValueCents:
+          type: number
+          description: >-
+            Valor de face original da duplicata (antes de quaisquer reembolsos)
+            em centavos.
+          example: 50000
+        disburseOnDate:
+          type: string
+          description: >-
+            Data agendada de desembolso para o vendedor (no-anticipation). Null
+            em pedidos com antecipação ou enquanto OnBuyerPayment aguarda
+            pagamento.
+          example: '2026-06-30T00:00:00Z'
+          format: date-time
+          nullable: true
+      required:
+        - id
+        - status
+        - collectionStatus
+        - faceValueCents
+        - refundAmountCents
+        - refundStatus
+        - originalFaceValueCents
+        - disburseOnDate
     InvoiceResponseDto:
       type: object
       properties:
@@ -1651,6 +1741,47 @@ components:
           type: number
           description: Valor total da nota fiscal em centavos.
           example: 150000
+        fees:
+          description: >-
+            Detalhamento das taxas aplicadas à nota fiscal. Ausente em endpoints
+            que não computam (ex.: listagem de pedidos).
+          allOf:
+            - $ref: '#/components/schemas/InvoiceFeesResponseDto'
+        disbursedAmountCents:
+          type: number
+          description: >-
+            Valor já desembolsado ao vendedor referente a esta nota fiscal, em
+            centavos.
+          example: 145050
+        expectedPayoutCents:
+          type: number
+          description: >-
+            Valor líquido esperado a receber pelo vendedor referente a esta nota
+            fiscal (totalAmountCents - totalFeeCents), em centavos.
+          example: 145050
+        refundableAmountCents:
+          type: number
+          description: >-
+            Valor ainda reembolsável referente a esta nota fiscal (original - já
+            reembolsado), em centavos.
+          example: 50000
+        totalRefundedAmountCents:
+          type: number
+          description: >-
+            Soma dos reembolsos efetuados referentes a esta nota fiscal, em
+            centavos.
+          example: 0
+        refundStatus:
+          type: string
+          description: >-
+            Status agregado de reembolso da nota fiscal (NoRefund |
+            PartialRefund | FullRefund).
+          example: NoRefund
+        assets:
+          description: Lista de duplicatas que compõem esta nota fiscal.
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceAssetResponseDto'
       required:
         - id
         - invoiceNumber
