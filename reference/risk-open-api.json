@@ -221,7 +221,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BuyerPlatformTokenRequestDTO"
+                "$ref": "#/components/schemas/PublicBuyerPlatformTokenRequestDTO"
               }
             }
           },
@@ -5195,6 +5195,29 @@
         ],
         "title": "PresignDocumentsResponseDTO",
         "description": "Response DTO for presigning document uploads."
+      },
+      "PublicBuyerPlatformTokenRequestDTO": {
+        "properties": {
+          "taxId": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Taxid",
+            "description": "CNPJ do comprador"
+          },
+          "callbackUrl": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Callbackurl",
+            "description": "URL para onde o usuário será redirecionado após completar o fluxo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "taxId",
+          "callbackUrl"
+        ],
+        "title": "PublicBuyerPlatformTokenRequestDTO",
+        "description": "DTO para geração de token do buyer platform por parceiros."
       },
       "SanctionsBatchCheckRequestDTO": {
         "properties": {
