@@ -4,3 +4,4 @@
 - credit_limit_increase_request_risk_engine_credit_limit_increase_request_post
 - >-
   get_credit_limit_increase_request_risk_engine_credit_limit_increase_request__clirequestid__get
+- generate_buyer_platform_token_risk_engine_buyer_platform_buyer_token_post
