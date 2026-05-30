@@ -253,6 +253,27 @@ paths:
                     code: MIN_ORDER_AMOUNT_ERROR
                     path: /v2/orders
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                ORDER_ADDRESS_CHECK_ERROR:
+                  summary: Endereço de entrega não confere com o endereço do comprador
+                  description: >-
+                    A conferência de endereço falhou: o endereço de entrega
+                    informado na Nota Fiscal está distante do endereço
+                    cadastrado do comprador. Aplica-se apenas a compradores com
+                    conferência estrita de endereço habilitada.
+
+
+                    **Como resolver:** Corrija o endereço de entrega na Nota
+                    Fiscal para o endereço cadastrado do comprador e envie
+                    novamente.
+                  value:
+                    message: >-
+                      Order address check failed. The provided shipping address
+                      does not match the address of the buyer.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context: {}
+                    code: ORDER_ADDRESS_CHECK_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
                 ORDER_VALIDATION_AGGREGATE_ERROR:
                   summary: Várias validações falharam simultaneamente
                   description: >-
@@ -648,6 +669,27 @@ paths:
                     code: MIN_ORDER_AMOUNT_ERROR
                     path: /v2/orders/invoices
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                ORDER_ADDRESS_CHECK_ERROR:
+                  summary: Endereço de entrega não confere com o endereço do comprador
+                  description: >-
+                    A conferência de endereço falhou: o endereço de entrega
+                    informado na Nota Fiscal está distante do endereço
+                    cadastrado do comprador. Aplica-se apenas a compradores com
+                    conferência estrita de endereço habilitada.
+
+
+                    **Como resolver:** Corrija o endereço de entrega na Nota
+                    Fiscal para o endereço cadastrado do comprador e envie
+                    novamente.
+                  value:
+                    message: >-
+                      Order address check failed. The provided shipping address
+                      does not match the address of the buyer.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context: {}
+                    code: ORDER_ADDRESS_CHECK_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
                 ORDER_VALIDATION_AGGREGATE_ERROR:
                   summary: Várias validações falharam simultaneamente
                   description: >-
@@ -988,6 +1030,27 @@ paths:
                       numberOfInstallments: 2
                       numberOfAssets: 3
                     code: INSTALLMENT_COUNT_DOES_NOT_MATCH_ASSET_COUNT_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                ORDER_ADDRESS_CHECK_ERROR:
+                  summary: Endereço de entrega não confere com o endereço do comprador
+                  description: >-
+                    A conferência de endereço falhou: o endereço de entrega
+                    informado na Nota Fiscal está distante do endereço
+                    cadastrado do comprador. Aplica-se apenas a compradores com
+                    conferência estrita de endereço habilitada.
+
+
+                    **Como resolver:** Corrija o endereço de entrega na Nota
+                    Fiscal para o endereço cadastrado do comprador e envie
+                    novamente.
+                  value:
+                    message: >-
+                      Order address check failed. The provided shipping address
+                      does not match the address of the buyer.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context: {}
+                    code: ORDER_ADDRESS_CHECK_ERROR
                     path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
                 ORDER_SEGMENT_MISMATCH_ERROR:
