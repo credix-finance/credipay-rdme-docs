@@ -1728,6 +1728,32 @@ components:
         - discountFeeCents
         - totalFee
         - totalFeeCents
+    InvoiceAssetSellerDisbursementResponseDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: >-
+            Estado do desembolso ao vendedor desta duplicata. `None` = nenhuma
+            SellerDisbursement criada (anticipação pré-desembolso, no-anticip
+            pré-borderô, ineligible). `Open` é colapsado em `Pending` no wire
+            (não exposto). `Pending` = agendada. `Settled` = realizada. `Failed`
+            = retried-out.
+          example: Pending
+          enum:
+            - None
+            - Pending
+            - Settled
+            - Failed
+        settledAt:
+          type: string
+          description: Data efetiva do desembolso ao vendedor. Null até atingir `Settled`.
+          example: '2026-05-12T10:30:00Z'
+          format: date-time
+          nullable: true
+      required:
+        - status
+        - settledAt
     InvoiceAssetResponseDto:
       type: object
       properties:
@@ -1771,6 +1797,14 @@ components:
           example: '2026-06-30T00:00:00Z'
           format: date-time
           nullable: true
+        sellerDisbursement:
+          description: >-
+            Estado do desembolso ao vendedor desta duplicata (APO-96 / BE-1c).
+            Wire enum {None, Pending, Settled, Failed} (entidade `Open` aliasada
+            para `Pending`). Ausente em endpoints que não computam (ex.:
+            listagem de pedidos).
+          allOf:
+            - $ref: '#/components/schemas/InvoiceAssetSellerDisbursementResponseDto'
       required:
         - id
         - status
