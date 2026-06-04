@@ -2202,6 +2202,20 @@ components:
           description: Data em que o pedido foi desembolsado para o vendedor.
           example: '2023-10-01T12:00:00Z'
           format: date-time
+        disbursementRollupState:
+          type: string
+          description: >-
+            Estado consolidado do desembolso por order, para a coluna Status da
+            lista (APO-150). Preenchido pela busca; null em respostas de
+            detalhe.
+          example: null
+          enum:
+            - AwaitingBuyerPayment
+            - Scheduled
+            - Processing
+            - InProgress
+            - Completed
+          nullable: true
         capturedAt:
           type: string
           description: Data em que o pedido foi capturado (criação da nota fiscal).
@@ -2452,6 +2466,20 @@ components:
             Dias adicionados à data base (vencimento do asset ou pagamento do
             comprador) para definir disburseOnDate. 0 para antecipação.
           example: 0
+        disbursementRollupState:
+          type: string
+          description: >-
+            Estado consolidado do desembolso por order, para a coluna Status da
+            lista (APO-150). 5 fases sequenciais; reporta a mais avançada
+            aplicável.
+          example: null
+          enum:
+            - AwaitingBuyerPayment
+            - Scheduled
+            - Processing
+            - InProgress
+            - Completed
+          nullable: true
         invoice:
           description: Informações da nota fiscal do pedido.
           nullable: true
