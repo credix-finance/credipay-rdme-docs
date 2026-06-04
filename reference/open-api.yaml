@@ -1792,6 +1792,25 @@ components:
       required:
         - status
         - settledAt
+    InvoiceAssetCashStateResponseDto:
+      type: object
+      properties:
+        buyerPaid:
+          type: boolean
+          description: >-
+            Comprador pagou esta duplicata: true quando qualquer repayment órfã
+            (parent_id IS NULL) está paga. O filtro órfão honra o §5.1 canônico
+            (sem proxy de filha-paga).
+          example: true
+        sellerDisbursed:
+          type: boolean
+          description: >-
+            Vendedor já foi desembolsado por esta duplicata
+            (sellerDisbursement.status === 'Settled').
+          example: false
+      required:
+        - buyerPaid
+        - sellerDisbursed
     InvoiceAssetResponseDto:
       type: object
       properties:
@@ -1843,6 +1862,13 @@ components:
             listagem de pedidos).
           allOf:
             - $ref: '#/components/schemas/InvoiceAssetSellerDisbursementResponseDto'
+        cashState:
+          description: >-
+            Estado de caixa por-duplicata para o fluxo de reembolso (APO-98 /
+            FE-5 §5.1). Ausente em endpoints que não computam (ex.: listagem de
+            pedidos).
+          allOf:
+            - $ref: '#/components/schemas/InvoiceAssetCashStateResponseDto'
       required:
         - id
         - status
@@ -2174,6 +2200,20 @@ components:
         - status
         - createdAt
         - error
+    RefundBlockDto:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Código do bloqueio de reembolso ativo no momento da carga do pedido.
+          example: REFUND_BLOCKED_DISBURSEMENT_PENDING
+          enum:
+            - REFUND_BLOCKED_RENEGOTIATED_ASSET
+            - REFUND_BLOCKED_REPAYMENT_PROCESSING
+            - REFUND_BLOCKED_DISBURSEMENT_PENDING
+            - REFUND_BLOCKED_CERC_OPERATION_ACTIVE
+      required:
+        - code
     GetOrderResponseDto:
       type: object
       properties:
@@ -2309,6 +2349,14 @@ components:
             Dias adicionados à data base (vencimento do asset ou pagamento do
             comprador) para definir disburseOnDate. 0 para antecipação.
           example: 0
+        refundBlocks:
+          description: >-
+            Bloqueios de reembolso ativos, calculados na carga do detalhe do
+            pedido (APO-98). FE-5 mostra um card de bloqueio em vez dos cards de
+            reembolso quando não vazio. Ausente em respostas de busca.
+          type: array
+          items:
+            $ref: '#/components/schemas/RefundBlockDto'
       required:
         - id
         - createdAt
