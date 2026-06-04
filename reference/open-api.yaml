@@ -2382,6 +2382,16 @@ components:
           description: Filtro de Tax ID do comprador.
           allOf:
             - $ref: '#/components/schemas/TaxIdFilterDto'
+        anticipation:
+          type: string
+          description: >-
+            Filtrar por antecipação. 'with' = pedidos antecipados
+            (OnAssetCreation); 'without' = pedidos não antecipados
+            (OnAssetDueDate ou OnBuyerPayment). Omitir retorna todos.
+          enum:
+            - with
+            - without
+          example: without
       required:
         - query
     SearchOrdersResponseItemDto:
