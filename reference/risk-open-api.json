@@ -1964,6 +1964,54 @@
             ],
             "title": "Clientid",
             "description": "Client ID that generated the token (Kong consumer)"
+          },
+          "sellerTaxId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sellertaxid",
+            "description": "Optional seller tax ID (CNPJ) on whose behalf the buyer is acting"
+          },
+          "requestedByUserId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requestedbyuserid",
+            "description": "Optional Auth0 sub of the seller-side operator who initiated the token request"
+          },
+          "requestedByEmail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requestedbyemail",
+            "description": "Optional email of the seller-side operator, captured at request time"
+          },
+          "requestedByName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requestedbyname",
+            "description": "Optional display name of the seller-side operator, captured at request time"
           }
         },
         "additionalProperties": true,
