@@ -2256,6 +2256,35 @@ components:
             - InProgress
             - Completed
           nullable: true
+        displayStatus:
+          type: string
+          description: >-
+            Status efetivo do pedido (§4.1.d / APO-164) — mesma derivação
+            server-side da coluna Status da lista. Preenchido no detalhe do
+            seller; nulo no detalhe do buyer (a chave está presente com valor
+            null — não confiar em presença de chave).
+          example: Completed
+          enum:
+            - New
+            - Created
+            - Accepted
+            - Cancelled
+            - WaitingForInvoice
+            - Captured
+            - Expired
+            - Validating
+            - ValidationFailed
+            - NfValidationFailed
+            - PartiallyRefunded
+            - FullyRefunded
+            - WaitingForOtp
+            - PartiallyCaptured
+            - AwaitingBuyerPayment
+            - Scheduled
+            - Processing
+            - InProgress
+            - Completed
+          nullable: true
         capturedAt:
           type: string
           description: Data em que o pedido foi capturado (criação da nota fiscal).
@@ -2440,6 +2469,38 @@ components:
             - with
             - without
           example: without
+        displayStatus:
+          type: array
+          description: >-
+            Filtro pelo status efetivo exibido na coluna Status da lista (§4.1.d
+            / APO-164). Aceita status de ciclo de vida e estados de desembolso;
+            multi-select = união, igual ao filtro `status`. Supersede `status`
+            para a UI da lista — os valores casam exatamente com o que a coluna
+            mostra.
+          example:
+            - Completed
+          items:
+            type: string
+            enum:
+              - New
+              - Created
+              - Accepted
+              - Cancelled
+              - WaitingForInvoice
+              - Captured
+              - Expired
+              - Validating
+              - ValidationFailed
+              - NfValidationFailed
+              - PartiallyRefunded
+              - FullyRefunded
+              - WaitingForOtp
+              - PartiallyCaptured
+              - AwaitingBuyerPayment
+              - Scheduled
+              - Processing
+              - InProgress
+              - Completed
       required:
         - query
     SearchOrdersResponseItemDto:
@@ -2532,6 +2593,37 @@ components:
             aplicável.
           example: null
           enum:
+            - AwaitingBuyerPayment
+            - Scheduled
+            - Processing
+            - InProgress
+            - Completed
+          nullable: true
+        displayStatus:
+          type: string
+          description: >-
+            Status efetivo exibido na coluna Status da lista (§4.1.d / APO-164).
+            União dos status de ciclo de vida com os estados de desembolso,
+            derivado server-side com precedência explícita — renderizar este
+            valor diretamente. O filtro `displayStatus` casa exatamente com este
+            campo. Nullable apenas por tolerância de rollout — consumidores
+            devem cair para `status` quando ausente.
+          example: Completed
+          enum:
+            - New
+            - Created
+            - Accepted
+            - Cancelled
+            - WaitingForInvoice
+            - Captured
+            - Expired
+            - Validating
+            - ValidationFailed
+            - NfValidationFailed
+            - PartiallyRefunded
+            - FullyRefunded
+            - WaitingForOtp
+            - PartiallyCaptured
             - AwaitingBuyerPayment
             - Scheduled
             - Processing
