@@ -4,7 +4,7 @@ excerpt: >-
   A integração tem dois lados: o que se ajusta na **VTEX** e o que se ajusta no
   seu **ERP**. O time de Integrações CrediPay acompanha cada etapa.
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
