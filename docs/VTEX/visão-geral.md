@@ -13,27 +13,6 @@ A CrediPay é uma solução completa para operações de crédito B2B, integrada
 
 Esta documentação descreve a experiência do comprador, o que você precisa configurar, o fluxo da operação, os status de cada pedido e o acompanhamento financeiro.
 
-<HTMLBlock>{`
-<div style="border:1px solid #E6E3F1;border-radius:16px;padding:28px 30px;background:#F5F4FA;">
-  <div style="font-size:22px;font-weight:700;color:#1A1730;line-height:1.3;">
-    O comprador paga em <span style="color:#6D4AFF;">30 · 60 · 90 dias</span>.
-    Você recebe em <span style="color:#12B886;">24h úteis</span>.
-  </div>
-  <div style="margin-top:8px;color:#6B6685;font-size:15px;">
-    A CrediPay assume o crédito e a cobrança. Quem vende não espera o prazo do comprador para receber.
-  </div>
-</div>
-`}</HTMLBlock>
-
-## O que muda com a CrediPay
-
-| Indicador                     | Sem CrediPay | Com CrediPay |
-| ----------------------------- | ------------ | ------------ |
-| Taxa de aprovação no checkout | \~50%        | \~79%        |
-| Limite de crédito ofertado    | base         | +103%        |
-| Ticket médio                  | R$ 24k       | R$ 34k       |
-| Prazo de pagamento            | 28 dias      | até 90 dias  |
-
 ## Como funciona, em quatro etapas
 
 1. **Análise de crédito** — no checkout (ou já no login), a CrediPay analisa o CNPJ do comprador e libera um limite em minutos, usando modelo próprio mais validação de parceiros.
