@@ -5,10 +5,6 @@ hidden: true
 metadata:
   robots: index
 ---
-# Visão geral
-
-***
-
 A CrediPay é uma solução completa para operações de crédito B2B, integrada diretamente à plataforma VTEX. A CrediPay aparece como meio de pagamento nativo dentro do checkout: o comprador compra a prazo com aprovação em minutos, e o vendedor recebe à vista, sem assumir o risco de inadimplência.
 
 Esta documentação descreve a experiência do comprador, o que você precisa configurar, o fluxo da operação, os status de cada pedido e o acompanhamento financeiro.
