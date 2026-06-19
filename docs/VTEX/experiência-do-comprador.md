@@ -26,11 +26,7 @@ A CrediPay pode rodar uma análise de crédito em tempo real em 2 momentos da jo
 
 Dentro do checkout, a integração da CrediPay automaticamente identifica compradores nos cenários 2 e 3 e realiza uma análise de crédito em tempo real usando apenas o CNPJ. Assim, conseguimos atribuir um novo limite em minutos (dependendo da análise) e permitir que o cliente finalize a compra.
 
-**Medidas de segurança nesta etapa**
-
-- Analisamos centenas de dados do CNPJ para avaliar não só o risco de crédito, mas também de fraude. Alguns exemplos: se o CNPJ foi criado ou adquirido recentemente, se possui processos, entre outros.
-- Analisamos também o histórico dos sócios, para garantir que não estejam envolvidos em outras atividades potencialmente fraudulentas.
-- Além do nosso próprio modelo, o CNPJ é analisado por parceiros que possuem suas próprias regras de prevenção à fraude, com bases interbancárias, blacklists, entre outros.
+<br />
 
 > 📘 Acelere a aprovação no checkout
 >
