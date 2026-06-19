@@ -16,30 +16,18 @@ metadata:
 
 Com o meio de pagamento instalado na VTEX, a CrediPay monitora quando os pedidos recebem uma NF. Assim que a VTEX recebe o XML da NF, ele é transmitido automaticamente à CrediPay.
 
-Tendo recebido a NF, a CrediPay provisiona o montante a ser pago, que será desembolsado em até 24h úteis na conta do vendedor.
+Tendo recebido a NF, a CrediPay provisiona o montante a ser pago, que será desembolsado na conta do vendedor.
 
 ## As etapas, de ponta a ponta
 
 1. **Pedido confirmado** — o comprador confirma no checkout. O pedido é criado na VTEX e na CrediPay; o limite do comprador é reservado.
 2. **Mercadoria despachada e NF-e emitida** — você fatura normalmente. O ERP gera a NF-e com as duplicatas nas datas calculadas e envia à VTEX.
 3. **NF-e capturada automaticamente** — a VTEX repassa o XML. A CrediPay valida a NF-e e registra o recebível (duplicata) na CERC.
-4. **Desembolso** — com a NF-e validada, o valor é provisionado e cai na sua conta em até 24h úteis.
+4. **Desembolso** — com a NF-e validada, o valor é provisionado e cai na sua conta.
 5. **Cobrança ao comprador** — os boletos/PIX são gerados nas datas de vencimento. A CrediPay cobra e assume o risco.
 
-> 📘 O gatilho do seu dinheiro é a NF-e
+> 📘 O gatilho do processo é a NF-e
 >
 > Enquanto um pedido não recebe a nota fiscal, ele fica reservando limite do comprador sem que você tenha sido pago. Emitir a NF-e rápido acelera o seu recebimento — acompanhe os pendentes no relatório de pedidos.
 
-**Medidas de segurança nesta etapa**
-
-* Checamos novamente o endereço de entrega, para garantir que é o mesmo do cartão CNPJ.
-* Ao receber a NF, realizamos automaticamente os trâmites legais de aquisição do recebível (duplicata) junto à CERC, uma registradora de ativos de crédito, que valida diretamente com a Secretaria da Fazenda e com outras registradoras.
-
-## Modos de faturamento
-
-| Modo | Quando usar | Quando você recebe |
-| --- | --- | --- |
-| NF antes da entrega | NF-e emitida antes de despachar | Após a captura da NF-e |
-| NF após a entrega | NF-e emitida depois de entregar | Após a captura da NF-e |
-
-Em ambos os casos, o desembolso é disparado pela validação da nota — não pela criação do pedido.
+<br />
