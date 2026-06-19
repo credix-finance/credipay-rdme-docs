@@ -5,7 +5,7 @@ excerpt: >-
   as principais métricas e dados da operação. Os mesmos dados estão disponíveis
   por API para alimentar o seu ERP.
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
