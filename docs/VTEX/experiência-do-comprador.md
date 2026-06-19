@@ -4,7 +4,7 @@ excerpt: >-
   Toda a experiência acontece dentro da VTEX. O comprador não sai da loja, não
   preenche cadastro longo e não envia documentos para comprar a prazo.
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
