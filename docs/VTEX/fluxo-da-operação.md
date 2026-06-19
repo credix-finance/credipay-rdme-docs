@@ -4,7 +4,7 @@ excerpt: >-
   Depois de configurada, a integração roda automaticamente. Veja quem faz o quê
   em cada etapa, da compra ao recebimento.
 deprecated: false
-hidden: true
+hidden: false
 metadata:
   robots: index
 ---
