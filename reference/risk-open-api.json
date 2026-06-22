@@ -1047,6 +1047,22 @@
               "Credit underwriting expired after 1200 seconds"
             ]
           },
+          "exposableRejectionReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exposable Rejection Reason",
+            "description": "Customer-facing rejection reason from Taktile, safe to surface to sellers in the seller platform",
+            "examples": [
+              "Buyer is not eligible due to high debt ratio",
+              null
+            ]
+          },
           "decisionUrl": {
             "anyOf": [
               {
@@ -2744,6 +2760,22 @@
               "Credit limit increase request expired after 1200 seconds",
               "Buyer is eligible for desired credit limit",
               "Internal error during analysis"
+            ]
+          },
+          "exposableRejectionReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exposable Rejection Reason",
+            "description": "Customer-facing rejection reason from Taktile, safe to surface to sellers in the seller platform",
+            "examples": [
+              "Buyer score is below the threshold for the requested credit limit",
+              null
             ]
           },
           "context": {
