@@ -2246,8 +2246,7 @@ components:
           type: string
           description: >-
             Estado consolidado do desembolso por order, para a coluna Status da
-            lista (APO-150). Preenchido pela busca; null em respostas de
-            detalhe.
+            lista. Preenchido pela busca; null em respostas de detalhe.
           example: null
           enum:
             - AwaitingBuyerPayment
@@ -2259,10 +2258,10 @@ components:
         displayStatus:
           type: string
           description: >-
-            Status efetivo do pedido (§4.1.d / APO-164) — mesma derivação
-            server-side da coluna Status da lista. Preenchido no detalhe do
-            seller; nulo no detalhe do buyer (a chave está presente com valor
-            null — não confiar em presença de chave).
+            Status efetivo do pedido — mesma derivação server-side da coluna
+            Status da lista. Preenchido no detalhe do seller; nulo no detalhe do
+            buyer (a chave está presente com valor null — não confiar em
+            presença de chave).
           example: Completed
           enum:
             - New
@@ -2381,7 +2380,7 @@ components:
         refundBlocks:
           description: >-
             Bloqueios de reembolso ativos, calculados na carga do detalhe do
-            pedido (APO-98). FE-5 mostra um card de bloqueio em vez dos cards de
+            pedido. O frontend mostra um card de bloqueio em vez dos cards de
             reembolso quando não vazio. Ausente em respostas de busca.
           type: array
           items:
@@ -2472,11 +2471,10 @@ components:
         displayStatus:
           type: array
           description: >-
-            Filtro pelo status efetivo exibido na coluna Status da lista (§4.1.d
-            / APO-164). Aceita status de ciclo de vida e estados de desembolso;
-            multi-select = união, igual ao filtro `status`. Supersede `status`
-            para a UI da lista — os valores casam exatamente com o que a coluna
-            mostra.
+            Filtro pelo status efetivo exibido na coluna Status da lista. Aceita
+            status de ciclo de vida e estados de desembolso; multi-select =
+            união, igual ao filtro `status`. Supersede `status` para a UI da
+            lista — os valores casam exatamente com o que a coluna mostra.
           example:
             - Completed
           items:
@@ -2589,8 +2587,7 @@ components:
           type: string
           description: >-
             Estado consolidado do desembolso por order, para a coluna Status da
-            lista (APO-150). 5 fases sequenciais; reporta a mais avançada
-            aplicável.
+            lista. 5 fases sequenciais; reporta a mais avançada aplicável.
           example: null
           enum:
             - AwaitingBuyerPayment
@@ -2602,12 +2599,12 @@ components:
         displayStatus:
           type: string
           description: >-
-            Status efetivo exibido na coluna Status da lista (§4.1.d / APO-164).
-            União dos status de ciclo de vida com os estados de desembolso,
-            derivado server-side com precedência explícita — renderizar este
-            valor diretamente. O filtro `displayStatus` casa exatamente com este
-            campo. Nullable apenas por tolerância de rollout — consumidores
-            devem cair para `status` quando ausente.
+            Status efetivo exibido na coluna Status da lista. União dos status
+            de ciclo de vida com os estados de desembolso, derivado server-side
+            com precedência explícita — renderizar este valor diretamente. O
+            filtro `displayStatus` casa exatamente com este campo. Nullable
+            apenas por tolerância de rollout — consumidores devem cair para
+            `status` quando ausente.
           example: Completed
           enum:
             - New
