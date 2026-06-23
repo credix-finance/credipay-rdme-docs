@@ -1322,7 +1322,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-06-22'
+            default: '2026-06-23'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -1654,6 +1654,10 @@ components:
           type: boolean
           description: Se o comprador está marcado como inativo.
           example: false
+        frozen:
+          type: boolean
+          description: Se o comprador está congelado.
+          example: false
         maxPaymentTermDays:
           type: number
           description: O prazo máximo de pagamento em dias.
@@ -1699,6 +1703,7 @@ components:
         - eligible
         - eligibilityUpdatedAt
         - inactive
+        - frozen
         - maxPaymentTermDays
         - name
         - onboarded
