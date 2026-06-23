@@ -1658,6 +1658,10 @@ components:
           type: boolean
           description: Se o comprador está congelado.
           example: false
+        needMoreInfo:
+          type: boolean
+          description: Se o comprador precisa de informações adicionais para análise.
+          example: false
         maxPaymentTermDays:
           type: number
           description: O prazo máximo de pagamento em dias.
@@ -1704,6 +1708,7 @@ components:
         - eligibilityUpdatedAt
         - inactive
         - frozen
+        - needMoreInfo
         - maxPaymentTermDays
         - name
         - onboarded
