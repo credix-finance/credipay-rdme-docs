@@ -1322,7 +1322,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-06-26'
+            default: '2026-06-28'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -1837,6 +1837,10 @@ components:
           type: string
           description: Status de cobrança da duplicata.
           example: Open
+        insured:
+          type: boolean
+          description: Indica se a duplicata está segurada.
+          example: false
         faceValueCents:
           type: number
           description: Valor de face atual da duplicata (pós-reembolsos) em centavos.
@@ -1883,6 +1887,7 @@ components:
         - id
         - status
         - collectionStatus
+        - insured
         - faceValueCents
         - refundAmountCents
         - refundStatus
