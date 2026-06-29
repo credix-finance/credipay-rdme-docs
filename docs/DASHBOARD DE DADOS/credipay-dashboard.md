@@ -1,15 +1,13 @@
 ---
-title: CrediPay Dashboard
-excerpt: >-
-  O CrediPay Dashboard é a central de acompanhamento das suas operações na
-  plataforma CrediPay. Ele consolida em um único lugar as informações de
-  desembolsos, limites de crédito e pedidos em aberto — atualizadas
-  automaticamente e filtradas para a sua empresa.
+title: Seções do dashboard
+excerpt: O CrediPay Dashboard é a central de acompanhamento das suas operações.
 deprecated: false
 hidden: false
 metadata:
   robots: index
 ---
+Ele consolida em um único lugar as informações de desembolsos, limites de crédito e pedidos em aberto — atualizadas automaticamente e filtradas para a sua empresa.
+
 ## Seções do dashboard
 
 ### Reconciliação de Desembolsos
