@@ -4,6 +4,6 @@
 - disbursements
 - users
 - invoices
-- webhooks
-- credit-limit
 - sellers
+- credit-limit
+- webhooks
