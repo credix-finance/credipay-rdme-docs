@@ -5248,6 +5248,30 @@
             "type": "object",
             "title": "Metadata",
             "description": "Additional metadata (e.g., 'approachId', 'ipAddress', 'userAgent', 'channel')"
+          },
+          "sellerTaxId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sellertaxid",
+            "description": "Seller tax identifier (CNPJ) on whose behalf the document was uploaded."
+          },
+          "requestedByUserId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requestedbyuserid",
+            "description": "Credix internal user id of the seller-side operator who initiated the upload."
           }
         },
         "type": "object",
