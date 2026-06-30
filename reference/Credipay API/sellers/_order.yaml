@@ -1,2 +1,5 @@
 - api-v2-get-organization-sellers
 - api-v2-get-disbursement-config
+- api-v2-create-seller-buyer-contact
+- api-v2-update-seller-buyer-contact
+- api-v2-delete-seller-buyer-contact
