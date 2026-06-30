@@ -1345,9 +1345,7 @@ paths:
         - Disbursements
   /v2/users:
     get:
-      description: >-
-        Lista os usuários ativos restritos à organização autenticada resolvida a
-        partir do contexto da requisição.
+      description: Lista os usuários ativos da organização autenticada.
       operationId: UsersController_getUsers
       parameters: []
       responses:
@@ -1373,9 +1371,7 @@ paths:
         keyNames:
           - x-credipay-api-key
     post:
-      description: >-
-        Cria um usuário apenas na organização autenticada, atribui papéis no
-        Auth0 e persiste a identidade local do usuário.
+      description: Cria um usuário na organização autenticada.
       operationId: UsersController_createUser
       parameters: []
       requestBody:
@@ -1407,9 +1403,7 @@ paths:
           - x-credipay-api-key
   /v2/users/me:
     get:
-      description: >-
-        Retorna a identidade interna do usuário da sessão autenticada dentro da
-        organização autenticada.
+      description: Retorna os dados do usuário autenticado na organização atual.
       operationId: UsersController_getCurrentUser
       parameters: []
       responses:
@@ -1435,9 +1429,7 @@ paths:
           - x-credipay-api-key
   /v2/users/{id}:
     patch:
-      description: >-
-        Atualiza um usuário ativo apenas dentro da organização autenticada e
-        mantém o Auth0 e a identidade local sincronizados.
+      description: Atualiza um usuário ativo da organização autenticada.
       operationId: UsersController_updateUser
       parameters:
         - name: id
@@ -1477,9 +1469,7 @@ paths:
         keyNames:
           - x-credipay-api-key
     delete:
-      description: >-
-        Revoga o acesso no Auth0, invalida os tokens de atualização e realiza a
-        exclusão lógica do usuário local apenas na organização autenticada.
+      description: Revoga o acesso do usuário e o remove da organização autenticada.
       operationId: UsersController_deleteUser
       parameters:
         - name: id
@@ -1544,6 +1534,119 @@ paths:
       summary: Obter configuração de desembolso da organização
       tags:
         - Sellers
+  /v2/sellers/buyers/{buyerId}/contacts:
+    post:
+      description: >-
+        Adiciona um contato do comprador (email e telefone) visível apenas para
+        a organização atual.
+      operationId: api-v2-create-seller-buyer-contact
+      parameters:
+        - name: buyerId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSellerBuyerContactRequestDto'
+      responses:
+        '201':
+          description: Contato criado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerBuyerContactResponseDto'
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      summary: Criar contato do comprador para a organização vendedora
+      tags:
+        - Sellers
+      x-credix-security:
+        scopes:
+          - write:buyers
+        onProviders:
+          - auth0_jwt
+        keyNames:
+          - x-credipay-api-key
+  /v2/sellers/buyers/{buyerId}/contacts/{contactId}:
+    patch:
+      description: >-
+        Atualiza o email e o telefone de um contato do comprador da organização
+        atual.
+      operationId: api-v2-update-seller-buyer-contact
+      parameters:
+        - name: buyerId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: contactId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSellerBuyerContactRequestDto'
+      responses:
+        '200':
+          description: Contato atualizado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerBuyerContactResponseDto'
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      summary: Atualizar email e telefone do contato do comprador
+      tags:
+        - Sellers
+      x-credix-security:
+        scopes:
+          - write:buyers
+        onProviders:
+          - auth0_jwt
+        keyNames:
+          - x-credipay-api-key
+    delete:
+      description: >-
+        Remove o contato do comprador da organização atual. Não afeta o mesmo
+        comprador em outras organizações.
+      operationId: api-v2-delete-seller-buyer-contact
+      parameters:
+        - name: buyerId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: contactId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Contato removido da organização com sucesso.
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      summary: Remover contato do comprador da organização vendedora
+      tags:
+        - Sellers
+      x-credix-security:
+        scopes:
+          - write:buyers
+        onProviders:
+          - auth0_jwt
+        keyNames:
+          - x-credipay-api-key
   /v2/webhooks/session:
     get:
       description: >-
@@ -3219,6 +3322,64 @@ components:
           example: false
       required:
         - hasNoAnticipationSegments
+    CreateSellerBuyerContactRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Contact name.
+        lastName:
+          type: object
+          description: Contact last name.
+          nullable: true
+        email:
+          type: string
+          description: Contact email address.
+        phone:
+          type: string
+          description: Contact phone number in E.164 format.
+      required:
+        - name
+        - email
+        - phone
+    SellerBuyerContactResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Seller-owned buyer contact group ID.
+        name:
+          type: object
+          description: Contact name.
+          nullable: true
+        lastName:
+          type: object
+          description: Contact last name.
+          nullable: true
+        email:
+          type: string
+          description: Contact email address.
+        phone:
+          type: string
+          description: Contact phone number.
+      required:
+        - id
+        - name
+        - lastName
+        - email
+        - phone
+    UpdateSellerBuyerContactRequestDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Contact email address.
+        phone:
+          type: string
+          description: Contact phone number in E.164 format.
+      required:
+        - email
+        - phone
     WebhookDashboardSessionUrlResponseDto:
       type: object
       properties:
