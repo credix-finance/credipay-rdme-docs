@@ -4682,7 +4682,7 @@
           "cnpj": {
             "type": "string",
             "title": "Cnpj",
-            "description": "Brazilian CNPJ (14 digits, formatting allowed)"
+            "description": "Brazilian CNPJ (14 chars: 12 alphanumeric + 2 numeric, formatting allowed)"
           }
         },
         "type": "object",
