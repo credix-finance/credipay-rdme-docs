@@ -1333,6 +1333,15 @@ paths:
             default: false
             example: false
             type: boolean
+        - name: cursor
+          required: false
+          in: query
+          description: >-
+            Cursor opaco retornado em nextCursor da resposta anterior. Quando
+            informado, a paginação é feita por cursor e o parâmetro page não
+            deve ser enviado.
+          schema:
+            type: string
       responses:
         '200':
           description: Operação bem-sucedida.
@@ -3086,11 +3095,20 @@ components:
         total:
           type: number
           example: 100
+        nextCursor:
+          type: string
+          nullable: true
+          example: >-
+            eyJkIjoiMjAyNS0wMS0zMVQwMDowMDowMC4wMDBaIiwiaSI6IjxpZD4iLCJwIjpmYWxzZX0
+          description: >-
+            Cursor opaco para buscar a próxima página via parâmetro cursor. Null
+            quando não há mais resultados.
       required:
         - data
         - page
         - items
         - total
+        - nextCursor
     SellerUserResponseDto:
       type: object
       properties:
