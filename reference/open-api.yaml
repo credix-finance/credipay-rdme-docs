@@ -1322,7 +1322,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-07-07'
+            default: '2026-07-08'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -1559,19 +1559,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SellerBuyerContactResponseDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
       summary: Criar contato do comprador para a organização vendedora
       tags:
         - Sellers
-      x-credix-security:
-        scopes:
-          - write:buyers
-        onProviders:
-          - auth0_jwt
-        keyNames:
-          - x-credipay-api-key
   /v2/sellers/buyers/{buyerId}/contacts/{contactId}:
     patch:
       description: >-
@@ -1602,19 +1592,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SellerBuyerContactResponseDto'
-      security:
-        - auth0_jwt: []
-        - api_key: []
       summary: Atualizar email e telefone do contato do comprador
       tags:
         - Sellers
-      x-credix-security:
-        scopes:
-          - write:buyers
-        onProviders:
-          - auth0_jwt
-        keyNames:
-          - x-credipay-api-key
     delete:
       description: >-
         Remove o contato do comprador da organização atual. Não afeta o mesmo
@@ -1634,19 +1614,9 @@ paths:
       responses:
         '204':
           description: Contato removido da organização com sucesso.
-      security:
-        - auth0_jwt: []
-        - api_key: []
       summary: Remover contato do comprador da organização vendedora
       tags:
         - Sellers
-      x-credix-security:
-        scopes:
-          - write:buyers
-        onProviders:
-          - auth0_jwt
-        keyNames:
-          - x-credipay-api-key
   /v2/webhooks/session:
     get:
       description: >-
