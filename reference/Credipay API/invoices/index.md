@@ -1,6 +1,5 @@
 ---
 title: Invoices
-excerpt: ''
 deprecated: false
 hidden: false
 metadata:

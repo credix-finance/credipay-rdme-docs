@@ -1,6 +1,5 @@
 ---
 title: Webhooks
-excerpt: ''
 deprecated: false
 hidden: false
 metadata:
