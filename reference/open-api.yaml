@@ -1252,6 +1252,17 @@ paths:
                     Invoice number is required when the order has multiple
                     invoices.
                   httpStatus: 400
+        '422':
+          description: O valor solicitado excede o saldo em aberto reembolsável do pedido.
+          content:
+            application/json:
+              schema:
+                example:
+                  code: REFUND_AMOUNT_EXCEEDS_ELIGIBLE_BALANCE_ERROR
+                  message: >-
+                    Refund amount exceeds the eligible open balance for the
+                    order.
+                  httpStatus: 422
       summary: Reembolsar pedido
       tags:
         - Orders
