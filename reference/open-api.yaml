@@ -3053,6 +3053,14 @@ components:
         orderExternalId:
           type: string
           example: ORDER-123
+        metadata:
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            vtexPaymentId: 5593AC1234E74A30A2ACEC5A3B5E2829
+            vtexOrderId: '1645380510781'
+            vtexReference: '510781'
       required:
         - type
         - amountCents
@@ -3061,6 +3069,7 @@ components:
         - invoiceNumber
         - invoiceKey
         - orderExternalId
+        - metadata
     SellerDisbursementDataResponseDto:
       type: object
       properties:
