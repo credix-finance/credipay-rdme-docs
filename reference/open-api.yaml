@@ -1333,7 +1333,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-07-20'
+            default: '2026-07-21'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -3055,6 +3055,14 @@ components:
         orderExternalId:
           type: string
           example: ORDER-123
+        metadata:
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            vtexPaymentId: 5593AC1234E74A30A2ACEC5A3B5E2829
+            vtexOrderId: '1645380510781'
+            vtexReference: '510781'
       required:
         - type
         - amountCents
@@ -3063,6 +3071,7 @@ components:
         - invoiceNumber
         - invoiceKey
         - orderExternalId
+        - metadata
     SellerDisbursementDataResponseDto:
       type: object
       properties:
