@@ -3052,6 +3052,13 @@ components:
         invoiceKey:
           type: string
           example: NFE-KEY-123
+        sellerTaxId:
+          type: string
+          example: '12345678000199'
+          description: >-
+            CNPJ do emissor da nota fiscal desta transação. Pode diferir do
+            vendedor que recebe o repasse quando transações de filiais da mesma
+            organização são compensadas no mesmo repasse.
         orderExternalId:
           type: string
           example: ORDER-123
@@ -3070,6 +3077,7 @@ components:
         - duplicata
         - invoiceNumber
         - invoiceKey
+        - sellerTaxId
         - orderExternalId
         - metadata
     SellerDisbursementDataResponseDto:
