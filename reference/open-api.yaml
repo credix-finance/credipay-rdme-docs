@@ -1582,6 +1582,123 @@ paths:
       summary: Criar contato do comprador para a organização vendedora
       tags:
         - Sellers
+  /v2/sellers/buyers/{buyerId}/finance-contacts:
+    get:
+      description: >-
+        Retorna os contatos do comprador visíveis para a organização atual,
+        ordenados com os já validados primeiro e depois os marcados como
+        financeiro. Contatos validados por outra organização não aparecem aqui,
+        mas informar o mesmo email e telefone alcança as mesmas linhas e herda a
+        validação.
+      operationId: api-v2-get-seller-buyer-finance-contacts
+      parameters:
+        - name: buyerId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operação realizada com sucesso, contatos retornados.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FinanceContactResponseDto'
+      summary: Listar contatos do financeiro do comprador para prefill
+      tags:
+        - Sellers
+  /v2/sellers/buyers/{buyerId}/finance-contact-policy:
+    post:
+      description: >-
+        Avalia a policy de challenge para o par comprador/vendedor, sem criar
+        contato nem enviar mensagem. O rollout é estável pelo CNPJ do comprador.
+      operationId: api-v2-get-seller-buyer-finance-contact-policy
+      parameters:
+        - name: buyerId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FinanceContactPolicyRequestDto'
+      responses:
+        '200':
+          description: Política avaliada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FinanceContactPolicyResponseDto'
+      summary: Avaliar se o comprador exige contato financeiro
+      tags:
+        - Sellers
+  /v2/sellers/buyers/{buyerId}/contacts/{contactId}/challenge:
+    post:
+      description: >-
+        Sem `channel`, apenas avalia: required=false libera o pedido,
+        required=true retorna os canais alcançáveis. Com `channel`, reavalia a
+        política e envia o link. Responde 409 quando o canal não é entregável e
+        429 quando o reenvio ainda está no intervalo de espera.
+      operationId: api-v2-challenge-seller-buyer-contact
+      parameters:
+        - name: buyerId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: contactId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeSellerBuyerContactRequestDto'
+      responses:
+        '200':
+          description: Operação realizada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerBuyerContactChallengeResponseDto'
+      summary: Avaliar a política do desafio e, com canal informado, enviar
+      tags:
+        - Sellers
+    get:
+      description: >-
+        Usado pelo seller platform enquanto aguarda a confirmação do comprador.
+        Retorna o estado, o instante do próximo reenvio permitido e a expiração
+        do último link.
+      operationId: api-v2-get-seller-buyer-contact-challenge
+      parameters:
+        - name: buyerId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: contactId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Operação realizada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerBuyerContactChallengeResponseDto'
+      summary: Consultar o estado do desafio de um contato
+      tags:
+        - Sellers
   /v2/sellers/buyers/{buyerId}/contacts/{contactId}:
     patch:
       description: >-
@@ -3018,6 +3135,13 @@ components:
             - DDE
           default: DDF
           example: DDF
+        financeContactGroupId:
+          type: string
+          description: >-
+            ID do grupo de contato do financeiro usado neste pedido. Necessário
+            para validar, no servidor, se o contato passou pelo desafio quando a
+            política exige. Sem ele, um cliente que nunca chamasse o endpoint de
+            desafio criaria o pedido sem validação alguma.
       required:
         - buyerTaxId
         - sellerTaxId
@@ -3453,6 +3577,113 @@ components:
         - lastName
         - email
         - phone
+    FinanceContactResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Seller-owned buyer contact group ID.
+        name:
+          type: object
+          description: Contact name.
+          nullable: true
+        lastName:
+          type: object
+          description: Contact last name.
+          nullable: true
+        email:
+          type: string
+          description: Contact email address.
+        phone:
+          type: string
+          description: Contact phone number.
+        validated:
+          type: boolean
+          description: >-
+            Se o contato já confirmou, pelo próprio canal, que pertence ao time
+            financeiro. Quando true, o desafio não é necessário.
+        finance:
+          type: boolean
+          description: Se o contato está marcado como do time financeiro.
+      required:
+        - id
+        - name
+        - lastName
+        - email
+        - phone
+        - validated
+        - finance
+    FinanceContactPolicyRequestDto:
+      type: object
+      properties:
+        sellerTaxId:
+          type: string
+          description: CNPJ do vendedor selecionado para o pedido.
+      required:
+        - sellerTaxId
+    FinanceContactPolicyResponseDto:
+      type: object
+      properties:
+        financeContactRequired:
+          type: boolean
+          description: >-
+            Se este pedido exige a coleta e validação de um contato financeiro
+            do comprador.
+      required:
+        - financeContactRequired
+    ChallengeSellerBuyerContactRequestDto:
+      type: object
+      properties:
+        sellerTaxId:
+          type: string
+          description: CNPJ do vendedor selecionado para o pedido.
+        channel:
+          type: string
+          description: >-
+            Canal escolhido para o envio. Omita para apenas consultar a
+            política, sem enviar nada.
+          enum:
+            - email
+            - whatsapp
+      required:
+        - sellerTaxId
+    SellerBuyerContactChallengeResponseDto:
+      type: object
+      properties:
+        required:
+          type: boolean
+          description: Se o contato precisa passar pelo desafio antes de criar o pedido.
+        channels:
+          type: array
+          description: >-
+            Canais em que o contato é alcançável. Vazio com required=true
+            significa contato inalcançável: peça outro.
+          items:
+            type: string
+            enum:
+              - email
+              - whatsapp
+        status:
+          type: string
+          description: Estado atual do desafio.
+          enum:
+            - none
+            - sent
+            - validated
+        nextRetryAt:
+          type: object
+          description: Instante mais próximo em que um reenvio é permitido.
+          nullable: true
+        expiresAt:
+          type: object
+          description: Quando o último link enviado deixa de ser aceito.
+          nullable: true
+      required:
+        - required
+        - channels
+        - status
+        - nextRetryAt
+        - expiresAt
     UpdateSellerBuyerContactRequestDto:
       type: object
       properties:
