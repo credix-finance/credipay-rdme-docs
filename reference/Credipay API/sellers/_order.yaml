@@ -3,3 +3,7 @@
 - api-v2-create-seller-buyer-contact
 - api-v2-update-seller-buyer-contact
 - api-v2-delete-seller-buyer-contact
+- api-v2-get-seller-buyer-finance-contacts
+- api-v2-get-seller-buyer-finance-contact-policy
+- api-v2-challenge-seller-buyer-contact
+- api-v2-get-seller-buyer-contact-challenge
