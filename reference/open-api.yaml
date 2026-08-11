@@ -1699,6 +1699,31 @@ paths:
       summary: Consultar o estado do desafio de um contato
       tags:
         - Sellers
+  /v2/sellers/buyers/{buyerId}/contacts/{contactId}/challenge/support:
+    post:
+      operationId: SellersController_recordBuyerContactChallengeSupport
+      parameters:
+        - name: buyerId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: contactId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeSellerBuyerContactRequestDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Sellers
   /v2/sellers/buyers/{buyerId}/contacts/{contactId}:
     patch:
       description: >-
@@ -3617,6 +3642,12 @@ components:
         sellerTaxId:
           type: string
           description: CNPJ do vendedor selecionado para o pedido.
+        flowId:
+          type: string
+          description: ID estável para correlacionar a jornada do desafio.
+        orderExternalId:
+          type: string
+          description: Referência externa do pedido, quando já existir.
       required:
         - sellerTaxId
     FinanceContactPolicyResponseDto:
@@ -3643,6 +3674,12 @@ components:
           enum:
             - email
             - whatsapp
+        flowId:
+          type: string
+          description: ID estável para correlacionar a jornada do desafio.
+        orderExternalId:
+          type: string
+          description: Referência externa do pedido, quando já existir.
       required:
         - sellerTaxId
     SellerBuyerContactChallengeResponseDto:
