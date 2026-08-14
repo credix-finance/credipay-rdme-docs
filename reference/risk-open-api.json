@@ -3513,6 +3513,18 @@
             "description": "The flag type",
             "example": "TFB0000001"
           },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason Code",
+            "description": "Human-readable reason code"
+          },
           "type": {
             "$ref": "#/components/schemas/EnforcementTypeEnum",
             "description": "The enforcement action type",
