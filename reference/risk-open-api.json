@@ -2518,13 +2518,34 @@
             "title": "Description",
             "description": "A small explanation of what this flag type is about",
             "example": "Suspicious transaction pattern detected"
+          },
+          "reason_code": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Reason Code",
+            "description": "Human-readable reason code in UPPER_SNAKE_CASE",
+            "example": "INVALID_TAX_ID"
+          },
+          "public_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Reason",
+            "description": "Optional public-facing reason description"
           }
         },
         "type": "object",
         "required": [
           "flag_type",
           "domain",
-          "description"
+          "description",
+          "reason_code"
         ],
         "title": "CreateFlagTypeRequestDTO",
         "description": "DTO for creating a new flag type."
@@ -3836,6 +3857,18 @@
             "title": "Description",
             "description": "Description of the flag type",
             "example": "Suspicious transaction pattern detected"
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason Code",
+            "description": "Human-readable reason code"
           }
         },
         "type": "object",
@@ -3855,6 +3888,17 @@
           "description": {
             "type": "string",
             "title": "Description"
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason Code"
           }
         },
         "type": "object",
@@ -3883,6 +3927,30 @@
             "title": "Description",
             "description": "Description of what this flag type represents",
             "example": "Suspicious transaction pattern detected"
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason Code",
+            "description": "Human-readable reason code"
+          },
+          "public_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Reason",
+            "description": "Public-facing reason description"
           }
         },
         "type": "object",
