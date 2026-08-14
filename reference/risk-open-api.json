@@ -4483,6 +4483,42 @@
         "title": "InvestigationResponseDTO",
         "description": "DTO for fraud investigation response."
       },
+      "ListFlagTypesResponseDTO": {
+        "properties": {
+          "flag_types": {
+            "items": {
+              "$ref": "#/components/schemas/FlagTypeResponseDTO"
+            },
+            "type": "array",
+            "title": "Flag Types",
+            "description": "List of flag types"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Total number of flag types"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page",
+            "description": "Current page number"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size",
+            "description": "Number of results per page"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag_types",
+          "total",
+          "page",
+          "page_size"
+        ],
+        "title": "ListFlagTypesResponseDTO",
+        "description": "Paginated list of flag types."
+      },
       "NFeInfoDTO": {
         "properties": {
           "access_key": {
