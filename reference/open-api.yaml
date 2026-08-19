@@ -1333,7 +1333,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-08-18'
+            default: '2026-08-19'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -1897,6 +1897,15 @@ components:
           type: boolean
           description: Se o comprador precisa de informações adicionais para análise.
           example: false
+        reasonCode:
+          type: string
+          description: >-
+            Código estável do motivo pelo qual o comprador está inelegível. Null
+            quando o comprador está elegível, quando nenhum motivo foi
+            registrado ou quando o motivo registrado não corresponde a um código
+            conhecido.
+          example: HAS_OVERDUE_OPEN_REPAYMENTS
+          nullable: true
         maxPaymentTermDays:
           type: number
           description: O prazo máximo de pagamento em dias.
@@ -1963,6 +1972,7 @@ components:
         - inactive
         - frozen
         - needMoreInfo
+        - reasonCode
         - maxPaymentTermDays
         - name
         - onboarded
