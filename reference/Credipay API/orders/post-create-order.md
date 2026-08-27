@@ -1,6 +1,6 @@
 ---
 api:
   file: open-api.yaml
-  operationId: OrdersController_postOrder
+  operationId: post-create-order
 hidden: false
 ---
