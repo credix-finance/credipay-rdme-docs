@@ -124,7 +124,7 @@ paths:
         O campo `code` é estável e deve ser usado pelo seu sistema como chave de
         identificação do erro. A mensagem em `message` permanece em inglês para
         evitar quebras quando a tradução evoluir.
-      operationId: OrdersController_postOrder
+      operationId: post-create-order
       parameters: []
       requestBody:
         required: true
@@ -414,11 +414,11 @@ paths:
   /v2/orders/invoices:
     post:
       description: >-
-        Permite criar um pedido enviando um arquivo XML de Nota Fiscal. Se
-        orderId não for informado, um novo pedido é criado. Se orderId for
-        informado, a nota fiscal é vinculada ao pedido especificado. Para que
-        uma nota fiscal seja aceita, ela precisa estar dentro do limite de
-        crédito disponível do comprador e do prazo máximo de pagamento.
+        Permite criar um pedido enviando um arquivo XML de Nota Fiscal. O pedido
+        é criado a partir do próprio XML. Para enviar uma nota fiscal para um
+        pedido já existente, use `POST /v2/orders/{id}/capture`. Para que uma
+        nota fiscal seja aceita, ela precisa estar dentro do limite de crédito
+        disponível do comprador e do prazo máximo de pagamento.
 
 
         ### Formato dos erros
@@ -432,7 +432,7 @@ paths:
         Falhas no parsing do XML da NF-e são consolidadas sob o código
         `NFE_PARSE_ERROR` — o detalhamento dos campos inválidos vem em
         `context.error.issues`.
-      operationId: OrdersController_postInvoiceXml
+      operationId: post-submit-invoice-xml
       parameters: []
       requestBody:
         required: true
@@ -869,7 +869,7 @@ paths:
         (uma falha) ou `CredixAggregateErrorResponse` (várias falhas, em
         `errors[]`). O `code` é estável e deve ser usado para o tratamento
         programático.
-      operationId: OrdersController_captureOrder
+      operationId: post-capture-order
       parameters:
         - name: isPartialCapture
           required: false
@@ -1333,7 +1333,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-08-27'
+            default: '2026-08-28'
             example: '2025-01-01'
             type: string
         - name: includePending

@@ -1,6 +1,6 @@
 ---
 api:
   file: open-api.yaml
-  operationId: OrdersController_captureOrder
+  operationId: post-submit-invoice-xml
 hidden: false
 ---
