@@ -1,59 +1,6 @@
 openapi: 3.0.0
 paths:
   /v1/invoices:
-    post:
-      description: >-
-        Allows you to submit a Nota Fiscal XML file. If orderId is not provided,
-        a new order is created. If orderId is provided, the invoice is linked to
-        the specified order. For an invoice to be accepted, it needs to be
-        within the buyer's available credit limit and maximum payment terms.
-      operationId: post-submit-invoice-xml
-      parameters:
-        - name: orderId
-          required: false
-          in: query
-          description: >-
-            CrediPay's internal order ID. UUID v4 format. If provided the
-            uploaded invoice will be linked to this order.
-          schema:
-            example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-            type: string
-      requestBody:
-        required: true
-        description: >-
-          Nota Fiscal XML file. Needs to have been processed and approved by
-          SEFAZ (draft XMLs are not allowed).
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                invoice:
-                  type: string
-                  format: binary
-              required:
-                - invoice
-      responses:
-        '200':
-          description: Successful operation, Invoice uploaded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateInvoiceResponseDto'
-        '400':
-          description: Could not process the invoice XML due to a format error.
-      security:
-        - auth0_jwt: []
-        - api_key: []
-      summary: Submit Invoice XML
-      tags:
-        - Invoices
-      x-credix-security:
-        scopes: []
-        onProviders:
-          - api_key
-        keyNames:
-          - x-credipay-api-key
     get:
       description: Get all the invoices linked to the application.
       operationId: get-invoices
@@ -161,6 +108,121 @@ components:
       in: header
       name: X-CREDIPAY-API-KEY
   schemas:
+    InstallmentDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Installment ID.
+          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
+        status:
+          type: string
+          description: Installment status.
+          enum:
+            - Created
+            - Settled
+            - Advanced
+          example: Advanced
+        faceValueCents:
+          type: number
+          description: Face value cents.
+          example: 10000
+        fundedAt:
+          type: object
+          description: >-
+            Funded date in ISO 8601 format. Defaults to null if the installment
+            has yet to be funded.
+          example: '2024-02-20T00:00:00.000Z'
+        settledAt:
+          type: object
+          description: >-
+            Settled date in ISO 8601 format. Defaults to null if the installment
+            has yet to be settled.
+          example: '2024-02-20T00:00:00.000Z'
+        disbursedAmountCents:
+          type: number
+          description: >-
+            Disbursed amount cents. Defaults to 0 if no disbursement has been
+            made.
+          example: 10000
+          default: 0
+        refundAmountCents:
+          type: number
+          description: Refund value cents.
+          example: 10000
+        refundStatus:
+          type: string
+          description: Refund status.
+          enum:
+            - NoRefund
+            - PartialRefund
+            - FullRefund
+          example: NoRefund
+        latestRefundDate:
+          type: object
+          description: >-
+            Latest refund date in ISO 8601 format. Defaults to null if the
+            installment has not been refunded.
+          example: '2024-02-20T00:00:00.000Z'
+        maturityDate:
+          type: string
+          description: Maturity date in ISO 8601 format.
+          example: '2024-02-29T00:00:00.000Z'
+      required:
+        - id
+        - status
+        - faceValueCents
+        - fundedAt
+        - settledAt
+        - disbursedAmountCents
+        - refundAmountCents
+        - refundStatus
+        - latestRefundDate
+        - maturityDate
+    RepaymentDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Repayment ID.
+          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
+        status:
+          type: string
+          description: repayment status.
+          enum:
+            - open
+            - paid
+            - restructured
+            - renegotiated
+          example: open
+        amount:
+          type: number
+          description: Amount value cents.
+          example: 10000
+        dueDate:
+          type: string
+          description: >-
+            Invoice due date in ISO 8601 format. In the case of multiple
+            installments, this is the due date of the last installment.
+          example: '2024-02-29T00:00:00.000Z'
+        repaymentDate:
+          type: object
+          description: >-
+            Repayment date in ISO 8601 format. Defaults to null if the repayment
+            has yet to be made.
+          example: '2024-02-20T00:00:00.000Z'
+        pdfURL:
+          type: object
+          description: Repayment PDF URL
+          example: https://pdfurl.com
+          default: https://pdfurl.com
+      required:
+        - id
+        - status
+        - amount
+        - dueDate
+        - repaymentDate
+        - pdfURL
     InvoiceOrderContactInformationDto:
       type: object
       properties:
@@ -240,201 +302,6 @@ components:
         - name
         - taxId
         - sendConfirmationLink
-    InstallmentDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Installment ID.
-          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
-        status:
-          type: string
-          description: Installment status.
-          enum:
-            - Created
-            - Settled
-            - Advanced
-          example: Advanced
-        faceValueCents:
-          type: number
-          description: Face value cents.
-          example: 10000
-        fundedAt:
-          type: object
-          description: >-
-            Funded date in ISO 8601 format. Defaults to null if the installment
-            has yet to be funded.
-          example: '2024-02-20T00:00:00.000Z'
-        settledAt:
-          type: object
-          description: >-
-            Settled date in ISO 8601 format. Defaults to null if the installment
-            has yet to be settled.
-          example: '2024-02-20T00:00:00.000Z'
-        disbursedAmountCents:
-          type: number
-          description: >-
-            Disbursed amount cents. Defaults to 0 if no disbursement has been
-            made.
-          example: 10000
-          default: 0
-        refundAmountCents:
-          type: number
-          description: Refund value cents.
-          example: 10000
-        refundStatus:
-          type: string
-          description: Refund status.
-          enum:
-            - NoRefund
-            - PartialRefund
-            - FullRefund
-          example: NoRefund
-        latestRefundDate:
-          type: object
-          description: >-
-            Latest refund date in ISO 8601 format. Defaults to null if the
-            installment has not been refunded.
-          example: '2024-02-20T00:00:00.000Z'
-        maturityDate:
-          type: string
-          description: Maturity date in ISO 8601 format.
-          example: '2024-02-29T00:00:00.000Z'
-      required:
-        - id
-        - status
-        - faceValueCents
-        - fundedAt
-        - settledAt
-        - disbursedAmountCents
-        - refundAmountCents
-        - refundStatus
-        - latestRefundDate
-        - maturityDate
-    CreateInvoiceResponseDto:
-      type: object
-      properties:
-        id:
-          type: object
-          description: Credipay's internal invoice ID. UUID v4 format.
-          example: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-        dueDate:
-          type: string
-          description: >-
-            Invoice due date in ISO 8601 format. In the case of multiple
-            installments, this is the due date of the last installment.
-          example: '2024-02-29T00:00:00.000Z'
-        entityCreateStatus:
-          type: string
-          description: Entity which is created during the process.
-          enum:
-            - OrderCreated
-            - InvoiceCreated
-          example: OrderCreated
-        originalFaceValueCents:
-          type: number
-          description: Invoice face value cents.
-          example: 10000
-        order:
-          description: The order associated with this invoice
-          allOf:
-            - $ref: '#/components/schemas/InvoiceOrderDto'
-        payer:
-          description: The payer of the invoice
-          allOf:
-            - $ref: '#/components/schemas/InvoicePayerDto'
-        currentFaceValueCents:
-          type: object
-          description: Invoice face value cents.
-          example: 10000
-        installments:
-          description: Invoice installments.
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallmentDto'
-        invoiceNumber:
-          type: string
-          description: Invoice number. Extracted from the NF-e.
-          example: NFe35240341264992000141550010000007431018280440
-        issuanceDate:
-          type: string
-          description: Invoice issuance date in ISO 8601 format. Extracted from the NF-e.
-          example: '2024-02-29T00:00:00.000Z'
-        refundAmountCents:
-          type: object
-          description: Refund value cents.
-          example: 10000
-        refundStatus:
-          type: string
-          description: Refund status.
-          enum:
-            - NoRefund
-            - PartialRefund
-            - FullRefund
-          example: NoRefund
-        faceValueCents:
-          type: object
-          description: Invoice face value cents.
-          example: 10000
-          deprecated: true
-      required:
-        - id
-        - dueDate
-        - entityCreateStatus
-        - originalFaceValueCents
-        - order
-        - payer
-        - currentFaceValueCents
-        - installments
-        - invoiceNumber
-        - issuanceDate
-        - refundAmountCents
-        - refundStatus
-        - faceValueCents
-    RepaymentDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Repayment ID.
-          example: f56ac4ff-4a1f-471d-ba14-e22c64bc769c
-        status:
-          type: string
-          description: repayment status.
-          enum:
-            - open
-            - paid
-            - restructured
-            - renegotiated
-          example: open
-        amount:
-          type: number
-          description: Amount value cents.
-          example: 10000
-        dueDate:
-          type: string
-          description: >-
-            Invoice due date in ISO 8601 format. In the case of multiple
-            installments, this is the due date of the last installment.
-          example: '2024-02-29T00:00:00.000Z'
-        repaymentDate:
-          type: object
-          description: >-
-            Repayment date in ISO 8601 format. Defaults to null if the repayment
-            has yet to be made.
-          example: '2024-02-20T00:00:00.000Z'
-        pdfURL:
-          type: object
-          description: Repayment PDF URL
-          example: https://pdfurl.com
-          default: https://pdfurl.com
-      required:
-        - id
-        - status
-        - amount
-        - dueDate
-        - repaymentDate
-        - pdfURL
     InvoiceResponseDto:
       type: object
       properties:
