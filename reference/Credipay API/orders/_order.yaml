@@ -1,8 +1,8 @@
 - orderscontroller_getorderbyid
-- orderscontroller_postorder
-- orderscontroller_postinvoicexml
-- orderscontroller_captureorder
 - orderscontroller_refundorder
 - orderscontroller_cancelorder
 - orderscontroller_searchorders
 - orderscontroller_completecapture
+- post-create-order
+- post-submit-invoice-xml
+- post-capture-order
