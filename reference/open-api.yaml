@@ -1090,8 +1090,8 @@ paths:
                     timestamp: '2026-05-18T12:34:56.000Z'
                     context:
                       orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
-                      orderBuyerId: 5b9f3a4b-1c2d-4e5f-8a7b-6c1e2d3a4b5c
-                      invoiceBuyerId: 7c8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c
+                      orderBuyerTaxId: '12345678000195'
+                      invoiceBuyerTaxId: '98765432000110'
                     code: ORDER_BUYER_MISMATCH_ERROR
                     path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
