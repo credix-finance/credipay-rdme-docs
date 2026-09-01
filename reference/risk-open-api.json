@@ -919,6 +919,21 @@
       },
       "AdminCreditUnderwritingResponseDTO": {
         "properties": {
+          "workflowId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Workflow ID",
+            "description": "Identifier of the durable workflow that owns this underwriting. Present only when one does; the key is absent for an underwriting decided inline.",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -2927,6 +2942,21 @@
       },
       "CreditUnderwritingResponseDTO": {
         "properties": {
+          "workflowId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Workflow ID",
+            "description": "Identifier of the durable workflow that owns this underwriting. Present only when one does; the key is absent for an underwriting decided inline.",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
