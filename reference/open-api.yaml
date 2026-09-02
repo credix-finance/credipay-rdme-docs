@@ -1902,14 +1902,14 @@ components:
           type: boolean
           description: Se o comprador precisa de informações adicionais para análise.
           example: false
-        reasonCode:
+        reason:
           type: string
           description: >-
-            Código estável do motivo pelo qual o comprador está inelegível. Null
-            quando o comprador está elegível, quando nenhum motivo foi
-            registrado ou quando o motivo registrado não corresponde a um código
-            conhecido.
-          example: HAS_OVERDUE_OPEN_REPAYMENTS
+            Motivo pelo qual o comprador está inelegível, em texto pronto para
+            exibição. Null quando o comprador está elegível, quando nenhum
+            motivo foi registrado ou quando o motivo registrado não possui texto
+            público correspondente.
+          example: Comprador possui parcelas em atraso
           nullable: true
         maxPaymentTermDays:
           type: number
@@ -1947,20 +1947,11 @@ components:
           description: >-
             Tipo de desembolso na vocabulário público V2 para o segmento do
             comprador. Presente apenas no path de comprador único (taxId).
-          example: anticipated
+          example: Anticipated
           enum:
-            - anticipated
-            - scheduled
-            - onPayment
-        scheduledDisbursementDate:
-          type: string
-          description: >-
-            Data agendada de desembolso (absoluta). Null pre-order — sem
-            duplicatas ainda. Presente apenas no path de comprador único
-            (taxId).
-          example: null
-          format: date-time
-          nullable: true
+            - Anticipated
+            - Scheduled
+            - OnPayment
         groupMembers:
           description: Membros do grupo do comprador.
           type: array
@@ -1977,7 +1968,7 @@ components:
         - inactive
         - frozen
         - needMoreInfo
-        - reasonCode
+        - reason
         - maxPaymentTermDays
         - name
         - onboarded
@@ -2666,11 +2657,11 @@ components:
           description: >-
             Tipo de desembolso na vocabulário público V2. anticipated =
             antecipado; scheduled = pós-vencimento; onPayment = pós-pagamento.
-          example: anticipated
+          example: Anticipated
           enum:
-            - anticipated
-            - scheduled
-            - onPayment
+            - Anticipated
+            - Scheduled
+            - OnPayment
         scheduledDisbursementDate:
           type: string
           description: >-
@@ -2777,10 +2768,10 @@ components:
             Filtrar por tipo de desembolso (vocabulário público V2). anticipated
             / scheduled / onPayment. Omitir retorna todos.
           enum:
-            - anticipated
-            - scheduled
-            - onPayment
-          example: scheduled
+            - Anticipated
+            - Scheduled
+            - OnPayment
+          example: Scheduled
         displayStatus:
           type: array
           description: >-
@@ -2901,11 +2892,11 @@ components:
           description: >-
             Tipo de desembolso na vocabulário público V2. anticipated =
             antecipado; scheduled = pós-vencimento; onPayment = pós-pagamento.
-          example: anticipated
+          example: Anticipated
           enum:
-            - anticipated
-            - scheduled
-            - onPayment
+            - Anticipated
+            - Scheduled
+            - OnPayment
         scheduledDisbursementDate:
           type: string
           description: >-
