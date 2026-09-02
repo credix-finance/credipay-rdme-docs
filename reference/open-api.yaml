@@ -3571,15 +3571,19 @@ components:
           description: Contact last name.
           nullable: true
         email:
-          type: string
-          description: Contact email address.
+          type: object
+          description: >-
+            Contact email address. Omit when the contact is reachable only on
+            WhatsApp.
+          nullable: true
         phone:
-          type: string
-          description: Contact phone number in E.164 format.
+          type: object
+          description: >-
+            Contact phone number in E.164 format. Omit when the contact is
+            reachable only by email.
+          nullable: true
       required:
         - name
-        - email
-        - phone
     SellerBuyerContactResponseDto:
       type: object
       properties:
@@ -3595,11 +3599,13 @@ components:
           description: Contact last name.
           nullable: true
         email:
-          type: string
-          description: Contact email address.
+          type: object
+          description: Contact email address. Null when the contact has no email.
+          nullable: true
         phone:
-          type: string
-          description: Contact phone number.
+          type: object
+          description: Contact phone number. Null when the contact has no phone.
+          nullable: true
       required:
         - id
         - name
@@ -3621,11 +3627,13 @@ components:
           description: Contact last name.
           nullable: true
         email:
-          type: string
-          description: Contact email address.
+          type: object
+          description: Contact email address. Null when the contact has no email.
+          nullable: true
         phone:
-          type: string
-          description: Contact phone number.
+          type: object
+          description: Contact phone number. Null when the contact has no phone.
+          nullable: true
         validated:
           type: boolean
           description: >-
@@ -3753,14 +3761,17 @@ components:
       type: object
       properties:
         email:
-          type: string
-          description: Contact email address.
+          type: object
+          description: >-
+            Contact email address. Omit to leave the contact reachable only on
+            WhatsApp.
+          nullable: true
         phone:
-          type: string
-          description: Contact phone number in E.164 format.
-      required:
-        - email
-        - phone
+          type: object
+          description: >-
+            Contact phone number in E.164 format. Omit to leave the contact
+            reachable only by email.
+          nullable: true
     WebhookDashboardSessionUrlResponseDto:
       type: object
       properties:
