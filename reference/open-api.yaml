@@ -1333,7 +1333,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-09-01'
+            default: '2026-09-02'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -1613,7 +1613,10 @@ paths:
     post:
       description: >-
         Avalia a policy de challenge para o par comprador/vendedor, sem criar
-        contato nem enviar mensagem. O rollout é estável pelo CNPJ do comprador.
+        contato nem enviar mensagem. Retorna até onde a exigência é aplicada:
+        bloqueando o pedido, cobrando nos próximos dias e bloqueando o próximo
+        pedido, apenas notificando, ou nada. O rollout é estável pelo CNPJ do
+        comprador.
       operationId: api-v2-get-seller-buyer-finance-contact-policy
       parameters:
         - name: buyerId
@@ -3666,10 +3669,25 @@ components:
         financeContactRequired:
           type: boolean
           description: >-
-            Se este pedido exige a coleta e validação de um contato financeiro
-            do comprador.
+            Se este pedido só pode ser criado após a validação do contato
+            financeiro. Verdadeiro apenas quando enforcement é 'blocking'.
+        enforcement:
+          type: string
+          description: >-
+            Até onde a exigência do contato financeiro é aplicada neste pedido.
+            'blocking': o pedido só é criado após a confirmação. 'deferred': o
+            pedido é criado normalmente, o contato é cobrado nos próximos dias e
+            o próximo pedido é bloqueado se nada for confirmado. 'advisory': o
+            contato é notificado e nada acontece se ninguém responder. 'none': o
+            comprador não participa do fluxo.
+          enum:
+            - none
+            - blocking
+            - deferred
+            - advisory
       required:
         - financeContactRequired
+        - enforcement
     ChallengeSellerBuyerContactRequestDto:
       type: object
       properties:
@@ -3698,6 +3716,14 @@ components:
         required:
           type: boolean
           description: Se o contato precisa passar pelo desafio antes de criar o pedido.
+        enforcement:
+          type: string
+          description: Até onde a exigência é aplicada neste pedido.
+          enum:
+            - none
+            - blocking
+            - deferred
+            - advisory
         channels:
           type: array
           description: >-
@@ -3725,6 +3751,7 @@ components:
           nullable: true
       required:
         - required
+        - enforcement
         - channels
         - status
         - nextRetryAt
