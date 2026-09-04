@@ -710,7 +710,7 @@
               }
             ],
             "title": "Freshness Check",
-            "description": "Underwriting analysis freshness check in seconds, null disables the check and defaults to 0 seconds",
+            "description": "Maximum age, in seconds, of a past underwriting analysis that may be reused for this buyer/seller pair. 0 forces a fresh analysis; null applies the default 30-day bound.",
             "examples": [
               3600,
               86400,
@@ -854,7 +854,7 @@
               }
             ],
             "title": "Freshness Check",
-            "description": "Underwriting analysis freshness check in seconds, null disables the check and defaults to 0 seconds",
+            "description": "Maximum age, in seconds, of a past underwriting analysis that may be reused for this buyer/seller pair. 0 forces a fresh analysis; null applies the default 30-day bound.",
             "examples": [
               3600,
               86400,
