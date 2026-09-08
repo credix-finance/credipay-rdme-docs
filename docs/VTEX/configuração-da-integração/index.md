@@ -46,7 +46,7 @@ Antes de qualquer configuração técnica:
 
 Onde encontrar: no Admin VTEX, vá em **Marketplace → Sellers → Gerenciamento** e clique no seller. O CNPJ e o _id da conta_ aparecem nessa tela.
 
-O account name é usado em praticamente todas as etapas seguintes — envie ao time da CrediPay logo no início.
+O account name é usado em praticamente todas as etapas seguintes, envie ao time da CrediPay logo no início.
 
 ### Demais etapas
 
