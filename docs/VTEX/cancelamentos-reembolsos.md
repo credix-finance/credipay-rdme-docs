@@ -5,7 +5,7 @@ hidden: false
 metadata:
   robots: index
 ---
-Funciona pelo mesmo caminho do faturamento: a CrediPay recebe automaticamente os reembolsos e cancelamentos da VTEX, que por sua vez os recebe do ERP — sem nenhuma ação manual.
+Funciona pelo mesmo caminho do faturamento: a CrediPay recebe automaticamente os reembolsos e cancelamentos da VTEX, que por sua vez os recebe do ERP, sem nenhuma ação manual.
 
 O que muda é **quando** o cancelamento acontece: antes ou depois da nota fiscal. Esse é o divisor de águas, porque é a nota que dispara o fluxo financeiro.
 
@@ -31,11 +31,13 @@ Três coisas acontecem ao mesmo tempo:
 * **Limite recomposto** — o valor volta ao limite disponível do comprador, liberando-o para novas compras.
 * **Sem transferência** — você não precisa nos transferir o valor reembolsado. Como já desembolsamos, ele é retido no seu próximo adiantamento. Esse detalhamento está na página de Relatórios.
 
-O ajuste acontece na conciliação financeira do repasse seguinte — o vendedor não devolve dinheiro manualmente.
+O ajuste acontece na conciliação financeira do repasse seguinte, o vendedor não devolve dinheiro manualmente.
 
-> 📘 O que exatamente é retido
->
-> A retenção considera o valor desembolsado mais a taxa proporcional ao período em que o vendedor esteve com o recurso, da data do desembolso até a data do reembolso. Consulte o time da CrediPay para o cálculo aplicável ao seu contrato.
+<Callout icon="📘" theme="info">
+  ### O que exatamente é retido
+
+  A retenção considera o valor desembolsado mais a taxa proporcional ao período em que o vendedor esteve com o recurso, da data do desembolso até a data do reembolso. Consulte o time da CrediPay para o cálculo aplicável ao seu contrato.
+</Callout>
 
 ### Reembolso parcial
 
@@ -56,8 +58,8 @@ Duas permissões precisam estar no perfil de acesso da CrediPay para que isso fu
 
 Veja [Chave de aplicação e permissões](/project/credix-credipay/v2.1/docs/chave-de-aplicação-e-permissões).
 
-> 🚧 Origem do pedido
->
-> Por segurança, nunca acataremos uma solicitação de reembolso ou cancelamento vinda diretamente do comprador. Nesses casos, o vendedor é quem deve nos informar o pedido e o valor a ser reembolsado.
+<Callout icon="🚧" theme="warn">
+  ### Origem do pedido
 
-<br />
+  Por segurança, nunca acataremos uma solicitação de reembolso ou cancelamento vinda diretamente do comprador. Nesses casos, o vendedor é quem deve nos informar o pedido e o valor a ser reembolsado.
+</Callout>
