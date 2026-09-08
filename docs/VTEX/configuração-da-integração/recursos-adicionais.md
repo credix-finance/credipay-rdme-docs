@@ -35,7 +35,7 @@ Compartilhe a chave gerada com o time da CrediPay pelo canal seguro combinado.
 
 Disponível sob demanda, para lojas que precisam de regras fiscais ou de juros que variam por item e por meio de pagamento.
 
-Quando o comprador inicia o checkout, a VTEX envia os dados do carrinho (`orderForm`) para um endpoint da CrediPay. Esse serviço aplica, item a item, as regras de imposto e de juros por parcela conforme o meio de pagamento escolhido — por exemplo, juros específicos para prazos CrediPay mantendo boletos comuns sem juros. Os valores calculados voltam e aparecem no carrinho na hora, com latência média abaixo de 0,40s por requisição.
+Quando o comprador inicia o checkout, a VTEX envia os dados do carrinho (`orderForm`) para um endpoint da CrediPay. Esse serviço aplica, item a item, as regras de imposto e de juros por parcela conforme o meio de pagamento escolhido, por exemplo, juros específicos para prazos CrediPay mantendo boletos comuns sem juros. Os valores calculados voltam e aparecem no carrinho na hora, com latência média abaixo de 0,40s por requisição.
 
 A especificação da VTEX está em [Tax Services](https://developers.vtex.com/docs/guides/tax-services-specification). Fale com o time da CrediPay para avaliar se faz sentido no seu caso.
 
@@ -43,6 +43,6 @@ A especificação da VTEX está em [Tax Services](https://developers.vtex.com/do
 
 ***
 
-Disponível sob demanda. Exibe, dentro do ambiente VTEX, o limite total e o limite já utilizado do comprador — para que ele acompanhe o crédito disponível sem sair da loja.
+Disponível sob demanda. Exibe, dentro do ambiente VTEX, o limite total e o limite já utilizado do comprador, para que ele acompanhe o crédito disponível sem sair da loja.
 
 <br />
