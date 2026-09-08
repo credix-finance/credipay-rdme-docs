@@ -5,13 +5,15 @@ hidden: false
 metadata:
   robots: index
 ---
-<br />
+Esta etapa é executada pelo seu time, quem tem acesso ao VTEX CLI e ao repositório da loja. O time de Integrações CrediPay fornece o que for necessário e acompanha, mas a execução acontece do seu lado.
+
+Pré-requisito: VTEX CLI instalado e autenticado na conta da loja.
 
 ## 1. Apps da CrediPay
 
 ***
 
-Instalados via VTEX CLI, a partir da pasta VTEX do repositório da loja:
+A partir da pasta VTEX do repositório da sua loja:
 
 ```bash
 vtex install credixpartnerbr.credipay
@@ -32,9 +34,9 @@ vtex install vtex.checkout-ui-custom@0.20.1
 ```
 
 <Callout icon="📘" theme="info">
-  ### Confirme a versão
+  ### Confirme a versão antes de instalar
 
-  A versão fixada acima é a homologada no momento desta documentação. Alinhe com o time da CrediPay antes de instalar.
+  A versão fixada acima é a homologada no momento desta documentação. Alinhe com o time da CrediPay para confirmar qual é a versão vigente.
 </Callout>
 
 ## 3. Interface personalizada de checkout
@@ -48,15 +50,15 @@ O ajuste é feito no app **Interface personalizada de checkout** (_Checkout UI C
 * `Pagamento à vista — R$ 500,00` em `1x de R$ 500,00 — vence 30/07`
 * `3x de R$ 166,67` em `3x de R$ 166,67 — 30/07, 29/08, 28/09`
 
-Após colar o código na aba JS, é necessário **ativar** a personalização.
+**O código é fornecido pelo time da CrediPay.** Cole na aba JS e **ative** a personalização.
 
 <Callout icon="🚧" theme="warn">
-  ### Não edite o script sem alinhar
+  ### Não altere o script por conta própria
 
-  O código é fornecido e aplicado pelo time da CrediPay. Ele depende de seletores do DOM do checkout VTEX e pode precisar de ajuste se a sua loja usar um tema de checkout customizado.
+  Ele depende de seletores do DOM do checkout VTEX. Se a sua loja usa um tema de checkout customizado, o script pode precisar de ajuste — nesse caso, acione o time da CrediPay em vez de editar.
 </Callout>
 
-## Como verificar as versões instaladas
+## 4. Verificar o que foi instalado
 
 ***
 
