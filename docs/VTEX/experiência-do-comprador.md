@@ -59,7 +59,7 @@ Para cada parcela, a CrediPay gera um boleto com opção de pagamento via PIX.
 <Callout icon="📘" theme="info">
   ### A cobrança é toda da CrediPay
 
-  O vendedor não gera boleto e não cobra o comprador. Se o seu ERP emite boleto automaticamente, ele precisa ser configurado para não fazer isso em pedidos CrediPay — caso contrário o comprador recebe duas cobranças.
+  O vendedor não gera boleto e não cobra o comprador. Se o seu ERP emite boleto automaticamente, ele precisa ser configurado para não fazer isso em pedidos CrediPay, caso contrário o comprador recebe duas cobranças.
 </Callout>
 
 ## Acompanhamento do limite
