@@ -16,14 +16,14 @@ Esta documentação descreve a experiência do comprador, o que você precisa co
 3. **Nota fiscal** — seu ERP emite a NF-e normalmente. A VTEX repassa o XML para a CrediPay, que valida e registra o recebível.
 4. **Desembolso e cobrança** — com a NF-e validada, o valor é desembolsado em até 24h úteis. A CrediPay cobra o comprador nos vencimentos.
 
-> 📘 Comunicação segura
->
-> Todos os dados da transação trafegam servidor-a-servidor entre VTEX e CrediPay — nunca pelo navegador do comprador. O endereço de entrega é validado contra o cadastro do CNPJ.
+<Callout icon="📘" theme="info">
+  ### Comunicação segura
+
+  Todos os dados da transação trafegam servidor-a-servidor entre VTEX e CrediPay, nunca pelo navegador do comprador. O endereço de entrega é validado contra o cadastro do CNPJ.
+</Callout>
 
 ## O que você precisa ter
 
 - Loja ativa na VTEX com o mesmo CNPJ que será onboardado na CrediPay.
 - Integração ERP ↔ VTEX já funcionando para a emissão de NF-e.
-- Capacidade de configurar um meio de pagamento que **não gere boletos próprios** — a cobrança é feita pela CrediPay.
-
-<br />
+- Capacidade de configurar um meio de pagamento que **não gere boletos próprios**, a cobrança é feita pela CrediPay.
