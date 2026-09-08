@@ -17,7 +17,7 @@ A análise acontece em dois momentos possíveis:
 * **No login** — se o comprador ainda não foi analisado. Requer [VTEX IO](/project/credix-credipay/v2.1/docs/vtex-io-análise-antecipada).
 * **No checkout** — quando ele escolhe transacionar com crédito.
 
-No checkout, três cenários são possíveis: limite suficiente para a transação, limite parcial ou ausência de limite. A integração da CrediPay identifica automaticamente os dois últimos e realiza uma análise de crédito em tempo real usando apenas o CNPJ, atribuindo um novo limite em minutos — sem formulário e sem documento.
+No checkout, três cenários são possíveis: limite suficiente para a transação, limite parcial ou ausência de limite. A integração da CrediPay identifica automaticamente os dois últimos e realiza uma análise de crédito em tempo real usando apenas o CNPJ, atribuindo um novo limite em minutos, sem formulário e sem documento.
 
 ## Com e sem análise antecipada
 
