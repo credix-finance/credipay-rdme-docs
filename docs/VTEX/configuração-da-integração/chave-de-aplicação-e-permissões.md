@@ -11,7 +11,7 @@ Esse acesso é concedido em duas partes: você cria um **perfil de acesso** com 
 <Callout icon="🚧" theme="warn">
   ### Falha silenciosa
 
-  Esta é a etapa que mais causa problema difícil de diagnosticar. Faltando uma permissão, a compra pode até acontecer — mas um passo posterior do fluxo (nota fiscal, reembolso, cancelamento) para de funcionar **sem mensagem de erro**.
+  Esta é a etapa que mais causa problema difícil de diagnosticar. Faltando uma permissão, a compra pode até acontecer, mas um passo posterior do fluxo (nota fiscal, reembolso, cancelamento) para de funcionar **sem mensagem de erro**.
 </Callout>
 
 ## 1. Criar o perfil de acesso
