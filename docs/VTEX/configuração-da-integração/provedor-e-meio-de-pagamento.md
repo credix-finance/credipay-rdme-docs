@@ -53,7 +53,7 @@ O time da CrediPay envia uma **App Key** e um **App Token** exclusivos da sua lo
 * Nome: `Boleto a prazo`
 * Salve
 
-**Anote o&#x20;**`ruleId` — está na URL.
+**Anote o&#x20;**`ruleId`, está na URL.
 
 <Callout icon="📘" theme="info">
   ### Até 10 minutos para refletir
