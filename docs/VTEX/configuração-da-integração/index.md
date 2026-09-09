@@ -19,13 +19,13 @@ Este guia existe para que o seu time saiba o que será pedido, em que ordem e po
 Siga na ordem — cada etapa depende da anterior.
 
 * **1. Pré-requisitos e dados da conta** — _vendedor, 5 min._ Confirmar o CNPJ e enviar o account name.
-* **2. [Chave de aplicação e permissões](/project/credix-credipay/v2.1/docs/chave-de-aplicação-e-permissões)** — _vendedor, 15 min._ Criar o perfil de acesso e liberar a chave da CrediPay.
-* **3. [Provedor e meio de pagamento](/project/credix-credipay/v2.1/docs/provedor-e-meio-de-pagamento)** — _vendedor, 25 min._ Cadastrar o provedor, criar o `Boleto a prazo` e a condição de pagamento.
-* **4. [Instalação dos apps](/project/credix-credipay/v2.1/docs/instalação-dos-apps)** — _vendedor, 25 min._ Instalar o app, o conector e o ajuste de checkout, via VTEX CLI.
-* **5. [Habilitar as parcelas](/project/credix-credipay/v2.1/docs/provedor-e-meio-de-pagamento)** — _vendedor, 10 min._ Feito com os IDs coletados na etapa 3.
-* **6. [Chave de API para dados transacionais](/project/credix-credipay/v2.1/docs/recursos-adicionais)** — _vendedor, 5 min._
+* **2. Chave de aplicação e permissões** — _vendedor, 15 min._ Criar o perfil de acesso e liberar a chave da CrediPay.
+* **3. Provedor e meio de pagamento** — _vendedor, 25 min._ Cadastrar o provedor, criar o `Boleto a prazo` e a condição de pagamento.
+* **4. Instalação dos apps** — _vendedor, 25 min._ Instalar o app, o conector e o ajuste de checkout, via VTEX CLI.
+* **5. Habilitar as parcelas** — _vendedor, 10 min._ Feito com os IDs coletados na etapa 3.
+* **6. Chave de API para dados transacionais** — _vendedor, 5 min._
 * **7. Integração ERP ↔ VTEX** — _vendedor._ Detalhada mais abaixo nesta página.
-* **8. [VTEX IO — análise antecipada](/project/credix-credipay/v2.1/docs/vtex-io-análise-antecipada)** — _opcional, vendedor, 30 min._
+* **8. VTEX IO — análise antecipada** — _opcional, vendedor, 30 min._
 
 <Callout icon="📘" theme="info">
   ### Paciência com a propagação
