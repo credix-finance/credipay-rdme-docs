@@ -4295,6 +4295,274 @@
         ],
         "title": "IncompleteReclassification"
       },
+      "InternalCreditUnderwritingDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The credit underwriting row id",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Current underwriting status",
+            "examples": [
+              "Created",
+              "Pending",
+              "Finished",
+              "Failed"
+            ]
+          },
+          "onboarding_status": {
+            "type": "string",
+            "title": "Onboarding Status",
+            "description": "Current onboarding status",
+            "examples": [
+              "NotRequested",
+              "Queued",
+              "Pending",
+              "Aborted",
+              "Completed",
+              "Failed"
+            ]
+          },
+          "retries": {
+            "type": "integer",
+            "title": "Retries",
+            "description": "Number of retry attempts already made for this underwriting",
+            "examples": [
+              0
+            ]
+          },
+          "decision_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Url",
+            "description": "Taktile decision URL for the current attempt; null until a kickoff succeeds"
+          },
+          "error_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason",
+            "description": "Why the current attempt failed; null unless the status is Failed"
+          },
+          "flow_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flow Slug",
+            "description": "Taktile flow this underwriting is routed to, decided at row creation",
+            "examples": [
+              "underwriting"
+            ]
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At",
+            "description": "When the current attempt's Taktile flow was triggered"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "onboarding_status",
+          "retries"
+        ],
+        "title": "InternalCreditUnderwritingDTO",
+        "description": "The underwriting state the durable executor needs to drive a kickoff and its retries."
+      },
+      "InternalNewUnderwritingAttemptRequestDTO": {
+        "properties": {
+          "decision_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Url",
+            "description": "Taktile decision URL for the new attempt, if it is already known"
+          },
+          "expected_retries": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Expected Retries",
+            "description": "The row's `retries` value the caller last observed. This is what makes opening an attempt idempotent: a replay that finds the counter already advanced by one returns the current state instead of opening a second attempt, and any other mismatch is a 409. Required, because without it a replayed request silently opens another attempt."
+          },
+          "error_on_node": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error On Node",
+            "description": "The failure being retried, passed to the same retry policy the can-retry endpoint reports. The server re-checks the policy before opening the attempt, so this should be the value the caller asked can-retry about."
+          }
+        },
+        "type": "object",
+        "required": [
+          "expected_retries"
+        ],
+        "title": "InternalNewUnderwritingAttemptRequestDTO",
+        "description": "Body for the new-attempt endpoint. Required, because ``expected_retries`` is.\n\n``decision_url`` is the one per-attempt metadata field ``decision_metadata`` accepts, and stays\noptional: the attempt is opened *before* the flow is triggered, so the URL is usually not known\nyet -- omit it and PATCH it in afterwards."
+      },
+      "InternalUnderwritingCanRetryDTO": {
+        "properties": {
+          "can_retry": {
+            "type": "boolean",
+            "title": "Can Retry",
+            "description": "Whether risk-engine's retry policy allows another attempt"
+          },
+          "retries": {
+            "type": "integer",
+            "title": "Retries",
+            "description": "Retry attempts already made, for observability on the caller's side"
+          }
+        },
+        "type": "object",
+        "required": [
+          "can_retry",
+          "retries"
+        ],
+        "title": "InternalUnderwritingCanRetryDTO",
+        "description": "The retry policy's verdict, as ``CreditUnderwritingService`` computes it.\n\nThe executor decides *when* to ask; risk-engine stays the only place that decides what counts as\nretriable (the retry cap plus the non-retriable error blocklist)."
+      },
+      "InternalUnderwritingKickoffStatusEnum": {
+        "type": "string",
+        "enum": [
+          "Pending",
+          "Failed"
+        ],
+        "title": "InternalUnderwritingKickoffStatusEnum",
+        "description": "The only two statuses a durable kickoff may write.\n\nMirrors the ``Pending``/``Failed`` branches of ``request_taktile`` (the flow was triggered, or\nit was not). ``Finished`` belongs to the decision webhook and ``Created`` to row creation, so\nneither is accepted here."
+      },
+      "InternalUnderwritingOnboardingPatchDTO": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/InternalUnderwritingOnboardingStatusEnum",
+            "description": "Completed if credipay's onboarding workflow succeeded, Failed otherwise"
+          },
+          "error_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason",
+            "description": "Why onboarding failed; required when status is Failed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "InternalUnderwritingOnboardingPatchDTO",
+        "description": "The outcome of the durable onboarding hand-off to credipay's onboarding workflow.\n\nNo ``expected_retries`` fence: unlike the kickoff patch, this is only ever reached once the\nrow's proposal ``status`` is ``Finished``, and a ``Finished`` row can never have a new attempt\nopened (``_MAY_OPEN_NEW_ATTEMPT_FROM`` excludes it) -- so ``retries`` cannot move under it."
+      },
+      "InternalUnderwritingOnboardingStatusEnum": {
+        "type": "string",
+        "enum": [
+          "Completed",
+          "Failed"
+        ],
+        "title": "InternalUnderwritingOnboardingStatusEnum",
+        "description": "The only two outcomes a durable onboarding hand-off may report.\n\nMirrors the ``Completed``/``Failed`` branches ``request_new_onboarding_flow`` writes for the\ninline path once its POST to credipay resolves. The durable path has no such POST to react\nto -- onboarding runs inside credipay's own workflow -- so the executor reports the outcome\nback here once that child workflow returns (or raises). ``Queued`` is the row's own\ncreation-time default and ``Aborted``/``Pending`` belong to other callers, so neither is\naccepted here."
+      },
+      "InternalUnderwritingPatchDTO": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/InternalUnderwritingKickoffStatusEnum",
+            "description": "Pending for a successful kickoff, Failed for one that could not be triggered"
+          },
+          "decision_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Url",
+            "description": "Taktile decision URL; required when status is Pending, ignored otherwise"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At",
+            "description": "When the flow was triggered; defaults to now when status is Pending"
+          },
+          "error_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason",
+            "description": "Why the kickoff failed; required when status is Failed"
+          },
+          "expected_retries": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Expected Retries",
+            "description": "The row's `retries` value this outcome is being reported for, read from the GET or from `new-attempt`'s response. The patch is refused with 409 if the row has moved on to a later attempt. Required: an optional fence is an unsent one, and a report delayed past a reset would otherwise be accepted as if it were current."
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "expected_retries"
+        ],
+        "title": "InternalUnderwritingPatchDTO",
+        "description": "The outcome of one durable kickoff attempt.\n\nExactly one of two branches, by ``status``:\n\n* ``Pending`` — the flow was triggered; ``decision_url`` required, ``started_at`` defaults to now.\n* ``Failed`` — the kickoff did not happen; ``error_reason`` required and a requested onboarding\n  is aborted."
+      },
       "InvestigationDataPointDTO": {
         "properties": {
           "id": {
