@@ -4456,25 +4456,6 @@
         "title": "InternalNewUnderwritingAttemptRequestDTO",
         "description": "Body for the new-attempt endpoint. Required, because ``expected_retries`` is.\n\n``decision_url`` is the one per-attempt metadata field ``decision_metadata`` accepts, and stays\noptional: the attempt is opened *before* the flow is triggered, so the URL is usually not known\nyet -- omit it and PATCH it in afterwards."
       },
-      "InternalOrphanReconciliationDTO": {
-        "properties": {
-          "reconciled": {
-            "type": "integer",
-            "title": "Reconciled",
-            "description": "Number of orphaned Created underwritings moved to Failed",
-            "examples": [
-              0,
-              3
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "reconciled"
-        ],
-        "title": "InternalOrphanReconciliationDTO",
-        "description": "How many orphaned ``Created`` underwritings the sweep reconciled."
-      },
       "InternalUnderwritingCanRetryDTO": {
         "properties": {
           "can_retry": {
