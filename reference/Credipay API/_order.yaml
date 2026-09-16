@@ -1,8 +1,9 @@
 - buyers
 - orders
 - installments
+- repayments
 - disbursements
-- users
 - invoices
 - credit-limit
+- users
 - webhooks
