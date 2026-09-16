@@ -1333,7 +1333,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-09-15'
+            default: '2026-09-16'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -2301,6 +2301,11 @@ components:
           type: string
           description: ID externo do pedido, se houver.
           example: '123456789'
+        batchId:
+          type: string
+          description: Identificador do lote do pedido, se houver.
+          example: BATCH-2026-0001
+          nullable: true
         status:
           type: string
           description: Status do pedido.
@@ -2453,6 +2458,10 @@ components:
         query:
           type: string
           description: A consulta a ser pesquisada.
+        batchId:
+          type: string
+          description: Filtra pedidos pelo identificador do lote.
+          example: BATCH-2026-0001
         status:
           description: Considerar apenas pedidos com estes status.
           example:
@@ -2569,6 +2578,11 @@ components:
           type: string
           description: ID externo do pedido.
           example: NF-123456
+        batchId:
+          type: string
+          description: Identificador do lote do pedido.
+          example: BATCH-2026-0001
+          nullable: true
         createdAt:
           type: string
           description: Data de criação do pedido.
@@ -2847,6 +2861,10 @@ components:
     CreateOrderDtoOpenApiSpec:
       type: object
       properties:
+        batchId:
+          type: string
+          description: Identificador opcional do lote ao qual o pedido pertence.
+          example: BATCH-2026-0001
         buyerTaxId:
           type: string
           description: CNPJ do comprador.
@@ -3015,6 +3033,14 @@ components:
         orderExternalId:
           type: string
           example: ORDER-123
+        orderBatchId:
+          type: object
+          example: BATCH-2026-0001
+          nullable: true
+        orderId:
+          type: string
+          example: 123e4567-e89b-12d3-a456-426614174000
+          format: uuid
         metadata:
           type: object
           nullable: true
@@ -3032,6 +3058,8 @@ components:
         - invoiceKey
         - sellerTaxId
         - orderExternalId
+        - orderBatchId
+        - orderId
         - metadata
     SellerDisbursementDataResponseDto:
       type: object
