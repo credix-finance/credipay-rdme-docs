@@ -1643,7 +1643,11 @@ components:
           example: '2021-01-01T00:00:00.000Z'
         eligible:
           type: boolean
-          description: Se o comprador é elegível ou não para crédito.
+          description: >-
+            Campo obsoleto. Bloqueios por `inactive`, `frozen` ou `needMoreInfo`
+            (com detalhe em `reason`) já aparecem nesses campos, mas um bloqueio
+            só por regra de rating de segmento não aparece em nenhum deles —
+            hoje não há substituto público para esse caso.
           example: true
           deprecated: true
         eligibilityUpdatedAt:
@@ -2353,7 +2357,8 @@ components:
             - WaitingForOtp
             - PartiallyCaptured
         invoice:
-          description: Nota fiscal do pedido.
+          description: Campo obsoleto. Use `invoices`.
+          deprecated: true
           allOf:
             - $ref: '#/components/schemas/InvoiceResponseDto'
         invoices:
@@ -2398,19 +2403,23 @@ components:
         transactionFeeCents:
           type: number
           description: >-
-            Taxa de transação total do pedido em centavos (Order-level, não
-            recalculada por invoice).
+            Campo obsoleto. Taxa de transação total do pedido em centavos
+            (Order-level, não recalculada por invoice) — use o detalhamento por
+            nota fiscal em `invoices[].fees`.
           example: 5000
+          deprecated: true
         disbursementSchedulingStrategy:
           type: string
           description: >-
-            Estratégia de agendamento do desembolso. OnAssetCreation =
-            antecipação; OnAssetDueDate / OnBuyerPayment = no-anticipation.
+            Campo obsoleto. Estratégia de agendamento do desembolso
+            (OnAssetCreation = antecipação; OnAssetDueDate / OnBuyerPayment =
+            no-anticipation) — use `disbursementType`.
           example: OnAssetCreation
           enum:
             - OnAssetCreation
             - OnBuyerPayment
             - OnAssetDueDate
+          deprecated: true
         disbursementDelayDays:
           type: number
           description: >-
@@ -2643,18 +2652,21 @@ components:
           type: number
           description: >-
             Taxa de transação total do pedido em centavos (Order-level, não
-            recalculada por invoice).
+            recalculada por invoice). Neste endpoint de busca `invoices[].fees`
+            não é populado, então este é o único campo de taxa disponível.
           example: 5000
         disbursementSchedulingStrategy:
           type: string
           description: >-
-            Estratégia de agendamento do desembolso. OnAssetCreation =
-            antecipação; OnAssetDueDate / OnBuyerPayment = no-anticipation.
+            Campo obsoleto. Estratégia de agendamento do desembolso
+            (OnAssetCreation = antecipação; OnAssetDueDate / OnBuyerPayment =
+            no-anticipation) — use `disbursementType`.
           example: OnAssetCreation
           enum:
             - OnAssetCreation
             - OnBuyerPayment
             - OnAssetDueDate
+          deprecated: true
         disbursementDelayDays:
           type: number
           description: >-
@@ -2724,8 +2736,9 @@ components:
             - Completed
           nullable: true
         invoice:
-          description: Informações da nota fiscal do pedido.
+          description: Campo obsoleto. Use `invoices`.
           nullable: true
+          deprecated: true
           allOf:
             - $ref: '#/components/schemas/InvoiceResponseDto'
         invoices:
