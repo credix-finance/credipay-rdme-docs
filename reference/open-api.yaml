@@ -1294,6 +1294,33 @@ paths:
       summary: Cancelar pedido
       tags:
         - Orders
+  /v2/repayments/search:
+    post:
+      operationId: RepaymentsController_searchRepayments
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRepaymentsRequestDto'
+      responses:
+        '200':
+          description: ''
+      security:
+        - auth0_jwt: []
+        - api_key: []
+      tags:
+        - Repayments
+      x-credix-security:
+        scopes:
+          - seller
+          - read:repayments
+        onProviders:
+          - auth0_jwt
+          - api_key
+        keyNames:
+          - x-credipay-api-key
   /v2/disbursements:
     get:
       description: >-
@@ -2955,6 +2982,86 @@ components:
           example: e912ba21-d530-4982-aa92-a06d7518afa0
       required:
         - id
+    SearchRepaymentsRequestDto:
+      type: object
+      properties:
+        page:
+          type: number
+          description: Page to return. Starts at 1.
+          default: 1
+          minimum: 1
+        take:
+          type: number
+          description: Maximum number of repayments to return.
+          default: 20
+          minimum: 1
+          maximum: 100
+        status:
+          type: array
+          description: Repayment instruction statuses to include.
+          items:
+            type: string
+            enum:
+              - Open
+              - ProcessingPayment
+              - Paid
+              - Canceled
+              - Expired
+              - Unknown
+              - Failed
+              - CancellationFailed
+              - Reversed
+        createdAtFrom:
+          format: date-time
+          type: string
+          description: Created at from UTC date in ISO 8601 format.
+        createdAtTo:
+          format: date-time
+          type: string
+          description: Created at to UTC date in ISO 8601 format.
+        dueDateFrom:
+          format: date-time
+          type: string
+          description: Due date from UTC date in ISO 8601 format.
+        dueDateTo:
+          format: date-time
+          type: string
+          description: Due date to UTC date in ISO 8601 format.
+        paymentDateFrom:
+          format: date-time
+          type: string
+          description: Payment date from UTC date in ISO 8601 format.
+        paymentDateTo:
+          format: date-time
+          type: string
+          description: Payment date to UTC date in ISO 8601 format.
+        sellerTaxId:
+          type: string
+          description: Seller tax ID to filter repayments by.
+        buyerTaxId:
+          type: string
+          description: Buyer tax ID to filter repayments by.
+        includeGroup:
+          type: boolean
+          description: >-
+            When filtering by buyerTaxId, include buyers linked to the same
+            economic group.
+        orderBy:
+          type: string
+          description: Field used for sorting repayments.
+          enum:
+            - createdAt
+            - dueDate
+            - paymentDate
+            - status
+          default: createdAt
+        order:
+          type: string
+          description: Sort direction.
+          enum:
+            - ASC
+            - DESC
+          default: DESC
     SellerDisbursementBankAccountResponseDto:
       type: object
       properties:
