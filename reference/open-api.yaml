@@ -1253,7 +1253,15 @@ paths:
                     invoices.
                   httpStatus: 400
         '422':
-          description: O valor solicitado excede o saldo em aberto reembolsável do pedido.
+          description: >-
+            O reembolso não pode ser aceito. Possíveis códigos:
+            REFUND_AMOUNT_EXCEEDS_ELIGIBLE_BALANCE_ERROR (valor acima do saldo
+            em aberto), NO_ANTICIPATION_PARTIAL_REFUND_NOT_SUPPORTED_ERROR
+            (pedidos sem antecipação só podem ser reembolsados integralmente),
+            NO_ANTICIPATION_REFUND_ASSET_ALREADY_DISBURSED_ERROR (valor já
+            repassado ao vendedor) e
+            NO_ANTICIPATION_REFUND_ASSET_ALREADY_PAID_ERROR (pedido já pago pelo
+            comprador).
           content:
             application/json:
               schema:
