@@ -1360,7 +1360,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-09-16'
+            default: '2026-09-17'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -3068,6 +3068,11 @@ components:
           description: >-
             When filtering by buyerTaxId, include buyers linked to the same
             economic group.
+        overdue:
+          type: boolean
+          description: >-
+            Whether to return only repayments that are currently unpaid and past
+            due.
         orderBy:
           type: string
           description: Field used for sorting repayments.
@@ -3076,6 +3081,7 @@ components:
             - dueDate
             - paymentDate
             - status
+            - dpd
           default: createdAt
         order:
           type: string
