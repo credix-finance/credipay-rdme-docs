@@ -1360,7 +1360,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-09-16'
+            default: '2026-09-17'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -1643,7 +1643,11 @@ components:
           example: '2021-01-01T00:00:00.000Z'
         eligible:
           type: boolean
-          description: Se o comprador é elegível ou não para crédito.
+          description: >-
+            Campo obsoleto. Bloqueios por `inactive`, `frozen` ou `needMoreInfo`
+            (com detalhe em `reason`) já aparecem nesses campos, mas um bloqueio
+            só por regra de rating de segmento não aparece em nenhum deles —
+            hoje não há substituto público para esse caso.
           example: true
           deprecated: true
         eligibilityUpdatedAt:
@@ -1705,13 +1709,16 @@ components:
         disbursementType:
           type: string
           description: >-
-            Tipo de desembolso na vocabulário público V2 para o segmento do
-            comprador. Presente apenas no path de comprador único (taxId).
-          example: Anticipated
+            Tipo de desembolso do segmento do comprador, no vocabulário público
+            V2. Upfront = antecipado, ao capturar a nota; OnDueDate = N dias
+            após o vencimento de cada parcela; OnBuyerPayment = N dias após o
+            pagamento do comprador. N é `disbursementDelayDays`. Presente apenas
+            no path de comprador único (taxId).
+          example: Upfront
           enum:
-            - Anticipated
-            - Scheduled
-            - OnPayment
+            - Upfront
+            - OnDueDate
+            - OnBuyerPayment
         groupMembers:
           description: Membros do grupo do comprador.
           type: array
@@ -2353,7 +2360,8 @@ components:
             - WaitingForOtp
             - PartiallyCaptured
         invoice:
-          description: Nota fiscal do pedido.
+          description: Campo obsoleto. Use `invoices`.
+          deprecated: true
           allOf:
             - $ref: '#/components/schemas/InvoiceResponseDto'
         invoices:
@@ -2398,19 +2406,23 @@ components:
         transactionFeeCents:
           type: number
           description: >-
-            Taxa de transação total do pedido em centavos (Order-level, não
-            recalculada por invoice).
+            Campo obsoleto. Taxa de transação total do pedido em centavos
+            (Order-level, não recalculada por invoice) — use o detalhamento por
+            nota fiscal em `invoices[].fees`.
           example: 5000
+          deprecated: true
         disbursementSchedulingStrategy:
           type: string
           description: >-
-            Estratégia de agendamento do desembolso. OnAssetCreation =
-            antecipação; OnAssetDueDate / OnBuyerPayment = no-anticipation.
+            Campo obsoleto. Estratégia de agendamento do desembolso
+            (OnAssetCreation = antecipação; OnAssetDueDate / OnBuyerPayment =
+            no-anticipation) — use `disbursementType`.
           example: OnAssetCreation
           enum:
             - OnAssetCreation
             - OnBuyerPayment
             - OnAssetDueDate
+          deprecated: true
         disbursementDelayDays:
           type: number
           description: >-
@@ -2420,18 +2432,20 @@ components:
         disbursementType:
           type: string
           description: >-
-            Tipo de desembolso na vocabulário público V2. anticipated =
-            antecipado; scheduled = pós-vencimento; onPayment = pós-pagamento.
-          example: Anticipated
+            Tipo de desembolso, no vocabulário público V2. Upfront = antecipado,
+            ao capturar a nota; OnDueDate = N dias após o vencimento de cada
+            parcela; OnBuyerPayment = N dias após o pagamento do comprador. N é
+            `disbursementDelayDays`.
+          example: Upfront
           enum:
-            - Anticipated
-            - Scheduled
-            - OnPayment
+            - Upfront
+            - OnDueDate
+            - OnBuyerPayment
         scheduledDisbursementDate:
           type: string
           description: >-
             Data agendada de desembolso (absoluta, nível pedido). Null para
-            onPayment ou quando as duplicatas divergem na data.
+            OnBuyerPayment ou quando as duplicatas divergem na data.
           example: '2026-06-15T00:00:00.000Z'
           format: date-time
           nullable: true
@@ -2534,13 +2548,15 @@ components:
         disbursementType:
           type: string
           description: >-
-            Filtrar por tipo de desembolso (vocabulário público V2). anticipated
-            / scheduled / onPayment. Omitir retorna todos.
+            Filtrar por tipo de desembolso. Upfront = antecipado; OnDueDate =
+            pós-vencimento; OnBuyerPayment = pós-pagamento. Os valores
+            anteriores (Anticipated, Scheduled, OnPayment) continuam aceitos
+            como sinônimos. Omitir retorna todos.
           enum:
-            - Anticipated
-            - Scheduled
-            - OnPayment
-          example: Scheduled
+            - Upfront
+            - OnDueDate
+            - OnBuyerPayment
+          example: OnDueDate
         displayStatus:
           type: array
           description: >-
@@ -2643,18 +2659,21 @@ components:
           type: number
           description: >-
             Taxa de transação total do pedido em centavos (Order-level, não
-            recalculada por invoice).
+            recalculada por invoice). Neste endpoint de busca `invoices[].fees`
+            não é populado, então este é o único campo de taxa disponível.
           example: 5000
         disbursementSchedulingStrategy:
           type: string
           description: >-
-            Estratégia de agendamento do desembolso. OnAssetCreation =
-            antecipação; OnAssetDueDate / OnBuyerPayment = no-anticipation.
+            Campo obsoleto. Estratégia de agendamento do desembolso
+            (OnAssetCreation = antecipação; OnAssetDueDate / OnBuyerPayment =
+            no-anticipation) — use `disbursementType`.
           example: OnAssetCreation
           enum:
             - OnAssetCreation
             - OnBuyerPayment
             - OnAssetDueDate
+          deprecated: true
         disbursementDelayDays:
           type: number
           description: >-
@@ -2664,18 +2683,20 @@ components:
         disbursementType:
           type: string
           description: >-
-            Tipo de desembolso na vocabulário público V2. anticipated =
-            antecipado; scheduled = pós-vencimento; onPayment = pós-pagamento.
-          example: Anticipated
+            Tipo de desembolso, no vocabulário público V2. Upfront = antecipado,
+            ao capturar a nota; OnDueDate = N dias após o vencimento de cada
+            parcela; OnBuyerPayment = N dias após o pagamento do comprador. N é
+            `disbursementDelayDays`.
+          example: Upfront
           enum:
-            - Anticipated
-            - Scheduled
-            - OnPayment
+            - Upfront
+            - OnDueDate
+            - OnBuyerPayment
         scheduledDisbursementDate:
           type: string
           description: >-
             Data agendada de desembolso (absoluta, nível pedido). Null para
-            onPayment ou quando as duplicatas divergem na data.
+            OnBuyerPayment ou quando as duplicatas divergem na data.
           example: null
           format: date-time
           nullable: true
@@ -2724,8 +2745,9 @@ components:
             - Completed
           nullable: true
         invoice:
-          description: Informações da nota fiscal do pedido.
+          description: Campo obsoleto. Use `invoices`.
           nullable: true
+          deprecated: true
           allOf:
             - $ref: '#/components/schemas/InvoiceResponseDto'
         invoices:
@@ -3046,6 +3068,11 @@ components:
           description: >-
             When filtering by buyerTaxId, include buyers linked to the same
             economic group.
+        overdue:
+          type: boolean
+          description: >-
+            Whether to return only repayments that are currently unpaid and past
+            due.
         orderBy:
           type: string
           description: Field used for sorting repayments.
@@ -3054,6 +3081,7 @@ components:
             - dueDate
             - paymentDate
             - status
+            - dpd
           default: createdAt
         order:
           type: string
