@@ -1,5 +1,38 @@
 openapi: 3.0.0
 paths:
+  /v2/buyers/payment-access/preview:
+    get:
+      operationId: BuyersController_getBuyerPaymentAccessPreview
+      parameters:
+        - name: authorization
+          required: true
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - none: []
+      tags:
+        - Buyers
+  /v2/buyers/payment-access/feedback:
+    post:
+      operationId: BuyersController_submitBuyerPaymentAccessFeedback
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitBuyerPaymentAccessFeedbackRequestDto'
+      responses:
+        '204':
+          description: ''
+      security:
+        - none: []
+      tags:
+        - Buyers
   /v2/buyers:
     get:
       description: Obtém todos os compradores associados a um vendedor.
@@ -1612,6 +1645,24 @@ components:
       in: header
       name: X-CREDIPAY-API-KEY
   schemas:
+    SubmitBuyerPaymentAccessFeedbackRequestDto:
+      type: object
+      properties:
+        answer:
+          type: string
+          enum:
+            - 'yes'
+            - not_associated
+            - member_has_contact
+            - member_no_contact
+        candidateName:
+          type: string
+        candidateEmail:
+          type: string
+        candidatePhone:
+          type: string
+      required:
+        - answer
     BuyerGroupMemberDto:
       type: object
       properties:
