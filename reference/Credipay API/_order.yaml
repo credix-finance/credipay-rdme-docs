@@ -1,10 +1,11 @@
 - buyers
 - orders
 - invoices
+- repayments
 - disbursements
-- users
 - credit-limit
 - onboarding
 - segments
 - installments
+- users
 - webhooks
