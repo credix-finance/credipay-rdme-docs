@@ -4475,6 +4475,25 @@
         "title": "InternalOrphanReconciliationDTO",
         "description": "How many orphaned ``Created`` underwritings the sweep reconciled."
       },
+      "InternalStalePendingReconciliationDTO": {
+        "properties": {
+          "processed": {
+            "type": "integer",
+            "title": "Processed",
+            "description": "Number of stale Pending underwritings failed and/or retried",
+            "examples": [
+              0,
+              3
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "processed"
+        ],
+        "title": "InternalStalePendingReconciliationDTO",
+        "description": "How many stale ``Pending`` underwritings the sweep processed."
+      },
       "InternalUnderwritingCanRetryDTO": {
         "properties": {
           "can_retry": {
