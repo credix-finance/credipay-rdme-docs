@@ -113,8 +113,11 @@ paths:
 
         - ID externo do pedido (busca parcial)
 
-        - Chave de acesso da NF-e (`NFe` + 44 dígitos, ou apenas os 44 dígitos
-        com ou sem espaços)
+        - Chave de acesso da NF-e (`NFe` + 44 dígitos) ou da NFS-e (`NFS` + 50
+        dígitos)
+
+        - Chave de acesso sem o prefixo, com ou sem espaços — busca parcial,
+        pode retornar outras notas do mesmo emitente
 
         - Número da nota fiscal (`nNF`, até 10 dígitos — busca parcial)
       operationId: OrdersController_searchOrders
@@ -1401,7 +1404,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-09-17'
+            default: '2026-09-18'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -3050,7 +3053,8 @@ components:
           type: string
           description: >-
             Número da invoice alvo do reembolso. Obrigatório quando o pedido
-            tiver múltiplas invoices.
+            tiver múltiplas invoices. Aceita a chave de uma NF-e (NFe + 44
+            dígitos) ou de uma NFS-e (NFS + 50 dígitos).
           example: NFe52260201008713004909550450025301111856486341
       required:
         - refundAmountCents
