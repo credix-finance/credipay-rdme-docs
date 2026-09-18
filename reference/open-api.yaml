@@ -3120,17 +3120,25 @@ components:
           format: date-time
           type: string
           description: Payment date to UTC date in ISO 8601 format.
-        sellerTaxId:
-          type: string
-          description: Seller tax ID to filter repayments by.
-        buyerTaxId:
-          type: string
-          description: Buyer tax ID to filter repayments by.
+        sellerTaxIds:
+          description: >-
+            Seller tax IDs to filter repayments by. A repayment matches if its
+            seller is any of them. At most 100.
+          type: array
+          items:
+            type: string
+        buyerTaxIds:
+          description: >-
+            Buyer tax IDs to filter repayments by. A repayment matches if its
+            buyer is any of them. At most 100.
+          type: array
+          items:
+            type: string
         includeGroup:
           type: boolean
           description: >-
-            When filtering by buyerTaxId, include buyers linked to the same
-            economic group.
+            When filtering by buyerTaxIds, also include buyers linked to the
+            same economic group as any of them.
         overdue:
           type: boolean
           description: >-
