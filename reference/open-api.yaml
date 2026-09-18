@@ -3123,14 +3123,14 @@ components:
         sellerTaxIds:
           description: >-
             Seller tax IDs to filter repayments by. A repayment matches if its
-            seller is any of them. At most 100.
+            seller is any of them. At most 500.
           type: array
           items:
             type: string
         buyerTaxIds:
           description: >-
             Buyer tax IDs to filter repayments by. A repayment matches if its
-            buyer is any of them. At most 100.
+            buyer is any of them. At most 500.
           type: array
           items:
             type: string
