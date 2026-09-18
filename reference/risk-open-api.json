@@ -4311,6 +4311,384 @@
         ],
         "title": "IncompleteReclassification"
       },
+      "InternalCliAdmissionDTO": {
+        "properties": {
+          "outcome": {
+            "$ref": "#/components/schemas/InternalCliAdmissionOutcomeEnum",
+            "description": "admitted when this caller's row is live, existing when another request already covered the pair, spam or not_eligible when a guard rejected it"
+          },
+          "request": {
+            "$ref": "#/components/schemas/InternalCreditLimitIncreaseDTO",
+            "description": "The row this verdict is about"
+          },
+          "knockout": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/InternalCliKnockoutDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Present exactly when the outcome is a knockout, carrying what its exception needs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "outcome",
+          "request"
+        ],
+        "title": "InternalCliAdmissionDTO",
+        "description": "The admission verdict. ``request`` is always present -- every outcome has a row behind it."
+      },
+      "InternalCliAdmissionOutcomeEnum": {
+        "type": "string",
+        "enum": [
+          "admitted",
+          "existing",
+          "spam",
+          "not_eligible"
+        ],
+        "title": "InternalCliAdmissionOutcomeEnum",
+        "description": "Only ``admitted`` leads to a Taktile kickoff; the rest end the workflow.\n\n``existing`` means an ongoing request for the pair belongs to somebody else and already has a\ndecision in flight. The two knockouts stay apart because they are different answers to the\nseller. No HTTP status travels here -- risk-engine maps the outcome."
+      },
+      "InternalCliAdmissionRequestDTO": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Request Id",
+            "description": "Caller-minted primary key for the row to create"
+          },
+          "workflow_id": {
+            "type": "string",
+            "title": "Workflow Id",
+            "description": "Durable workflow that owns the row it creates"
+          },
+          "buyer_tax_id": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Buyer Tax Id",
+            "description": "CNPJ of the buyer"
+          },
+          "seller_tax_id": {
+            "type": "string",
+            "maxLength": 14,
+            "minLength": 14,
+            "title": "Seller Tax Id",
+            "description": "CNPJ of the seller"
+          },
+          "credit_limit_requested_cents": {
+            "type": "integer",
+            "title": "Credit Limit Requested Cents",
+            "description": "Requested increase, in cents"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "Caller-supplied context to store on the row"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Caller-supplied metadata to store on the row"
+          },
+          "auth0_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Auth0 User Id",
+            "description": "Auth0 subject of the requesting user, resolved into the row's metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "request_id",
+          "workflow_id",
+          "buyer_tax_id",
+          "seller_tax_id",
+          "credit_limit_requested_cents"
+        ],
+        "title": "InternalCliAdmissionRequestDTO",
+        "description": "Body for the admission endpoint.\n\nBoth ids are minted by risk-engine before the enqueue and written in the same INSERT, so a\ndurable row never exists without its workflow. ``auth0_user_id`` is not authentication -- this\nrouter has none -- it is what resolves the requester into the row's metadata."
+      },
+      "InternalCliKickoffPatchDTO": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/InternalCliKickoffStatusEnum",
+            "description": "Pending for a successful kickoff, Failed for one that could not be triggered"
+          },
+          "decision_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Url",
+            "description": "Taktile decision URL; required when status is Pending, ignored otherwise"
+          },
+          "error_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason",
+            "description": "Why the kickoff failed. Logged, never written to the row. Required when status is Failed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "InternalCliKickoffPatchDTO",
+        "description": "The outcome of one durable Taktile kickoff.\n\n``error_reason`` is logged, never written to the row: ``reason`` is returned to the seller, so\nthe failure branch writes risk-engine's own copy."
+      },
+      "InternalCliKickoffStatusEnum": {
+        "type": "string",
+        "enum": [
+          "Pending",
+          "Failed"
+        ],
+        "title": "InternalCliKickoffStatusEnum",
+        "description": "The two branches ``request_taktile`` writes: the flow was triggered, or it was not."
+      },
+      "InternalCliKnockoutDTO": {
+        "properties": {
+          "buyer_tax_id": {
+            "type": "string",
+            "title": "Buyer Tax Id",
+            "description": "CNPJ of the buyer the guard rejected"
+          },
+          "seller_tax_id": {
+            "type": "string",
+            "title": "Seller Tax Id",
+            "description": "CNPJ of the seller that asked"
+          },
+          "approved_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Approved Count",
+            "description": "Approved requests in the window; spam only"
+          },
+          "rejected_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rejected Count",
+            "description": "Rejected requests in the window; spam only"
+          },
+          "window_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Days",
+            "description": "Length of the spam window in days; spam only"
+          },
+          "eligibility_payload": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eligibility Payload",
+            "description": "Credipay's eligibility answer; not_eligible only"
+          }
+        },
+        "type": "object",
+        "required": [
+          "buyer_tax_id",
+          "seller_tax_id"
+        ],
+        "title": "InternalCliKnockoutDTO",
+        "description": "What risk-engine needs to raise the guard's real exception, since one cannot cross a step\nboundary. Counts and window belong to ``spam``, the payload to ``not_eligible``."
+      },
+      "InternalCreditLimitIncreaseDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "The credit limit increase request row id",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "buyer_tax_id": {
+            "type": "string",
+            "title": "Buyer Tax Id",
+            "description": "CNPJ of the buyer the increase was requested for"
+          },
+          "seller_tax_id": {
+            "type": "string",
+            "title": "Seller Tax Id",
+            "description": "CNPJ of the seller that requested the increase"
+          },
+          "credit_limit_requested_cents": {
+            "type": "integer",
+            "title": "Credit Limit Requested Cents",
+            "description": "Requested increase, in cents"
+          },
+          "credit_limit_approved_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credit Limit Approved Cents",
+            "description": "Approved increase in cents; null until the decision lands"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Current request status",
+            "examples": [
+              "Created",
+              "Pending",
+              "Approved",
+              "Partially Approved",
+              "Rejected",
+              "Failed",
+              "Knockout"
+            ]
+          },
+          "decision_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Url",
+            "description": "Taktile decision URL; null until a kickoff succeeds"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "Why the request is in its current status"
+          },
+          "exposable_rejection_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exposable Rejection Reason",
+            "description": "Customer-facing rejection reason from Taktile"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context",
+            "description": "Caller-supplied context stored on the row"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Caller-supplied metadata, after enrichment"
+          },
+          "workflow_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Workflow Id",
+            "description": "Durable workflow that owns this row; null for rows run inline by risk-engine"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "buyer_tax_id",
+          "seller_tax_id",
+          "credit_limit_requested_cents",
+          "status"
+        ],
+        "title": "InternalCreditLimitIncreaseDTO",
+        "description": "A credit-limit-increase row. Carries the full caller-facing field set, because the handler\nwaiting on the verdict answers the seller from it."
+      },
       "InternalCreditUnderwritingDTO": {
         "properties": {
           "id": {
