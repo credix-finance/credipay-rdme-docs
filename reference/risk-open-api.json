@@ -2788,7 +2788,7 @@
           "status": {
             "type": "string",
             "title": "Status",
-            "description": "Status of the credit limit increase request: `Created`, `Pending`, `Approved`, `Partially Approved`, `Rejected`, `Failed`",
+            "description": "Status of the credit limit increase request: `Pending`, `Approved`, `Partially Approved`, `Rejected`, `Failed`",
             "examples": [
               "Pending",
               "Approved",
