@@ -539,7 +539,10 @@ paths:
 
                     - `total.ICMSTot.vNF` (valor total)
 
-                    - `cobr.dup[]` (duplicatas com `nDup`, `dVenc`, `vDup`)
+
+                    O bloco `cobr.dup[]` é opcional. Quando presente, cada
+                    duplicata precisa de `nDup`, `dVenc` e `vDup`; quando
+                    ausente, as parcelas vêm do plano do pedido.
                   value:
                     message: >-
                       Could not parse NFE, please check if the xml is formed
@@ -986,7 +989,10 @@ paths:
 
                     - `total.ICMSTot.vNF` (valor total)
 
-                    - `cobr.dup[]` (duplicatas com `nDup`, `dVenc`, `vDup`)
+
+                    O bloco `cobr.dup[]` é opcional. Quando presente, cada
+                    duplicata precisa de `nDup`, `dVenc` e `vDup`; quando
+                    ausente, as parcelas vêm do plano do pedido.
                   value:
                     message: >-
                       Could not parse NFE, please check if the xml is formed
