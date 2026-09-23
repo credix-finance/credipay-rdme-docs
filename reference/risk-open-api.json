@@ -4874,6 +4874,46 @@
         "title": "InternalStalePendingReconciliationDTO",
         "description": "How many stale ``Pending`` underwritings the sweep processed."
       },
+      "InternalStrandedCliCandidateDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "The credit limit increase request row id",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "workflow_id": {
+            "type": "string",
+            "title": "Workflow Id",
+            "description": "Durable workflow that owns the row"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "workflow_id"
+        ],
+        "title": "InternalStrandedCliCandidateDTO",
+        "description": "A durable row old enough that only its workflow's status can say whether it is stranded."
+      },
+      "InternalStrandedCliCandidatesDTO": {
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/InternalStrandedCliCandidateDTO"
+            },
+            "type": "array",
+            "title": "Candidates",
+            "description": "Durable Created/Pending rows past the grace window"
+          }
+        },
+        "type": "object",
+        "title": "InternalStrandedCliCandidatesDTO",
+        "description": "One sweep's worth of candidates, oldest first and capped.\n\nCandidates, not verdicts: risk-engine can see that a row has outlived its deadline, but only\nthe executor can read whether the workflow behind it is still running."
+      },
       "InternalUnderwritingCanRetryDTO": {
         "properties": {
           "can_retry": {
