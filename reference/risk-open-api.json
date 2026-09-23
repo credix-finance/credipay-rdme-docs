@@ -2813,7 +2813,7 @@
             "examples": [
               "Credit limit increase request expired after 1200 seconds",
               "Buyer is eligible for desired credit limit",
-              "Internal error during analysis"
+              "Não foi possível processar a solicitação no momento. Tente novamente mais tarde."
             ]
           },
           "exposableRejectionReason": {
