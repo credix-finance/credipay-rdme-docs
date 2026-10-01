@@ -4553,6 +4553,84 @@
         "title": "InternalCliKnockoutDTO",
         "description": "What risk-engine needs to raise the guard's real exception, since one cannot cross a step\nboundary. Counts and window belong to ``spam``, the payload to ``not_eligible``."
       },
+      "InternalCliSettlementDTO": {
+        "properties": {
+          "workflow_id": {
+            "type": "string",
+            "title": "Workflow Id",
+            "description": "The durable workflow that owns the row; no other may settle it"
+          },
+          "status": {
+            "$ref": "#/components/schemas/InternalCliSettlementStatusEnum",
+            "description": "The approval the limit was applied for, or Failed when it could not be applied"
+          },
+          "credit_limit_approved_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credit Limit Approved Cents",
+            "description": "The approved limit that was applied, in cents; required for an approval"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "The decision's reason code; approvals only"
+          },
+          "exposable_rejection_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exposable Rejection Reason",
+            "description": "Customer-facing reason from Taktile; approvals only"
+          },
+          "error_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Reason",
+            "description": "Why the limit could not be applied; logged only. Required when status is Failed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "workflow_id",
+          "status"
+        ],
+        "title": "InternalCliSettlementDTO",
+        "description": "The approval the webhook deferred, sent back once its limit is applied, or ``Failed``."
+      },
+      "InternalCliSettlementStatusEnum": {
+        "type": "string",
+        "enum": [
+          "Approved",
+          "Partially Approved",
+          "Failed"
+        ],
+        "title": "InternalCliSettlementStatusEnum",
+        "description": "A deferred approval's outcome: the approval, once applied, or ``Failed``."
+      },
       "InternalCreditLimitIncreaseDTO": {
         "properties": {
           "id": {
