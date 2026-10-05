@@ -33,6 +33,23 @@ paths:
         - none: []
       tags:
         - Buyers
+  /v2/buyers/payment-access/activity:
+    post:
+      operationId: BuyersController_recordBuyerPaymentAccessEvent
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordBuyerPaymentAccessEventRequestDto'
+      responses:
+        '204':
+          description: ''
+      security:
+        - none: []
+      tags:
+        - Buyers
   /v2/buyers:
     get:
       description: Obtém todos os compradores associados a um vendedor.
@@ -1672,6 +1689,37 @@ components:
           type: string
       required:
         - answer
+    RecordBuyerPaymentAccessEventRequestDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - page_viewed
+            - pix_code_copied
+            - pix_qr_shown
+            - boleto_opened
+            - contact_dialog_opened
+            - support_whatsapp_clicked
+        sessionId:
+          type: string
+          description: Random per page load; groups the actions of one visit.
+        repaymentId:
+          type: string
+          description: >-
+            The boleto acted on. Required for boleto and PIX actions, rejected
+            otherwise.
+        copyMethod:
+          type: string
+          enum:
+            - button
+            - manual
+        viewportWidth:
+          type: number
+          description: Browser viewport width in CSS pixels.
+      required:
+        - type
+        - sessionId
     BuyerGroupMemberDto:
       type: object
       properties:
