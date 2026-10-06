@@ -223,49 +223,6 @@
           }
         }
       }
-    },
-    "/v2/credit-limit/auth": {
-      "post": {
-        "tags": [
-          "Credit Limit",
-          "Buyer Platform"
-        ],
-        "summary": "Generate a buyer platform token",
-        "description": "Generate a signed JWT token for embedding the buyer platform on your website.",
-        "operationId": "generate_buyer_platform_token_risk_engine_buyer_platform_buyer_token_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PublicBuyerPlatformTokenRequestDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BuyerPlatformTokenResponseDTO"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
