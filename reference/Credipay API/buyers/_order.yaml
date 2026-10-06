@@ -1,3 +1,4 @@
 - buyerscontroller_getbuyers
 - buyerscontroller_getbuyerpaymentaccesspreview
 - buyerscontroller_submitbuyerpaymentaccessfeedback
+- buyerscontroller_recordbuyerpaymentaccessevent
