@@ -1377,7 +1377,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-10-09'
+            default: '2026-10-11'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -2563,17 +2563,35 @@ components:
             - without
           example: without
         disbursementType:
-          type: string
           description: >-
             Filtrar por tipo de desembolso. Upfront = antecipado; OnDueDate =
-            pós-vencimento; OnBuyerPayment = pós-pagamento. Os valores
-            anteriores (Anticipated, Scheduled, OnPayment) continuam aceitos
-            como sinônimos. Omitir retorna todos.
-          enum:
-            - Upfront
+            pós-vencimento; OnBuyerPayment = pós-pagamento. Multi-select =
+            união: 'Sem antecipação' são os dois valores OnDueDate e
+            OnBuyerPayment. Um valor único continua aceito e é tratado como uma
+            lista de um. Os valores anteriores (Anticipated, Scheduled,
+            OnPayment) continuam aceitos como sinônimos. Omitir retorna todos.
+          oneOf:
+            - type: string
+              enum:
+                - Upfront
+                - OnDueDate
+                - OnBuyerPayment
+                - Anticipated
+                - Scheduled
+                - OnPayment
+            - type: array
+              items:
+                type: string
+                enum:
+                  - Upfront
+                  - OnDueDate
+                  - OnBuyerPayment
+                  - Anticipated
+                  - Scheduled
+                  - OnPayment
+          example:
             - OnDueDate
             - OnBuyerPayment
-          example: OnDueDate
         displayStatus:
           type: array
           description: >-
