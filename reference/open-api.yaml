@@ -1969,8 +1969,7 @@ components:
         pdfUrl:
           type: string
           description: URL para o arquivo PDF do pagamento (boleto).
-          example: >-
-            https://api.starkbank.com/v2/invoice/fb1553149ff34c8db238f36dc64a8232.pdf
+          example: https://example.com/boleto/fb1553149ff34c8db238f36dc64a8232.pdf
         status:
           type: string
           description: Status do pagamento.
