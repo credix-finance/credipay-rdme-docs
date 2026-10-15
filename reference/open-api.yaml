@@ -396,17 +396,15 @@ paths:
                     conclusão do cadastro.
 
 
-                    **Como resolver:** Aguarde a conclusão do onboarding. Se
-                    `context.onboardingStartedAt` estiver vazio, oriente o
-                    comprador a iniciar o cadastro pelo link enviado pela
-                    CrediPay.
+                    **Como resolver:** Aguarde a conclusão do onboarding. Se o
+                    comprador ainda não iniciou o cadastro, oriente-o a usar o
+                    link enviado pela CrediPay.
                   value:
                     message: Buyer is not onboarded.
                     timestamp: '2026-05-18T12:34:56.000Z'
                     context:
                       buyerTaxId: '65413430000008'
                       buyerId: 5b9f3a4b-1c2d-4e5f-8a7b-6c1e2d3a4b5c
-                      onboardingStartedAt: '2026-05-10T09:15:00.000Z'
                       onboardingCompletedAt: null
                     code: BUYER_NOT_ONBOARDED_ERROR
                     path: /v2/orders
@@ -839,17 +837,15 @@ paths:
                     conclusão do cadastro.
 
 
-                    **Como resolver:** Aguarde a conclusão do onboarding. Se
-                    `context.onboardingStartedAt` estiver vazio, oriente o
-                    comprador a iniciar o cadastro pelo link enviado pela
-                    CrediPay.
+                    **Como resolver:** Aguarde a conclusão do onboarding. Se o
+                    comprador ainda não iniciou o cadastro, oriente-o a usar o
+                    link enviado pela CrediPay.
                   value:
                     message: Buyer is not onboarded.
                     timestamp: '2026-05-18T12:34:56.000Z'
                     context:
                       buyerTaxId: '65413430000008'
                       buyerId: 5b9f3a4b-1c2d-4e5f-8a7b-6c1e2d3a4b5c
-                      onboardingStartedAt: '2026-05-10T09:15:00.000Z'
                       onboardingCompletedAt: null
                     code: BUYER_NOT_ONBOARDED_ERROR
                     path: /v2/orders/invoices
