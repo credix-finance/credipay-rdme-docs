@@ -45,7 +45,7 @@ Antes de começar, é necessário configurar as variáveis de ambiente. Para o d
 * CREDIPAY\_API\_KEY -> A chave de API da CrediPay
 * CREDIPAY\_API\_URL -> A URL base do ambiente
 
-Para mais informações, leia [Autenticação e ambientes](https://docs.credipay.credix.finance/update/docs/api-usage-authentication#/)
+Para mais informações, leia [Autenticação e ambientes](https://docs.credipay.credix.finance/docs/api-usage-authentication)
 
 ## Passo 1: Compradores
 
