@@ -25,7 +25,7 @@ next:
 ---
 # Introdução
 
-Para cada uma das etapas descritas no [Ciclo de vida de um pedido](/project/credix-credipay/v2.1/docs/módulos-de-integração), temos uma etapa de integração, a ser descrita nas páginas a seguir - que também incluem a parte de reembolsos e cancelamentos. Nossa recomendação é que sejam implementadas de forma sequencial, dando que existe uma interdependência entra elas. Veja abaixo um breve descritivo de cada uma, e navegue para sua respectiva página para mais detalhes
+Para cada uma das etapas descritas no [Ciclo de vida de um pedido](doc:módulos-de-integração), temos uma etapa de integração, a ser descrita nas páginas a seguir - que também incluem a parte de reembolsos e cancelamentos. Nossa recomendação é que sejam implementadas de forma sequencial, dando que existe uma interdependência entra elas. Veja abaixo um breve descritivo de cada uma, e navegue para sua respectiva página para mais detalhes
 
 # 1. Criação de compradores
 
