@@ -14,7 +14,7 @@ metadata:
 
 A análise acontece em dois momentos possíveis:
 
-* **No login** — se o comprador ainda não foi analisado. Requer [VTEX IO](/project/credix-credipay/v2.1/docs/vtex-io-análise-antecipada).
+* **No login** — se o comprador ainda não foi analisado. Requer [VTEX IO](doc:vtex-io-opcional).
 * **No checkout** — quando ele escolhe transacionar com crédito.
 
 No checkout, três cenários são possíveis: limite suficiente para a transação, limite parcial ou ausência de limite. A integração da CrediPay identifica automaticamente os dois últimos e realiza uma análise de crédito em tempo real usando apenas o CNPJ, atribuindo um novo limite em minutos, sem formulário e sem documento.
@@ -29,7 +29,7 @@ A análise em tempo real leva de 1 a 2 minutos. **Onde** essa espera acontece mu
 
 **Com VTEX IO** — a análise dispara no login e roda em segundo plano enquanto o comprador navega. Quando ele chega ao checkout, o limite já está pronto e não há espera.
 
-Recomendado para lojas de alto volume. Veja [VTEX IO — análise antecipada](/project/credix-credipay/v2.1/docs/vtex-io-análise-antecipada).
+Recomendado para lojas de alto volume. Veja [VTEX IO — análise antecipada](doc:vtex-io-opcional).
 
 ## Reavaliação de crédito
 
@@ -66,6 +66,6 @@ Para cada parcela, a CrediPay gera um boleto com opção de pagamento via PIX.
 
 ***
 
-Sob demanda, a CrediPay pode exibir o limite total e o limite utilizado do comprador dentro do próprio ambiente VTEX. Veja [Recursos adicionais](/project/credix-credipay/v2.1/docs/recursos-adicionais).
+Sob demanda, a CrediPay pode exibir o limite total e o limite utilizado do comprador dentro do próprio ambiente VTEX. Veja [Recursos adicionais](doc:recursos-adicionais).
 
 <br />
