@@ -94,6 +94,6 @@ Substitua `suaconta` pelo vendor definido no passo 2 e confirme as versões com 
 
 Faça login na loja com um CNPJ sem limite ou com limite insuficiente. Navegue por alguns instantes e vá ao checkout. O limite deve estar disponível sem tela de espera.
 
-Próximo passo: [Recursos adicionais](/project/credix-credipay/v2.1/docs/recursos-adicionais).
+Próximo passo: [Recursos adicionais](doc:recursos-adicionais).
 
 <br />
