@@ -67,7 +67,7 @@ O time da CrediPay envia uma **App Key** e um **App Token** exclusivos da sua lo
 
 Por padrão, a condição criada aceita apenas pagamento à vista. Para liberar o parcelamento é preciso uma chamada à API de instalações da VTEX. **Esta etapa é executada pelo time da CrediPay** — você só precisa fornecer os dados abaixo.
 
-* `accountName` — o mesmo enviado no início da [configuração](/project/credix-credipay/v2.1/docs/configuração-da-integração)
+* `accountName` — o mesmo enviado no início da [configuração](doc:configuração-da-integração)
 * `affiliationId` — da URL do provedor de pagamento, item 1 desta página
 * `paymentSystemId` — da URL do pagamento customizado, item 2. Número entre 201 e 205
 * `ruleId` — da URL da condição de pagamento, item 3
@@ -93,6 +93,6 @@ Se optar pelo cookie em vez de uma chave de Admin:
 
 Abra a loja, adicione um item ao carrinho e vá ao checkout com um CNPJ já aprovado. O meio **Boleto a prazo** deve aparecer, com as opções de parcelamento e as datas de vencimento visíveis.
 
-Se não aparecer, veja [Solução de problemas](/project/credix-credipay/v2.1/docs/solução-de-problemas).
+Se não aparecer, veja [Solução de problemas](doc:solução-de-problemas).
 
 <br />
