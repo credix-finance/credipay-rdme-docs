@@ -50,7 +50,7 @@ Não possui acesso? Siga o passo a passo descrito [aqui](https://docs.credipay.c
 
 ## Como adicionar um endpoint
 
-1. Acesse a aba Webhooks no Portal do Vendedor. Se você ainda não possui uma conta, veja [Criando sua conta no portal do vendedor](/project/credix-credipay/v2.1/docs/setting-up-the-platform)
+1. Acesse a aba Webhooks no Portal do Vendedor. Se você ainda não possui uma conta, veja [Criando sua conta no portal do vendedor](doc:setting-up-the-platform)
 2. Informe a URL que receberá os webhooks.
 3. Selecione os eventos que deseja receber (ou deixe em branco para receber todos).
 
