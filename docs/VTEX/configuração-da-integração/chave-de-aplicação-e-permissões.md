@@ -77,6 +77,6 @@ O PCI Gateway é o módulo de pagamentos da VTEX. É onde o conector vive e onde
 
 Depois de salvar, confirme com o time da CrediPay antes de seguir. Um teste rápido: peça à CrediPay para consultar um pedido da sua loja pela API. Se retornar, o acesso está correto.
 
-Próximo passo: [Provedor e meio de pagamento](/project/credix-credipay/v2.1/docs/provedor-e-meio-de-pagamento).
+Próximo passo: [Provedor e meio de pagamento](doc:provedor-e-meio-de-pagamento).
 
 <br />
