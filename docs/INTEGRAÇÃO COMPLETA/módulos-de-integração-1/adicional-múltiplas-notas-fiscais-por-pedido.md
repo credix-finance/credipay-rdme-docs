@@ -98,7 +98,7 @@ Endpoint de Consulta de Pedido:`GET GET /v2/orders/{id}`
 Para enviar a Nota Fiscal e sinalizar que aquele pedido receberá mais notas no futuro, você deve utilizar o endpoint de Captura enviando o arquivo XML e passando o parâmetro que indica a continuidade (flag ativa). Ao realizar esta requisição com a flag indicando mais envios (ex: **isPartialCapture: true** no payload da requisição), a plataforma processa a nota e altera o status do pedido para indicar que a captura ainda está em andamento.
 
 Endpoint de Captura:
-Ver referência na [Documentação da API (Capture Order)](https://docs.credipay.credix.finance/update/reference/orderscontroller_captureorder)
+Ver referência na [Documentação da API (Capture Order)](https://docs.credipay.credix.finance/reference/orderscontroller_captureorder)
 
 ```http
 POST /v2/orders/{id}/capture
