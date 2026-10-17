@@ -16,7 +16,7 @@ next:
 ---
 # Introdução
 
-Um pedido na CrediPay passa por três etapas principais: Criação, Formalização e Pagamento. Temos leves mudanças nesse fluxo dependendo do canal de venda, e-commerce ou televendas (mais detalhes em [Canais de vendas](/project/credix-credipay/v2.1/docs/canais-de-vendas). Abaixo, temos uma visão simplificada do que ocorre para que um ciclo seja completo, em cada um dos canais. Essa diferença entre os fluxos tem um impacto direto na integração - mais detalhes podem ser encontrados nas [Etapas de Integração](/project/credix-credipay/v2.1/docs/módulos-de-integração-1)
+Um pedido na CrediPay passa por três etapas principais: Criação, Formalização e Pagamento. Temos leves mudanças nesse fluxo dependendo do canal de venda, e-commerce ou televendas (mais detalhes em [Canais de vendas](doc:canais-de-vendas). Abaixo, temos uma visão simplificada do que ocorre para que um ciclo seja completo, em cada um dos canais. Essa diferença entre os fluxos tem um impacto direto na integração - mais detalhes podem ser encontrados nas [Etapas de Integração](doc:módulos-de-integração-1)
 
 ## Ciclo de vida de um pedido via e-commerce
 
