@@ -106,6 +106,6 @@ Existem **3 formas** de fazer esse envio, escolha a que melhor se encaixa na sua
 
 ***
 
-A página [Solução de problemas](/project/credix-credipay/v2.1/docs/solução-de-problemas) lista os sintomas mais comuns, a causa provável de cada um e como corrigir.
+A página [Solução de problemas](doc:solução-de-problemas) lista os sintomas mais comuns, a causa provável de cada um e como corrigir.
 
 <br />
