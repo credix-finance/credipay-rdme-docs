@@ -116,7 +116,7 @@ Agora, precisamos nos assegurar que, assim que o usuário submeter o pedido, ele
 Para isso, o primeiro passo é integrar o endpoint de criação de pedidos:
 
 <Accordion title="Prompt 2.4: Implementando o endpoint de pedidos" icon="fa-info-circle">
-  Na nossa integracao com a credipay @credipay.ts , implemente agora o endpoint de criacao de pedidos @[https://docs.credipay.credix.finance/reference/orderscontroller\_postorder.md](https://docs.credipay.credix.finance/reference/orderscontroller_postorder.md) . Certifique-se de autenticar corretamente @[https://docs.credipay.credix.finance/docs/api-usage-authentication.md](https://docs.credipay.credix.finance/docs/api-usage-authentication.md) .
+  Na nossa integracao com a credipay @credipay.ts , implemente agora o endpoint de criacao de pedidos @[https://docs.credipay.credix.finance/reference/orderscontroller\_postorder.md](https://docs.credipay.credix.finance/reference/post-create-order.md) . Certifique-se de autenticar corretamente @[https://docs.credipay.credix.finance/docs/api-usage-authentication.md](https://docs.credipay.credix.finance/docs/api-usage-authentication.md) .
 </Accordion>
 
 Em seguida aplicar ao nosso fluxo:
@@ -142,7 +142,7 @@ A última etapa a ser integrada é a de faturamento. Como nosso ERP demonstrativ
 Como de costume, vamos começar integrando o endpoint para captura do XML:
 
 <Accordion title="Prompt 3.1: Implementando endpoint de captura de XML" icon="fa-info-circle">
-  Na nossa integracao com a credipay @credipay.ts , implemente agora o endpoint de captura de xmls @[https://docs.credipay.credix.finance/reference/orderscontroller\_captureorder.md](https://docs.credipay.credix.finance/reference/orderscontroller_captureorder.md) . Certifique-se de autenticar corretamente (@[https://docs.credipay.credix.finance/docs/api-usage-authentication.md](https://docs.credipay.credix.finance/docs/api-usage-authentication.md)   )
+  Na nossa integracao com a credipay @credipay.ts , implemente agora o endpoint de captura de xmls @[https://docs.credipay.credix.finance/reference/orderscontroller\_captureorder.md](https://docs.credipay.credix.finance/reference/post-capture-order.md) . Certifique-se de autenticar corretamente (@[https://docs.credipay.credix.finance/docs/api-usage-authentication.md](https://docs.credipay.credix.finance/docs/api-usage-authentication.md)   )
   Tenha em mente que:
 
   * O id do pedido enviado no URL é o ID do pedido na CrediPay
