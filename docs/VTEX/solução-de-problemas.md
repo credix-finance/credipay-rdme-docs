@@ -17,7 +17,7 @@ Verifique, nesta ordem:
 
 * **A condição de pagamento existe e está ativa** — em Configurações de pagamento → Condições.
 * **Já se passaram 10 minutos desde que você salvou** — a VTEX leva até 10 min para propagar.
-* **O provedor CrediPay está salvo com App Key e App Token corretos** — veja [Provedor e meio de pagamento](/project/credix-credipay/v2.1/docs/provedor-e-meio-de-pagamento).
+* **O provedor CrediPay está salvo com App Key e App Token corretos** — veja [Provedor e meio de pagamento](doc:provedor-e-meio-de-pagamento).
 * **O comprador tem limite disponível** — consulte o CNPJ no dashboard da CrediPay.
 
 ### O comprador seleciona CrediPay e a compra falha
@@ -34,7 +34,7 @@ A etapa de habilitação das parcelas não foi executada, ou foi executada com u
 
 ### As parcelas aparecem, mas sem datas de vencimento
 
-A [interface personalizada de checkout](/project/credix-credipay/v2.1/docs/instalação-dos-apps) não está instalada ou a personalização não foi ativada. Verifique se `vtex.checkout-ui-custom` está instalado e se o script na aba JS está ativo.
+A [interface personalizada de checkout](doc:instalação-dos-apps) não está instalada ou a personalização não foi ativada. Verifique se `vtex.checkout-ui-custom` está instalado e se o script na aba JS está ativo.
 
 ## Nota fiscal e desembolso
 
@@ -45,11 +45,11 @@ A [interface personalizada de checkout](/project/credix-credipay/v2.1/docs/insta
 O gatilho do desembolso é a **NF-e**, não o pedido. Sem nota, o limite do comprador fica reservado e o vendedor não recebe.
 
 * **A nota foi emitida e registrada na VTEX** — confira no Admin VTEX, no pedido, na aba de notas.
-* **A permissão Notify invoice está no perfil CrediPay** — veja [Chave de aplicação e permissões](/project/credix-credipay/v2.1/docs/chave-de-aplicação-e-permissões).
+* **A permissão Notify invoice está no perfil CrediPay** — veja [Chave de aplicação e permissões](doc:chave-de-aplicação-e-permissões).
 * **O&#x20;**`invoiceUrl`**&#x20;é público e termina em&#x20;**`.xml` — abra a URL em uma janela anônima. Se pedir login, a CrediPay não consegue ler.
 * **O XML contém a tag&#x20;**`nfeProc` — XML de pré-autorização é recusado.
 
-Pedidos aguardando nota aparecem nos [Relatórios](/project/credix-credipay/v2.1/docs/relatórios).
+Pedidos aguardando nota aparecem nos [Relatórios](doc:relatórios).
 
 ### A nota foi enviada mas recusada na validação
 
@@ -60,7 +60,7 @@ Pedidos aguardando nota aparecem nos [Relatórios](/project/credix-credipay/v2.1
 
 ### O comprador recebeu dois boletos
 
-O ERP está emitindo boleto além da CrediPay. Configure no ERP um meio de pagamento específico para a CrediPay que **não gere cobrança**. Veja [Configuração da integração](/project/credix-credipay/v2.1/docs/configuração-da-integração).
+O ERP está emitindo boleto além da CrediPay. Configure no ERP um meio de pagamento específico para a CrediPay que **não gere cobrança**. Veja [Configuração da integração](doc:configuração-da-integração).
 
 ## Cancelamento e reembolso
 
@@ -72,7 +72,7 @@ Verifique se as permissões **Cancel order** e **Notify refund** estão no perfi
 
 ### O comprador pediu reembolso direto para a CrediPay
 
-A CrediPay não processa reembolso solicitado pelo comprador. O pedido precisa partir do vendedor, informando o pedido e o valor. Veja [Cancelamentos & reembolsos](/project/credix-credipay/v2.1/docs/cancelamentos-reembolsos).
+A CrediPay não processa reembolso solicitado pelo comprador. O pedido precisa partir do vendedor, informando o pedido e o valor. Veja [Cancelamentos & reembolsos](doc:cancelamentos-reembolsos).
 
 ## Ainda com problema?
 
