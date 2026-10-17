@@ -56,7 +56,7 @@ Duas permissões precisam estar no perfil de acesso da CrediPay para que isso fu
 * **Notify refund** — sem ela, a CrediPay não sabe que precisa reverter o ativo.
 * **Cancel order** — sem ela, cancelamentos anteriores à NF não liberam a reserva de limite.
 
-Veja [Chave de aplicação e permissões](/project/credix-credipay/v2.1/docs/chave-de-aplicação-e-permissões).
+Veja [Chave de aplicação e permissões](doc:chave-de-aplicação-e-permissões).
 
 <Callout icon="🚧" theme="warn">
   ### Origem do pedido
