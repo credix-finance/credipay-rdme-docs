@@ -72,6 +72,6 @@ Confirme que `credixpartnerbr.credipay` está na versão mais recente. Se estive
 vtex update
 ```
 
-Próximo passo: [VTEX IO — análise antecipada](/project/credix-credipay/v2.1/docs/vtex-io-análise-antecipada), opcional mas recomendado para lojas de alto volume.
+Próximo passo: [VTEX IO — análise antecipada](doc:vtex-io-opcional), opcional mas recomendado para lojas de alto volume.
 
 <br />
