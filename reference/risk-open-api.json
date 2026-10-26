@@ -2612,6 +2612,17 @@
         "type": "object",
         "title": "CreateNewRTUForFailedRequestsDTO"
       },
+      "CreditLimitIncreaseOriginEnum": {
+        "type": "string",
+        "enum": [
+          "seller_click",
+          "auto_escalation",
+          "slack",
+          "other"
+        ],
+        "title": "CreditLimitIncreaseOriginEnum",
+        "description": "How a credit limit increase request was made."
+      },
       "CreditLimitIncreaseRequestDTO": {
         "properties": {
           "buyerTaxId": {
@@ -4380,6 +4391,53 @@
             ],
             "title": "Auth0 User Id",
             "description": "Auth0 subject of the requesting user, resolved into the row's metadata"
+          },
+          "origin": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CreditLimitIncreaseOriginEnum"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "How the request was made, when the public route let its caller choose it; null derives it from the Slack thread, as the public route does"
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id",
+            "description": "Kong client id of the caller of the public route"
+          },
+          "slack_channel_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slack Channel Id",
+            "description": "Slack channel of the thread the request came from"
+          },
+          "slack_thread_ts": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slack Thread Ts",
+            "description": "Timestamp of the Slack thread the request came from"
           }
         },
         "type": "object",
