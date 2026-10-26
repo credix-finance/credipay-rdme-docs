@@ -3130,6 +3130,12 @@ components:
           type: string
           description: User organization ID.
           example: 123e4567-e89b-12d3-a456-426614174000
+        blocked:
+          type: boolean
+          description: >-
+            Whether the user is blocked from signing in. Only returned when
+            listing users.
+          example: false
       required:
         - id
         - name
