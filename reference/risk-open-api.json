@@ -2136,6 +2136,15 @@
         ],
         "title": "CertificateInfoDTO"
       },
+      "ClassificationDomain": {
+        "type": "string",
+        "enum": [
+          "fraud",
+          "credit"
+        ],
+        "title": "ClassificationDomain",
+        "description": "Which classification owns an enforcement: each one only creates and dismisses its own."
+      },
       "ClassifyEntityRequestDTO": {
         "properties": {
           "on_level": {
@@ -2146,13 +2155,19 @@
             "type": "string",
             "title": "Entity Id"
           },
+          "domain": {
+            "$ref": "#/components/schemas/ClassificationDomain",
+            "default": "fraud"
+          },
           "classification": {
             "type": "string",
             "enum": [
               "TrustedBuyer",
               "Suspect",
               "FraudConfirmed",
-              "Neutral"
+              "Neutral",
+              "Approved",
+              "Restricted"
             ],
             "title": "Classification"
           },
@@ -2162,6 +2177,17 @@
             },
             "type": "array",
             "title": "Flagtypes"
+          },
+          "justification": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Justification"
           }
         },
         "type": "object",
@@ -2171,7 +2197,7 @@
           "classification"
         ],
         "title": "ClassifyEntityRequestDTO",
-        "description": "Request to classify an entity. Neutral means clear all enforcements."
+        "description": "Request to classify an entity. Neutral means clear all enforcements of the chosen domain.\n\n``domain`` picks the classification: fraud (TrustedBuyer, Suspect, FraudConfirmed, Neutral)\nor credit (Approved, Restricted, Neutral)."
       },
       "CloseInvestigationRequestDTO": {
         "properties": {
@@ -2611,6 +2637,16 @@
         },
         "type": "object",
         "title": "CreateNewRTUForFailedRequestsDTO"
+      },
+      "CreditClassification": {
+        "type": "string",
+        "enum": [
+          "Approved",
+          "Restricted",
+          "Neutral"
+        ],
+        "title": "CreditClassification",
+        "description": "Credit classification, independent from the fraud one: a credit refusal is not a fraud flag."
       },
       "CreditLimitIncreaseOriginEnum": {
         "type": "string",
@@ -6545,6 +6581,10 @@
             },
             "type": "array",
             "title": "New Enforcement Types"
+          },
+          "credit_classification": {
+            "$ref": "#/components/schemas/CreditClassification",
+            "default": "Neutral"
           }
         },
         "type": "object",
