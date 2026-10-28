@@ -1909,6 +1909,24 @@
         "title": "BuyerPlatformPresignDocumentsRequestDTO",
         "description": "Request DTO for buyer platform presign document uploads."
       },
+      "BuyerPlatformReceitaPartnersResponseDTO": {
+        "properties": {
+          "partners": {
+            "items": {
+              "$ref": "#/components/schemas/ReceitaPartnerDTO"
+            },
+            "type": "array",
+            "title": "Partners",
+            "description": "Empty when the Receita lists nobody"
+          }
+        },
+        "type": "object",
+        "required": [
+          "partners"
+        ],
+        "title": "BuyerPlatformReceitaPartnersResponseDTO",
+        "description": "Response of the buyer-platform route that lists the token buyer's Receita partners."
+      },
       "BuyerPlatformTokenRequestDTO": {
         "properties": {
           "source": {
@@ -6340,6 +6358,70 @@
         "title": "PublicBuyerPlatformTokenRequestDTO",
         "description": "DTO para geração de token do buyer platform por parceiros."
       },
+      "ReceitaPartnerDTO": {
+        "properties": {
+          "partnerId": {
+            "type": "string",
+            "title": "Partnerid",
+            "description": "Opaque id, stable for the same person of the same company. Resolved again on the server."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The person's name as the Receita lists it"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/ReceitaPartnerRoleEnum"
+            },
+            "type": "array",
+            "title": "Roles",
+            "description": "What the person is to the company. Empty when the Receita role maps to none of these."
+          },
+          "receitaRole": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Receitarole",
+            "description": "The Receita description of the role, verbatim"
+          },
+          "represents": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Represents",
+            "description": "Name of the partner this person represents, for legal representatives only"
+          }
+        },
+        "type": "object",
+        "required": [
+          "partnerId",
+          "name",
+          "roles"
+        ],
+        "title": "ReceitaPartnerDTO",
+        "description": "One person the Receita lists on a company's registration. Never carries a CPF."
+      },
+      "ReceitaPartnerRoleEnum": {
+        "type": "string",
+        "enum": [
+          "partner",
+          "administrator",
+          "legal_representative",
+          "owner"
+        ],
+        "title": "ReceitaPartnerRoleEnum"
+      },
       "SanctionsBatchCheckRequestDTO": {
         "properties": {
           "buyers_batch": {
@@ -6554,6 +6636,24 @@
           "status"
         ],
         "title": "SellerFieldsDTO"
+      },
+      "SellerReceitaPartnersResponseDTO": {
+        "properties": {
+          "partners": {
+            "items": {
+              "$ref": "#/components/schemas/ReceitaPartnerDTO"
+            },
+            "type": "array",
+            "title": "Partners",
+            "description": "Empty when the Receita lists nobody"
+          }
+        },
+        "type": "object",
+        "required": [
+          "partners"
+        ],
+        "title": "SellerReceitaPartnersResponseDTO",
+        "description": "Response of the seller-platform route that lists a buyer's Receita partners."
       },
       "SuccessfullReclassificaiton": {
         "properties": {
