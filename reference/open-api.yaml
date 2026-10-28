@@ -1400,9 +1400,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SellerDisbursementsResponseDto'
+      security:
+        - auth0_jwt: []
+        - api_key: []
       summary: Buscar repasses de vendedores
       tags:
         - Disbursements
+      x-credix-security:
+        scopes:
+          - read:disbursements
+        onProviders:
+          - auth0_jwt
+          - api_key
+        keyNames:
+          - x-credipay-api-key
+        apiKeyAcls:
+          - seller
   /v2/users:
     get:
       description: Lista os usuários ativos da organização autenticada.
