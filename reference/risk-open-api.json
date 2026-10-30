@@ -2217,6 +2217,146 @@
         "title": "ClassifyEntityRequestDTO",
         "description": "Request to classify an entity. Neutral means clear all enforcements of the chosen domain.\n\n``domain`` picks the classification: fraud (TrustedBuyer, Suspect, FraudConfirmed, Neutral)\nor credit (Approved, Restricted, Neutral)."
       },
+      "CliRequestDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "buyerTaxId": {
+            "type": "string",
+            "title": "Buyertaxid"
+          },
+          "sellerTaxId": {
+            "type": "string",
+            "title": "Sellertaxid"
+          },
+          "sellerName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sellername",
+            "description": "Null when core-api could not resolve the seller"
+          },
+          "requester": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CliRequesterDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Null when the request records nobody; only seller platform and Retool requests do"
+          },
+          "requestedAt": {
+            "type": "string",
+            "title": "Requestedat",
+            "description": "When the request was created, in UTC"
+          },
+          "updatedAt": {
+            "type": "string",
+            "title": "Updatedat",
+            "description": "When the request last changed, in UTC"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "The stored status name, such as PartiallyApproved"
+          },
+          "sentToManualReview": {
+            "type": "boolean",
+            "title": "Senttomanualreview",
+            "description": "A Rejected status whose reason hands the request to a person instead of refusing it"
+          },
+          "requestedCents": {
+            "type": "integer",
+            "title": "Requestedcents",
+            "description": "What the seller typed, either the increase or the new total; nothing says which"
+          },
+          "approvedLimitCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Approvedlimitcents",
+            "description": "The group's total limit the decision returned, as stored; refusals stopped carrying it in mid 2026"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "The stored reason, never the seller-facing text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "buyerTaxId",
+          "sellerTaxId",
+          "requestedAt",
+          "updatedAt",
+          "status",
+          "sentToManualReview",
+          "requestedCents"
+        ],
+        "title": "CliRequestDTO",
+        "description": "One credit limit increase request, as stored, for an analyst reviewing the buyer."
+      },
+      "CliRequesterDTO": {
+        "properties": {
+          "userId": {
+            "type": "string",
+            "title": "Userid",
+            "description": "The core user id recorded on the request"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Null when core-api could not resolve the user"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Null when core-api could not resolve the user"
+          }
+        },
+        "type": "object",
+        "required": [
+          "userId"
+        ],
+        "title": "CliRequesterDTO",
+        "description": "The logged-in person who asked for the increase."
+      },
       "CloseInvestigationRequestDTO": {
         "properties": {
           "status": {
@@ -3556,6 +3696,39 @@
         ],
         "title": "DomainEnum",
         "description": "Enum representing the domain/nature of a flag type.\n\n- fraud: Flags related to fraudulent activities or suspicious behavior\n- credit: Flags related to credit risk assessment and creditworthiness\n- generic: General-purpose flags that can apply across multiple domains\n- classification: Flags related to entity classification outcomes"
+      },
+      "EconomicGroupCliRequestsResponseDTO": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Every request of the group, including those past the listed ones"
+          },
+          "countsByOutcome": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Countsbyoutcome",
+            "description": "Every request of the group by outcome: Approved, PartiallyApproved, Rejected, ManualReview, Knockout, Failed or InProgress. An outcome with no request is absent."
+          },
+          "requests": {
+            "items": {
+              "$ref": "#/components/schemas/CliRequestDTO"
+            },
+            "type": "array",
+            "title": "Requests",
+            "description": "Newest first, up to the limit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "countsByOutcome",
+          "requests"
+        ],
+        "title": "EconomicGroupCliRequestsResponseDTO",
+        "description": "Every credit limit increase request of an economic group's buyers, newest first."
       },
       "EnforcementDTO": {
         "properties": {
