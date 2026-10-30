@@ -55,15 +55,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/v2/credit-limit/request/{creditUnderwritingId}": {
@@ -74,14 +66,6 @@
         "summary": "Obter uma solicitação de limite de crédito",
         "description": "Obtenha uma solicitação de limite de crédito pelo ID (UUID)",
         "operationId": "get_credit_underwrite_request_risk_engine_credit_underwrite_request__creditUnderwritingId__get",
-        "security": [
-          {
-            "APIKeyHeader": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "creditUnderwritingId",
@@ -159,15 +143,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/v2/credit-limit/increase/{cliRequestId}": {
@@ -178,14 +154,6 @@
         "summary": "Obter uma solicitação de aumento de limite de crédito",
         "description": "Obtenha uma solicitação de aumento de limite de crédito pelo ID (UUID)",
         "operationId": "get_credit_limit_increase_request_risk_engine_credit_limit_increase_request__cliRequestId__get",
-        "security": [
-          {
-            "APIKeyHeader": []
-          },
-          {
-            "HTTPBearer": []
-          }
-        ],
         "parameters": [
           {
             "name": "cliRequestId",
@@ -1939,8 +1907,7 @@
             "type": "string",
             "enum": [
               "buyer",
-              "seller",
-              "admin"
+              "seller"
             ],
             "title": "Role",
             "description": "Role associated with token permissions"
@@ -2036,7 +2003,6 @@
             "description": "Optional display name of the seller-side operator, captured at request time"
           }
         },
-        "additionalProperties": true,
         "type": "object",
         "required": [
           "source",
