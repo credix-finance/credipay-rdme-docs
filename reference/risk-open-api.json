@@ -1853,6 +1853,56 @@
         "type": "object",
         "title": "BrowserCheck"
       },
+      "BuyerPlatformInfoRequestDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Info request id. The Open Finance connection carries it back."
+          },
+          "status": {
+            "$ref": "#/components/schemas/BuyerPlatformInfoRequestStatusEnum",
+            "description": "open while the ask waits for the buyer's answer; under_review for 30 days after the answer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "title": "BuyerPlatformInfoRequestDTO",
+        "description": "The ask the buyer platform shows the token buyer: connect a bank or send statements."
+      },
+      "BuyerPlatformInfoRequestResponseDTO": {
+        "properties": {
+          "infoRequest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BuyerPlatformInfoRequestDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The buyer's ask while open or under review. Null when the buyer was never asked, the ask was reviewed, or the answer is older than 30 days."
+          }
+        },
+        "type": "object",
+        "required": [
+          "infoRequest"
+        ],
+        "title": "BuyerPlatformInfoRequestResponseDTO",
+        "description": "Response of the buyer-platform route that tells whether an ask is open for the token buyer."
+      },
+      "BuyerPlatformInfoRequestStatusEnum": {
+        "type": "string",
+        "enum": [
+          "open",
+          "under_review"
+        ],
+        "title": "BuyerPlatformInfoRequestStatusEnum"
+      },
       "BuyerPlatformPresignDocumentsRequestDTO": {
         "properties": {
           "documents": {
