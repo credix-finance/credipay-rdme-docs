@@ -3058,6 +3058,232 @@
         ],
         "title": "CreditLimitIncreaseResultDTO"
       },
+      "CreditReviewQueueItemDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "description": "limit_approvals_card or analyst_tag"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "open, approved, partially_approved, denied or withdrawn"
+          },
+          "buyerTaxId": {
+            "type": "string",
+            "title": "Buyertaxid"
+          },
+          "buyerName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Buyername",
+            "description": "Only Limit Approvals cards name the buyer"
+          },
+          "sellerTaxId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sellertaxid",
+            "description": "Only Limit Approvals cards name the seller"
+          },
+          "sellerName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sellername"
+          },
+          "requesterSlackUserId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requesterslackuserid",
+            "description": "Slack user who wrote the request; null for cards"
+          },
+          "requestedAmountCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requestedamountcents",
+            "description": "Null when the request gives no amount"
+          },
+          "currentLimitCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currentlimitcents",
+            "description": "The limit a Limit Approvals card showed when posted; null for tagged requests"
+          },
+          "openedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Openedat",
+            "description": "When the request reached an analyst, in UTC"
+          },
+          "decidedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decidedat",
+            "description": "When the sweep first saw the decision"
+          },
+          "decidedBySlackUserId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decidedbyslackuserid"
+          },
+          "decisionReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decisionreason"
+          },
+          "slackUrl": {
+            "type": "string",
+            "title": "Slackurl",
+            "description": "Opens the card or the message that tagged the analyst"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source",
+          "status",
+          "buyerTaxId",
+          "openedAt",
+          "slackUrl"
+        ],
+        "title": "CreditReviewQueueItemDTO",
+        "description": "One request in the credit analysis channel that an analyst must decide."
+      },
+      "CreditReviewQueueResponseDTO": {
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/CreditReviewQueueSourceStatusDTO"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CreditReviewQueueItemDTO"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source",
+          "items"
+        ],
+        "title": "CreditReviewQueueResponseDTO",
+        "description": "The queue's requests of one status, oldest first, with the state of the source that fills it."
+      },
+      "CreditReviewQueueSourceStatusDTO": {
+        "properties": {
+          "lastSucceededAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastsucceededat",
+            "description": "Null before the first successful sweep"
+          },
+          "lastFailedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastfailedat"
+          },
+          "lastError": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lasterror",
+            "description": "The last failure; it only matters while lastFailedAt is after lastSucceededAt"
+          },
+          "failing": {
+            "type": "boolean",
+            "title": "Failing",
+            "description": "The latest sweep failed, so the queue may be missing requests"
+          }
+        },
+        "type": "object",
+        "required": [
+          "failing"
+        ],
+        "title": "CreditReviewQueueSourceStatusDTO",
+        "description": "Whether the Slack sweep that fills the queue is working."
+      },
       "CreditUnderwritingRequestDTO": {
         "properties": {
           "buyerTaxId": {
@@ -5026,6 +5252,45 @@
         ],
         "title": "InternalCreditLimitIncreaseDTO",
         "description": "A credit-limit-increase row. Carries the full caller-facing field set, because the handler\nwaiting on the verdict answers the seller from it."
+      },
+      "InternalCreditReviewQueueSweepDTO": {
+        "properties": {
+          "threads_read": {
+            "type": "integer",
+            "title": "Threads Read",
+            "description": "Threads the sweep read in full",
+            "examples": [
+              0,
+              12
+            ]
+          },
+          "opened": {
+            "type": "integer",
+            "title": "Opened",
+            "description": "Requests that entered the queue",
+            "examples": [
+              0,
+              1
+            ]
+          },
+          "closed": {
+            "type": "integer",
+            "title": "Closed",
+            "description": "Open requests that were decided or withdrawn",
+            "examples": [
+              0,
+              1
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "threads_read",
+          "opened",
+          "closed"
+        ],
+        "title": "InternalCreditReviewQueueSweepDTO",
+        "description": "What one sweep of the credit analysis channel did to the Credit Review queue."
       },
       "InternalCreditUnderwritingDTO": {
         "properties": {
