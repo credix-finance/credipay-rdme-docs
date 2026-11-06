@@ -1657,13 +1657,25 @@ components:
           type: string
           description: CNPJ do comprador.
           example: '56596567000127'
+        economicGroupId:
+          type: string
+          description: ID do grupo econômico do comprador. (UUID)
+          example: b1ffcd5c-2a4e-4c3b-9d6a-8f7e6a9f0c3a
         availableCreditLimitAmountCents:
           type: number
-          description: Limite de crédito disponível do comprador em centavos.
+          description: >-
+            Limite de crédito disponível, em centavos. O valor pertence ao grupo
+            econômico do comprador e é compartilhado por todos os CNPJs do
+            grupo: não some este valor entre CNPJs do mesmo grupo
+            (`economicGroupId`).
           example: 100000
         creditLimitAmountCents:
           type: number
-          description: Limite de crédito do comprador em centavos.
+          description: >-
+            Limite de crédito total, em centavos. O valor pertence ao grupo
+            econômico do comprador e é compartilhado por todos os CNPJs do
+            grupo: não some este valor entre CNPJs do mesmo grupo
+            (`economicGroupId`).
           example: 100000
         creditLimitUpdatedAt:
           type: string
@@ -1743,6 +1755,7 @@ components:
       required:
         - id
         - taxId
+        - economicGroupId
         - availableCreditLimitAmountCents
         - creditLimitAmountCents
         - creditLimitUpdatedAt
