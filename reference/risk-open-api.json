@@ -3067,7 +3067,7 @@
           "source": {
             "type": "string",
             "title": "Source",
-            "description": "limit_approvals_card or analyst_tag"
+            "description": "limit_approvals_card, analyst_tag or taktile_manual_review"
           },
           "status": {
             "type": "string",
@@ -3196,9 +3196,28 @@
             "title": "Decisionreason"
           },
           "slackUrl": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Slackurl",
-            "description": "Opens the card or the message that tagged the analyst"
+            "description": "Opens the card or the message that tagged the analyst; null for a manual review in Taktile"
+          },
+          "linkUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Linkurl",
+            "description": "Where the analyst decides: the card, the message that tagged the analyst, or the decision in Taktile. Null only for a manual review whose decision link was not written"
           }
         },
         "type": "object",
@@ -3207,11 +3226,10 @@
           "source",
           "status",
           "buyerTaxId",
-          "openedAt",
-          "slackUrl"
+          "openedAt"
         ],
         "title": "CreditReviewQueueItemDTO",
-        "description": "One request in the credit analysis channel that an analyst must decide."
+        "description": "One request the Bolt could not resolve that an analyst must decide."
       },
       "CreditReviewQueueResponseDTO": {
         "properties": {
