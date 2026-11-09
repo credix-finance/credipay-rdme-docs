@@ -2406,6 +2406,36 @@
         "title": "CloseInvestigationRequestDTO",
         "description": "DTO for closing a fraud investigation."
       },
+      "CnpjRootUnderwritingRunsResponseDTO": {
+        "properties": {
+          "cnpjRoot": {
+            "type": "string",
+            "title": "Cnpjroot",
+            "description": "The 8 positions every listed buyer CNPJ starts with"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Every run on the root, including those past the listed ones"
+          },
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/UnderwritingRunSummaryDTO"
+            },
+            "type": "array",
+            "title": "Runs",
+            "description": "Newest first, up to the limit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cnpjRoot",
+          "total",
+          "runs"
+        ],
+        "title": "CnpjRootUnderwritingRunsResponseDTO",
+        "description": "Every underwriting run on a CNPJ root, newest first."
+      },
       "CreateCRREnforcementRequestDTO": {
         "properties": {
           "entity_id": {
@@ -6807,6 +6837,150 @@
         "title": "PresignDocumentsResponseDTO",
         "description": "Response DTO for presigning document uploads."
       },
+      "ProposalSummaryDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The proposal's grouped request id, shared by every run of the proposal"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name the proposal was created with"
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Createdat",
+            "description": "When the proposal was created, in UTC"
+          },
+          "sellerTaxIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sellertaxids",
+            "description": "The seller CNPJs of the proposal's runs; empty with no run"
+          },
+          "runCount": {
+            "type": "integer",
+            "title": "Runcount",
+            "description": "Every run of the proposal"
+          },
+          "finishedCount": {
+            "type": "integer",
+            "title": "Finishedcount",
+            "description": "Runs whose latest attempt finished"
+          },
+          "eligibleCount": {
+            "type": "integer",
+            "title": "Eligiblecount",
+            "description": "Runs the engine found eligible"
+          },
+          "limitAboveZeroCount": {
+            "type": "integer",
+            "title": "Limitabovezerocount",
+            "description": "Runs whose suggested limit is above zero"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "createdAt",
+          "sellerTaxIds",
+          "runCount",
+          "finishedCount",
+          "eligibleCount",
+          "limitAboveZeroCount"
+        ],
+        "title": "ProposalSummaryDTO",
+        "description": "A seller proposal: the CNPJs a seller sent to the risk engine in one named batch, with counts over every run."
+      },
+      "ProposalUnderwritingRunsResponseDTO": {
+        "properties": {
+          "proposal": {
+            "$ref": "#/components/schemas/ProposalSummaryDTO",
+            "description": "The proposal, with counts over every one of its runs"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The runs the CNPJ filter matches, or every run without a filter"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page",
+            "description": "The page listed, from 1"
+          },
+          "pageSize": {
+            "type": "integer",
+            "title": "Pagesize",
+            "description": "Runs per page"
+          },
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/UnderwritingRunSummaryDTO"
+            },
+            "type": "array",
+            "title": "Runs",
+            "description": "Newest first"
+          }
+        },
+        "type": "object",
+        "required": [
+          "proposal",
+          "total",
+          "page",
+          "pageSize",
+          "runs"
+        ],
+        "title": "ProposalUnderwritingRunsResponseDTO",
+        "description": "One page of a proposal's underwriting runs, newest first, under the proposal's counts."
+      },
+      "ProposalsResponseDTO": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Every proposal, including those on other pages"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page",
+            "description": "The page listed, from 1"
+          },
+          "pageSize": {
+            "type": "integer",
+            "title": "Pagesize",
+            "description": "Proposals per page"
+          },
+          "proposals": {
+            "items": {
+              "$ref": "#/components/schemas/ProposalSummaryDTO"
+            },
+            "type": "array",
+            "title": "Proposals",
+            "description": "Newest first"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "page",
+          "pageSize",
+          "proposals"
+        ],
+        "title": "ProposalsResponseDTO",
+        "description": "One page of the seller proposals, newest first."
+      },
       "PublicBuyerPlatformTokenRequestDTO": {
         "properties": {
           "taxId": {
@@ -7401,6 +7575,268 @@
           "status"
         ],
         "title": "UnderwritingFieldsDTO"
+      },
+      "UnderwritingRunFlagDTO": {
+        "properties": {
+          "flagType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flagtype",
+            "description": "The flag's code, such as CR00025"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "What the flag means; the flag's reason when it carries no description"
+          }
+        },
+        "type": "object",
+        "title": "UnderwritingRunFlagDTO",
+        "description": "A flag the decision raised, such as a fraud or bureau signal."
+      },
+      "UnderwritingRunProposalDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The proposal's grouped request id, shared by every run of the proposal"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "The name the proposal was created with"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "UnderwritingRunProposalDTO",
+        "description": "The seller proposal a run was analysed in."
+      },
+      "UnderwritingRunSummaryDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The underwriting run id"
+          },
+          "buyerTaxId": {
+            "type": "string",
+            "title": "Buyertaxid",
+            "description": "The CNPJ the run analysed; a branch keeps its own CNPJ"
+          },
+          "sellerTaxId": {
+            "type": "string",
+            "title": "Sellertaxid",
+            "description": "The CNPJ of the seller the run was analysed for"
+          },
+          "proposal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UnderwritingRunProposalDTO"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Null when the run belongs to no proposal"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Created, Pending, Finished or Failed"
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Createdat",
+            "description": "When the run was created, in UTC"
+          },
+          "completedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completedat",
+            "description": "When the latest attempt returned, in UTC"
+          },
+          "rating": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rating",
+            "description": "The credit rating the engine gave, such as NB_E"
+          },
+          "suggestedLimitCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Suggestedlimitcents",
+            "description": "The limit the engine suggested for this seller, after caps"
+          },
+          "eligible": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Eligible",
+            "description": "Whether the engine found the buyer eligible"
+          },
+          "ineligibilityReasons": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ineligibilityreasons",
+            "description": "The reasons the engine recorded; an empty list means it recorded none"
+          },
+          "btgStatus": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Btgstatus",
+            "description": "BTG's answer, such as AUTORIZADO or REPROVADO"
+          },
+          "btgReasons": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Btgreasons",
+            "description": "BTG's reasons for its answer; an empty list means BTG gave none"
+          },
+          "flags": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/UnderwritingRunFlagDTO"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flags",
+            "description": "The flags the decision raised; an empty list means it raised none"
+          },
+          "credmapLimitCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credmaplimitcents",
+            "description": "The limit Credmap suggested, in cents"
+          },
+          "limitBeforeCapsCents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limitbeforecapscents",
+            "description": "The limit the model gave before the caps cut it"
+          },
+          "flowVersion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flowversion",
+            "description": "The version of the Taktile flow that decided"
+          },
+          "decisionUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decisionurl",
+            "description": "Opens the decision in Taktile"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "buyerTaxId",
+          "sellerTaxId",
+          "status",
+          "createdAt"
+        ],
+        "title": "UnderwritingRunSummaryDTO",
+        "description": "What the risk engine decided in one underwriting run, as its latest attempt left it.\n\nA retry clears the decision outputs before the next attempt, so a field of an earlier attempt never shows.\nNull means the run did not record the value: a field is never filled with zero or an empty list."
       },
       "UploadStatusDocumentRequestDTO": {
         "properties": {
