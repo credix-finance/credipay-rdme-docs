@@ -2823,6 +2823,58 @@
         "title": "CreateInvestigationRequestDTO",
         "description": "DTO for creating a new fraud investigation."
       },
+      "CreateKybInvitationRequestDTO": {
+        "properties": {
+          "buyer_tax_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Buyer Tax Id"
+          },
+          "seller_tax_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Seller Tax Id"
+          },
+          "requester": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Requester"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "buyer_tax_id",
+          "seller_tax_id",
+          "requester"
+        ],
+        "title": "CreateKybInvitationRequestDTO"
+      },
+      "CreateKybInvitationResponseDTO": {
+        "properties": {
+          "invitation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Invitation Id"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "invitation_id",
+          "url",
+          "expires_at"
+        ],
+        "title": "CreateKybInvitationResponseDTO"
+      },
       "CreateNewRTUForFailedRequestsDTO": {
         "properties": {
           "creditUnderwritingIds": {
@@ -5904,6 +5956,548 @@
         "title": "InvestigationResponseDTO",
         "description": "DTO for fraud investigation response."
       },
+      "KybAdminInvitationDTO": {
+        "properties": {
+          "channel": {
+            "type": "string",
+            "title": "Channel"
+          },
+          "sellerTaxId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sellertaxid"
+          },
+          "analystEmail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analystemail"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "firstOpenedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Firstopenedat"
+          },
+          "answeredAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answeredat"
+          },
+          "delivery": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "sending",
+                  "sent",
+                  "no_reachable_phone",
+                  "failed"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delivery"
+          }
+        },
+        "type": "object",
+        "required": [
+          "channel",
+          "sellerTaxId",
+          "analystEmail",
+          "createdAt",
+          "firstOpenedAt",
+          "answeredAt"
+        ],
+        "title": "KybAdminInvitationDTO"
+      },
+      "KybAdminResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "not_started",
+              "draft",
+              "answered",
+              "update_requested"
+            ],
+            "title": "Status"
+          },
+          "consentAcceptedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Consentacceptedat"
+          },
+          "consentTextVersion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Consenttextversion"
+          },
+          "firstAnsweredAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Firstansweredat"
+          },
+          "lastAnsweredAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastansweredat"
+          },
+          "answers": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/KybCurrentAnswerDTO"
+            },
+            "type": "object",
+            "title": "Answers"
+          },
+          "previousVersions": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/KybPreviousAnswerDTO"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Previousversions"
+          },
+          "invitations": {
+            "items": {
+              "$ref": "#/components/schemas/KybAdminInvitationDTO"
+            },
+            "type": "array",
+            "title": "Invitations"
+          },
+          "redoRequests": {
+            "items": {
+              "$ref": "#/components/schemas/KybRedoRequestResponseDTO"
+            },
+            "type": "array",
+            "title": "Redorequests"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "consentAcceptedAt",
+          "consentTextVersion",
+          "firstAnsweredAt",
+          "lastAnsweredAt",
+          "answers",
+          "previousVersions",
+          "invitations",
+          "redoRequests"
+        ],
+        "title": "KybAdminResponseDTO",
+        "description": "Everything about a buyer's KYB form, for the analyst who reviews it."
+      },
+      "KybCurrentAnswerDTO": {
+        "properties": {
+          "value": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Value"
+          },
+          "answeredAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Answeredat"
+          },
+          "photos": {
+            "items": {
+              "$ref": "#/components/schemas/KybPhotoLinkDTO"
+            },
+            "type": "array",
+            "title": "Photos"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value",
+          "answeredAt",
+          "photos"
+        ],
+        "title": "KybCurrentAnswerDTO"
+      },
+      "KybDocumentFileDTO": {
+        "properties": {
+          "mimeType": {
+            "type": "string",
+            "title": "Mimetype"
+          },
+          "size": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "title": "Size"
+          },
+          "originalFilename": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Originalfilename"
+          },
+          "hash": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{64}$",
+            "title": "Hash"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mimeType",
+          "size",
+          "originalFilename",
+          "hash"
+        ],
+        "title": "KybDocumentFileDTO",
+        "description": "One file to upload. Its type and size are checked by the usecase, which answers in Portuguese."
+      },
+      "KybDocumentRequestDTO": {
+        "properties": {
+          "itemKey": {
+            "type": "string",
+            "enum": [
+              "identity_document",
+              "employee_badge",
+              "store_photos"
+            ],
+            "title": "Itemkey"
+          },
+          "photoKind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "storefront",
+                  "building"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Photokind"
+          },
+          "document": {
+            "$ref": "#/components/schemas/KybDocumentFileDTO"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "itemKey",
+          "document"
+        ],
+        "title": "KybDocumentRequestDTO",
+        "description": "Presign one photo for a KYB item. `photo_kind` says which store photo it is, and only store photos have one."
+      },
+      "KybFormResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "not_sent",
+              "sent",
+              "opened",
+              "answered",
+              "update_requested"
+            ],
+            "title": "Status"
+          },
+          "draft": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Draft"
+          },
+          "resume_step": {
+            "type": "integer",
+            "title": "Resume Step"
+          },
+          "redo_items": {
+            "items": {
+              "$ref": "#/components/schemas/KybRedoItemDTO"
+            },
+            "type": "array",
+            "title": "Redo Items"
+          },
+          "consent_text_version": {
+            "type": "string",
+            "title": "Consent Text Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "draft",
+          "resume_step",
+          "redo_items",
+          "consent_text_version"
+        ],
+        "title": "KybFormResponseDTO"
+      },
+      "KybPhotoLinkDTO": {
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Documentid"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "mimeType": {
+            "type": "string",
+            "title": "Mimetype"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expiresat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "documentId",
+          "filename",
+          "mimeType",
+          "url",
+          "expiresAt"
+        ],
+        "title": "KybPhotoLinkDTO",
+        "description": "One stored photo and a short-lived link that reads only that file."
+      },
+      "KybPreviousAnswerDTO": {
+        "properties": {
+          "value": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Value"
+          },
+          "answeredAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Answeredat"
+          },
+          "photos": {
+            "items": {
+              "$ref": "#/components/schemas/KybPhotoLinkDTO"
+            },
+            "type": "array",
+            "title": "Photos"
+          },
+          "supersededAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Supersededat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value",
+          "answeredAt",
+          "photos",
+          "supersededAt"
+        ],
+        "title": "KybPreviousAnswerDTO"
+      },
+      "KybRedoItemDTO": {
+        "properties": {
+          "item_key": {
+            "type": "string",
+            "title": "Item Key"
+          },
+          "instruction": {
+            "type": "string",
+            "title": "Instruction"
+          },
+          "answer": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Answer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "item_key",
+          "instruction",
+          "answer"
+        ],
+        "title": "KybRedoItemDTO",
+        "description": "One item the buyer must answer again: what to do and the answer now on record. Never the reason."
+      },
+      "KybRedoItemsRequestDTO": {
+        "properties": {
+          "item_keys": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "contact",
+                "respondent",
+                "registered_phone",
+                "identity_document",
+                "employee_badge",
+                "email_domain",
+                "web_presence",
+                "marketplaces",
+                "reclame_aqui",
+                "physical_store",
+                "store_photos"
+              ]
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Item Keys"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "item_keys",
+          "reason"
+        ],
+        "title": "KybRedoItemsRequestDTO",
+        "description": "The items an analyst asks the buyer to answer again, and the internal reason."
+      },
+      "KybRedoRequestResponseDTO": {
+        "properties": {
+          "itemKeys": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Itemkeys"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "analystEmail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analystemail"
+          },
+          "requestedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Requestedat"
+          },
+          "resolvedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolvedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "itemKeys",
+          "reason",
+          "analystEmail",
+          "requestedAt",
+          "resolvedAt"
+        ],
+        "title": "KybRedoRequestResponseDTO"
+      },
+      "KybStatusResponseDTO": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "not_sent",
+              "sent",
+              "opened",
+              "answered",
+              "update_requested"
+            ],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "KybStatusResponseDTO"
+      },
       "ListFlagTypesResponseDTO": {
         "properties": {
           "flag_types": {
@@ -7300,6 +7894,67 @@
         ],
         "title": "SellerReceitaPartnersResponseDTO",
         "description": "Response of the seller-platform route that lists a buyer's Receita partners."
+      },
+      "SendKybInvitationRequestDTO": {
+        "properties": {
+          "channel": {
+            "type": "string",
+            "enum": [
+              "whatsapp",
+              "copy"
+            ],
+            "title": "Channel"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "channel"
+        ],
+        "title": "SendKybInvitationRequestDTO"
+      },
+      "SendKybInvitationResponseDTO": {
+        "properties": {
+          "delivery": {
+            "type": "string",
+            "enum": [
+              "sending",
+              "copy"
+            ],
+            "title": "Delivery"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "delivery",
+          "url"
+        ],
+        "title": "SendKybInvitationResponseDTO",
+        "description": "``sending`` while the contact-engine sends the link on WhatsApp; ``copy`` when the analyst copies it."
+      },
+      "SubmitKybFormRequestDTO": {
+        "properties": {
+          "consent_accepted": {
+            "type": "boolean",
+            "title": "Consent Accepted"
+          },
+          "consent_text_version": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Consent Text Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "consent_accepted",
+          "consent_text_version"
+        ],
+        "title": "SubmitKybFormRequestDTO"
       },
       "SuccessfullReclassificaiton": {
         "properties": {
