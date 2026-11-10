@@ -694,6 +694,27 @@ paths:
                     code: ORDER_ADDRESS_CHECK_ERROR
                     path: /v2/orders/invoices
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                BILLING_INVOICE_NOT_FINANCEABLE_ERROR:
+                  summary: NF-e de simples faturamento não pode criar pedido
+                  description: >-
+                    A NF-e enviada é de simples faturamento (CFOP 5922 ou 6922):
+                    fatura uma venda para entrega futura e não movimenta
+                    mercadoria. Ela não é financiada e não traz parcelas para
+                    criar um pedido.
+
+
+                    **Como resolver:** Crie o pedido com `POST /v2/orders`,
+                    envie a NF-e de simples faturamento em `POST
+                    /v2/orders/:id/capture` e depois capture a NF-e de remessa
+                    no mesmo pedido.
+                  value:
+                    message: Billing invoices cannot be financed.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      invoiceNumber: NFe35251112345678000195550010000012341000012345
+                    code: BILLING_INVOICE_NOT_FINANCEABLE_ERROR
+                    path: /v2/orders/invoices
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
                 ORDER_VALIDATION_AGGREGATE_ERROR:
                   summary: Várias validações falharam simultaneamente
                   description: >-
@@ -863,6 +884,15 @@ paths:
         forma assíncrona. Falhas síncronas (estado do pedido, lock em andamento,
         parsing do XML, validações internas de elegibilidade/política) retornam
         imediatamente nesta resposta.
+
+
+        ### NF-e de simples faturamento
+
+        Para organizações habilitadas, uma NF-e de simples faturamento (CFOP
+        5922 ou 6922 em algum item) fica guardada no pedido e nunca é
+        financiada: o pedido não muda de estado e segue aguardando a NF-e de
+        remessa, que é capturada depois pelo mesmo endpoint. Cada pedido guarda
+        uma só NF-e de simples faturamento.
 
 
         ### Formato dos erros
@@ -1100,6 +1130,27 @@ paths:
                     code: ORDER_BUYER_MISMATCH_ERROR
                     path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                ORDER_SELLER_MISMATCH_ERROR:
+                  summary: CNPJ do emitente difere do vendedor do pedido
+                  description: >-
+                    O CNPJ do emitente (`emit.CNPJ`) na NF-e de simples
+                    faturamento não coincide com o CNPJ do vendedor do pedido.
+
+
+                    **Como resolver:** Envie a NF-e emitida pelo mesmo vendedor
+                    do pedido.
+                  value:
+                    message: >-
+                      The seller tax id linked to the order doesn't match the
+                      seller tax id provided in the invoice.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+                      orderSellerTaxId: '12345678000195'
+                      invoiceSellerTaxId: '98765432000110'
+                    code: ORDER_SELLER_MISMATCH_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
         '403':
           description: >-
             A operação não é permitida pela política da CrediPay ou pelo
@@ -1189,6 +1240,26 @@ paths:
                     context:
                       orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
                     code: CAPTURE_IN_PROGRESS_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                ORDER_BILLING_INVOICE_ALREADY_ATTACHED_ERROR:
+                  summary: Pedido já tem NF-e de simples faturamento
+                  description: >-
+                    O pedido já recebeu uma NF-e de simples faturamento (CFOP
+                    5922 ou 6922). Cada pedido guarda uma só; entregas parciais
+                    usam a mesma.
+
+
+                    **Como resolver:** Não reenvie a NF-e de simples
+                    faturamento. Capture a NF-e de remessa, que é a financiada,
+                    no mesmo pedido.
+                  value:
+                    message: The order already has a billing invoice.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      invoiceNumber: NFe35251112345678000195550010000012341000012345
+                      orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+                    code: ORDER_BILLING_INVOICE_ALREADY_ATTACHED_ERROR
                     path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
       summary: Capturar pedido
