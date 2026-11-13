@@ -3175,8 +3175,7 @@ components:
         nextCursor:
           type: string
           nullable: true
-          example: >-
-            eyJkIjoiMjAyNS0wMS0zMVQwMDowMDowMC4wMDBaIiwiaSI6IjxpZD4iLCJwIjpmYWxzZX0
+          example: eyJkIjoiMjAyNS0wMS0zMVQwMDowMDowMC4wMDBaIiwiaSI6IjxpZD4iLCJwIjpmYWxzZX0
           description: >-
             Cursor opaco para buscar a próxima página via parâmetro cursor. Null
             quando não há mais resultados.
