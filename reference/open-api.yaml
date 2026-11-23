@@ -1444,7 +1444,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-11-19'
+            default: '2026-11-23'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -2283,6 +2283,7 @@ components:
             - FullyRefunded
             - WaitingForOtp
             - PartiallyCaptured
+            - WaitingForQuote
             - AwaitingBuyerPayment
             - Scheduled
             - Processing
@@ -2322,6 +2323,7 @@ components:
             - FullyRefunded
             - WaitingForOtp
             - PartiallyCaptured
+            - WaitingForQuote
         invoice:
           description: Campo obsoleto. Use `invoices`.
           deprecated: true
@@ -2525,6 +2527,7 @@ components:
               - FullyRefunded
               - WaitingForOtp
               - PartiallyCaptured
+              - WaitingForQuote
               - AwaitingBuyerPayment
               - Scheduled
               - Processing
@@ -2554,6 +2557,7 @@ components:
             - FullyRefunded
             - WaitingForOtp
             - PartiallyCaptured
+            - WaitingForQuote
         id:
           type: string
           description: ID do pedido.
@@ -2662,6 +2666,7 @@ components:
             - FullyRefunded
             - WaitingForOtp
             - PartiallyCaptured
+            - WaitingForQuote
             - AwaitingBuyerPayment
             - Scheduled
             - Processing
