@@ -273,6 +273,7 @@ components:
             - fully_refunded
             - waiting_for_otp
             - partially_captured
+            - waiting_for_quote
           example: created
         contactInformation:
           description: Contact information.
