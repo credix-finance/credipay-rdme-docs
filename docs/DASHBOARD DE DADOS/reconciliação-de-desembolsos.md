@@ -10,7 +10,7 @@ metadata:
 ---
 ## Como funciona um desembolso
 
-Quando a CrediPay antecipa um recebível, ela realiza uma transferência bancária (TED ou PIX) para a conta do vendedor. Essa transferência é chamada de **desembolso**. Um único desembolso pode consolidar múltiplas Notas Fiscais e duplicatas, dependendo da entidade pagadora.
+A CrediPay paga cada duplicata por transferência bancária (TED ou PIX) para a conta do vendedor. Na antecipação, o pagamento sai logo depois da emissão da NF. No pagamento garantido, ele sai no vencimento da duplicata mais o prazo do contrato, em dias corridos, e passa para o dia útil seguinte quando a data cai em dia não útil. Essa transferência é chamada de **desembolso**. Um único desembolso pode consolidar múltiplas Notas Fiscais e duplicatas, dependendo da entidade pagadora.
 
 ***
 
@@ -22,7 +22,7 @@ Quando a CrediPay antecipa um recebível, ela realiza uma transferência bancár
 
 **3. Cruze com o ERP** Use o campo **Numero ordem** — corresponde ao `orderExternalId` enviado na criação do pedido.
 
-**4. Confira os valores** Some as linhas de _Valor de face_ e _Taxa de desconto_ da mesma NF/parcela. O resultado é o valor líquido recebido por aquela duplicata.
+**4. Confira os valores** Some todas as linhas da mesma NF/parcela: _Valor de face_, _Taxa de desconto_, _Taxa de transacao_ e, se houver, _Reembolso_. O resultado é o valor líquido recebido por aquela duplicata.
 
 > 📘 **Leitura dos valores**
 >
@@ -64,9 +64,9 @@ Cada linha representa uma transação dentro de um desembolso — um par de **NF
 | Tipo                             | Sinal | Descrição                                                                                                                                                                           |
 | -------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Valor de face**                | ➕     | Valor bruto do recebível antecipado — montante total da duplicata conforme emitida na NF.                                                                                           |
-| **Taxa de desconto**             | ➖     | Desconto cobrado pela CrediPay pelo serviço de antecipação, proporcional ao prazo entre desembolso e vencimento. _Valor de face_ + _Taxa de desconto_ = valor líquido da duplicata. |
-| **Taxa de transacao**            | ➖     | Eventuais taxas adicionais cobradas pela operação.                                                                                                                                  |
-| **Reembolso**                    | ➖     | Devolução ao comprador por cancelamento ou ajuste de pedido. Descontado do próximo desembolso do vendedor.                                                                          |
+| **Taxa de desconto**             | ➖     | Só existe na antecipação: desconto proporcional ao prazo entre o desembolso e o vencimento. |
+| **Taxa de transacao**            | ➖     | Tarifa cobrada sobre o valor de face no percentual do contrato, como a do pagamento garantido.                                                                                                                                  |
+| **Reembolso**                    | ➖     | Devolução ao comprador por cancelamento ou ajuste de pedido. Quando a duplicata ainda não foi paga ao vendedor, entra no mesmo repasse que ela. Quando já foi paga, é descontado de um repasse seguinte.                                                                          |
 | **Ajuste reembolso**             | ±     | Correção sobre um reembolso anterior, considerando o tempo decorrido entre o pagamento e a devolução.                                                                               |
 | **Coobrigacao**                  | ➖     | Acionamento da cláusula de coobrigação em caso de inadimplência do comprador.                                                                                                       |
 | **Repagamento apos Coobrigacao** | ➕     | Devolução ao vendedor após recuperação do valor em uma operação de coobrigação.                                                                                                     |
