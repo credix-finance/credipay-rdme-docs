@@ -11,7 +11,7 @@ metadata:
 ---
 ## Descrição Geral
 
-A API de Análise de Crédito oferece avaliação de crédito em tempo real e onboarding automatizado de novos compradores na plataforma da Credix. Substituindo processos manuais por um fluxo de análise totalmente automatizado, ela proporciona aos vendedores visibilidade quase imediata sobre a elegibilidade dos compradores e seus limites de crédito. Com essa integração via API, a Credix permite que seus parceiros acelerem o fluxo de negociações, reduzam a carga operacional e escalem a concessão de créd...
+A API de Análise de Crédito oferece avaliação de crédito em tempo real e onboarding automatizado de novos compradores na plataforma da Credix. Substituindo processos manuais por um fluxo de análise totalmente automatizado, ela mostra aos vendedores, em poucos minutos, se o comprador é elegível e qual o limite de crédito dele. Com essa integração via API, a Credix permite que seus parceiros acelerem o fluxo de negociações, reduzam a carga operacional e escalem a concessão de créd...
 
 ***
 
@@ -84,6 +84,18 @@ Retorna o status de uma solicitação de análise de crédito previamente enviad
   "retry_after": "2025-05-24T19:30:53.044310"
 }
 ```
+
+***
+
+## Quanto tempo leva a análise
+
+Hoje, uma análise nova leva cerca de 2 minutos na metade dos casos. Uma em cada dez passa de 4 minutos. Cerca de 2% passam de 30 minutos, quando a análise precisa ser refeita do nosso lado.
+
+Por isso, trate a análise como assíncrona:
+
+* Dispare a análise antes do checkout, no cadastro ou no login do comprador.
+* Receba o resultado pelo webhook `credit-limit.underwrite.finished`, ou consulte `GET /v2/credit-limit/request/:requestId` até o status deixar de ser `Created` ou `Pending`.
+* Não prenda o comprador no checkout esperando o resultado. Se a análise ainda não terminou, mostre que o crédito está em análise e deixe o comprador seguir com outra forma de pagamento.
 
 ***
 
