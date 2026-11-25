@@ -13,7 +13,7 @@ Opcional, mas recomendado para lojas de alto volume. É a diferença entre o com
 
 Quando um comprador não tem limite suficiente, a CrediPay dispara uma análise em tempo real. Sem VTEX IO, isso acontece **no checkout**, o comprador já escolheu os produtos, já escolheu a forma de pagamento, e é nesse momento que precisa aguardar de 1 a 2 minutos.
 
-**Sem VTEX IO:** login → navega → checkout → consulta de limite → **espera de 1 a 2 min** → confirma → pedido.
+**Sem VTEX IO:** login → navega → checkout → consulta de limite → **espera de alguns minutos** → confirma → pedido.
 
 O comprador é bloqueado no meio da compra. É o ponto de maior abandono de carrinho.
 
