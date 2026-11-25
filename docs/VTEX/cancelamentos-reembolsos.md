@@ -21,7 +21,7 @@ Basta cancelar o pedido. A CrediPay libera a reserva e o limite do comprador vol
 
 ***
 
-Nesse momento a CrediPay já executou o fluxo financeiro: recebeu a nota, emitiu o boleto para o comprador e desembolsou o valor para o vendedor.
+Nesse momento a CrediPay já executou o fluxo financeiro: recebeu a nota, emitiu o boleto para o comprador e, na antecipação, desembolsou o valor para o vendedor. No pagamento garantido, as regras estão na seção própria, abaixo.
 
 ### Cancelamento ou reembolso total
 
@@ -44,6 +44,19 @@ O ajuste acontece na conciliação financeira do repasse seguinte, o vendedor n�
 O pedido continua aberto. A CrediPay **reajusta os boletos** emitidos ou em aberto para refletir o novo valor do pedido, e o limite do comprador é liberado apenas na proporção reembolsada.
 
 O acerto no repasse segue a mesma lógica do reembolso total, aplicada sobre o valor parcial.
+
+## No pagamento garantido (sem antecipação)
+
+***
+
+No pagamento garantido, a CrediPay paga cada duplicata ao vendedor no vencimento mais o prazo do contrato, e não logo depois da nota. Por isso, o reembolso segue outras regras:
+
+* **Só reembolso total** — o pedido é reembolsado inteiro. Um reembolso parcial é recusado.
+* **Só antes do primeiro pagamento** — depois que o comprador paga uma parcela, ou que a CrediPay paga uma duplicata ao vendedor, o pedido não pode mais ser reembolsado.
+* **Prazo do repasse** — o reembolso também é recusado a partir de 2 dias úteis antes do primeiro repasse do pedido.
+* **Nada a reter** — como a CrediPay ainda não pagou o vendedor, não há retenção. O reembolso entra no mesmo repasse da duplicata e anula o valor dela.
+
+Os erros que a API devolve em cada caso estão em [Reembolsar pedido](https://docs.credipay.credix.finance/reference/orderscontroller_refundorder).
 
 ## Como isso se integra ao ERP
 
