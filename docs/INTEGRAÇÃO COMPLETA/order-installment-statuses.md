@@ -21,8 +21,9 @@ O funcionamento do CrediPay é baseado em dois conceitos principais: **Pedidos (
 
 | Status                | Descrição                                                                                                                       |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| **Created**           | Ordem criada com sucesso, aguardando aceitação do cliente via e-mail.                                                           |
-| **WaitingInvoice**    | Aguardando o envio do XML da nota fiscal após a aceitação da ordem. Ao utilizar a v2/orders/invoice, o pedido pula esse status. |
+| **Created**           | Pedido criado, aguardando a confirmação do comprador pelo link enviado por e-mail.                                              |
+| **Accepted**          | Pedido confirmado, aguardando o envio da nota fiscal.                                                                           |
+| **WaitingForInvoice** | Aguardando o envio do XML da nota fiscal após a aceitação da ordem. Ao utilizar a v2/orders/invoice, o pedido pula esse status. |
 | **Captured**          | Ordem concluída com sucesso, com todos os passos finalizados.                                                                   |
 | **ValidationFailed**  | Validação da nota fiscal falhou; é possível reenviar para nova tentativa.                                                       |
 | **Cancelled**         | Ordem cancelada por ação do cliente (antes do envio da NF).                                                                     |
