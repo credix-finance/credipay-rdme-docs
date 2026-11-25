@@ -43,7 +43,7 @@ Nesta etapa, utilizaremos o endpoint **GET v2/buyers** para buscar as condiçõe
 
 ## Confirmação de pedido
 
-Somente para vendedores que trabalham com televendas, temos uma etapa anterior ao envio da Nota Fiscal, que é a confirmação do pedido por parte do comprador. Neste caso, enviaremos ao comprador um e-mail com os dados do pedido, e em um clique, ele poderá dar o seu 'de acordo'. Com isso, o vendedor receberá um webhook **order.confirmed**, assim concluindo esta parte, e passando para a de envio da Nota Fiscal, descrita abaixo.
+Somente para vendedores que trabalham com televendas, temos uma etapa anterior ao envio da Nota Fiscal, que é a confirmação do pedido por parte do comprador. Neste caso, enviaremos ao comprador um e-mail com os dados do pedido, e em um clique, ele poderá dar o seu 'de acordo'. Com isso, o vendedor receberá um webhook **order.buyer.accepted**, assim concluindo esta parte, e passando para a de envio da Nota Fiscal, descrita abaixo.
 
 ## Envio da NF
 
