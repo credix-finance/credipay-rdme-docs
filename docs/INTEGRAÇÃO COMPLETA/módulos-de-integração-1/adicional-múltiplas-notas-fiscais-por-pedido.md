@@ -37,14 +37,14 @@ flowchart TD
     n7 -- "Sim" --> n3a["Envia XML para CrediPay"]
     n3a -- POST v2/orders/{orderId}/capture --> n4a["CrediPay recebe e valida XML"]
     n4a --> n5a{"XML aprovado?"}
-    n5a -- "Não - webhook order.validationFailed" --> n6a["Vendedor apenas recebe feedback"]
+    n5a -- "Não - webhook order.validation.failed" --> n6a["Vendedor apenas recebe feedback"]
     n5a -- "Sim" --> n8["Mantém status como waiting_for_invoice"]
     
     %% Caminho NÃO: Segue para finalização
     n7 -- "Não" --> n3b["Envia XML para CrediPay"]
     n3b -- POST v2/orders/{orderId}/capture --> n4b["CrediPay recebe e valida XML"]
     n4b --> n5b{"XML aprovado?"}
-    n5b -- "Não - webhook order.validationFailed" --> n6b["Vendedor apenas recebe feedback"]
+    n5b -- "Não - webhook order.validation.failed" --> n6b["Vendedor apenas recebe feedback"]
     n5b -- "Sim" --> n11["Altera status para captured"]
 
     %% Caminho do Botão Manual 
