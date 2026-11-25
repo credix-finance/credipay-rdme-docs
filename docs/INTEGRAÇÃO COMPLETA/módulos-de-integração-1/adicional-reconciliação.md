@@ -11,6 +11,8 @@ Para facilitar o processo de reconciliação financeira dos nossos vendedores, d
 
 Com os dados fornecidos, será possível conectar de forma simples e direta cada transferência recebida em sua conta bancária com as respectivas notas fiscais (NFs) e duplicatas que estão sendo liquidadas no seu sistema de gestão (ERP).
 
+Não há webhook de repasse. Consulte o endpoint por janela de datas (`startDate` é obrigatório) e use o `referenceCode` para não processar o mesmo repasse duas vezes.
+
 # Resposta do endpoint
 
 Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
@@ -19,7 +21,7 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
 {
   "data": [
     {
-      "reference": "DESEMBOLSO-CONTRATO-XYZ123",
+      "referenceCode": "DESEMBOLSO-CONTRATO-XYZ123",
       "totalAmountCents": 990000,
       "disbursedAt": "2025-08-27T10:30:00.000Z",
       "seller": {
@@ -46,8 +48,8 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
         {
           "type": "AdvanceFaceValue",
           "amountCents": 1000000,
-          "invoiceKey": "41250812345678000199550010001234561000000015",
-          "invoiceNumber": "123456",
+          "invoiceKey": "0123456",
+          "invoiceNumber": "NFe41250812345678000199550010001234561000000015",
           "maturityDate": "2025-09-15",
           "duplicata": 1,
           "orderExternalId": "PEDIDO-A456"
@@ -55,8 +57,8 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
         {
           "type": "AdvanceDiscount",
           "amountCents": -10000,
-          "invoiceKey": "41250812345678000199550010001234561000000015",
-          "invoiceNumber": "123456",
+          "invoiceKey": "0123456",
+          "invoiceNumber": "NFe41250812345678000199550010001234561000000015",
           "maturityDate": "2025-09-15",
           "duplicata": 1,
           "orderExternalId": "PEDIDO-A456"
@@ -74,7 +76,7 @@ Abaixo, um exemplo de resposta que será retornada ao chamar esse endpoint
 
 Abaixo, um descritivo dos campos presentes no objeto da resposta:
 
-* **reference:** Identificador da transferência bancária
+* **referenceCode:** Identificador da transferência bancária
 * **totalAmountCents:** Valor total da transferência, em centavos
 * **disbursedAt:** Data da transferência
 * **seller:** Dados do vendedor (destinatário da transferência)
@@ -82,12 +84,13 @@ Abaixo, um descritivo dos campos presentes no objeto da resposta:
 * **transactions:** Transações que estão sendo pagas ou cobradas dentro desta transferência
 * **type:** Tipo da transação. Os principais tipos são:
   * AdvanceFaceValue: O valor total do recebível, sobre o qual será aplicada a taxa de desconto.
-  * AdvanceDiscount: O percentual deduzido no momento do desembolso, proporcional ao prazo de pagamento do recebível.
-  * Refund: Se houver um pedido de reembolso por parte do comprador, a CrediPay ajustará os boletos já pagos e descontará esse valor do próximo desembolso.
+  * AdvanceDiscount: O percentual deduzido no momento do desembolso, proporcional ao prazo de pagamento do recebível. Só existe na antecipação; no pagamento garantido, a duplicata não tem essa linha.
+  * TxFee: Tarifa cobrada sobre o valor de face no percentual do contrato, como a do pagamento garantido.
+  * Refund: Valor devolvido ao comprador. Quando a duplicata ainda não foi paga ao vendedor, entra no mesmo repasse que ela. Quando já foi paga, é descontado de um repasse seguinte.
   * RefundDiscountAdjustment: Correção no valor do reembolso com base no tempo decorrido desde o pagamento original.
 * **amountCents:** Valor da transação (o somatório dos valores das transações compõe o valor da transferência). Valores positivos são os pagos ao vendedor, e negativos os cobrados.
-* **invoiceKey:** Chave de 44 dígitos da Nota Fiscal
-* **invoiceNumber:** Número da Nota Fiscal
+* **invoiceKey:** Número da Nota Fiscal (os 7 últimos dígitos)
+* **invoiceNumber:** Chave de acesso da NF-e: `NFe` seguido dos 44 dígitos
 * **maturityDate:** Vencimento da parcela (duplicata)
 * **duplicata:** Número da parcela (duplicata)
 * **orderExternalId:** Identificador externo do pedido
