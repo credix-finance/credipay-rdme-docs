@@ -23,9 +23,9 @@ No checkout, três cenários são possíveis: limite suficiente para a transaç�
 
 ***
 
-A análise em tempo real leva de 1 a 2 minutos. **Onde** essa espera acontece muda bastante a conversão.
+A análise em tempo real leva cerca de 2 minutos, e uma em cada dez passa de 4 minutos. **Onde** essa espera acontece muda bastante a conversão.
 
-**Sem VTEX IO** — login → navega → checkout → consulta de limite → _espera de 1 a 2 min_ → confirma → pedido. O comprador já montou o carrinho e já escolheu a forma de pagamento quando é interrompido. É o ponto de maior abandono.
+**Sem VTEX IO** — login → navega → checkout → consulta de limite → _espera de alguns minutos_ → confirma → pedido. O comprador já montou o carrinho e já escolheu a forma de pagamento quando é interrompido. É o ponto de maior abandono.
 
 **Com VTEX IO** — a análise dispara no login e roda em segundo plano enquanto o comprador navega. Quando ele chega ao checkout, o limite já está pronto e não há espera.
 
