@@ -25,16 +25,18 @@ Os webhooks permitem que sua aplicação receba notificações em tempo real sob
 
 ## Eventos disponíveis
 
-| Evento                    | Quando é disparado                                                                                       |
-| :------------------------ | :------------------------------------------------------------------------------------------------------- |
-| `order.accepted`          | Quando um pedido é confirmado pelo comprador                                                             |
-| `order.rejected`          | Quando um pedido é rejeitado pelo comprador                                                              |
-| `order.captured`          | Quando um XML é aceito e o pedido é processado                                                           |
-| `order.partiallyCaptured` | Quando um XML é aceito e o pedido se mantém aberto (parcialmente processado)                             |
-| `order.validationFailed`  | Quando um XML é recusado. Ao receber este evento, é possível enviar novas tentativas para o mesmo pedido |
-| `repayment.created`       | Quando um novo boleto é criado (NF enviada, reembolso feito ou renegociação)                             |
-| `repayment.settled`       | Quando um pagamento é compensado ou um reembolso total é concluído                                       |
-| `repayment.cancelled`     | Quando um boleto é cancelado                                                                             |
+| Evento | Quando é disparado |
+| :-- | :-- |
+| `credit-limit.underwrite.finished` | Quando uma análise de crédito termina. |
+| `credit-limit.increase.finished` | Quando um pedido de aumento de limite termina. |
+| `order.buyer.accepted` | Quando o comprador confirma o pedido pelo link do e-mail. Pedido confirmado automaticamente não dispara este evento. |
+| `order.captured` | Quando um XML é aceito e o pedido é processado. |
+| `order.partially_captured` | Quando um XML é aceito e o pedido se mantém aberto (parcialmente processado). |
+| `order.validation.failed` | Quando um XML é recusado. Ao receber este evento, é possível enviar novas tentativas para o mesmo pedido. |
+| `repayment.created` | Quando um novo boleto é criado (NF enviada, reembolso feito ou renegociação). |
+| `repayment.processing` | Quando o pagamento de um boleto entra em processamento bancário. |
+| `repayment.settled` | Quando um pagamento é compensado ou um reembolso total é concluído. |
+| `repayment.cancelled` | Quando um boleto é cancelado. |
 
 ***
 
@@ -53,16 +55,6 @@ Não possui acesso? Siga o passo a passo descrito [aqui](https://docs.credipay.c
 1. Acesse a aba Webhooks no Portal do Vendedor. Se você ainda não possui uma conta, veja [Criando sua conta no portal do vendedor](doc:setting-up-the-platform)
 2. Informe a URL que receberá os webhooks.
 3. Selecione os eventos que deseja receber (ou deixe em branco para receber todos).
-
-***
-
-<br />
-
-## Estrutura do payload
-
-Cada evento possui um payload em JSON com informações específicas. Para ver os esquemas e exemplos:
-
-👉 [Catálogo de Eventos](🔗)
 
 ***
 
