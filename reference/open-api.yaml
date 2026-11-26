@@ -36,6 +36,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetBuyersResponseDto'
+        '404':
+          description: >-
+            Com `taxId`: o CNPJ não está cadastrado como comprador de nenhum
+            vendedor da organização da API key, por exemplo porque nunca passou
+            pela análise de crédito. Para analisar o comprador, solicite o
+            limite em `POST /v2/credit-limit/request`.
+          content:
+            application/json:
+              examples:
+                BUYER_NOT_FOUND_ERROR:
+                  summary: Comprador não cadastrado com a organização
+                  value:
+                    message: Buyer not found.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    code: BUYER_NOT_FOUND_ERROR
+                    path: /v2/buyers?taxId=56596567000127
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
       summary: Obter compradores
       tags:
         - Buyers
@@ -277,6 +294,27 @@ paths:
                     code: ORDER_ADDRESS_CHECK_ERROR
                     path: /v2/orders
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                BUYER_DELINQUENT_ERROR:
+                  summary: Comprador com parcela em atraso
+                  description: >-
+                    O comprador tem parcela em atraso: em `GET /v2/buyers` ele
+                    aparece com `frozen: true`, e a descrição desse campo traz a
+                    regra. Um comprador em atraso também deixa de estar
+                    aprovado, então este código chega dentro de `errors[]` de
+                    `ORDER_VALIDATION_AGGREGATE_ERROR`, junto com
+                    `ORDER_REJECTED_BY_CREDIX_POLICY_ERROR`.
+
+
+                    **Como resolver:** Não ofereça a CrediPay a esse comprador
+                    enquanto `frozen` for `true` em `GET /v2/buyers`.
+                  value:
+                    message: Buyer has overdue repayments.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      buyerId: 5b9f3a4b-1c2d-4e5f-8a7b-6c1e2d3a4b5c
+                    code: BUYER_DELINQUENT_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
                 ORDER_VALIDATION_AGGREGATE_ERROR:
                   summary: Várias validações falharam simultaneamente
                   description: >-
@@ -381,6 +419,25 @@ paths:
                     context:
                       taxId: '44876674000049'
                     code: SELLER_NOT_FOUND_ERROR
+                    path: /v2/orders
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                BUYER_NOT_ANALYZED_ERROR:
+                  summary: Comprador não cadastrado com este vendedor
+                  description: >-
+                    O CNPJ em `buyerTaxId` não está cadastrado como comprador do
+                    vendedor de `sellerTaxId`, por exemplo porque nunca passou
+                    pela análise de crédito. A criação do pedido não dispara a
+                    análise.
+
+
+                    **Como resolver:** Solicite o limite do comprador em `POST
+                    /v2/credit-limit/request` e crie o pedido depois que a
+                    análise terminar com limite aprovado.
+                  value:
+                    message: Buyer not analyzed.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context: {}
+                    code: BUYER_NOT_ANALYZED_ERROR
                     path: /v2/orders
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
         '412':
@@ -1444,7 +1501,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-11-25'
+            default: '2026-11-26'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -1738,7 +1795,9 @@ components:
             Limite de crédito disponível, em centavos. O valor pertence ao grupo
             econômico do comprador e é compartilhado por todos os CNPJs do
             grupo: não some este valor entre CNPJs do mesmo grupo
-            (`economicGroupId`).
+            (`economicGroupId`). Vem 0 quando o comprador não está aprovado para
+            comprar a prazo: bloqueado (`inactive`, `frozen` ou `needMoreInfo`)
+            ou recusado pela política de crédito.
           example: 100000
         creditLimitAmountCents:
           type: number
@@ -1746,7 +1805,8 @@ components:
             Limite de crédito total, em centavos. O valor pertence ao grupo
             econômico do comprador e é compartilhado por todos os CNPJs do
             grupo: não some este valor entre CNPJs do mesmo grupo
-            (`economicGroupId`).
+            (`economicGroupId`). Vem 0 nos mesmos casos de
+            `availableCreditLimitAmountCents`.
           example: 100000
         creditLimitUpdatedAt:
           type: string
@@ -1771,7 +1831,16 @@ components:
           example: false
         frozen:
           type: boolean
-          description: Se o comprador está congelado.
+          description: >-
+            `true` quando o grupo econômico do comprador tem parcela em aberto
+            vencida além da tolerância de atraso do acordo comercial em que a
+            compra foi feita, contando do vencimento original da parcela, e
+            somando mais de R$ 1,00 em atraso. O atraso conta em qualquer CNPJ
+            do grupo e em qualquer compra financiada pela CrediPay. Enquanto for
+            `true`, `reason` traz o motivo de atraso, os dois limites vêm 0 e a
+            criação de pedido é recusada com `BUYER_DELINQUENT_ERROR` em
+            `errors[]`. Volta a `false` quando não resta atraso acima desse
+            valor, por exemplo depois que a CrediPay registra o pagamento.
           example: false
         needMoreInfo:
           type: boolean
