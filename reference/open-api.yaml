@@ -963,7 +963,9 @@ paths:
         - name: isPartialCapture
           required: false
           in: query
-          description: Indica se esta captura deve ser tratada como captura parcial.
+          description: >-
+            Indica se esta captura deve ser tratada como captura parcial.
+            Pedidos com cobrança do comprador não aceitam captura parcial.
           schema:
             type: boolean
         - name: id
@@ -1253,6 +1255,27 @@ paths:
                       actual: Captured
                       expected: Validating
                     code: INVALID_ORDER_STATUS_ERROR
+                    path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
+                    request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
+                CHARGE_THE_BUYER_PARTIAL_CAPTURE_NOT_SUPPORTED_ERROR:
+                  summary: >-
+                    Captura parcial não permitida para pedido com cobrança do
+                    comprador
+                  description: >-
+                    O pedido cobra a taxa do comprador e só pode ser capturado
+                    por inteiro, com uma única nota fiscal.
+
+
+                    **Como resolver:** Capture o pedido sem `isPartialCapture`,
+                    enviando a nota fiscal do valor total.
+                  value:
+                    message: >-
+                      Orders that charge the buyer must be captured in full,
+                      with a single invoice.
+                    timestamp: '2026-05-18T12:34:56.000Z'
+                    context:
+                      orderId: 46dd63dd-1be4-4658-8deb-fa5dc578ad0b
+                    code: CHARGE_THE_BUYER_PARTIAL_CAPTURE_NOT_SUPPORTED_ERROR
                     path: /v2/orders/46dd63dd-1be4-4658-8deb-fa5dc578ad0b/capture
                     request_id: 9f3a4b1c-2d5e-4f7a-8b6c-1e2d3a4b5c6d
         '409':
