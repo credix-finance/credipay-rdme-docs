@@ -89,8 +89,8 @@ Abaixo, um descritivo dos campos presentes no objeto da resposta:
   * Refund: Valor devolvido ao comprador. Quando a duplicata ainda não foi paga ao vendedor, entra no mesmo repasse que ela. Quando já foi paga, é descontado de um repasse seguinte.
   * RefundDiscountAdjustment: Correção no valor do reembolso com base no tempo decorrido desde o pagamento original.
 * **amountCents:** Valor da transação (o somatório dos valores das transações compõe o valor da transferência). Valores positivos são os pagos ao vendedor, e negativos os cobrados.
-* **invoiceKey:** Número da Nota Fiscal (os 7 últimos dígitos)
-* **invoiceNumber:** Chave de acesso da NF-e: `NFe` seguido dos 44 dígitos
+* **invoiceKey:** Na NF-e, os 7 últimos dígitos do número da nota
+* **invoiceNumber:** Chave de acesso da nota: `NFe` seguido dos 44 dígitos, na NF-e, ou `NFS` seguido dos 50 dígitos, na NFS-e
 * **maturityDate:** Vencimento da parcela (duplicata)
 * **duplicata:** Número da parcela (duplicata)
 * **orderExternalId:** Identificador externo do pedido
