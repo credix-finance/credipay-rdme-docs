@@ -1501,7 +1501,7 @@ paths:
           in: query
           description: Data final dos repasses.
           schema:
-            default: '2026-11-26'
+            default: '2026-11-27'
             example: '2025-01-01'
             type: string
         - name: includePending
@@ -3144,7 +3144,12 @@ components:
       properties:
         type:
           type: string
-          example: DUPLICATA
+          example: AdvanceFaceValue
+          description: >-
+            Tipo do lançamento, por exemplo AdvanceFaceValue (valor de face),
+            AdvanceDiscount (taxa de desconto, só na antecipação), TxFee (tarifa
+            sobre o valor de face), Refund (reembolso) ou
+            RefundDiscountAdjustment (ajuste do reembolso).
         amountCents:
           type: number
           example: 15990
@@ -3154,13 +3159,23 @@ components:
           example: '2025-01-31T00:00:00.000Z'
         duplicata:
           type: string
-          example: DUP-0001
+          example: '1'
+          description: >-
+            Número da parcela (duplicata) dentro da NF, de 1 até o total de
+            parcelas.
         invoiceNumber:
           type: string
-          example: NF-123
+          example: NFe41250812345678000199550010001234561000000015
+          description: >-
+            Chave de acesso da nota: NFe seguido dos 44 dígitos, para NF-e, ou
+            NFS seguido dos 50 dígitos, para NFS-e.
         invoiceKey:
           type: string
-          example: NFE-KEY-123
+          example: '0123456'
+          description: >-
+            Para NF-e, os 7 últimos dígitos do número da nota, extraídos da
+            chave de acesso. Para NFS-e, o valor não corresponde ao número da
+            nota: use invoiceNumber.
         sellerTaxId:
           type: string
           example: '12345678000199'
