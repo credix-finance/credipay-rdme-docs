@@ -7088,6 +7088,22 @@
         "title": "OpenFinanceConnectionTokenDTO",
         "description": "Access and refresh tokens for the Open Finance connection."
       },
+      "OpenFinanceLinkPollingRequestDTO": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Token",
+            "description": "The linkToken returned by the connect endpoint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "OpenFinanceLinkPollingRequestDTO",
+        "description": "Request body for buyer platform Open Finance polling endpoint."
+      },
       "OpenFinanceLinkPollingResponseDTO": {
         "properties": {
           "status": {
