@@ -18,7 +18,7 @@ A CrediPay paga cada duplicata por transferência bancária (TED ou PIX) para a 
 
 **1. Identifique o desembolso no extrato** Use o campo **Referencia** — ele aparece na descrição da TED/PIX no seu extrato bancário.
 
-**2. Localize a Nota Fiscal** Use o campo **Chave NF** (chave de acesso de 44 dígitos) ou o **Numero NF** (número sequencial da NF).
+**2. Localize a Nota Fiscal** Use o campo **Chave NF** (chave de acesso da nota) ou o **Numero NF** (número da NF).
 
 **3. Cruze com o ERP** Use o campo **Numero ordem** — corresponde ao `orderExternalId` enviado na criação do pedido.
 
@@ -36,12 +36,12 @@ Cada linha representa uma transação dentro de um desembolso — um par de **NF
 
 | Campo                           | Descrição                                                                                                                                                      |
 | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Chave NF**                    | Chave de acesso de 44 dígitos da NF-e, conforme emitida no SEFAZ. Identificador único de cada Nota Fiscal.                                                     |
+| **Chave NF** | Chave de acesso da nota: 44 dígitos na NF-e e 50 dígitos na NFS-e. Identificador único de cada nota. |
 | **Parcela**                     | Número da duplicata dentro da NF. Ex.: parcela `1` de `2` = primeiro boleto de uma NF com dois vencimentos.                                                    |
 | **Pago por**                    | Entidade responsável pela transferência. Pode ser a _Credix Finance Securitizadora III S.A._ ou o _CrediPay FIDC_.                                             |
 | **Referencia**                  | Identificador único da TED/PIX. Aparece na descrição da transferência no extrato bancário.                                                                     |
 | **Criado em**                   | Data de registro da transação na CrediPay. Para _Valor de face_ e _Taxa de desconto_, coincide com a data do desembolso.                                       |
-| **Numero NF**                   | Número sequencial da NF (extraído da Chave NF). Útil para consulta rápida sem digitar os 44 dígitos.                                                           |
+| **Numero NF** | Na NF-e, os 7 últimos dígitos do número da nota, extraídos da Chave NF. Útil para consulta rápida sem digitar a chave inteira. |
 | **Tipo Transacao**              | Natureza do lançamento. Veja [Tipos de transação](#tipos-de-transação).                                                                                        |
 | **Valor BRL**                   | Valor em reais. Positivo = pago pela CrediPay. Negativo = cobrado pela CrediPay. A soma de todos os valores de um mesmo _Referencia_ = valor total da TED/PIX. |
 | **Desembolsado em**             | Data em que a transferência foi efetivamente realizada.                                                                                                        |
