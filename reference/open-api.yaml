@@ -3196,9 +3196,9 @@ components:
           type: string
           example: '0123456'
           description: >-
-            Para NF-e, os 7 últimos dígitos do número da nota, extraídos da
-            chave de acesso. Para NFS-e, o valor não corresponde ao número da
-            nota: use invoiceNumber.
+            Número da nota. Para NF-e, os 7 últimos dígitos do número, extraídos
+            da chave de acesso, com zeros à esquerda. Para NFS-e, o número como
+            consta na nota.
         sellerTaxId:
           type: string
           example: '12345678000199'
